@@ -7,15 +7,17 @@ const App = () => {
     return (
         <BrowserRouter>
             <Header/>
-            <Routes>
-                <Route path={'/'} element={<Navigate to={'/main'}/>}/>
-                <Route path={'/main'} element={<Main/>}/>
-                <Route path={'/collections'}/>
-                <Route path={'/collections/:id'}/>
-                <Route path={'/users'}/>
-                <Route path={'/users/:id'}/>
-                <Route path={'/search'}/>
-            </Routes>
+            <main className={'relative w-full flex grow bg-neutral-100'}>
+                <Routes>
+                    <Route path={'/'} element={<Navigate to={'/main'}/>}/>
+                    <Route path={'/main'} element={<Main/>}/>
+                    <Route path={'/collections'}/>
+                    <Route path={'/collections/:id'}/>
+                    <Route path={'/users'}/>
+                    <Route path={'/users/:id'}/>
+                    <Route path={'/search'}/>
+                </Routes>
+            </main>
         </BrowserRouter>
     );
 }

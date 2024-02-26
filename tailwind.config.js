@@ -8,7 +8,7 @@
   theme: {
     extend: {},
     screens: {
-      'mobile': { 'raw': '(max-device-width: 550px)' },
+      'mobile': { 'raw': '(max-device-width: 650px)' },
       ...defaultTheme.screens,
     }
   },
