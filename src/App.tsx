@@ -7,7 +7,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <Header/>
-            <main className={'relative w-full flex grow bg-neutral-100'}>
+            <main className={'relative w-full flex grow bg-neutral-100 text-neutral-900'}>
                 <Routes>
                     <Route path={'/'} element={<Navigate to={'/main'}/>}/>
                     <Route path={'/main'} element={<Main/>}/>
