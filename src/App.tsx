@@ -1,13 +1,17 @@
 import React from 'react';
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import Main from "./pages/Main";
 import Header from "./components/Header";
+import {RootState} from "./store";
+import {useSelector} from "react-redux";
 
 const App = () => {
+    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
     return (
-        <BrowserRouter>
+        <>
             <Header/>
-            <main className={'relative w-full flex grow bg-neutral-100 text-neutral-900'}>
+            <main className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'} relative w-full flex grow`}>
                 <Routes>
                     <Route path={'/'} element={<Navigate to={'/main'}/>}/>
                     <Route path={'/main'} element={<Main/>}/>
@@ -18,7 +22,7 @@ const App = () => {
                     <Route path={'/search'}/>
                 </Routes>
             </main>
-        </BrowserRouter>
+        </>
     );
 }
 
