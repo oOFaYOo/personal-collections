@@ -7,7 +7,7 @@ const Tile = ({text1, text2, text3}:ITile) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
-        <div className={`${theme === 'dark' ? 'shadow-black/50' : ''} border-[2px] border-transparent hover:border-pink-500
+        <div className={`${theme === 'dark' ? 'shadow-black/50 bg-neutral-800/20' : ''} border-[2px] border-transparent hover:border-pink-500
         w-full h-[16%] p-4 cursor-pointer rounded-md shadow-md flex flex-nowrap items-center justify-evenly`}>
             <p>
                 Teaxtfhthj hjhjh

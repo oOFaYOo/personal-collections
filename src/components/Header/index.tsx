@@ -17,9 +17,9 @@ const Header = () => {
             ? 'bg-gradient-to-r from-violet-600 via-pink-600 to-purple-600 shadow-black/50'
             : 'bg-gradient-to-r from-violet-400 via-pink-400 to-purple-400'
             }
-            w-full min-h-16 h-16 flex justify-between items-center shadow-md z-[1] mobile:px-4 px-16`}>
+            w-full min-h-16 h-16 flex justify-between sticky top-0 items-center shadow-md z-[1] mobile:px-4 px-16`}>
             <input type={'text'} placeholder={'Search...'}
-                   className={`${theme === 'dark' ? 'bg-white/10 focus:bg-white/30' : 'bg-white/30 focus:bg-white/70'}
+                   className={`${theme === 'dark' ? 'bg-white/10 focus:bg-white/30' : 'bg-white/40 focus:bg-white/70'}
                    outline-none rounded-md mobile:w-[60%] w-[43%] align-middle py-2 px-4 shadow-md`}
                 // onChange={(e) => {
                 //     dispatch(setSearch(e.currentTarget.value))

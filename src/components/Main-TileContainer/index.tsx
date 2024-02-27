@@ -9,7 +9,7 @@ const MainTileContainer = ({children, showMore}: IMainTileContainer) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
-        <div className={'min-w-[300px] lg:w-[43%] h-[43%] w-full mb-8 flex lg:flex-row-reverse flex-col justify-between'}>
+        <div className={'min-w-[300px] lg:w-[43%] h-[43%] w-full mb-12 flex lg:flex-row-reverse flex-col justify-between'}>
             {
                 showMore
                     ? <Link to={showMore}
