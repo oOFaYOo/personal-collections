@@ -9,45 +9,6 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 
-const headCells = [
-    {
-        id: 'title',
-        label: 'title',
-        type: 'text',
-    },
-    {
-        id: 'date',
-        label: 'date',
-        type: 'date',
-    },
-    {
-        id: 'amount',
-        label: 'amount',
-        type: 'number'
-    },
-];
-
-const rows = [
-    {id: '', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '', title: 'sometitle1', date: '05.03.2015', amount: 154},
-];
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -89,12 +50,13 @@ interface EnhancedTableProps {
     order: Order;
     orderBy: string;
     rowCount: number;
+    config: {id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox'}[];
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
-    const {order, orderBy, rowCount, onRequestSort} =
+    const {order, orderBy, rowCount,config, onRequestSort} =
         props;
     const createSortHandler =
         (property: any) => (event: React.MouseEvent<unknown>) => {
@@ -104,7 +66,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
+                {config.map((headCell) => (
                     <TableCell
                         key={headCell.id}
                         align={'center'}
@@ -136,7 +98,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
-export default function EnhancedTable() {
+export default function EnhancedTable({onRowClick, data, config}:{onRowClick:(event: React.MouseEvent<unknown>, id: any)=>void , data:any[], config: {id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox'}[]}) {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<any>('');
@@ -152,10 +114,6 @@ export default function EnhancedTable() {
         setOrderBy(property);
     };
 
-    const handleClick = (event: React.MouseEvent<unknown>, id: any) => {
-        alert(id)
-    };
-
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -167,7 +125,7 @@ export default function EnhancedTable() {
 
     const visibleRows = React.useMemo(
         () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
+            stableSort(data, getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
@@ -185,13 +143,14 @@ export default function EnhancedTable() {
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
-                    rowCount={rows.length}
+                    rowCount={data.length}
+                    config={config}
                 />
                 {visibleRows.map((row, index) => {
                     return (
                         <TableRow
                             hover
-                            onClick={(event) => handleClick(event, row.id)}
+                            onClick={(event) => onRowClick(event, row.id)}
                             tabIndex={-1}
                             key={row.id}
                             sx={{
@@ -199,7 +158,7 @@ export default function EnhancedTable() {
                             }}
                         >
                             {
-                                headCells.map((item, index) => {
+                                config.map((item, index) => {
                                     // @ts-ignore
                                     return <TableCell sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : ''}} align="center">{row[item.id]}</TableCell>
                                 })
@@ -218,7 +177,7 @@ export default function EnhancedTable() {
                 }}
                 rowsPerPageOptions={[5, 10]}
                 component="div"
-                count={rows.length}
+                count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

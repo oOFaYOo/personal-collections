@@ -7,6 +7,8 @@ import {useSelector} from "react-redux";
 import Search from "./pages/Search";
 import Collections from "./pages/Collections";
 import Users from "./pages/Users";
+import Collection from "./pages/Collections/Collection";
+import Item from "./pages/Collections/Collection/Item";
 
 const App = () => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -19,7 +21,8 @@ const App = () => {
                     <Route path={'/'} element={<Navigate to={'/main'}/>}/>
                     <Route path={'/main'} element={<Main/>}/>
                     <Route path={'/collections'} element={<Collections/>}/>
-                    <Route path={'/collections/:id'}/>
+                    <Route path={'/collections/:id'} element={<Collection/>}/>
+                    <Route path={'/collections/:id/:id'} element={<Item/>}/>
                     <Route path={'/users'} element={<Users/>}/>
                     <Route path={'/users/:id'}/>
                     <Route path={'/search'} element={<Search/>}/>
