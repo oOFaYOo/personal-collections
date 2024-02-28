@@ -28,7 +28,13 @@ const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' 
 ];
 
 const rows = [
-    {id: '123543', title: 'Sometitle', theme: 'Books', description: 'description description description description description description', amount: 13},
+    {
+        id: '123543',
+        title: 'Sometitle',
+        theme: 'Books',
+        description: 'description description description description description description',
+        amount: 13
+    },
 ];
 
 
@@ -40,7 +46,7 @@ const Collections = () => {
     return (
         <div
             className={'relative w-full flex flex-wrap justify-evenly items-center grow'}>
-               <Table data={rows} config={headCells} onRowClick={(e, id) => {
+               <Table pagination={true} sorting={true} data={rows} config={headCells} onRowClick={(e, id) => {
                    document.location = path + '/' + id;
                }} />
         </div>

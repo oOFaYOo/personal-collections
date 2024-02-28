@@ -50,13 +50,14 @@ interface EnhancedTableProps {
     order: Order;
     orderBy: string;
     rowCount: number;
-    config: {id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox'}[];
+    config: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' }[];
+    sorting?: boolean;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
-    const {order, orderBy, rowCount,config, onRequestSort} =
+    const {order, orderBy, rowCount, config, sorting, onRequestSort} =
         props;
     const createSortHandler =
         (property: any) => (event: React.MouseEvent<unknown>) => {
@@ -71,24 +72,27 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         key={headCell.id}
                         align={'center'}
                         padding={'normal'}
-                        sx={{fontWeight: 'bold', color: 'inherit'}}
+                        size={'small'}
+                        sx={{fontWeight: 'bold', color: 'inherit', whiteSpace: 'nowrap'}}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
                         {
                             headCell.label
                         }
                         {
-                            headCell.type === 'paragraph' || headCell.type === 'checkbox'
+                            (sorting && headCell.type === 'paragraph') || (sorting && headCell.type === 'checkbox')
                                 ? null
                                 : <TableSortLabel
                                     active={orderBy === headCell.id}
                                     direction={orderBy === headCell.id ? order : 'asc'}
                                     onClick={createSortHandler(headCell.id)}
                                     sx={{
-                                        '.MuiTableSortLabel-icon': {color: theme === 'dark'
+                                        '.MuiTableSortLabel-icon': {
+                                            color: theme === 'dark'
                                                 ? 'rgb(245 245 245) !important'
-                                                : 'rgb(23 23 23) !important'}
-                                }}
+                                                : 'rgb(23 23 23) !important'
+                                        }
+                                    }}
                                 />
                         }
                     </TableCell>
@@ -98,7 +102,15 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
-export default function EnhancedTable({onRowClick, data, config}:{onRowClick:(event: React.MouseEvent<unknown>, id: any)=>void , data:any[], config: {id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox'}[]}) {
+export default function EnhancedTable(
+    {onRowClick, data, sorting, config, pagination}:
+        {
+            pagination?: boolean,
+            sorting?: boolean,
+            onRowClick: (event: React.MouseEvent<unknown>, id: any) => void,
+            data: any[],
+            config: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' }[]
+        }) {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<any>('');
@@ -135,13 +147,14 @@ export default function EnhancedTable({onRowClick, data, config}:{onRowClick:(ev
     return (
         <TableContainer>
             <Table
-                sx={{minWidth: 750}}
+                sx={{width: '100%'}}
                 aria-labelledby="tableTitle"
                 size={'medium'}
             >
                 <EnhancedTableHead
                     order={order}
                     orderBy={orderBy}
+                    sorting={sorting}
                     onRequestSort={handleRequestSort}
                     rowCount={data.length}
                     config={config}
@@ -160,29 +173,32 @@ export default function EnhancedTable({onRowClick, data, config}:{onRowClick:(ev
                             {
                                 config.map((item, index) => {
                                     // @ts-ignore
-                                    return <TableCell sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : ''}} align="center">{row[item.id]}</TableCell>
+                                    return <TableCell sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', maxWidth:'150px'}}
+                                           size={'small'} align="center">{row[item.id]}</TableCell>
                                 })
                             }
                         </TableRow>
                     );
                 })}
             </Table>
-            <TablePagination
-                sx={{
-                    position:'sticky',
-                    bottom: 0,
-                    color: 'inherit',
-                    '.MuiSvgIcon-root': {color: 'inherit'},
-                    '.Mui-disabled': {color: 'inherit !important', opacity: '50%'}
-                }}
-                rowsPerPageOptions={[5, 10]}
-                component="div"
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {pagination
+                ? <TablePagination
+                    sx={{
+                        position: 'sticky',
+                        bottom: 0,
+                        color: 'inherit',
+                        '.MuiSvgIcon-root': {color: 'inherit'},
+                        '.Mui-disabled': {color: 'inherit !important', opacity: '50%'}
+                    }}
+                    rowsPerPageOptions={[5, 10]}
+                    component="div"
+                    count={data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+                : null}
         </TableContainer>
     );
 }

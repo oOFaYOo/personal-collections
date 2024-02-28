@@ -50,7 +50,7 @@ const Collection = () => {
     return (
         <div
             className={'relative w-full flex flex-wrap justify-evenly items-center grow'}>
-               <Table data={rows} config={headCells} onRowClick={(e, id) => {
+               <Table sorting={true} pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                    document.location = path + '/' + id;
                }} />
         </div>

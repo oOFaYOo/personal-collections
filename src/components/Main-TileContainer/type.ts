@@ -1,6 +1,7 @@
 import {ReactNode} from "react";
 
 export interface IMainTileContainer {
-    children: ReactNode[];
-    showMore?: string;
+    children: any;
+    showMore?: {side:'left'|'right', path:string};
+    className?: string;
 }

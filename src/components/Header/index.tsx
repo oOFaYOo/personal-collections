@@ -3,9 +3,11 @@ import OutputIcon from '@mui/icons-material/Output';
 import PersonIcon from '@mui/icons-material/Person';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import HomeIcon from '@mui/icons-material/Home';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {setTheme} from "../../store/slice";
+import {Link} from "react-router-dom";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -25,7 +27,11 @@ const Header = () => {
                 //     dispatch(setSearch(e.currentTarget.value))
                 // }}
             />
-            <div className={'flex flex-nowrap justify-end'}>
+            <div className={'flex flex-nowrap justify-end items-center'}>
+                <p>EN</p>
+                <Link to={'/'}>
+                <HomeIcon fontSize={'large'} className={'mobile:ml-4 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
+                </Link>
                 <PersonIcon fontSize={'large'} className={'mobile:ml-4 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
                 {
                     theme === 'dark'
