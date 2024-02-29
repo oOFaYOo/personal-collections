@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import Table from "../../../components/Table";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import {Button} from "@mui/material";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
 
 const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox'}[] = [
     {
@@ -46,17 +49,30 @@ const Collection = () => {
     // const [conf, setConf] = useState([{title:'title', type:'text'}, {title:'date', type:'date'}]);
     // const [data, setData] = useState([{title:'sometitle', date:'05.03.2021'}]);
     const path = useLocation().pathname;
+    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
         <div
             className={'relative w-full flex flex-col justify-evenly items-center grow'}>
-                <div className={'flex mobile:flex-col flex-row mobile:min-h-[500px] my-2 p-4 grow justify-evenly'}>
-                    <div className={'mobile:w-full w-[43%] h-full flex justify-center items-center bg-red-500'}>
+                <div className={'flex mobile:flex-col flex-row mobile:min-h-[500px] min-h-[350px] my-2 p-4 grow justify-between'}>
+                    <div className={'mobile:w-full grow h-full flex justify-center items-center bg-red-500'}>
                         <img/>
                     </div>
-                    <div className={'mobile:w-full w-[43%] flex flex-col justify-between'}>
-                        <h1>Title</h1>
-                        <h3>theme</h3>
+                    <div className={'mobile:w-full mobile:ml-0 ml-4 w-[50%] flex flex-col justify-between'}>
+                        <div className={'flex justify-between items-center mb-2'}>
+                            <div>
+                                <h1 className={'text-xl font-bold'}>Title</h1>
+                                <h2 className={'text-md font-semibold italic'}>theme</h2>
+                                <Link to={'/users/:id'}>
+                                    <h3 className={'text-lg font-semibold'}>author</h3>
+                                </Link>
+                            </div>
+                            <div className={'flex flex-row justify-between gap-2'}>
+                                <Button size={'small'} variant="outlined" color={theme === 'dark' ? 'inherit' : 'primary'}>Add</Button>
+                                <Button size={'small'} variant="outlined" color={theme === 'dark' ? 'inherit' : 'primary'}>Edit</Button>
+                                <Button size={'small'} variant="outlined" color={theme === 'dark' ? 'inherit' : 'primary'}>Delete</Button>
+                            </div>
+                        </div>
                         <p className={'overflow-y-auto h-[80%] styled_scrollbar'}>
                             description description description description description description description description
                             description description description description description description description description
