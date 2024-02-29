@@ -13,6 +13,8 @@ const Header = () => {
     const dispatch = useDispatch();
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore)
 
+
+
     return (
         <header
             className={`${theme === 'dark' 
@@ -28,29 +30,29 @@ const Header = () => {
                 // }}
             />
             <div className={'flex flex-nowrap justify-end items-center'}>
-                <p>EN</p>
+                <p className={'ml-2'}>EN</p>
                 <Link to={'/'}>
-                <HomeIcon fontSize={'large'} className={'mobile:ml-4 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
+                <HomeIcon fontSize={'medium'} className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
                 </Link>
-                <PersonIcon fontSize={'large'} className={'mobile:ml-4 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
+                <PersonIcon fontSize={'medium'} className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
                 {
                     theme === 'dark'
                     ? <LightModeIcon
-                            fontSize={'large'}
-                            className={'mobile:ml-4 ml-8 cursor-pointer opacity-70 hover:opacity-100'}
+                            fontSize={'medium'}
+                            className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}
                             onClick={() => {
                             localStorage.theme = 'light';
                             dispatch(setTheme('light'));
                         }}/>
                     : <DarkModeIcon
-                            fontSize={'large'}
-                            className={'mobile:ml-4 ml-8 cursor-pointer opacity-70 hover:opacity-100'}
+                            fontSize={'medium'}
+                            className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}
                             onClick={() => {
                             localStorage.theme = 'dark';
                             dispatch(setTheme('dark'));
                         }}/>
                 }
-                <OutputIcon fontSize={'large'} className={'mobile:ml-4 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
+                <OutputIcon fontSize={'medium'} className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
             </div>
         </header>
     )

@@ -49,7 +49,22 @@ const Collection = () => {
 
     return (
         <div
-            className={'relative w-full flex flex-wrap justify-evenly items-center grow'}>
+            className={'relative w-full flex flex-col justify-evenly items-center grow'}>
+                <div className={'flex mobile:flex-col flex-row mobile:min-h-[500px] my-2 p-4 grow justify-evenly'}>
+                    <div className={'mobile:w-full w-[43%] h-full flex justify-center items-center bg-red-500'}>
+                        <img/>
+                    </div>
+                    <div className={'mobile:w-full w-[43%] flex flex-col justify-between'}>
+                        <h1>Title</h1>
+                        <h3>theme</h3>
+                        <p className={'overflow-y-auto h-[80%] styled_scrollbar'}>
+                            description description description description description description description description
+                            description description description description description description description description
+                            description description description description description description description description
+                            description description description description description description description description
+                        </p>
+                    </div>
+                </div>
                <Table sorting={true} pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                    document.location = path + '/' + id;
                }} />

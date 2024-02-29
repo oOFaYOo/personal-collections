@@ -16,7 +16,8 @@ const App = () => {
     return (
         <>
             <Header/>
-            <main className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'} overflow-y-auto styled_scrollbar w-full flex grow`}>
+            <main className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'} 
+            overflow-y-auto styled_scrollbar w-full flex grow`}>
                 <Routes>
                     <Route path={'/'} element={<Navigate to={'/main'}/>}/>
                     <Route path={'/main'} element={<Main/>}/>
