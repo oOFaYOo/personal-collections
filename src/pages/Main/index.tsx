@@ -118,7 +118,6 @@ const Main = () => {
             className={'relative w-full flex p-2 flex-col justify-between items-center grow'}>
             <div className={'w-full lg:h-[50%] flex lg:flex-row justify-evenly items-center flex-col'}>
                 <MainTileContainer
-                    showMore={{path:'/collections', side:'left'}}
                     children={
                         <Table data={rows1} config={headCells1} onRowClick={() => {
                         }}/>
@@ -145,11 +144,13 @@ const Main = () => {
                         }}/>
                     }/>
             </div>
-            <div className={'w-full'}>
-                <Table data={rows} config={headCells} onRowClick={(e, id) => {
-                    document.location = '/collections/' + id;
-                }}/>
-            </div>
+            <MainTileContainer
+                showMore={{path:'/collections', side:'left'}}
+                children={
+                    <Table data={rows} config={headCells} onRowClick={(e, id) => {
+                        document.location = '/collections/' + id;
+                    }}/>
+                }/>
         </div>
     )
 }
