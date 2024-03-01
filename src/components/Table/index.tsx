@@ -145,7 +145,7 @@ export default function EnhancedTable(
     );
 
     return (
-        <TableContainer className={'styled_scrollbar'}>
+        <TableContainer className={'styled_scrollbar rounded-md shadow-md'}>
             <Table
                 sx={{width: '100%'}}
                 aria-labelledby="tableTitle"

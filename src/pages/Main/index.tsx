@@ -1,7 +1,8 @@
 import React from "react";
 import TagCloud from "../../components/TagCloud";
-import MainTileContainer from "../../components/Main-TileContainer";
 import Table from "../../components/Table";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import {Link} from "react-router-dom";
 
 const arr = [1, 1, 1, 1, 1];
 
@@ -116,13 +117,12 @@ const Main = () => {
     return (
         <div
             className={'relative w-full flex p-2 flex-col justify-between items-center grow'}>
-            <div className={'w-full lg:h-[50%] flex lg:flex-row justify-evenly items-center flex-col'}>
-                <MainTileContainer
-                    children={
+            <div className={'w-full lg:h-[50%] mb-4 flex lg:flex-row lg:justify-between items-center flex-col'}>
+                <div className={'lg:w-[35%] w-full flex flex-row'}>
                         <Table data={rows1} config={headCells1} onRowClick={() => {
                         }}/>
-                    }/>
-                <div className={'min-w-[300px] mobile:w-full flex justify-center items-center'}>
+                </div>
+                <div className={'mobile:w-full flex grow justify-center items-center'}>
                     <TagCloud tags={[
                         "VSCode",
                         "TypeScript",
@@ -136,21 +136,25 @@ const Main = () => {
                         "Three.js",
                     ]} onClick={(tag: string, ev: MouseEvent) => alert(tag)}/>
                 </div>
-                <MainTileContainer
-                    showMore={{path:'/users', side:'right'}}
-                    children={
-                        <Table data={rows1} config={headCells1} onRowClick={(e, id) => {
+                <div className={'lg:w-[35%] w-full flex lg:flex-row-reverse flex-col'}>
+                    <Link to={'/users'}
+                          className={'lg:w-[50px] w-full flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
+                        <ArrowForwardIosIcon color={'inherit'} fontSize={"large"}/>
+                    </Link>
+                    <Table data={rows1} config={headCells1} onRowClick={(e, id) => {
                             document.location = '/users/' + id;
                         }}/>
-                    }/>
+                </div>
             </div>
-            <MainTileContainer
-                showMore={{path:'/collections', side:'left'}}
-                children={
-                    <Table data={rows} config={headCells} onRowClick={(e, id) => {
-                        document.location = '/collections/' + id;
-                    }}/>
-                }/>
+            <div className={'w-full flex lg:flex-row-reverse flex-col'}>
+                <Link to={'/collections'}
+                      className={'lg:w-[50px] w-full flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
+                    <ArrowForwardIosIcon color={'inherit'} fontSize={"large"}/>
+                </Link>
+                <Table data={rows} config={headCells} onRowClick={(e, id) => {
+                    document.location = '/collections/' + id;
+                }}/>
+            </div>
         </div>
     )
 }
