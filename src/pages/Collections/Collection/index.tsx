@@ -62,7 +62,7 @@ const Collection = () => {
                         <div className={'flex justify-between items-center mb-2'}>
                             <div>
                                 <h1 className={'text-xl font-bold'}>Title</h1>
-                                <h2 className={'text-md font-semibold italic'}>theme</h2>
+                                <h2 className={'font-semibold italic'}>theme</h2>
                                 <Link to={'/users/:id'}>
                                     <h3 className={'text-lg font-semibold'}>author</h3>
                                 </Link>
