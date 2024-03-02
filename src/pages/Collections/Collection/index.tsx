@@ -54,7 +54,7 @@ const Collection = () => {
     return (
         <div
             className={'relative w-full flex flex-col justify-evenly items-center grow px-4 pb-2'}>
-                <div className={'flex flex-col md:flex-row md:max-h-[50vh] my-4 grow justify-between'}>
+                <div className={'flex flex-col md:flex-row md:max-h-[45vh] my-4 grow justify-between'}>
                     <div className={'w-full lg:w-[35%] min-h-[300px] grow md:h-hull flex justify-center items-center bg-red-500'}>
                         <img/>
                     </div>
