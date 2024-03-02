@@ -15,7 +15,7 @@ const Item = () => {
     return (
         <div className={'w-full flex grow md:flex-row flex-col'}>
             <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:h-full'}>
-                <div className={'w-full flex-col md:flex-row flex mb-2 md:max-h-[50vh] mb-4 md:min-h-[260px]'}>
+                <div className={'w-full flex-col md:flex-row flex mb-2 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
                     <div className={'md:h-full md:w-[50%] mb-2 mobile:h-[250px] sm:h-[250px] bg-neutral-500'}>
                         <img/>
                     </div>
@@ -97,7 +97,7 @@ const Item = () => {
                         </div>
                     </div>
                 </div>
-                <div className={'w-full mb-4 flex lg:flex-row flex-col lg:justify-between'}>
+                <div className={'w-full mb-2 flex lg:flex-row flex-col lg:justify-between'}>
                     <div className={'flex lg:w-[49%] w-full justify-evenly mb-4 overflow-x-auto'}>
                         <div className={'flex flex-col items-start w-[40%]'}>
                             <h3 className={'font-semibold'}>Date:

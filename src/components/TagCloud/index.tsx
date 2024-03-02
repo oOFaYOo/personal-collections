@@ -22,11 +22,14 @@
 
 import {ColorOptions, TagCloud} from 'react-tagcloud';
 import {ITagCloud} from "./type";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store";
 
 const SimpleCloud = ({tags, onClick}: ITagCloud) => {
+    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const options : ColorOptions = {
-        luminosity: 'light',
+        luminosity: theme === 'dark' ? 'light' : 'dark',
         hue: 'blue',
     }
 

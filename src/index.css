@@ -44,3 +44,12 @@ code {
   color: #f6265d !important;
   opacity: 1;
 }
+
+.tag-cloud-tag {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.tag-cloud-tag:hover {
+  opacity: 1;
+}
