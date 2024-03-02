@@ -56,7 +56,7 @@ const Main = () => {
             id: '123543',
             title: 'Sometitle',
             theme: 'Books',
-            description: 'description description description description description description description description description description description description',
+            description: 'description description description description description description description description description description description description description description description description description description description description description description',
             amount: 13
         },
         {

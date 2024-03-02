@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
+import { Checkbox } from '@mui/material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -145,7 +146,8 @@ export default function EnhancedTable(
     );
 
     return (
-        <TableContainer className={`${theme === 'dark' ? 'shadow-black/70' : ''} styled_scrollbar rounded-md shadow-md`}>
+        <TableContainer
+            className={`${theme === 'dark' ? 'shadow-black/70' : ''} styled_scrollbar rounded-md shadow-md`}>
             <Table
                 sx={{width: '100%'}}
                 aria-labelledby="tableTitle"
@@ -173,8 +175,24 @@ export default function EnhancedTable(
                             {
                                 config.map((item, index) => {
                                     // @ts-ignore
-                                    return <TableCell sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', maxWidth:'150px'}}
-                                           size={'small'} align="center">{row[item.id]}</TableCell>
+
+                                    return <TableCell
+                                        sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', maxWidth: '200px'}}
+                                        size={'small'}
+                                        align="center">
+                                        {
+                                            typeof row[item.id] === 'boolean'
+                                                ? <Checkbox disabled checked sx={{padding:0,
+                                                    '&.Mui-disabled': {
+                                                        color: 'inherit',
+                                                        opacity: '0.3',
+                                                    }}}/>
+                                                // @ts-ignore
+                                                :  typeof row[item.id] === 'string' && row[item.id].length > 25
+                                                    ? <p className={'overflow-y-auto max-h-[100px]'}>{row[item.id]}</p>
+                                                    : row[item.id]
+                                        }
+                                    </TableCell>
                                 })
                             }
                         </TableRow>

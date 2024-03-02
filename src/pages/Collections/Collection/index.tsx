@@ -21,27 +21,32 @@ const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' 
         label: 'amount',
         type: 'number'
     },
+    {
+        id: 'somebool',
+        label: 'somebool',
+        type: 'checkbox'
+    },
 ];
 
 const rows = [
-    {id: '2', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '3', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '7', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '8', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '9', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '1', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '0', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '87', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: '89', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '34', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: 'jkljhk', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: 'f5f7', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '9mu', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: 'c45e4', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: 'mlkhk', title: 'sometitle1', date: '05.03.2015', amount: 154},
-    {id: '6858', title: 'sometitle', date: '05.03.2021', amount: 354},
-    {id: '23', title: 'sometitle3', date: '05.03.2022', amount: 543},
-    {id: 'mi9hh', title: 'sometitle1', date: '05.03.2015', amount: 154},
+    {id: '2', title: 'sometitle', somebool: true, date: '05.03.2021', amount: 354},
+    {id: '3', title: 'sometitle3', somebool: false, date: '05.03.2022', amount: 543},
+    {id: '7', title: 'sometitle1', somebool: true, date: '05.03.2015', amount: 154},
+    {id: '8', title: 'sometitle', somebool: false, date: '05.03.2021', amount: 354},
+    {id: '9', title: 'sometitle3', somebool: true, date: '05.03.2022', amount: 543},
+    {id: '1', title: 'sometitle1', somebool: false, date: '05.03.2015', amount: 154},
+    {id: '0', title: 'sometitle', somebool: true, date: '05.03.2021', amount: 354},
+    {id: '87', title: 'sometitle3', somebool: false, date: '05.03.2022', amount: 543},
+    {id: '89', title: 'sometitle1', somebool: true, date: '05.03.2015', amount: 154},
+    {id: '34', title: 'sometitle', somebool: false, date: '05.03.2021', amount: 354},
+    {id: 'jkljhk', title: 'sometitle3', somebool: true, date: '05.03.2022', amount: 543},
+    {id: 'f5f7', title: 'sometitle1', somebool: false, date: '05.03.2015', amount: 154},
+    {id: '9mu', title: 'sometitle', somebool: true, date: '05.03.2021', amount: 354},
+    {id: 'c45e4', title: 'sometitle3', somebool: false, date: '05.03.2022', amount: 543},
+    {id: 'mlkhk', title: 'sometitle1', somebool: true, date: '05.03.2015', amount: 154},
+    {id: '6858', title: 'sometitle', somebool: false, date: '05.03.2021', amount: 354},
+    {id: '23', title: 'sometitle3', somebool: true, date: '05.03.2022', amount: 543},
+    {id: 'mi9hh', title: 'sometitle1', somebool: false, date: '05.03.2015', amount: 154},
 ];
 
 
