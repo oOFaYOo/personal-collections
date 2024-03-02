@@ -1,4 +1,4 @@
 export interface ITagCloud {
-    tags: string[];
-    onClick: (tag: string, ev: MouseEvent) => void;
+    tags: {value:string, count:number}[];
+    onClick: (tag: string, ev?: MouseEvent) => void;
 }

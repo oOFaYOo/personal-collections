@@ -14,9 +14,9 @@ const Item = () => {
 
     return (
         <div className={'w-full flex grow md:flex-row flex-col'}>
-            <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:h-full overflow-y-auto styled_scrollbar'}>
+            <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:h-full'}>
                 <div className={'w-full flex-col md:flex-row flex mb-2 md:max-h-[50vh] mb-4 md:min-h-[260px]'}>
-                    <div className={'md:h-full md:w-[50%] mobile:h-[250px] sm:h-[250px] bg-neutral-500'}>
+                    <div className={'md:h-full md:w-[50%] mb-2 mobile:h-[250px] sm:h-[250px] bg-neutral-500'}>
                         <img/>
                     </div>
                     <div className={'flex w-full md:w-[50%] flex-col'}>
@@ -46,6 +46,54 @@ const Item = () => {
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
                             }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/><Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                        }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
+                            }}/>
+
                         </div>
                     </div>
                 </div>
@@ -158,7 +206,7 @@ const Item = () => {
                         '                    description description description description description description description description\n' +
                         '                    description description description description description description description description'}]} />
             </div>
-            <div className={'flex w-full flex-col md:h-auto md:w-[35%] p-4'}>
+            <div className={'md:absolute md:right-0 flex w-full flex-col md:h-auto md:w-[35%] p-4'}>
                 <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
                     <Chip
                         sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
