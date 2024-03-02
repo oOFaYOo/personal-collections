@@ -212,7 +212,9 @@ const Item = () => {
                         '                    description description description description description description description description'}]} />
             </div>
             <div className={'flex w-full flex-col md:h-auto md:w-[35%] bg-blue-500 p-4'}>
-                
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
         </div>
     )
