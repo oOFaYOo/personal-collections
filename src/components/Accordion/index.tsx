@@ -11,19 +11,19 @@ const CustomAccordion = ({data}:{data:{title:string, details:string}[]}) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
-        <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} shadow-md`}>
+        <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} shadow-md rounded-md`}>
             {
                 data.map((item, index) => {
                     return (
-                        <Accordion>
+                        <Accordion sx={{color:'inherit', backgroundColor:'inherit', boxShadow:'none'}}>
                             <AccordionSummary
-                                expandIcon={<KeyboardArrowDownIcon />}
+                                expandIcon={<KeyboardArrowDownIcon sx={{color:theme === 'dark' ? 'white' : 'black'}} />}
                                 aria-controls="panel1-content"
                                 id="panel1-header"
                             >
                                 <Typography>{item.title}</Typography>
                             </AccordionSummary>
-                            <AccordionDetails>
+                            <AccordionDetails className={'opacity-70'}>
                                 {item.details}
                             </AccordionDetails>
                         </Accordion>

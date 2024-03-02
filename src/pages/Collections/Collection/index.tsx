@@ -73,7 +73,7 @@ const Collection = () => {
                                 <Button size={'small'} variant="outlined">Delete</Button>
                             </div>
                         </div>
-                        <p className={'overflow-y-auto w-full md:h-[80%] styled_scrollbar text-justify'}>
+                        <p className={'overflow-y-auto w-full md:h-[80%] styled_scrollbar text-justify opacity-70'}>
                             description description description description description description description description
                             description description description description description description description description
                             description description description description description description description description

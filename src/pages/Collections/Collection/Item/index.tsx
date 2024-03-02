@@ -4,6 +4,7 @@ import {RootState} from "../../../../store";
 import {Link} from "react-router-dom";
 import {Avatar, Button, Checkbox, Chip} from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Accordion from "../../../../components/Accordion"
 import TextArea from "../../../../components/TextArea"
 
@@ -13,9 +14,9 @@ const Item = () => {
 
     return (
         <div className={'w-full flex grow md:flex-row flex-col'}>
-            <div className={'flex flex-col w-full md:w-[65%] bg-green-500 px-4 py-4 md:h-full overflow-y-auto styled_scrollbar'}>
-                <div className={'w-full flex-col md:flex-row flex mb-2 md:max-h-[50vh]'}>
-                    <div className={'bg-red-500 md:h-full md:w-[50%] mobile:h-[250px] sm:h-[250px] mb-4'}>
+            <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:h-full overflow-y-auto styled_scrollbar'}>
+                <div className={'w-full flex-col md:flex-row flex mb-2 md:max-h-[50vh] mb-4 md:min-h-[260px]'}>
+                    <div className={'md:h-full md:w-[50%] mobile:h-[250px] sm:h-[250px] bg-neutral-500'}>
                         <img/>
                     </div>
                     <div className={'flex w-full md:w-[50%] flex-col'}>
@@ -36,136 +37,79 @@ const Item = () => {
                             </div>
                         </div>
                         <div
-                            className={'flex mobile:max-h-[150px] sm:max-h-[150px] flex-wrap grow overflow-y-auto text-justify gap-1 styled_scrollbar p-2 bg-yellow-500'}>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
+                            className={'flex mobile:max-h-[150px] sm:max-h-[150px] opacity-70 flex-wrap grow overflow-y-auto text-justify gap-1 styled_scrollbar p-2'}>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
                             }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
                             }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
                             }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/><Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                        }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/><Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
-                        }}/>
-                            <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
-
                         </div>
                     </div>
                 </div>
-                <div className={'bg-pink-500 w-full mb-4 flex lg:flex-row flex-col lg:justify-between'}>
-                    <div className={'flex lg:w-[49%] w-full bg-cyan-500 justify-evenly mb-4 overflow-x-auto'}>
+                <div className={'w-full mb-4 flex lg:flex-row flex-col lg:justify-between'}>
+                    <div className={'flex lg:w-[49%] w-full justify-evenly mb-4 overflow-x-auto'}>
                         <div className={'flex flex-col items-start w-[40%]'}>
                             <h3 className={'font-semibold'}>Date:
-                                <p className={'font-normal'}>10.09.2043</p>
+                                <p className={'font-normal opacity-70'}>10.09.2043</p>
                             </h3>
                             <h3 className={'font-semibold'}>Date:
-                                <p className={'font-normal'}>10.09.2043</p>
+                                <p className={'font-normal opacity-70'}>10.09.2043</p>
                             </h3>
                             <h3 className={'font-semibold'}>Date:
-                                <p className={'font-normal'}>10.09.2043</p>
+                                <p className={'font-normal opacity-70'}>10.09.2043</p>
                             </h3>
                         </div>
                         <div className={'flex flex-col items-start w-[59%]'}>
                             <h3 className={'font-semibold'}>Amount of somthing:
-                                <p className={'font-normal'}>7464967</p>
+                                <p className={'font-normal opacity-70'}>7464967</p>
                             </h3>
                             <h3 className={'font-semibold'}>Amount of somthing:
-                                <p className={'font-normal'}>7464967</p>
+                                <p className={'font-normal opacity-70'}>7464967</p>
                             </h3>
                             <h3 className={'font-semibold'}>Amount of somthing:
-                                <p className={'font-normal'}>7464967</p>
+                                <p className={'font-normal opacity-70'}>7464967</p>
                             </h3>
                         </div>
                     </div>
-                    <div className={'flex lg:w-[49%] w-full bg-red-500 justify-evenly'}>
+                    <div className={'flex lg:w-[49%] w-full justify-evenly'}>
                         <div className={'flex flex-col items-start w-[40%]'}>
                             <div>
                             <h3 className={'font-semibold'}>Boolean aria:</h3>
-                            <Checkbox disabled checked sx={{padding:0}}/>
+                            <Checkbox disabled sx={{padding:0,
+                                '&.Mui-disabled': {
+                                    color: 'inherit',
+                                    opacity: '0.3',
+                            }}}/>
                             </div>
                             <div>
                                 <h3 className={'font-semibold'}>Boolean aria:</h3>
-                                <Checkbox disabled sx={{padding:0}}/>
+                                <Checkbox disabled sx={{padding:0,
+                                    '&.Mui-disabled': {
+                                        color: 'inherit',
+                                        opacity: '0.3',
+                                    }}}/>
                             </div>
                             <div>
                                 <h3 className={'font-semibold'}>Boolean aria:</h3>
-                                <Checkbox disabled checked sx={{padding:0}}/>
+                                <Checkbox disabled checked sx={{padding:0,
+                                    '&.Mui-disabled': {
+                                        color: 'inherit',
+                                        opacity: '0.3',
+                                    }}}/>
                             </div>
                         </div>
                         <div className={'flex flex-col items-start w-[59%]'}>
                             <h3 className={'font-semibold'}>Some short text area:
-                                <p className={'font-normal'}>Hkjfbddvk jkdjf</p>
+                                <p className={'font-normal opacity-70'}>Hkjfbddvk jkdjf</p>
                             </h3>
                             <h3 className={'font-semibold'}>Some short text area:
-                                <p className={'font-normal'}>Hkjfbddvk jkdjf</p>
+                                <p className={'font-normal opacity-70'}>Hkjfbddvk jkdjf</p>
                             </h3>
                             <h3 className={'font-semibold'}>Some short text area:
-                                <p className={'font-normal'}>Hkjfbddvk jkdjf</p>
+                                <p className={'font-normal opacity-70'}>Hkjfbddvk jkdjf</p>
                             </h3>
                         </div>
                     </div>
@@ -214,115 +158,89 @@ const Item = () => {
                         '                    description description description description description description description description\n' +
                         '                    description description description description description description description description'}]} />
             </div>
-            <div className={'flex w-full flex-col md:h-auto md:w-[35%] bg-blue-500 p-4'}>
-                <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} bg-neutral-500 w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
+            <div className={'flex w-full flex-col md:h-auto md:w-[35%] p-4'}>
+                <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
 
                     <Chip
                         sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
                         variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
                         onDelete={()=>{}}
                         avatar={<Avatar src="" />} />
                     <Chip
                         sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
                         variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
                         onDelete={()=>{}}
                         avatar={<Avatar src="" />} />
                     <Chip
                         sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
                         variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
                         onDelete={()=>{}}
                         avatar={<Avatar src="" />} />
                 </div>
-                <div className={'flex w-full bg-red-500'}>
+                <div className={'flex w-full'}>
                     <div className={`w-[70%] ${theme === 'dark' ? 'shadow-black/70' : ''} rounded-md shadow-md`}>
                         <TextArea />
                     </div>
                     <div className={`flex flex-col grow items-center justify-center gap-2`}>
-                        <Button sx={{width:'80%'}} variant="outlined"><FavoriteIcon /></Button>
+                        <Button sx={{width:'80%'}} variant="outlined">
+                            <FavoriteBorderIcon />
+                            {/*<FavoriteIcon />*/}
+                        </Button>
                         <Button sx={{width:'80%'}} variant="outlined">Send</Button>
                     </div>
                 </div>

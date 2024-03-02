@@ -16,6 +16,9 @@ const TextareaComment = () => {
             }
             sx={{
                 width: '100%',
+                backgroundColor: 'transparent',
+                border:'none',
+                color: 'inherit'
             }}
         />
     );

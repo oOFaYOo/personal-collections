@@ -34,3 +34,13 @@ code {
   background-color: rgba(173, 173, 173, 0.3);
   border-radius: 20px;
 }
+
+.MuiChip-deleteIcon {
+  color: inherit !important;
+  opacity: 0.3;
+}
+
+.MuiChip-deleteIcon:hover {
+  color: #f6265d !important;
+  opacity: 1;
+}
