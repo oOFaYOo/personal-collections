@@ -2,8 +2,11 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {Link} from "react-router-dom";
-import {Button, Checkbox, Chip} from "@mui/material";
+import {Avatar, Button, Checkbox, Chip} from "@mui/material";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Accordion from "../../../../components/Accordion"
+import TextArea from "../../../../components/TextArea"
+
 
 const Item = () => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -27,9 +30,9 @@ const Item = () => {
                             </div>
                             <div className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
                                 <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined"
-                                        color={theme === 'dark' ? 'inherit' : 'primary'}>Edit</Button>
+                                        >Edit</Button>
                                 <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined"
-                                        color={theme === 'dark' ? 'inherit' : 'primary'}>Delete</Button>
+                                        >Delete</Button>
                             </div>
                         </div>
                         <div
@@ -139,7 +142,7 @@ const Item = () => {
                             </h3>
                         </div>
                     </div>
-                    <div className={'flex lg:w-[49%] w-full bg-red-500 justify-evenly overflow-x-auto'}>
+                    <div className={'flex lg:w-[49%] w-full bg-red-500 justify-evenly'}>
                         <div className={'flex flex-col items-start w-[40%]'}>
                             <div>
                             <h3 className={'font-semibold'}>Boolean aria:</h3>
@@ -212,8 +215,117 @@ const Item = () => {
                         '                    description description description description description description description description'}]} />
             </div>
             <div className={'flex w-full flex-col md:h-auto md:w-[35%] bg-blue-500 p-4'}>
-                <div></div>
-                <div></div>
+                <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} bg-neutral-500 w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
+
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                    <Chip
+                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        variant="outlined"
+                        label={'GHbhd db shdbf kshdbfsbdkbdhfsdb kbskdfb ksdhbfksd'}
+                        color="default"
+                        onDelete={()=>{}}
+                        avatar={<Avatar src="" />} />
+                </div>
+                <div className={'flex w-full bg-red-500'}>
+                    <div className={`w-[70%] ${theme === 'dark' ? 'shadow-black/70' : ''} rounded-md shadow-md`}>
+                        <TextArea />
+                    </div>
+                    <div className={`flex flex-col grow items-center justify-center gap-2`}>
+                        <Button sx={{width:'80%'}} variant="outlined"><FavoriteIcon /></Button>
+                        <Button sx={{width:'80%'}} variant="outlined">Send</Button>
+                    </div>
+                </div>
                 <div></div>
             </div>
         </div>

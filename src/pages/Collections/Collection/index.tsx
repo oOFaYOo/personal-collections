@@ -68,9 +68,9 @@ const Collection = () => {
                                 </Link>
                             </div>
                             <div className={'flex flex-row justify-between gap-2'}>
-                                <Button size={'small'} variant="outlined" color={theme === 'dark' ? 'inherit' : 'primary'}>Add</Button>
-                                <Button size={'small'} variant="outlined" color={theme === 'dark' ? 'inherit' : 'primary'}>Edit</Button>
-                                <Button size={'small'} variant="outlined" color={theme === 'dark' ? 'inherit' : 'primary'}>Delete</Button>
+                                <Button size={'small'} variant="outlined">Add</Button>
+                                <Button size={'small'} variant="outlined">Edit</Button>
+                                <Button size={'small'} variant="outlined">Delete</Button>
                             </div>
                         </div>
                         <p className={'overflow-y-auto w-full md:h-[80%] styled_scrollbar text-justify'}>

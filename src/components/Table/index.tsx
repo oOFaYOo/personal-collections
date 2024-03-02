@@ -184,8 +184,6 @@ export default function EnhancedTable(
             {pagination
                 ? <TablePagination
                     sx={{
-                        position: 'sticky',
-                        bottom: 0,
                         color: 'inherit',
                         '.MuiSvgIcon-root': {color: 'inherit'},
                         '.Mui-disabled': {color: 'inherit !important', opacity: '50%'}

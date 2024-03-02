@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.11.3",
+    "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/inter": "^5.0.16",
     "@frank-mayer/react-tag-cloud": "^1.2.1",
     "@mui/icons-material": "^5.15.11",
+    "@mui/joy": "^5.0.0-beta.29",
     "@mui/material": "^5.15.11",
     "@reduxjs/toolkit": "^2.2.1",
     "@tailwindcss/typography": "^0.5.10",
