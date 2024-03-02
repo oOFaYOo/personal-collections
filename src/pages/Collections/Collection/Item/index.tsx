@@ -2,16 +2,17 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {Link} from "react-router-dom";
-import {Button, Checkbox, Chip, Divider} from "@mui/material";
+import {Button, Checkbox, Chip} from "@mui/material";
+import Accordion from "../../../../components/Accordion"
 
 const Item = () => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
         <div className={'w-full flex grow md:flex-row flex-col'}>
-            <div className={'flex flex-col w-full md:w-[65%] bg-green-500 px-4 pt-4 md:h-full overflow-y-auto styled_scrollbar'}>
-                <div className={'w-full flex-col md:flex-row flex mb-4 max-h-[50vh]'}>
-                    <div className={'bg-red-500 h-full md:w-[50%] mobile:h-[250px] mb-4'}>
+            <div className={'flex flex-col w-full md:w-[65%] bg-green-500 px-4 py-4 md:h-full overflow-y-auto styled_scrollbar'}>
+                <div className={'w-full flex-col md:flex-row flex mb-2 md:max-h-[50vh]'}>
+                    <div className={'bg-red-500 md:h-full md:w-[50%] mobile:h-[250px] sm:h-[250px] mb-4'}>
                         <img/>
                     </div>
                     <div className={'flex w-full md:w-[50%] flex-col'}>
@@ -24,7 +25,7 @@ const Item = () => {
                                     <h3 className={'text-lg font-semibold'}>author</h3>
                                 </Link>
                             </div>
-                            <div className={'relative flex items-center lg:justify-center md:flex-col lg:flex-row lg:h-8 gap-1'}>
+                            <div className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
                                 <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined"
                                         color={theme === 'dark' ? 'inherit' : 'primary'}>Edit</Button>
                                 <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined"
@@ -32,7 +33,7 @@ const Item = () => {
                             </div>
                         </div>
                         <div
-                            className={'flex mobile:max-h-[150px] flex-wrap grow overflow-y-auto text-justify gap-1 styled_scrollbar p-2 bg-yellow-500'}>
+                            className={'flex mobile:max-h-[150px] sm:max-h-[150px] flex-wrap grow overflow-y-auto text-justify gap-1 styled_scrollbar p-2 bg-yellow-500'}>
                             <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}} onDelete={() => {
                             }}/>
                             <Chip label="#tag" variant="outlined" sx={{color: 'inherit'}}/>
@@ -166,50 +167,52 @@ const Item = () => {
                         </div>
                     </div>
                 </div>
-                <h3 className={'font-semibold'}>Some title of long text:</h3>
-                <div className={'bg-amber-500 flex w-full text-justify min-h-16 max-h-44 mb-4 overflow-y-auto styled_scrollbar'}>
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                </div>
-                <h3 className={'font-semibold'}>Some title of long text:</h3>
-                <div className={'bg-amber-500 flex w-full text-justify min-h-16 max-h-44 mb-4 overflow-y-auto styled_scrollbar'}>
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                    description description description description description description description description
-                </div>
-                <h3 className={'font-semibold'}>Some title of long text:</h3>
-                <div className={'bg-amber-500 flex w-full text-justify min-h-16 max-h-44 mb-4 overflow-y-auto styled_scrollbar'}>
-                    description description description description description description description description
-
-                </div>
+                <Accordion data={[{title:'Some title of long text', details:'description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description'}, {title:'Some title of long text', details:'description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description'}, {title:'Some title of long text', details:'description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description'}]} />
             </div>
-            <div className={'flex w-full md:w-[35%] bg-blue-500'}>
-
+            <div className={'flex w-full flex-col md:h-auto md:w-[35%] bg-blue-500 p-4'}>
+                
             </div>
         </div>
     )
