@@ -15,9 +15,9 @@ const Item = () => {
     return (
         <div className={'w-full flex grow md:flex-row flex-col'}>
             <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:h-full'}>
-                <div className={'w-full flex-col md:flex-row flex mb-2 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
-                    <div className={'md:h-full md:w-[50%] mb-2 mobile:h-[250px] sm:h-[250px] bg-neutral-500'}>
-                        <img/>
+                <div className={'w-full flex-col md:flex-row flex mb-4 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
+                    <div className={'md:h-full pb-4 md:w-[50%] h-[250px] flex justify-center items-center'}>
+                        <img src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'} className={'relative h-full rounded-md shadow-md'}/>
                     </div>
                     <div className={'flex w-full md:w-[50%] flex-col'}>
                         <div className={'flex justify-between md:flex-row flex-col-reverse'}>

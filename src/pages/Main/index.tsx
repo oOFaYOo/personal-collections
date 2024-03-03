@@ -5,12 +5,16 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import {dark} from "@mui/material/styles/createPalette";
 
 const Main = () => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
-    const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' }[] = [
+    const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture',
+        },
         {
             id: 'title',
             label: 'Title',
@@ -26,68 +30,90 @@ const Main = () => {
             label: 'Description',
             type: 'paragraph'
         },
-        {
-            id: 'amount',
-            label: 'Amount of items',
-            type: 'number'
-        },
-
     ];
 
-    const headCells1: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' }[] = [
+    const headCells1: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' |'picture' }[] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
         {
             id: 'title',
             label: 'Title',
             type: 'text',
         },
         {
-            id: 'theme',
-            label: 'Theme',
+            id: 'collection',
+            label: 'Collection',
             type: 'text',
         },
         {
-            id: 'amount',
-            label: 'Amount of items',
-            type: 'number'
+            id: 'author',
+            label: 'Author',
+            type: 'text'
         },
 
+    ];
+
+    const headCells2: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: 'Name',
+            type: 'text',
+        },
+        {
+            id: 'amountC',
+            label: 'Collections',
+            type: 'number',
+        },
+        {
+            id: 'amountI',
+            label: 'Items',
+            type: 'number'
+        },
     ];
 
     const rows = [
         {
             id: '123543',
+            picture: '',
             title: 'Sometitle',
             theme: 'Books',
             description: 'description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description',
-            amount: 13
         },
         {
             id: '123543',
+            picture: '',
             title: 'Sometitle',
             theme: 'Books',
             description: 'description description description description description description description description description description description description',
-            amount: 13
         },
         {
             id: '123543',
+            picture: '',
             title: 'Sometitle',
             theme: 'Books',
             description: 'description description description description description description description description description description description description',
-            amount: 13
         },
         {
             id: '123543',
+            picture: '',
             title: 'Sometitle',
             theme: 'Books',
             description: 'description description description description description description description description description description description description',
-            amount: 13
         },
         {
             id: '123543',
+            picture: '',
             title: 'Sometitle',
             theme: 'Books',
             description: 'description description description description description description description description description description description description',
-            amount: 13
         },
 
     ];
@@ -96,23 +122,43 @@ const Main = () => {
         {
             id: '123543',
             title: 'Sometitle',
-            theme: 'Books',
-            description: 'description',
-            amount: 13
+            collection: 'Books',
+            author: 'Alex Trt',
         },
         {
             id: '123543',
             title: 'Sometitle',
-            theme: 'Books',
-            description: 'description',
-            amount: 13
+            collection: 'Books',
+            author: 'Alex Trt',
         },
         {
             id: '123543',
             title: 'Sometitle',
-            theme: 'Books',
-            description: 'description',
-            amount: 13
+            collection: 'Books',
+            author: 'Alex Trt',
+        },
+    ];
+    const rows2 = [
+        {
+            id: '123543',
+            picture: '',
+            name: 'Sometitle',
+            amountC: 4,
+            amountI: 13,
+        },
+        {
+            id: '123543',
+            picture: '',
+            name: 'Sometitle',
+            amountC: 4,
+            amountI: 13,
+        },
+        {
+            id: '123543',
+            picture: '',
+            name: 'Sometitle',
+            amountC: 4,
+            amountI: 13,
         },
     ];
 
@@ -234,7 +280,7 @@ const Main = () => {
                 <TagCloud tags={tags} onClick={(tag: string) => alert(tag)} theme={theme}/>
             </div>
             <div className={'lg:w-[70%] lg:p-0 pt-4 w-full h-[85vh] flex flex-col justify-between'}>
-                <div className={'mobile:h-auto h-[30%] pl-4 w-full flex justify-between items-center mobile:flex-col'}>
+                <div className={'mobile:h-auto mb-4 h-[30%] pl-4 w-full flex justify-between items-center mobile:flex-col'}>
                         <div className={'mobile:w-full w-[50%] flex flex-row mobile:mb-2'}>
                             <Table data={rows1} config={headCells1} onRowClick={() => {
                             }}/>
@@ -245,7 +291,7 @@ const Main = () => {
                                   className={'max-w-[50px] min-w-[50px] w-full flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
                                 <ArrowForwardIosIcon color={'inherit'} fontSize={"large"}/>
                             </Link>
-                            <Table data={rows1} config={headCells1} onRowClick={(e, id) => {
+                            <Table data={rows2} config={headCells2} onRowClick={(e, id) => {
                                 document.location = '/users/' + id;
                             }}/>
                         </div>

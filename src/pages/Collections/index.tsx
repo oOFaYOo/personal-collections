@@ -3,7 +3,12 @@ import Table from "../../components/Table"
 import {useLocation} from "react-router-dom";
 
 
-const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox'}[] = [
+const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture'}[] = [
+    {
+        id: 'picture',
+        label: '',
+        type: 'picture'
+    },
     {
         id: 'title',
         label: 'Title',
@@ -19,12 +24,6 @@ const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' 
         label: 'Description',
         type: 'paragraph'
     },
-    {
-        id: 'amount',
-        label: 'Amount of items',
-        type: 'number'
-    },
-
 ];
 
 const rows = [
@@ -33,63 +32,63 @@ const rows = [
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        amount: 13
+        picture: ''
     },
 ];
 
