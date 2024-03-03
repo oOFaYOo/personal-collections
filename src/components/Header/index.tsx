@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import OutputIcon from '@mui/icons-material/Output';
 import PersonIcon from '@mui/icons-material/Person';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -13,18 +13,13 @@ const Header = () => {
     const dispatch = useDispatch();
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore)
 
-
-
     return (
         <header
-            className={`${theme === 'dark' 
-            ? 'bg-gradient-to-r from-blue-600 via-sky-600 to-blue-600 shadow-black/50'
-            : 'bg-gradient-to-r from-blue-400 via-sky-400 to-blue-400'
-            }
-            w-full min-h-16 h-16 flex justify-between sticky top-0 items-center shadow-md z-[1] mobile:px-4 px-16`}>
+            className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
+            w-full min-h-16 max-h-16 flex justify-between sticky top-0 items-center z-[1] mobile:px-4 px-16`}>
             <input type={'text'} placeholder={'Search...'}
-                   className={`${theme === 'dark' ? 'bg-white/10 focus:bg-white/50' : 'bg-white/30 focus:bg-white/70'}
-                   outline-none rounded-md mobile:w-[60%] w-[43%] align-middle py-2 px-4 shadow-md`}
+                   className={`${theme === 'dark' ? 'bg-white/10' : 'bg-white/30'}
+                   outline-none rounded-md mobile:w-[60%] w-[43%] focus:border-2 focus:border-sky-500 align-middle py-2 px-4 shadow-md`}
                 // onChange={(e) => {
                 //     dispatch(setSearch(e.currentTarget.value))
                 // }}

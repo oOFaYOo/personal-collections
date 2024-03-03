@@ -151,7 +151,7 @@ export default function EnhancedTable(
         {
             pagination?: boolean,
             sorting?: boolean,
-            onRowClick: (event: React.MouseEvent<unknown>, id: any) => void,
+            onRowClick?: (event: React.MouseEvent<unknown>, id: any) => void,
             data: any[],
             config: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' | 'action' }[]
         }) {
@@ -207,12 +207,12 @@ export default function EnhancedTable(
                 {visibleRows.map((row, index) => {
                     return (
                         <TableRow
-                            hover
-                            onClick={(event) => onRowClick(event, row.id)}
+                            hover={!!onRowClick}
+                            onClick={(event) => onRowClick ? onRowClick(event, row.id) : ()=>{}}
                             tabIndex={-1}
                             key={row.id}
                             sx={{
-                                cursor: 'pointer',
+                                cursor: onRowClick ? 'pointer' : 'default',
                             }}
                         >
                             {

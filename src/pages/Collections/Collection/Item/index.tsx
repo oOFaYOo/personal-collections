@@ -9,12 +9,15 @@ import Accordion from "../../../../components/Accordion"
 import TextArea from "../../../../components/TextArea"
 
 
-const Item = () => {
+const Item = ({setTop}:{setTop: React.Dispatch<React.SetStateAction<number>>}) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
         <div className={'w-full flex grow md:flex-row flex-col'}>
-            <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:max-h-[90vh] styled_scrollbar overflow-y-auto'}>
+            <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:max-h-[90vh] styled_scrollbar overflow-y-auto'}
+                 onScroll={(e) => {
+                setTop(e.currentTarget.scrollTop)
+            }}>
                 <div className={'w-full flex-col md:flex-row flex mb-4 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
                     <div className={'md:h-full pb-4 md:w-[50%] h-[250px] flex justify-center items-center'}>
                         <img src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'} className={'relative h-full rounded-md shadow-md'}/>

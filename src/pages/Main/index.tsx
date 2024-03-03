@@ -282,8 +282,7 @@ const Main = () => {
             <div className={'lg:w-[80%] lg:p-0 pt-4 w-full md:h-[85vh] flex flex-col justify-between'}>
                 <div className={'h-auto mb-8 md:h-[30%] lg:pl-4 w-full flex justify-between items-center flex-col md:flex-row'}>
                         <div className={'w-full md:w-[50%] flex flex-row mb-2 md:mb-0 mobile:mb-8'}>
-                            <Table data={rows1} config={headCells1} onRowClick={() => {
-                            }}/>
+                            <Table data={rows1} config={headCells1}/>
                             <div className={'max-w-[50px] min-w-[50px] mobile:hidden'}></div>
                         </div>
                         <div className={'w-full md:w-[50%] mobile:flex-col flex flex-row-reverse'}>

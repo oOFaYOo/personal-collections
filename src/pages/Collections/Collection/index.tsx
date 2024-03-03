@@ -200,7 +200,7 @@ const Collection = () => {
     return (
         <div
             className={'relative w-full flex flex-col justify-evenly items-center grow px-4 pb-2'}>
-            <div className={'flex flex-col md:flex-row md:max-h-[45vh] my-4 grow justify-between'}>
+            <div className={'flex flex-col md:flex-row md:max-h-[40vh] my-4 grow justify-between'}>
                 <div className={'w-full lg:w-[35%] h-[300px] grow md:h-full flex justify-center items-center'}>
                     <img
                         src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
