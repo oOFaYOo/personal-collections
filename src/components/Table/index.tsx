@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import { Checkbox, Button } from '@mui/material';
+import {Checkbox, Button} from '@mui/material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -73,7 +73,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         key={headCell.id}
                         align={'center'}
                         size={'small'}
-                        sx={{fontWeight: 'bold', color: 'inherit', whiteSpace: 'nowrap', padding:'5px'}}
+                        sx={{fontWeight: 'bold', color: 'inherit', whiteSpace: 'nowrap', padding: '5px'}}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
                         {
@@ -175,24 +175,35 @@ export default function EnhancedTable(
                                 config.map((item, index) => {
                                     // @ts-ignore
                                     return <TableCell
-                                        sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', minWidth:100}}
+                                        sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', minWidth: 100}}
                                         size={'small'}
                                         align="center">
                                         {
                                             item.type === 'action'
-                                            ? row[item.id].map((action:{name:string, callback:any}, i:number)=><Button variant="outlined">{action.name}</Button>)
-                                            : (item.type === 'picture'
-                                                ? <img src={'https://sun9-41.userapi.com/impg/LqDr0XMJ7rWdCV9gy9rwi-H6_UgxL6YpC9BJeg/lbzDrd12Svk.jpg?size=1024x1024&quality=96&sign=4a15357e165c9ce8e134c5764dc0083a&type=album'} className={'h-[30px] rounded-md shadow-md'} />
-                                                : (typeof row[item.id] === 'boolean'
-                                                    ? <Checkbox disabled checked sx={{padding:0,
-                                                        '&.Mui-disabled': {
-                                                            color: 'inherit',
-                                                            opacity: '0.3',
-                                                        }}}/>
-                                                    // @ts-ignore
-                                                    :  item.type === 'paragraph'
-                                                        ? <p className={'overflow-y-auto min-w-[100px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
-                                                        : row[item.id]))
+                                                ? <div
+                                                    className={'w-full h-full relative flex justify-evenly'}>{row[item.id].map((action: { name: string, callback: any, active?:boolean }, i: number) =>
+                                                    <Button onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        action.callback(row.id)
+                                                    }} size={"small"}
+                                                            variant={action.active ? 'contained' : 'outlined'}>{action.name}</Button>)}</div>
+                                                : (item.type === 'picture'
+                                                    ? <img
+                                                        src={'https://sun9-41.userapi.com/impg/LqDr0XMJ7rWdCV9gy9rwi-H6_UgxL6YpC9BJeg/lbzDrd12Svk.jpg?size=1024x1024&quality=96&sign=4a15357e165c9ce8e134c5764dc0083a&type=album'}
+                                                        className={'h-[30px] rounded-md shadow-md'}/>
+                                                    : (typeof row[item.id] === 'boolean'
+                                                        ? <Checkbox disabled checked sx={{
+                                                            padding: 0,
+                                                            '&.Mui-disabled': {
+                                                                color: 'inherit',
+                                                                opacity: '0.3',
+                                                            }
+                                                        }}/>
+                                                        // @ts-ignore
+                                                        : item.type === 'paragraph'
+                                                            ?
+                                                            <p className={'overflow-y-auto min-w-[100px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
+                                                            : row[item.id]))
                                         }
                                     </TableCell>
                                 })

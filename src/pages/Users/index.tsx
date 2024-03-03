@@ -24,9 +24,9 @@ const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' 
         type: 'number'
     },
     {
-        id: 'actions',
+        id: 'action',
         label: '',
-        type: 'text'
+        type: 'action'
     },
 ];
 
@@ -37,7 +37,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:false}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}}]
     },
     {
         id: '123543',
@@ -45,7 +45,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}}]
     },
     {
         id: '123543',
@@ -53,7 +53,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:false}, {name:'block', callback:()=>{}, active:true}, {name:'delete', callback:()=>{}}]
     },
     {
         id: '123543',
@@ -61,7 +61,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:true}, {name:'block', callback:()=>{}, active:true}, {name:'delete', callback:()=>{}}]
     },
     {
         id: '123543',
@@ -69,7 +69,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:false}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}}]
     },
     {
         id: '123543',
@@ -77,7 +77,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:true}, {name:'block', callback:()=>{}, active:true}, {name:'delete', callback:()=>{}}]
     },
     {
         id: '123543',
@@ -85,7 +85,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:true}, {name:'block', callback:()=>{}, active:true}, {name:'delete', callback:()=>{}}]
     },
     {
         id: '123543',
@@ -93,7 +93,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:false}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}}]
     },
     {
         id: '123543',
@@ -101,7 +101,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
+        action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:false}, {name:'block', callback:()=>{}, active:true}, {name:'delete', callback:()=>{}}]
     },
 ];
 
