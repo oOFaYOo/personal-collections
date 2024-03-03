@@ -175,7 +175,7 @@ export default function EnhancedTable(
                                 config.map((item, index) => {
                                     // @ts-ignore
                                     return <TableCell
-                                        sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', minWidth: 100}}
+                                        sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', minWidth: '50px', padding:'7px'}}
                                         size={'small'}
                                         align="center">
                                         {
@@ -202,7 +202,7 @@ export default function EnhancedTable(
                                                         // @ts-ignore
                                                         : item.type === 'paragraph'
                                                             ?
-                                                            <p className={'overflow-y-auto min-w-[100px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
+                                                            <p className={'overflow-y-auto min-w-[200px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
                                                             : row[item.id]))
                                         }
                                     </TableCell>

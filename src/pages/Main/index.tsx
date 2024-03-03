@@ -275,20 +275,20 @@ const Main = () => {
 
     return (
         <div
-            className={'relative w-full flex p-2 lg:flex-row flex-col justify-center items-center grow'}>
-            <div className={'lg:w-[30%] w-full contrast-75 max-h-[40vh] lg:max-h-[85vh] overflow-y-auto styled_scrollbar'}>
+            className={'relative w-full flex p-2 lg:flex-row flex-col-reverse justify-center items-center grow gap-4'}>
+            <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} rounded-md shadow-md lg:w-[20%] w-full contrast-75 max-h-[40vh] lg:max-h-[85vh] overflow-y-auto styled_scrollbar`}>
                 <TagCloud tags={tags} onClick={(tag: string) => alert(tag)} theme={theme}/>
             </div>
-            <div className={'lg:w-[70%] lg:p-0 pt-4 w-full h-[85vh] flex flex-col justify-between'}>
-                <div className={'mobile:h-auto mb-4 h-[30%] pl-4 w-full flex justify-between items-center mobile:flex-col'}>
-                        <div className={'mobile:w-full w-[50%] flex flex-row mobile:mb-2'}>
+            <div className={'lg:w-[80%] lg:p-0 pt-4 w-full md:h-[85vh] flex flex-col justify-between'}>
+                <div className={'h-auto mb-8 md:h-[30%] lg:pl-4 w-full flex justify-between items-center flex-col md:flex-row'}>
+                        <div className={'w-full md:w-[50%] flex flex-row mb-2 md:mb-0 mobile:mb-8'}>
                             <Table data={rows1} config={headCells1} onRowClick={() => {
                             }}/>
-                            <div className={'max-w-[50px] min-w-[50px]'}></div>
+                            <div className={'max-w-[50px] min-w-[50px] mobile:hidden'}></div>
                         </div>
-                        <div className={'mobile:w-full w-[50%] flex flex-row-reverse '}>
+                        <div className={'w-full md:w-[50%] mobile:flex-col flex flex-row-reverse'}>
                             <Link to={'/users'}
-                                  className={'max-w-[50px] min-w-[50px] w-full flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
+                                  className={'max-w-[50px] min-w-[50px] mobile:min-w-full flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
                                 <ArrowForwardIosIcon color={'inherit'} fontSize={"large"}/>
                             </Link>
                             <Table data={rows2} config={headCells2} onRowClick={(e, id) => {
@@ -297,9 +297,9 @@ const Main = () => {
                         </div>
                 </div>
                 <div className={'sm:max-h-[67%] w-full flex justify-end items-center'}>
-                    <div className={'pl-4 grow h-full flex flex-row-reverse overflow-x-auto'}>
+                    <div className={'lg:pl-4 grow mb-4 pb-2 h-full flex mobile:flex-col flex-row-reverse overflow-x-auto'}>
                         <Link to={'/collections'}
-                              className={'max-w-[50px] min-w-[50px] flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
+                              className={'max-w-[50px] min-w-[50px] mobile:min-w-full flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
                             <ArrowForwardIosIcon color={'inherit'} fontSize={"large"}/>
                         </Link>
                         <Table data={rows} config={headCells} onRowClick={(e, id) => {

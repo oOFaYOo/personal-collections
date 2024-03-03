@@ -9,6 +9,7 @@ import Collections from "./pages/Collections";
 import Users from "./pages/Users";
 import Collection from "./pages/Collections/Collection";
 import Item from "./pages/Collections/Collection/Item";
+import User from "./pages/Users/User";
 
 const App = () => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -25,7 +26,7 @@ const App = () => {
                     <Route path={'/collections/:id'} element={<Collection/>}/>
                     <Route path={'/collections/:id/:id'} element={<Item/>}/>
                     <Route path={'/users'} element={<Users/>}/>
-                    <Route path={'/users/:id'}/>
+                    <Route path={'/users/:id'} element={<User/>}/>
                     <Route path={'/search'} element={<Search/>}/>
                 </Routes>
             </main>
