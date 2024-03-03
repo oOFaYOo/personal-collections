@@ -238,11 +238,11 @@ const Main = () => {
                         <div className={'mobile:w-full w-[50%] flex flex-row mobile:mb-2'}>
                             <Table data={rows1} config={headCells1} onRowClick={() => {
                             }}/>
-                            <div className={'w-[50px]'}></div>
+                            <div className={'max-w-[50px] min-w-[50px]'}></div>
                         </div>
                         <div className={'mobile:w-full w-[50%] flex flex-row-reverse '}>
                             <Link to={'/users'}
-                                  className={'w-[50px] w-full flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
+                                  className={'max-w-[50px] min-w-[50px] w-full flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
                                 <ArrowForwardIosIcon color={'inherit'} fontSize={"large"}/>
                             </Link>
                             <Table data={rows1} config={headCells1} onRowClick={(e, id) => {
@@ -253,7 +253,7 @@ const Main = () => {
                 <div className={'sm:max-h-[67%] w-full flex justify-end items-center'}>
                     <div className={'pl-4 grow h-full flex flex-row-reverse overflow-x-auto'}>
                         <Link to={'/collections'}
-                              className={'w-[50px] flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
+                              className={'max-w-[50px] min-w-[50px] flex justify-end lg:justify-center items-center opacity-30 hover:opacity-100'}>
                             <ArrowForwardIosIcon color={'inherit'} fontSize={"large"}/>
                         </Link>
                         <Table data={rows} config={headCells} onRowClick={(e, id) => {
