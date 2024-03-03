@@ -5,10 +5,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import {Checkbox, Button} from '@mui/material';
+import {Checkbox, Button, Popover, FormControl, MenuItem, Select} from '@mui/material';
+import {useState} from "react";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -57,13 +59,25 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
-
     const {order, orderBy, rowCount, config, sorting, onRequestSort} =
         props;
     const createSortHandler =
         (property: any) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
+
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
     return (
         <TableHead>
@@ -93,7 +107,37 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                                         }
                                     }}
                                 />
-                                : null
+                                // : (
+                                //     headCell.type === 'checkbox'
+                                //         ? <>
+                                //             <button onClick={handleClick}>
+                                //                 <FilterAltIcon fontSize={'small'} className={'opacity-0 hover:opacity-30'} />
+                                //             </button>
+                                //             <Popover
+                                //                 id={id}
+                                //                 open={open}
+                                //                 anchorEl={anchorEl}
+                                //                 onClose={handleClose}
+                                //                 anchorOrigin={{
+                                //                     vertical: 'bottom',
+                                //                     horizontal: 'right',
+                                //                 }}
+                                //             >
+                                //                 <FormControl sx={{minWidth: 120, m:1, overflow:'hidden' }}>
+                                //                     <Select
+                                //                         sx={{height:30}}
+                                //                         value={1}
+                                //                         onChange={()=>{}}
+                                //                     >
+                                //                         <MenuItem value={1}>All</MenuItem>
+                                //                         <MenuItem value={2}>True</MenuItem>
+                                //                         <MenuItem value={3}>False</MenuItem>
+                                //                     </Select>
+                                //                 </FormControl>
+                                //             </Popover>
+                                //         </>
+                                        : null
+                            // )
                         }
                     </TableCell>
                 ))}
@@ -175,13 +219,17 @@ export default function EnhancedTable(
                                 config.map((item, index) => {
                                     // @ts-ignore
                                     return <TableCell
-                                        sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', minWidth: '50px', padding:'7px'}}
+                                        sx={{
+                                            borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '',
+                                            minWidth: '50px',
+                                            padding: '7px'
+                                        }}
                                         size={'small'}
                                         align="center">
                                         {
                                             item.type === 'action'
                                                 ? <div
-                                                    className={'w-full h-full relative flex justify-evenly'}>{row[item.id].map((action: { name: string, callback: any, active?:boolean }, i: number) =>
+                                                    className={'w-full h-full relative flex justify-evenly'}>{row[item.id].map((action: { name: string, callback: any, active?: boolean }, i: number) =>
                                                     <Button onClick={(e) => {
                                                         e.stopPropagation();
                                                         action.callback(row.id)
