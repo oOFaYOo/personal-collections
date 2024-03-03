@@ -72,9 +72,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                     <TableCell
                         key={headCell.id}
                         align={'center'}
-                        padding={'normal'}
                         size={'small'}
-                        sx={{fontWeight: 'bold', color: 'inherit', whiteSpace: 'nowrap'}}
+                        sx={{fontWeight: 'bold', color: 'inherit', whiteSpace: 'nowrap', padding:'5px'}}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
                         {
@@ -147,7 +146,7 @@ export default function EnhancedTable(
 
     return (
         <TableContainer
-            className={`${theme === 'dark' ? 'shadow-black/70' : ''} styled_scrollbar rounded-md shadow-md`}>
+            className={`${theme === 'dark' ? 'shadow-black/70' : ''} styled_scrollbar w-full overflow-y-auto relative rounded-md shadow-md`}>
             <Table
                 sx={{width: '100%'}}
                 aria-labelledby="tableTitle"
@@ -175,9 +174,8 @@ export default function EnhancedTable(
                             {
                                 config.map((item, index) => {
                                     // @ts-ignore
-
                                     return <TableCell
-                                        sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '', maxWidth: '200px'}}
+                                        sx={{borderColor: theme === 'dark' ? 'rgb(63,63,63)' : ''}}
                                         size={'small'}
                                         align="center">
                                         {
@@ -189,7 +187,7 @@ export default function EnhancedTable(
                                                     }}}/>
                                                 // @ts-ignore
                                                 :  typeof row[item.id] === 'string' && row[item.id].length > 25
-                                                    ? <p className={'overflow-y-auto max-h-[100px]'}>{row[item.id]}</p>
+                                                    ? <p className={'overflow-y-auto max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
                                                     : row[item.id]
                                         }
                                     </TableCell>
