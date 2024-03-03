@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import { Checkbox } from '@mui/material';
+import { Checkbox, Button } from '@mui/material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -26,8 +26,8 @@ function getComparator<Key extends keyof any>(
     order: Order,
     orderBy: Key,
 ): (
-    a: { [key in Key]: number | string },
-    b: { [key in Key]: number | string },
+    a: { [key in Key]: any },
+    b: { [key in Key]: any },
 ) => number {
     return order === 'desc'
         ? (a, b) => descendingComparator(a, b, orderBy)
@@ -51,7 +51,7 @@ interface EnhancedTableProps {
     order: Order;
     orderBy: string;
     rowCount: number;
-    config: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[];
+    config: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' | 'action' }[];
     sorting?: boolean;
 }
 
@@ -80,9 +80,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                             headCell.label
                         }
                         {
-                            (sorting && headCell.type === 'paragraph') || (sorting && headCell.type === 'checkbox')
-                                ? null
-                                : <TableSortLabel
+                            (headCell.type !== 'paragraph' && headCell.type !== 'checkbox' && headCell.type !== 'action' && headCell.type !== 'picture')
+                                ? <TableSortLabel
                                     active={orderBy === headCell.id}
                                     direction={orderBy === headCell.id ? order : 'asc'}
                                     onClick={createSortHandler(headCell.id)}
@@ -94,6 +93,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                                         }
                                     }}
                                 />
+                                : null
                         }
                     </TableCell>
                 ))}
@@ -109,7 +109,7 @@ export default function EnhancedTable(
             sorting?: boolean,
             onRowClick: (event: React.MouseEvent<unknown>, id: any) => void,
             data: any[],
-            config: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[]
+            config: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' | 'action' }[]
         }) {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const [order, setOrder] = React.useState<Order>('asc');
@@ -179,7 +179,9 @@ export default function EnhancedTable(
                                         size={'small'}
                                         align="center">
                                         {
-                                            item.type === 'picture'
+                                            item.type === 'action'
+                                            ? row[item.id].map((action:{name:string, callback:any}, i:number)=><Button variant="outlined">{action.name}</Button>)
+                                            : (item.type === 'picture'
                                                 ? <img src={'https://sun9-41.userapi.com/impg/LqDr0XMJ7rWdCV9gy9rwi-H6_UgxL6YpC9BJeg/lbzDrd12Svk.jpg?size=1024x1024&quality=96&sign=4a15357e165c9ce8e134c5764dc0083a&type=album'} className={'h-[30px] rounded-md shadow-md'} />
                                                 : (typeof row[item.id] === 'boolean'
                                                     ? <Checkbox disabled checked sx={{padding:0,
@@ -190,7 +192,7 @@ export default function EnhancedTable(
                                                     // @ts-ignore
                                                     :  item.type === 'paragraph'
                                                         ? <p className={'overflow-y-auto min-w-[100px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
-                                                        : row[item.id])
+                                                        : row[item.id]))
                                         }
                                     </TableCell>
                                 })

@@ -2,7 +2,7 @@ import React from "react";
 import Table from "../../components/Table"
 import {useLocation} from "react-router-dom";
 
-const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture'}[] = [
+const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' | 'action'}[] = [
     {
         id: 'picture',
         label: '',
@@ -37,7 +37,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
     {
         id: '123543',
@@ -45,7 +45,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
     {
         id: '123543',
@@ -53,7 +53,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
     {
         id: '123543',
@@ -61,7 +61,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
     {
         id: '123543',
@@ -69,7 +69,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
     {
         id: '123543',
@@ -77,7 +77,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
     {
         id: '123543',
@@ -85,7 +85,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
     {
         id: '123543',
@@ -93,7 +93,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
     {
         id: '123543',
@@ -101,7 +101,7 @@ const rows = [
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
-        actions: ''
+        action: [{name:'admin', callback:()=>{}, active:true}, {name:'block', callback:()=>{}, active:false}, {name:'delete', callback:()=>{}, active:true}]
     },
 ];
 
