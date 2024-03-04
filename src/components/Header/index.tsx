@@ -8,12 +8,25 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {setTheme} from "../../store/slice";
 import {Link} from "react-router-dom";
+import {Button, Modal, TextField} from "@mui/material";
+import RegAuth from "../forms/RegAuthForm";
 
 const Header = () => {
     const dispatch = useDispatch();
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore)
+    const [openModal, setOpenModal] = useState(false);
 
     return (
+        <>
+            {
+                <Modal
+                    open={openModal}
+                    onClose={()=>setOpenModal(false)}
+                    sx={{display:'flex', justifyContent:'center', alignItems:'center'}}
+                >
+                    <RegAuth />
+                </Modal>
+            }
         <header
             className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
             w-full min-h-16 max-h-16 flex justify-between sticky top-0 items-center z-[1] mobile:px-4 px-16`}>
@@ -47,9 +60,10 @@ const Header = () => {
                             dispatch(setTheme('dark'));
                         }}/>
                 }
-                <OutputIcon fontSize={'medium'} className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
+                <OutputIcon onClick={()=>setOpenModal(true)} fontSize={'medium'} className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
             </div>
         </header>
+            </>
     )
 }
 

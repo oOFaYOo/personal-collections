@@ -204,7 +204,7 @@ const Collection = () => {
                 <div className={'w-full lg:w-[35%] h-[300px] grow md:h-full flex justify-center items-center'}>
                     <img
                         src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
-                        className={'relative h-full rounded-md shadow-md'}/>
+                        className={'relative h-full rounded-full shadow-md'}/>
                 </div>
                 <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-between'}>
                     <div className={'flex justify-between items-center mb-2'}>

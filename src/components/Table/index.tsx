@@ -238,7 +238,7 @@ export default function EnhancedTable(
                                                 : (item.type === 'picture'
                                                     ? <img
                                                         src={'https://sun9-41.userapi.com/impg/LqDr0XMJ7rWdCV9gy9rwi-H6_UgxL6YpC9BJeg/lbzDrd12Svk.jpg?size=1024x1024&quality=96&sign=4a15357e165c9ce8e134c5764dc0083a&type=album'}
-                                                        className={'h-[30px] rounded-md shadow-md'}/>
+                                                        className={'h-[30px] rounded-full shadow-md'}/>
                                                     : (typeof row[item.id] === 'boolean'
                                                         ? <Checkbox disabled checked sx={{
                                                             padding: 0,
