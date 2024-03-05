@@ -32,63 +32,63 @@ const rows = [
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture:'other',
     },
 ];
 

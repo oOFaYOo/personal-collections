@@ -3,7 +3,7 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 
-const TextInput = ({value, setValue, name, placeholder, required=false, size='medium', type='text'}:
+const CustomInput = ({value, setValue, name, placeholder, required=false, size='medium', type='text'}:
                        {value:string, setValue: React.Dispatch<React.SetStateAction<string>>, name:string, placeholder:string, size?:"small" | "medium", type?: React.HTMLInputTypeAttribute, required?:boolean}) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -39,4 +39,4 @@ const TextInput = ({value, setValue, name, placeholder, required=false, size='me
     )
 }
 
-export default TextInput;
+export default CustomInput;

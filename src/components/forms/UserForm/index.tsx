@@ -1,9 +1,10 @@
 import InputFileUpload from "../../UploadImage";
 import {Button, TextField} from "@mui/material";
 import React, {useState} from "react";
-import TextInput from "../../TextInput";
+import TextInput from "../../CustomInput";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
+import MultiTextInput from "../../MultiTextInput";
 
 const UserForm = () => {
     const [name, setName] = useState('');
@@ -23,37 +24,7 @@ const UserForm = () => {
               }}>
             <InputFileUpload />
             <TextInput value={name} setValue={setName} placeholder={'Name'} name={'name'}/>
-            <TextField
-                placeholder="About Me"
-                className={'styled_scrollbar'}
-                name={'about'}
-                type="text"
-                multiline
-                sx={{
-                    maxHeight:56,
-                    overflowY:'auto',
-                    width:'100%',
-                    '& .MuiInput-underline:after': {
-                        borderBottomColor: '#1976d2',
-                    },
-                    '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                            borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
-                        },
-                        '&:hover fieldset': {
-                            borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
-                        },
-                        '&.Mui-focused fieldset': {
-                            borderColor: '#1976d2',
-                        },
-                    },
-                    '.MuiOutlinedInput-input': {
-                        color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'
-                    }
-                }}
-                value={description}
-                onChange={(e)=>setDescription(e.currentTarget.value)}
-            />
+            <MultiTextInput value={description} setValue={setDescription} name={'about'} placeholder={"About Me"} />
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>
     )

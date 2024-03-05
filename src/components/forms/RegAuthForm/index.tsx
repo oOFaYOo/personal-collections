@@ -1,6 +1,6 @@
 import {Button, TextField} from "@mui/material";
 import React, {useState} from "react";
-import TextInput from "../../TextInput";
+import TextInput from "../../CustomInput";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 

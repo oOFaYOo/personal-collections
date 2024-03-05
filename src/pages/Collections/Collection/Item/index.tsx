@@ -1,27 +1,51 @@
-import React from "react";
+import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {Link} from "react-router-dom";
-import {Avatar, Button, Checkbox, Chip} from "@mui/material";
+import {Avatar, Button, Checkbox, Chip, Modal} from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Accordion from "../../../../components/Accordion"
 import TextArea from "../../../../components/TextArea"
+// @ts-ignore
+import noImg from "../../../../svg/no-img.svg";
+import ItemForm from "../../../../components/forms/ItemForm";
+import CollectionForm from "../../../../components/forms/CollectionForm";
 
 
 const Item = ({setTop}:{setTop: React.Dispatch<React.SetStateAction<number>>}) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const [openModal, setOpenModal] = useState(false);
+    const avatar = '';
 
     return (
         <div className={'w-full flex grow md:flex-row flex-col'}>
+            {
+                <Modal
+                    open={openModal}
+                    onClose={()=> {
+                        setOpenModal(false);
+                    }}
+                    sx={{display:'flex', justifyContent:'center', alignItems:'center'}}
+                >
+                    <ItemForm/>
+                </Modal>
+            }
             <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:max-h-[90vh] styled_scrollbar overflow-y-auto'}
                  onScroll={(e) => {
                 setTop(e.currentTarget.scrollTop)
             }}>
                 <div className={'w-full flex-col md:flex-row flex mb-4 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
                     <div className={'md:h-full pb-4 md:w-[50%] h-[250px] flex justify-center items-center'}>
-                        <img src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
-                             className={'relative h-full rounded-full shadow-md'}/>
+                        {
+                            avatar
+                                ? <img
+                                    src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
+                                    className={'relative h-full rounded-full shadow-md'}/>
+                                : <div
+                                    className={'relative h-[245px] w-[245px] rounded-full shadow-md overflow-hidden flex justify-center items-center bg-neutral-100'}>
+                                    <img src={noImg} className={'relative max-w-[140%]'}/></div>
+                        }
                     </div>
                     <div className={'flex w-full md:w-[50%] flex-col'}>
                         <div className={'flex justify-between md:flex-row flex-col-reverse'}>
@@ -34,7 +58,7 @@ const Item = ({setTop}:{setTop: React.Dispatch<React.SetStateAction<number>>}) =
                                 </Link>
                             </div>
                             <div className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
-                                <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined"
+                                <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined" onClick={()=>setOpenModal(true)}
                                         >Edit</Button>
                                 <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined"
                                         >Delete</Button>
@@ -42,62 +66,24 @@ const Item = ({setTop}:{setTop: React.Dispatch<React.SetStateAction<number>>}) =
                         </div>
                         <div
                             className={'flex mobile:max-h-[150px] sm:max-h-[150px] opacity-70 flex-wrap grow overflow-y-auto text-justify gap-1 styled_scrollbar p-2'}>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/><Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                        }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
                             <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}} onDelete={() => {
-                            }}/>
-
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
                         </div>
                     </div>
                 </div>

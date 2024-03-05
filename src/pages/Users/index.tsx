@@ -33,7 +33,7 @@ const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' 
 const rows = [
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
@@ -41,7 +41,7 @@ const rows = [
     },
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
@@ -49,7 +49,7 @@ const rows = [
     },
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
@@ -57,7 +57,7 @@ const rows = [
     },
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
@@ -65,7 +65,7 @@ const rows = [
     },
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
@@ -73,7 +73,7 @@ const rows = [
     },
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
@@ -81,7 +81,7 @@ const rows = [
     },
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
@@ -89,7 +89,7 @@ const rows = [
     },
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
@@ -97,14 +97,13 @@ const rows = [
     },
     {
         id: '123543',
-        picture: '',
+        picture: 'user',
         name: 'Sometitle',
         amountC: 4,
         amountI: 13,
         action: [{name:'admin', callback:(id:string)=>{alert(id)}, active:false}, {name:'block', callback:()=>{}, active:true}, {name:'delete', callback:()=>{}}]
     },
 ];
-
 
 const Users = () => {
     // const [conf, setConf] = useState([{title:'title', type:'text'}, {title:'date', type:'date'}]);

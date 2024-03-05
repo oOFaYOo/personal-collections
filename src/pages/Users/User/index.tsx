@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 // @ts-ignore
 import noAvatar from "../../../svg/no-profile-picture.svg";
 import InputFileUpload from "../../../components/UploadImage";
+
 import UserForm from "../../../components/forms/UserForm";
 import CollectionForm from "../../../components/forms/CollectionForm";
 
@@ -37,74 +38,73 @@ const rows = [
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
         theme: 'Books',
         description: 'description description description description description description',
-        picture: ''
+        picture: 'other'
     },
 ];
-
 
 const User = () => {
     // const [conf, setConf] = useState([{title:'title', type:'text'}, {title:'date', type:'date'}]);
     // const [data, setData] = useState([{title:'sometitle', date:'05.03.2021'}]);
     const [openModal, setOpenModal] = useState<'user' | 'collection' | string>('');
 
-    const collection = [1];
-    const avatar = 'f';
+    const collections = [1];
+    const avatar = 'а';
 
     return (
         <div
@@ -121,7 +121,6 @@ const User = () => {
                         openModal === 'user'
                         ? <UserForm />
                         : <CollectionForm/>
-
                     }
                 </Modal>
             }
@@ -152,14 +151,14 @@ const User = () => {
                 </div>
             </div>
             <div className={'flex relative flex-col items-center justify-center lg:pl-4 h-full w-full lg:w-[70%]'}>
-                {collection.length === 0
+                {collections.length === 0
                     ? null
                     : <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
                         <Button size={'small'} variant="outlined" onClick={()=>setOpenModal('collection')}>Add</Button>
                     </div>
                 }
                 {
-                    collection.length === 0
+                    collections.length === 0
                     ?    <Button size={'large'} variant="outlined">create your first collection</Button>
                     :    <Table sorting={true} pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                             document.location = '/collections/' + id;

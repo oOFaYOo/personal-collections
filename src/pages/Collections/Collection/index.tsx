@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import Table from "../../../components/Table";
 import {Link, useLocation} from "react-router-dom";
-import {Button} from "@mui/material";
+import {Button, Modal} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
+// @ts-ignore
+import noImg from "../../../svg/no-img.svg";
+import ItemForm from "../../../components/forms/ItemForm";
+import CollectionForm from "../../../components/forms/CollectionForm";
 
 const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
     {
@@ -50,7 +54,8 @@ const rows = [
         title: 'sometitle',
         somebool: true,
         date: '05.03.2021',
-        amount: 354
+        amount: 354,
+        picture: 'other'
     },
     {
         id: '3',
@@ -58,7 +63,8 @@ const rows = [
         title: 'sometitle3',
         somebool: false,
         date: '05.03.2022',
-        amount: 543
+        amount: 543,
+        picture: 'other'
     },
     {
         id: '7',
@@ -66,7 +72,8 @@ const rows = [
         title: 'sometitle1',
         somebool: true,
         date: '05.03.2015',
-        amount: 154
+        amount: 154,
+        picture: 'other'
     },
     {
         id: '8',
@@ -74,7 +81,8 @@ const rows = [
         title: 'sometitle',
         somebool: false,
         date: '05.03.2021',
-        amount: 354
+        amount: 354,
+        picture: 'other'
     },
     {
         id: '9',
@@ -82,7 +90,8 @@ const rows = [
         title: 'sometitle3',
         somebool: true,
         date: '05.03.2022',
-        amount: 543
+        amount: 543,
+        picture: 'other'
     },
     {
         id: '1',
@@ -90,7 +99,8 @@ const rows = [
         title: 'sometitle1',
         somebool: false,
         date: '05.03.2015',
-        amount: 154
+        amount: 154,
+        picture: 'other'
     },
     {
         id: '0',
@@ -98,7 +108,8 @@ const rows = [
         title: 'sometitle',
         somebool: true,
         date: '05.03.2021',
-        amount: 354
+        amount: 354,
+        picture: 'other'
     },
     {
         id: '87',
@@ -106,7 +117,8 @@ const rows = [
         title: 'sometitle3',
         somebool: false,
         date: '05.03.2022',
-        amount: 543
+        amount: 543,
+        picture: 'other'
     },
     {
         id: '89',
@@ -114,7 +126,8 @@ const rows = [
         title: 'sometitle1',
         somebool: true,
         date: '05.03.2015',
-        amount: 154
+        amount: 154,
+        picture: 'other'
     },
     {
         id: '34',
@@ -122,7 +135,8 @@ const rows = [
         title: 'sometitle',
         somebool: false,
         date: '05.03.2021',
-        amount: 354
+        amount: 354,
+        picture: 'other'
     },
     {
         id: 'jkljhk',
@@ -130,7 +144,8 @@ const rows = [
         title: 'sometitle3',
         somebool: true,
         date: '05.03.2022',
-        amount: 543
+        amount: 543,
+        picture: 'other'
     },
     {
         id: 'f5f7',
@@ -138,7 +153,8 @@ const rows = [
         title: 'sometitle1',
         somebool: false,
         date: '05.03.2015',
-        amount: 154
+        amount: 154,
+        picture: 'other'
     },
     {
         id: '9mu',
@@ -146,7 +162,8 @@ const rows = [
         title: 'sometitle',
         somebool: true,
         date: '05.03.2021',
-        amount: 354
+        amount: 354,
+        picture: 'other'
     },
     {
         id: 'c45e4',
@@ -154,7 +171,8 @@ const rows = [
         title: 'sometitle3',
         somebool: false,
         date: '05.03.2022',
-        amount: 543
+        amount: 543,
+        picture: 'other'
     },
     {
         id: 'mlkhk',
@@ -162,7 +180,8 @@ const rows = [
         title: 'sometitle1',
         somebool: true,
         date: '05.03.2015',
-        amount: 154
+        amount: 154,
+        picture: 'other'
     },
     {
         id: '6858',
@@ -170,7 +189,8 @@ const rows = [
         title: 'sometitle',
         somebool: false,
         date: '05.03.2021',
-        amount: 354
+        amount: 354,
+        picture: 'other'
     },
     {
         id: '23',
@@ -178,7 +198,8 @@ const rows = [
         title: 'sometitle3',
         somebool: true,
         date: '05.03.2022',
-        amount: 543
+        amount: 543,
+        picture: 'other'
     },
     {
         id: 'mi9hh',
@@ -186,7 +207,8 @@ const rows = [
         title: 'sometitle1',
         somebool: false,
         date: '05.03.2015',
-        amount: 154
+        amount: 154,
+        picture: 'other'
     },
 ];
 
@@ -195,16 +217,40 @@ const Collection = () => {
     // const [conf, setConf] = useState([{title:'title', type:'text'}, {title:'date', type:'date'}]);
     // const [data, setData] = useState([{title:'sometitle', date:'05.03.2021'}]);
     const path = useLocation().pathname;
+    const [openModal, setOpenModal] = useState<'item' | 'collection' | string>('');
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
+    const items = [1];
+    const avatar = 'g';
 
     return (
         <div
             className={'relative w-full flex flex-col justify-evenly items-center grow px-4 pb-2'}>
+            {
+                <Modal
+                    open={!!openModal}
+                    onClose={()=> {
+                        setOpenModal('');
+                    }}
+                    sx={{display:'flex', justifyContent:'center', alignItems:'center'}}
+                >
+                    {   openModal === 'item'
+                        ? <ItemForm/>
+                        : <CollectionForm/>
+                    }
+                </Modal>
+            }
             <div className={'flex flex-col md:flex-row md:max-h-[40vh] my-4 grow justify-between'}>
                 <div className={'w-full lg:w-[35%] h-[300px] grow md:h-full flex justify-center items-center'}>
-                    <img
-                        src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
-                        className={'relative h-full rounded-full shadow-md'}/>
+                    {
+                        avatar
+                            ? <img
+                                src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
+                                className={'relative h-full rounded-full shadow-md'}/>
+                            : <div
+                                className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden flex justify-center items-center bg-neutral-100'}>
+                                <img src={noImg} className={'relative max-w-[140%]'}/></div>
+                    }
                 </div>
                 <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-between'}>
                     <div className={'flex justify-between items-center mb-2'}>
@@ -216,8 +262,12 @@ const Collection = () => {
                             </Link>
                         </div>
                         <div className={'flex flex-row justify-between gap-2'}>
-                            <Button size={'small'} variant="outlined">Add</Button>
-                            <Button size={'small'} variant="outlined">Edit</Button>
+                            {
+                                items.length === 0
+                                    ? null
+                                    : <Button size={'small'} variant="outlined" onClick={()=>setOpenModal('item')}>Add</Button>
+                            }
+                            <Button size={'small'} variant="outlined" onClick={()=>setOpenModal('collection')}>Edit</Button>
                             <Button size={'small'} variant="outlined">Delete</Button>
                         </div>
                     </div>
@@ -245,9 +295,15 @@ const Collection = () => {
                     </p>
                 </div>
             </div>
-            <Table sorting={true} pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
-                document.location = path + '/' + id;
-            }}/>
+            {
+                items.length === 0
+                    ? <div className={'my-8'}><Button size={'large'} variant="outlined" onClick={()=>setOpenModal('item')}>
+                        add your first item</Button>
+                        </div>
+                    : <Table sorting={true} pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
+                        document.location = path + '/' + id;
+                    }}/>
+            }
         </div>
     )
 }

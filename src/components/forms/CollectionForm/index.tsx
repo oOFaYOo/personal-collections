@@ -3,7 +3,8 @@ import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import TextInput from "../../TextInput";
+import TextInput from "../../CustomInput";
+import MultiTextInput from "../../MultiTextInput";
 
 const CollectionForm = () => {
     const [name, setName] = useState('');
@@ -17,13 +18,13 @@ const CollectionForm = () => {
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
-         p-8 gap-4 outline-none rounded-md shadow-md flex-col justify-evenly items-center`}
+         p-8 gap-4 outline-none rounded-md shadow-md flex-col justify-evenly items-center overflow-y-auto max-h-[90vh] styled_scrollbar`}
               onSubmit={(e)=>{
                   clean();
               }}>
-            <div className={'flex flex-row gap-2 justify-between mb-4'}>
+            <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload />
-                <TextInput value={name} setValue={setName} placeholder={'Title'} name={'title'}/>
+                <TextInput value={name} setValue={setName} placeholder={'Title'} name={'title'} required/>
                 <FormControl fullWidth sx={{width:'200px'}}>
                     <Select
                         labelId="demo-simple-select-label"
@@ -49,41 +50,12 @@ const CollectionForm = () => {
                         <MenuItem value={3}>Thirty</MenuItem>
                     </Select>
                 </FormControl>
-                <TextField
-                    placeholder="Description"
-                    name={'description'}
-                    type="text"
-                    className={'styled_scrollbar'}
-                    multiline
-                    sx={{
-                        maxHeight:56,
-                        overflowY:'auto',
-                        width:'250px',
-                        '& .MuiInput-underline:after': {
-                            borderBottomColor: '#1976d2',
-                        },
-                        '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                                borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
-                            },
-                            '&:hover fieldset': {
-                                borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
-                            },
-                            '&.Mui-focused fieldset': {
-                                borderColor: '#1976d2',
-                            },
-                        },
-                        '.MuiOutlinedInput-input': {
-                            color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'
-                        }
-                }}
-                    value={description}
-                    onChange={(e)=>setDescription(e.currentTarget.value)}
-                />
+                <MultiTextInput value={description} setValue={setDescription} name={'description'} placeholder={'Description'} />
             </div>
+
             <div className={'flex flex-col items-center gap-4 opacity-80'}>
                 <h3>Additional item Fields</h3>
-                <div className={'flex justify-evenly gap-2'}>
+                <div className={'flex lg:flex-row flex-col justify-evenly gap-2'}>
                     <div className={'flex flex-col gap-2'}>
                         <TextInput value={''} setValue={()=>{}} placeholder={'Title of text field'} name={'text1'} size={'small'}/>
                         <TextInput value={''} setValue={()=>{}} placeholder={'Title of text field'} name={'text2'} size={'small'}/>

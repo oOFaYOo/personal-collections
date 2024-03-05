@@ -9,6 +9,10 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
+// @ts-ignore
+import noImg from "../../svg/no-img.svg";
+// @ts-ignore
+import noAvatar from "../../svg/no-profile-picture.svg";
 import {Checkbox, Button, Popover, FormControl, MenuItem, Select} from '@mui/material';
 import {useState} from "react";
 
@@ -236,9 +240,11 @@ export default function EnhancedTable(
                                                     }} size={"small"}
                                                             variant={action.active ? 'contained' : 'outlined'}>{action.name}</Button>)}</div>
                                                 : (item.type === 'picture'
-                                                    ? <img
-                                                        src={'https://sun9-41.userapi.com/impg/LqDr0XMJ7rWdCV9gy9rwi-H6_UgxL6YpC9BJeg/lbzDrd12Svk.jpg?size=1024x1024&quality=96&sign=4a15357e165c9ce8e134c5764dc0083a&type=album'}
-                                                        className={'h-[30px] rounded-full shadow-md'}/>
+                                                    ? <div className={'h-[30px] w-[30px] rounded-full overflow-hidden flex justify-center items-center bg-neutral-100'}>
+                                                            <img
+                                                            src={row[item.id] === 'user' ? noAvatar : (row[item.id] === 'other' ? noImg : row[item.id])}
+                                                            className={'relative max-w-[140%]'}/>
+                                                        </div>
                                                     : (typeof row[item.id] === 'boolean'
                                                         ? <Checkbox disabled checked sx={{
                                                             padding: 0,
