@@ -101,7 +101,7 @@ const rows = [
 const User = () => {
     // const [conf, setConf] = useState([{title:'title', type:'text'}, {title:'date', type:'date'}]);
     // const [data, setData] = useState([{title:'sometitle', date:'05.03.2021'}]);
-    const [openModal, setOpenModal] = useState(false);
+    const [openModal, setOpenModal] = useState<'user' | 'collection' | string>('');
 
     const collection = [1];
     const avatar = 'f';
@@ -111,14 +111,18 @@ const User = () => {
             className={'relative w-full flex flex-col lg:flex-row justify-evenly items-center grow p-4'}>
             {
                 <Modal
-                    open={openModal}
+                    open={!!openModal}
                     onClose={()=> {
-                        setOpenModal(false);
+                        setOpenModal('');
                     }}
                     sx={{display:'flex', justifyContent:'center', alignItems:'center'}}
                 >
-                    <CollectionForm />
-                    {/*<UserForm />*/}
+                    {
+                        openModal === 'user'
+                        ? <UserForm />
+                        : <CollectionForm/>
+
+                    }
                 </Modal>
             }
             <div className={'h-full w-full lg:w-[30%] flex flex-col mb-4'}>
@@ -134,7 +138,7 @@ const User = () => {
                 <div className={'w-full flex flex-col'}>
                      <h1 className={'text-xl font-bold text-center my-4'}>Name Lastname</h1>
                      <div className={'flex justify-center gap-2 md:m-0 my-2'}>
-                         <Button size={'small'} variant="outlined" onClick={()=>setOpenModal(true)}>Edit</Button>
+                         <Button size={'small'} variant="outlined" onClick={()=>setOpenModal('user')}>Edit</Button>
                          <Button size={'small'} variant="outlined">Delete</Button>
                      </div>
                             <p className={'overflow-y-auto p-4 w-full h-[175px] styled_scrollbar text-justify'}>
@@ -151,7 +155,7 @@ const User = () => {
                 {collection.length === 0
                     ? null
                     : <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
-                        <Button size={'small'} variant="outlined">Add</Button>
+                        <Button size={'small'} variant="outlined" onClick={()=>setOpenModal('collection')}>Add</Button>
                     </div>
                 }
                 {
