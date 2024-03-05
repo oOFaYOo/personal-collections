@@ -1,7 +1,11 @@
 import {Button, TextField} from "@mui/material";
 import React, {useState} from "react";
+import TextInput from "../../TextInput";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
 
 const RegAuth = () => {
+    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const [action, setAction] = useState<'signin' | 'signup'>('signin');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +18,8 @@ const RegAuth = () => {
     }
 
     return (
-        <form className={'p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center'}
+        <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
+        p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center`}
               onSubmit={(e)=>{
                   clean();
               }}>
@@ -30,34 +35,11 @@ const RegAuth = () => {
             </div>
             {
                 action === 'signup'
-                    ? <TextField
-                        label="Name"
-                        name={'name'}
-                        type="text"
-                        required
-                        value={name}
-                        onChange={(e)=>{setName(e.currentTarget.value)}}
-                    />
+                    ? <TextInput value={name} setValue={setName} placeholder={'Name'} name={'name'} type={'text'} required/>
                     : null
             }
-            <TextField
-                id="outlined-password-input"
-                label="eMail"
-                name={'eMail'}
-                type="email"
-                required
-                value={Email}
-                onChange={(e)=>{setEmail(e.currentTarget.value)}}
-            />
-            <TextField
-                id="outlined-password-input"
-                label="Password"
-                name={'password'}
-                type="password"
-                required
-                value={password}
-                onChange={(e)=>{setPassword(e.currentTarget.value)}}
-            />
+            <TextInput value={Email} setValue={setEmail} placeholder={'eMail'} name={'eMail'} type={'email'} required/>
+            <TextInput value={password} setValue={setPassword} placeholder={'Password'} name={'password'} type={'password'} required/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>
     )

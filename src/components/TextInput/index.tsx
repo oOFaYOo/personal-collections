@@ -3,16 +3,18 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 
-const TextInput = ({value, setValue, name, placeholder, size='medium'}:
-                       {value:string, setValue: React.Dispatch<React.SetStateAction<string>>, name:string, placeholder:string, size?:"small" | "medium"}) => {
+const TextInput = ({value, setValue, name, placeholder, required=false, size='medium', type='text'}:
+                       {value:string, setValue: React.Dispatch<React.SetStateAction<string>>, name:string, placeholder:string, size?:"small" | "medium", type?: React.HTMLInputTypeAttribute, required?:boolean}) => {
+
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
         <TextField
             placeholder={placeholder}
             name={name}
-            type="text"
+            type={type}
             size={size}
+            required={required}
             inputProps={{ maxLength: 20 }}
             value={value}
             sx={{minWidth:'200px',
