@@ -42,7 +42,9 @@ const Header = () => {
                 <Link to={'/'}>
                 <HomeIcon fontSize={'medium'} className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
                 </Link>
+                <Link to={'/users/:id'}>
                 <PersonIcon fontSize={'medium'} className={'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100'}/>
+                </Link>
                 {
                     theme === 'dark'
                     ? <LightModeIcon
