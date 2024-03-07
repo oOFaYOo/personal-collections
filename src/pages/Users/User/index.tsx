@@ -131,14 +131,14 @@ const User = () => {
                             : <img src={noAvatar}/>
                     }
                 </div>
-                <div className={'w-full flex flex-col'}>
-                    <h1 className={'text-xl font-bold text-center my-4'}>Name Lastname</h1>
-                    <div className={'flex justify-center gap-2 md:m-0 my-2'}>
+                <div className={'w-full flex flex-col grow'}>
+                    <h1 className={'text-xl font-bold text-center my-2'}>Name Lastname</h1>
+                    <div className={'flex justify-center gap-2 md:mt-4 my-2'}>
                         <Button size={'small'} variant="outlined"
                                 onClick={() => setOpenModal(ModalFormType.User)}>Edit</Button>
                         <Button size={'small'} variant="outlined">Delete</Button>
                     </div>
-                    <p className={'overflow-y-auto p-4 w-full h-[175px] styled_scrollbar text-justify'}>
+                    <p className={'overflow-y-auto p-4 w-full flex grow h-[175px] styled_scrollbar text-justify'}>
                         description description description description description description description description
                         description description description description description description description description
                         description description description description description description description description

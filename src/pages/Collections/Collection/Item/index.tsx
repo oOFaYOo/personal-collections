@@ -327,7 +327,6 @@ const Item = ({setTop}: IItem) => {
                         <Button sx={{width: '80%'}} variant="outlined">Send</Button>
                     </div>
                 </div>
-                <div></div>
             </div>
         </div>
     )
