@@ -6,8 +6,9 @@ import Typography from '@mui/material/Typography';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
+import {IAccordion} from "./type";
 
-const CustomAccordion = ({data}:{data:{title:string, details:string}[]}) => {
+const CustomAccordion = ({data}: IAccordion) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
@@ -15,11 +16,9 @@ const CustomAccordion = ({data}:{data:{title:string, details:string}[]}) => {
             {
                 data.map((item, index) => {
                     return (
-                        <Accordion sx={{color:'inherit', backgroundColor:'inherit', boxShadow:'none'}}>
+                        <Accordion sx={{color: 'inherit', backgroundColor: 'inherit', boxShadow: 'none'}}>
                             <AccordionSummary
-                                expandIcon={<KeyboardArrowDownIcon sx={{color:theme === 'dark' ? 'white' : 'black'}} />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
+                                expandIcon={<KeyboardArrowDownIcon sx={{color: theme === 'dark' ? 'white' : 'black'}}/>}
                             >
                                 <Typography>{item.title}</Typography>
                             </AccordionSummary>

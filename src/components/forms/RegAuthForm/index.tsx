@@ -1,17 +1,19 @@
-import {Button, TextField} from "@mui/material";
 import React, {useState} from "react";
-import TextInput from "../../CustomInput";
+import {Button} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
+import CustomInput from "../../CustomInput";
+import {ActionType} from "./type";
 
 const RegAuth = () => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
-    const [action, setAction] = useState<'signin' | 'signup'>('signin');
+
+    const [action, setAction] = useState<ActionType>(ActionType.signin);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [Email, setEmail] = useState('');
 
-    function clean (){
+    function clean() {
         setName('');
         setPassword('');
         setEmail('');
@@ -20,26 +22,29 @@ const RegAuth = () => {
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
         p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center`}
-              onSubmit={(e)=>{
+              onSubmit={(e) => {
                   clean();
               }}>
             <div className={'w-full flex justify-center gap-2'}>
-                <Button variant={action === "signin" ? "contained" : "outlined"} onClick={() => {
-                    setAction('signin');
+                <Button variant={action === ActionType.signin ? "contained" : "outlined"} onClick={() => {
+                    setAction(ActionType.signin);
                     clean();
                 }}>sign in</Button>
-                <Button variant={action === "signup" ? "contained" : "outlined"} onClick={() => {
-                    setAction('signup');
+                <Button variant={action === ActionType.signup ? "contained" : "outlined"} onClick={() => {
+                    setAction(ActionType.signup);
                     clean();
                 }}>sign up</Button>
             </div>
             {
-                action === 'signup'
-                    ? <TextInput value={name} setValue={setName} placeholder={'Name'} name={'name'} type={'text'} required/>
+                action === ActionType.signup
+                    ? <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'} type={'text'}
+                                   required/>
                     : null
             }
-            <TextInput value={Email} setValue={setEmail} placeholder={'eMail'} name={'eMail'} type={'email'} required/>
-            <TextInput value={password} setValue={setPassword} placeholder={'Password'} name={'password'} type={'password'} required/>
+            <CustomInput value={Email} setValue={setEmail} placeholder={'eMail'} name={'eMail'} type={'email'}
+                         required/>
+            <CustomInput value={password} setValue={setPassword} placeholder={'Password'} name={'password'}
+                         type={'password'} required/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>
     )

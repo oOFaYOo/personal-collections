@@ -1,7 +1,6 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import React from 'react';
+import {styled} from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AddIcon from "@mui/icons-material/Add";
 
 const VisuallyHiddenInput = styled('input')({
@@ -23,11 +22,11 @@ export default function InputFileUpload() {
             role={undefined}
             variant="outlined"
             tabIndex={-1}
-            startIcon={<AddIcon />}
-            sx={{textWrap:'nowrap', minWidth:'150px'}}
+            startIcon={<AddIcon/>}
+            sx={{textWrap: 'nowrap', minWidth: '150px'}}
         >
             Add photo
-            <VisuallyHiddenInput type="file" name={'avatar'} />
+            <VisuallyHiddenInput type="file" name={'avatar'}/>
         </Button>
     );
 }

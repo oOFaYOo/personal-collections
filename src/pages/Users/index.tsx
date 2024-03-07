@@ -113,7 +113,7 @@ const Users = () => {
     return (
         <div
             className={'relative w-full flex flex-wrap justify-evenly items-center grow p-4'}>
-               <Table pagination={true} sorting={true} data={rows} config={headCells} onRowClick={(e, id) => {
+               <Table pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                    document.location = path + '/' + id;
                }} />
         </div>

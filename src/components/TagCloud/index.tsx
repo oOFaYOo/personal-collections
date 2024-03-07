@@ -1,15 +1,15 @@
-import {ColorOptions, TagCloud} from 'react-tagcloud';
+import {ColorOptions, TagCloud as Cloud} from 'react-tagcloud';
 import {ITagCloud} from "./type";
 
-const SimpleCloud = ({tags, onClick, theme}: ITagCloud) => {
+const TagCloud = ({tags, onClick}: ITagCloud) => {
 
-    const options : ColorOptions = {
+    const options: ColorOptions = {
         luminosity: "light",
         hue: 'blue',
     }
 
     return (
-        <TagCloud
+        <Cloud
             minSize={12}
             maxSize={35}
             tags={tags}
@@ -21,4 +21,4 @@ const SimpleCloud = ({tags, onClick, theme}: ITagCloud) => {
     )
 }
 
-export default SimpleCloud;
+export default TagCloud;

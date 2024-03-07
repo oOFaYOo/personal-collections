@@ -300,7 +300,7 @@ const Collection = () => {
                     ? <div className={'my-8'}><Button size={'large'} variant="outlined" onClick={()=>setOpenModal('item')}>
                         add your first item</Button>
                         </div>
-                    : <Table sorting={true} pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
+                    : <Table pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                         document.location = path + '/' + id;
                     }}/>
             }

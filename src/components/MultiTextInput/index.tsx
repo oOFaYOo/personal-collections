@@ -1,10 +1,18 @@
-import {TextField} from "@mui/material";
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
+import {TextField} from "@mui/material";
+import {IMultiTextInput} from "./type";
 
-const MultiTextInput = ({value, setValue, name, placeholder, required=false, size='medium', type='text'}:
-                       {value:string, setValue: React.Dispatch<React.SetStateAction<string>>, name:string, placeholder:string, size?:"small" | "medium", type?: React.HTMLInputTypeAttribute, required?:boolean}) => {
+const MultiTextInput = ({
+                            value,
+                            setValue,
+                            name,
+                            placeholder,
+                            required = false,
+                            size = 'medium',
+                            type = 'text'
+                        }: IMultiTextInput) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
@@ -15,14 +23,14 @@ const MultiTextInput = ({value, setValue, name, placeholder, required=false, siz
             type={type}
             size={size}
             required={required}
-            inputProps={{ maxLength: 20 }}
+            inputProps={{maxLength: 20}}
             value={value}
             className={'styled_scrollbar'}
             multiline
             sx={{
-                maxHeight:56,
-                overflowY:'auto',
-                width:'250px',
+                maxHeight: 56,
+                overflowY: 'auto',
+                width: '250px',
                 '& .MuiInput-underline:after': {
                     borderBottomColor: '#1976d2',
                 },
@@ -41,7 +49,7 @@ const MultiTextInput = ({value, setValue, name, placeholder, required=false, siz
                     color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'
                 }
             }}
-            onChange={(e)=>setValue(e.currentTarget.value)}
+            onChange={(e) => setValue(e.currentTarget.value)}
         />
     )
 }

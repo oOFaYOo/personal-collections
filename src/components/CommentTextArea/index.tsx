@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import Textarea from '@mui/joy/Textarea';
 import Typography from '@mui/joy/Typography';
 
-const TextareaComment = () => {
+const CommentTextArea = () => {
     const [text, setText] = React.useState('');
+
     return (
         <Textarea
             placeholder="Your comment..."
@@ -17,11 +18,11 @@ const TextareaComment = () => {
             sx={{
                 width: '100%',
                 backgroundColor: 'transparent',
-                border:'none',
+                border: 'none',
                 color: 'inherit'
             }}
         />
     );
 }
 
-export default TextareaComment;
+export default CommentTextArea;

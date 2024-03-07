@@ -216,7 +216,7 @@ const Main = () => {
         <div
             className={'relative w-full flex p-2 lg:flex-row flex-col-reverse justify-center items-center grow gap-4'}>
             <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} justify-start rounded-md shadow-md lg:w-[20%] w-full contrast-75 max-h-[40vh] lg:max-h-[85vh] overflow-y-auto styled_scrollbar`}>
-                <TagCloud tags={tags} onClick={(tag: string) => alert(tag)} theme={theme}/>
+                <TagCloud tags={tags} onClick={(tag: string) => alert(tag)}/>
             </div>
             <div className={'lg:w-[80%] lg:p-0 pt-4 w-full md:h-[85vh] flex flex-col justify-between'}>
                 <div className={'h-auto mb-8 md:h-[30%] lg:pl-4 w-full flex justify-between items-center flex-col md:flex-row'}>

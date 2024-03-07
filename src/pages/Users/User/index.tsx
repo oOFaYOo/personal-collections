@@ -160,7 +160,7 @@ const User = () => {
                 {
                     collections.length === 0
                     ?    <Button size={'large'} variant="outlined">create your first collection</Button>
-                    :    <Table sorting={true} pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
+                    :    <Table pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                             document.location = '/collections/' + id;
                         }}/>
                 }
