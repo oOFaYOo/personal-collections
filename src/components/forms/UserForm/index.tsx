@@ -24,7 +24,7 @@ const UserForm = () => {
                   clean();
               }}>
             <InputFileUpload/>
-            <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'}/>
+            <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'} fullWidth/>
             <MultiTextInput value={description} setValue={setDescription} name={'about'} placeholder={"About Me"}/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>

@@ -59,7 +59,7 @@ const Item = ({setTop}: IItem) => {
                                 <p className={'opacity-30 text-sm'}>c47cy3438cngch34gn38yx</p>
                                 <h2 className={'font-semibold italic'}>theme</h2>
                                 <Link to={'/users/:id'}>
-                                    <h3 className={'text-lg font-semibold'}>author</h3>
+                                    <h3 className={'text-lg font-semibold text-[#1976d2]'}>author</h3>
                                 </Link>
                             </div>
                             <div

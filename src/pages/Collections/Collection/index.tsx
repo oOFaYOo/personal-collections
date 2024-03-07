@@ -258,7 +258,7 @@ const Collection = () => {
                             <h1 className={'text-xl font-bold'}>Title</h1>
                             <h2 className={'font-semibold italic'}>theme</h2>
                             <Link to={'/users/:id'}>
-                                <h3 className={'text-lg font-semibold'}>author</h3>
+                                <h3 className={'text-lg font-semibold text-[#1976d2]'}>author</h3>
                             </Link>
                         </div>
                         <div className={'flex flex-row justify-between gap-2'}>

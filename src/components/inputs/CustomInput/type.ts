@@ -9,4 +9,5 @@ export interface ICustomInput {
     type?: React.HTMLInputTypeAttribute;
     required?:boolean;
     disabled?:boolean;
+    fullWidth?:boolean;
 }

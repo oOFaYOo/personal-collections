@@ -38,13 +38,13 @@ const RegAuth = () => {
             {
                 action === ActionType.signup
                     ? <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'} type={'text'}
-                                   required/>
+                                   required fullWidth/>
                     : null
             }
             <CustomInput value={Email} setValue={setEmail} placeholder={'eMail'} name={'eMail'} type={'email'}
-                         required/>
+                         required fullWidth/>
             <CustomInput value={password} setValue={setPassword} placeholder={'Password'} name={'password'}
-                         type={'password'} required/>
+                         type={'password'} required fullWidth/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>
     )
