@@ -17,6 +17,7 @@ const CommentTextArea = () => {
             }
             sx={{
                 width: '100%',
+                height: '100%',
                 backgroundColor: 'transparent',
                 border: 'none',
                 color: 'inherit'

@@ -56,7 +56,7 @@ const CollectionForm = () => {
                                 placeholder={'Description'}/>
             </div>
             <div className={'flex flex-col items-center gap-4 opacity-80'}>
-                <h3>Additional item Fields</h3>
+                <h3>Additional item fields</h3>
                 <div className={'flex lg:flex-row flex-col justify-evenly gap-2'}>
                     <div className={'flex flex-col gap-2'}>
                         <CustomInput value={''} setValue={() => {

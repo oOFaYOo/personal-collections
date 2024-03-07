@@ -5,6 +5,7 @@ import {RootState} from "../../../../store";
 import {Avatar, Button, Checkbox, Chip, Modal} from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import InsertCommentRoundedIcon from '@mui/icons-material/InsertCommentRounded';
 import Accordion from "../../../../components/Accordion"
 import TextArea from "../../../../components/inputs/CommentTextArea"
 import ItemForm from "../../../../components/forms/ItemForm";
@@ -140,8 +141,10 @@ const Item = ({setTop}: IItem) => {
                         <div className={'flex flex-col items-start w-[40%]'}>
                             <div>
                                 <h3 className={'font-semibold'}>Boolean aria:</h3>
-                                <Checkbox disabled sx={{
+                                <Checkbox  sx={{
                                     padding: 0,
+                                    color: 'inherit',
+                                    opacity: '0.7',
                                     '&.Mui-disabled': {
                                         color: 'inherit',
                                         opacity: '0.3',
@@ -152,6 +155,8 @@ const Item = ({setTop}: IItem) => {
                                 <h3 className={'font-semibold'}>Boolean aria:</h3>
                                 <Checkbox disabled sx={{
                                     padding: 0,
+                                    color: 'inherit',
+                                    opacity: '0.7',
                                     '&.Mui-disabled': {
                                         color: 'inherit',
                                         opacity: '0.3',
@@ -162,6 +167,8 @@ const Item = ({setTop}: IItem) => {
                                 <h3 className={'font-semibold'}>Boolean aria:</h3>
                                 <Checkbox disabled checked sx={{
                                     padding: 0,
+                                    color: 'inherit',
+                                    opacity: '0.7',
                                     '&.Mui-disabled': {
                                         color: 'inherit',
                                         opacity: '0.3',
@@ -317,13 +324,16 @@ const Item = ({setTop}: IItem) => {
                         <TextArea/>
                     </div>
                     <div className={`flex flex-col grow items-center justify-center gap-2`}>
-                        <Button sx={{width: '80%'}} variant="outlined">
-                            {
-                                isfavorit
-                                    ? <FavoriteIcon/>
-                                    : <FavoriteBorderIcon/>
-                            }
-                        </Button>
+                        <div className={'flex items-center justify-evenly w-full text-sm'}>
+                            <p>
+                                {
+                                    isfavorit
+                                        ? <FavoriteIcon fontSize={"small"} className={'cursor-pointer text-[#1976d2]'}/>
+                                        : <FavoriteBorderIcon fontSize={"small"} className={'cursor-pointer opacity-70 hover:opacity-100 hover:text-[#1976d2]'}/>
+                                }
+                                232</p>
+                            <p><InsertCommentRoundedIcon fontSize={'small'} className={'opacity-70'}/>56</p>
+                        </div>
                         <Button sx={{width: '80%'}} variant="outlined">Send</Button>
                     </div>
                 </div>

@@ -42,9 +42,30 @@ const InputForm = () => {
                         }} placeholder={'Text'} name={'text3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2 mx-2'}>
-                        <FormControlLabel control={<Checkbox defaultChecked/>} label="Bool"/>
-                        <FormControlLabel control={<Checkbox defaultChecked/>} label="Bool"/>
-                        <FormControlLabel control={<Checkbox defaultChecked/>} label="Bool"/>
+                        <FormControlLabel control={<Checkbox defaultChecked sx={{
+                                    padding: 0,
+                                    color: 'inherit',
+                                    '&.Mui-disabled': {
+                                        color: 'inherit',
+                                        opacity: '0.3',
+                                    }
+                                }}/>} label="Bool"/>
+                        <FormControlLabel control={<Checkbox defaultChecked sx={{
+                                    padding: 0,
+                                    color: 'inherit',
+                                    '&.Mui-disabled': {
+                                        color: 'inherit',
+                                        opacity: '0.3',
+                                    }
+                                }}/>} label="Bool"/>
+                        <FormControlLabel control={<Checkbox defaultChecked sx={{
+                                    padding: 0,
+                                    color: 'inherit',
+                                    '&.Mui-disabled': {
+                                        color: 'inherit',
+                                        opacity: '0.3',
+                                    }
+                                }}/>} label="Bool"/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
                         <CustomInput value={''} setValue={() => {
