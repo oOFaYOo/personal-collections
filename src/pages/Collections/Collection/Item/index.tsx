@@ -6,7 +6,7 @@ import {Avatar, Button, Checkbox, Chip, Modal} from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Accordion from "../../../../components/Accordion"
-import TextArea from "../../../../components/CommentTextArea"
+import TextArea from "../../../../components/inputs/CommentTextArea"
 // @ts-ignore
 import noImg from "../../../../svg/no-img.svg";
 import ItemForm from "../../../../components/forms/ItemForm";

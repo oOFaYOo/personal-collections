@@ -4,9 +4,9 @@ import {RootState} from "../../../store";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import {ITableProps} from "../type";
+import {ITableHead} from "../type";
 
-const TableHead = ({order, orderBy, rowCount, config, onRequestSort}: ITableProps) => {
+const TableHead = ({order, orderBy, rowCount, config, onRequestSort}: ITableHead) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 

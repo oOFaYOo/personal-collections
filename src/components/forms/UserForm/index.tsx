@@ -2,9 +2,9 @@ import React, {useState} from "react";
 import {Button} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import CustomInput from "../../CustomInput";
-import InputFileUpload from "../../UploadImage";
-import MultiTextInput from "../../MultiTextInput";
+import CustomInput from "../../inputs/CustomInput";
+import InputFileUpload from "../../inputs/UploadImage";
+import MultiTextInput from "../../inputs/MultiTextInput";
 
 const UserForm = () => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);

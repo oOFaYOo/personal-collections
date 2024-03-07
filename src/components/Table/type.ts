@@ -1,11 +1,18 @@
 import React from "react";
 
-export interface ITableProps {
+export interface ITableHead {
     onRequestSort: (event: React.MouseEvent, property: string) => void;
     order: OrderType;
     orderBy: string;
     rowCount: number;
     config: ITableItem[];
+}
+
+export interface ITable {
+    pagination?: boolean,
+    onRowClick?: (event: React.MouseEvent, id: string) => void,
+    data: any[],
+    config: ITableItem[]
 }
 
 export type OrderType = 'asc' | 'desc';

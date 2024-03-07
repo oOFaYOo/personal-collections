@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Button} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import CustomInput from "../../CustomInput";
+import CustomInput from "../../inputs/CustomInput";
 import {ActionType} from "./type";
 
 const RegAuth = () => {

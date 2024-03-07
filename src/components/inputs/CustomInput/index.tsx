@@ -1,18 +1,19 @@
+import {TextField} from "@mui/material";
 import React from "react";
 import {useSelector} from "react-redux";
-import {RootState} from "../../store";
-import {TextField} from "@mui/material";
-import {IMultiTextInput} from "./type";
+import {RootState} from "../../../store";
+import {ICustomInput} from "./type";
 
-const MultiTextInput = ({
-                            value,
-                            setValue,
-                            name,
-                            placeholder,
-                            required = false,
-                            size = 'medium',
-                            type = 'text'
-                        }: IMultiTextInput) => {
+const CustomInput = ({
+                         value,
+                         setValue,
+                         name,
+                         placeholder,
+                         required = false,
+                         size = 'medium',
+                         type = 'text',
+                         disabled = false
+                     }: ICustomInput) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
@@ -20,17 +21,15 @@ const MultiTextInput = ({
         <TextField
             placeholder={placeholder}
             name={name}
+            disabled={disabled}
             type={type}
             size={size}
             required={required}
             inputProps={{maxLength: 20}}
             value={value}
-            className={'styled_scrollbar'}
-            multiline
             sx={{
-                maxHeight: 56,
-                overflowY: 'auto',
-                width: '250px',
+                minWidth: '200px',
+                input: {color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'},
                 '& .MuiInput-underline:after': {
                     borderBottomColor: '#1976d2',
                 },
@@ -45,13 +44,10 @@ const MultiTextInput = ({
                         borderColor: '#1976d2',
                     },
                 },
-                '.MuiOutlinedInput-input': {
-                    color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'
-                }
             }}
             onChange={(e) => setValue(e.currentTarget.value)}
         />
     )
 }
 
-export default MultiTextInput;
+export default CustomInput;

@@ -4,7 +4,7 @@ import {Button, Fab, Modal, TextField} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 // @ts-ignore
 import noAvatar from "../../../svg/no-profile-picture.svg";
-import InputFileUpload from "../../../components/UploadImage";
+import InputFileUpload from "../../../components/inputs/UploadImage";
 
 import UserForm from "../../../components/forms/UserForm";
 import CollectionForm from "../../../components/forms/CollectionForm";

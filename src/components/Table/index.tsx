@@ -1,13 +1,12 @@
 import React from 'react';
-import Table from '@mui/material/Table';
+import {Table as TableMUI} from '@mui/material';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import {OrderType} from "./type";
-import TableCell from "./TableCell";
+import {ITable, OrderType} from "./type";
 import TableHeader from "./TableHead";
-import { TableRow } from '@mui/material';
+import TableRow from "./TableRow";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -43,30 +42,26 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
     return stabilizedThis.map((el) => el[0]);
 }
 
-export default function EnhancedTable(
-    {onRowClick, data, config, pagination}:
-        {
-            pagination?: boolean,
-            onRowClick?: (event: React.MouseEvent, id: string) => void,
-            data: any[],
-            config: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' | 'action' }[]
-        }) {
+const Table = (
+    {onRowClick, data, config, pagination}: ITable) => {
+
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
     const [order, setOrder] = React.useState<OrderType>('asc');
-    const [orderBy, setOrderBy] = React.useState<any>('');
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [orderBy, setOrderBy] = React.useState<string>('');
+    const [page, setPage] = React.useState<number>(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
     const handleRequestSort = (
-        event: React.MouseEvent<unknown>,
-        property: any,
+        event: React.MouseEvent<Element, MouseEvent>,
+        property: string,
     ) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+    const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         setPage(newPage);
     };
 
@@ -87,7 +82,7 @@ export default function EnhancedTable(
     return (
         <TableContainer
             className={`${theme === 'dark' ? 'shadow-black/70' : ''} styled_scrollbar w-full overflow-y-auto relative rounded-md shadow-md`}>
-            <Table
+            <TableMUI
                 sx={{width: '100%'}}
                 aria-labelledby="tableTitle"
                 size={'medium'}
@@ -99,27 +94,9 @@ export default function EnhancedTable(
                     rowCount={data.length}
                     config={config}
                 />
-                {visibleRows.map((row, index) => {
-                    return (
-                        <TableRow
-                            hover={!!onRowClick}
-                            onClick={(event) => onRowClick ? onRowClick(event, row.id) : () => {
-                            }}
-                            tabIndex={-1}
-                            key={row.id}
-                            sx={{
-                                cursor: onRowClick ? 'pointer' : 'default',
-                            }}
-                        >
-                            {
-                                config.map((item, index) =>
-                                    <TableCell row={row} item={item} key={index}/>
-                                )
-                            }
-                        </TableRow>
-                    )
-                })}
-            </Table>
+                {visibleRows.map((row, index) => <TableRow key={index} row={row} config={config}
+                                                           onRowClick={onRowClick}/>)}
+            </TableMUI>
             {pagination
                 ? <TablePagination
                     sx={{
@@ -139,3 +116,5 @@ export default function EnhancedTable(
         </TableContainer>
     );
 }
+
+export default Table;

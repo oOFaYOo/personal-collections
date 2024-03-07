@@ -1,10 +1,10 @@
-import InputFileUpload from "../../UploadImage";
+import InputFileUpload from "../../inputs/UploadImage";
 import {Button, FormControl, MenuItem, Select} from "@mui/material";
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import CustomInput from "../../CustomInput";
-import MultiTextInput from "../../MultiTextInput";
+import CustomInput from "../../inputs/CustomInput";
+import MultiTextInput from "../../inputs/MultiTextInput";
 
 const CollectionForm = () => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
