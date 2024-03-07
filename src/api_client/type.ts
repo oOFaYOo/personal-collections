@@ -1,42 +1,57 @@
 import {AdditionalColumnType} from "../components/Table/type";
 
 export interface IApiClient {
-    signUp: (name: string, mail: string, password: string) => void;
-    signIn: (mail: string, password: string) => void;
+    signUp: (name: string, mail: string, password: string) => Promise<IResponse<void>>;
+    signIn: (mail: string, password: string) => Promise<IResponse<void>>;
 //about user
-    getUsers: () => Promise<null>;
-    getUser: () => Promise<null>;
-    deleteUser: () => Promise<null>;
-    blockUser: () => Promise<null>;
-    unblockUser: () => Promise<null>;
-    changeAccessLevel: () => Promise<null>;
-    uploadUserPicture: () => Promise<null>;
-    editUserData: () => Promise<null>;
+    getUsers: () => Promise<IResponse<IUser[]>>;
+    getUser: (id:string) => Promise<IResponse<IUser>>;
+    deleteUser: (id:string) => Promise<IResponse<void>>;
+    blockUser: (id:string) => Promise<IResponse<void>>;
+    unblockUser: (id:string) => Promise<IResponse<void>>;
+    changeAccessLevel: (id:string, isAdmin:boolean) => Promise<IResponse<void>>;
+    uploadUserPicture: (id:string) => Promise<IResponse<void>>;
+    editUserData: (id:string, user:IUserPatch) => Promise<IResponse<void>>;
 //for main page
-    getAllTags: () => Promise<null>;
-    getBiggestCollections: () => Promise<null>;
-    getLastItems: () => Promise<null>;
-    getRandomUsers: () => Promise<null>;
+    getAllTags: () => Promise<IResponse<string>>;
+    getBiggestCollections: () => Promise<IResponse<ICollection[]>>;
+    getLastItems: () => Promise<IResponse<IItem[]>>;
+    getRandomUsers: () => Promise<IResponse<IUser[]>>;
 //collections
-    getCollections: () => Promise<null>;
-    getCollection: () => Promise<null>;
-    deleteCollection: () => Promise<null>;
-    addCollection: () => Promise<null>;
-    uploadCollectionPicture: () => Promise<null>;
-    editCollectionData: () => Promise<null>;
+    getCollections: () => Promise<IResponse<ICollection[]>>;
+    getCollection: (id:string) => Promise<IResponse<ICollection>>;
+    deleteCollection: (id:string) => Promise<IResponse<void>>;
+    addCollection: (id:string, collection:ICollection) => Promise<IResponse<void>>;
+    uploadCollectionPicture: (id:string) => Promise<IResponse<void>>;
+    editCollectionData: (id:string, collection:ICollectionPatch) => Promise<IResponse<void>>;
 //items
-    getItems: () => Promise<null>;
-    getItem: () => Promise<null>;
-    deleteItem: () => Promise<null>;
-    addItem: () => Promise<null>;
-    uploadItemPicture: () => Promise<null>;
-    editItemData: () => Promise<null>;
+    getItems: () => Promise<IResponse<(IItem & ILikeGeneral)[]>>;
+    getItem: (id:string) => Promise<IResponse<IItem & ILikeGeneral>>;
+    deleteItem: (id:string) => Promise<IResponse<void>>;
+    addItem: (id:string, item:IItem) => Promise<IResponse<void>>;
+    uploadItemPicture: (id:string) => Promise<IResponse<void>>;
+    editItemData: (id:string, item:IItemPatch) => Promise<IResponse<void>>;
+//comment
+    getComments:(id:string) => Promise<IResponse<IComment[]>>;
+    deleteComment:(id:string) => Promise<IResponse<void>>;
+    addComment:(id:string, comment:IComment) => Promise<IResponse<void>>;
+//like
+    addLike:(id:string) => Promise<IResponse<void>>;
+    deleteLike:(id:string) => Promise<IResponse<void>>;
+}
+
+export interface IResponse<T> {
+    status: number;
+    data?: T;
 }
 
 export interface IUser {
     id: string;
     eMail: string;
     password: string;
+}
+
+export interface IUserPatch extends IUser {
     picture: string;
     name: string;
     description: string;
@@ -48,9 +63,12 @@ export interface IUser {
 
 export interface ICollection {
     id: string;
+    author: { name: string, id: string };
+}
+
+export interface ICollectionPatch extends ICollection{
     picture: string;
     name: string;
-    author: { name: string, link: string };
     theme: 'anime' | 'game' | 'movie' | 'book';
     description: string;
     text1: { id: 'text1', label: string, type: AdditionalColumnType };
@@ -72,11 +90,14 @@ export interface ICollection {
 
 export interface IItem {
     id: string;
-    picture: string;
-    name: string;
-    author: { name: string, link: string };
+    author: { name: string, id: string };
     collection: string; //id
     theme: 'anime' | 'game' | 'movie' | 'book';
+}
+
+export interface IItemPatch {
+    picture: string;
+    name: string;
     tags: string;
     text1: string | null;
     text2: string | null;
@@ -101,6 +122,11 @@ export interface IComment {
     itemId: string;
     text: string;
     timestamp: string;
+}
+
+export interface ILikeGeneral {
+    amountLikes: number;
+    yourLike:boolean;
 }
 
 export interface ILike {
