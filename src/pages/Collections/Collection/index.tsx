@@ -1,13 +1,13 @@
 import React, {useState} from "react";
-import Table from "../../../components/Table";
 import {Link, useLocation} from "react-router-dom";
 import {Button, Modal} from "@mui/material";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store";
-// @ts-ignore
-import noImg from "../../../svg/no-img.svg";
 import ItemForm from "../../../components/forms/ItemForm";
 import CollectionForm from "../../../components/forms/CollectionForm";
+import Table from "../../../components/Table";
+import {ModalFormType} from "./type";
+// @ts-ignore
+import noImg from "../../../svg/no-img.svg";
+
 
 const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
     {
@@ -214,11 +214,10 @@ const rows = [
 
 
 const Collection = () => {
-    // const [conf, setConf] = useState([{title:'title', type:'text'}, {title:'date', type:'date'}]);
-    // const [data, setData] = useState([{title:'sometitle', date:'05.03.2021'}]);
+
     const path = useLocation().pathname;
-    const [openModal, setOpenModal] = useState<'item' | 'collection' | string>('');
-    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
+    const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
 
     const items = [1];
     const avatar = 'g';
@@ -229,12 +228,12 @@ const Collection = () => {
             {
                 <Modal
                     open={!!openModal}
-                    onClose={()=> {
-                        setOpenModal('');
+                    onClose={() => {
+                        setOpenModal(ModalFormType.Initial);
                     }}
-                    sx={{display:'flex', justifyContent:'center', alignItems:'center'}}
+                    sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
-                    {   openModal === 'item'
+                    {openModal === ModalFormType.Item
                         ? <ItemForm/>
                         : <CollectionForm/>
                     }
@@ -248,7 +247,8 @@ const Collection = () => {
                                 src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
                                 className={'relative h-full rounded-full shadow-md'}/>
                             : <div
-                                className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden flex justify-center items-center bg-neutral-100'}>
+                                className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden ' +
+                                    'flex justify-center items-center bg-neutral-100'}>
                                 <img src={noImg} className={'relative max-w-[140%]'}/></div>
                     }
                 </div>
@@ -265,28 +265,19 @@ const Collection = () => {
                             {
                                 items.length === 0
                                     ? null
-                                    : <Button size={'small'} variant="outlined" onClick={()=>setOpenModal('item')}>Add</Button>
+                                    : <Button size={'small'} variant="outlined"
+                                              onClick={() => setOpenModal(ModalFormType.Item)}>Add</Button>
                             }
-                            <Button size={'small'} variant="outlined" onClick={()=>setOpenModal('collection')}>Edit</Button>
-                            <Button size={'small'} variant="outlined">Delete</Button>
+                            <Button size={'small'} variant="outlined"
+                                    onClick={() => setOpenModal(ModalFormType.Collection)}>
+                                Edit
+                            </Button>
+                            <Button size={'small'} variant="outlined">
+                                Delete
+                            </Button>
                         </div>
                     </div>
-                    <p className={'overflow-y-auto w-full md:h-[80%] styled_scrollbar text-justify opacity-70'}>
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
+                    <p className={'overflow-y-auto w-[90%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
                         description description description description description description description description
                         description description description description description description description description
                         description description description description description description description description
@@ -297,9 +288,10 @@ const Collection = () => {
             </div>
             {
                 items.length === 0
-                    ? <div className={'my-8'}><Button size={'large'} variant="outlined" onClick={()=>setOpenModal('item')}>
+                    ? <div className={'my-8'}><Button size={'large'} variant="outlined"
+                                                      onClick={() => setOpenModal(ModalFormType.Item)}>
                         add your first item</Button>
-                        </div>
+                    </div>
                     : <Table pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                         document.location = path + '/' + id;
                     }}/>

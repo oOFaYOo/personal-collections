@@ -1,40 +1,44 @@
 import React, {useState} from "react";
+import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
-import {Link} from "react-router-dom";
 import {Avatar, Button, Checkbox, Chip, Modal} from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Accordion from "../../../../components/Accordion"
 import TextArea from "../../../../components/inputs/CommentTextArea"
+import ItemForm from "../../../../components/forms/ItemForm";
+import {IItem} from "./type";
 // @ts-ignore
 import noImg from "../../../../svg/no-img.svg";
-import ItemForm from "../../../../components/forms/ItemForm";
-import CollectionForm from "../../../../components/forms/CollectionForm";
 
+const Item = ({setTop}: IItem) => {
 
-const Item = ({setTop}:{setTop: React.Dispatch<React.SetStateAction<number>>}) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
     const [openModal, setOpenModal] = useState(false);
+
     const avatar = '';
+    const isfavorit = false;
 
     return (
         <div className={'w-full flex grow md:flex-row flex-col'}>
             {
                 <Modal
                     open={openModal}
-                    onClose={()=> {
+                    onClose={() => {
                         setOpenModal(false);
                     }}
-                    sx={{display:'flex', justifyContent:'center', alignItems:'center'}}
+                    sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
                     <ItemForm/>
                 </Modal>
             }
-            <div className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:max-h-[90vh] styled_scrollbar overflow-y-auto'}
-                 onScroll={(e) => {
-                setTop(e.currentTarget.scrollTop)
-            }}>
+            <div
+                className={'flex flex-col w-full md:w-[65%] px-4 py-4 md:max-h-[90vh] styled_scrollbar overflow-y-auto'}
+                onScroll={(e) => {
+                    setTop(e.currentTarget.scrollTop)
+                }}>
                 <div className={'w-full flex-col md:flex-row flex mb-4 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
                     <div className={'md:h-full pb-4 md:w-[50%] h-[250px] flex justify-center items-center'}>
                         {
@@ -57,33 +61,53 @@ const Item = ({setTop}:{setTop: React.Dispatch<React.SetStateAction<number>>}) =
                                     <h3 className={'text-lg font-semibold'}>author</h3>
                                 </Link>
                             </div>
-                            <div className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
-                                <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined" onClick={()=>setOpenModal(true)}
-                                        >Edit</Button>
-                                <Button size={'small'} sx={{width:'100%', maxWidth:150}} variant="outlined"
-                                        >Delete</Button>
+                            <div
+                                className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
+                                <Button size={'small'} sx={{width: '100%', maxWidth: 150}} variant="outlined"
+                                        onClick={() => setOpenModal(true)}
+                                >Edit</Button>
+                                <Button size={'small'} sx={{width: '100%', maxWidth: 150}} variant="outlined"
+                                >Delete</Button>
                             </div>
                         </div>
                         <div
                             className={'flex mobile:max-h-[150px] sm:max-h-[150px] opacity-70 flex-wrap grow overflow-y-auto text-justify gap-1 styled_scrollbar p-2'}>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
-                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'} sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
+                            <Chip label="#tag" variant="outlined" className={'hover:border-sky-600 cursor-pointer'}
+                                  sx={{color: 'inherit'}}/>
                         </div>
                     </div>
                 </div>
@@ -115,28 +139,34 @@ const Item = ({setTop}:{setTop: React.Dispatch<React.SetStateAction<number>>}) =
                     <div className={'flex lg:w-[49%] w-full justify-evenly'}>
                         <div className={'flex flex-col items-start w-[40%]'}>
                             <div>
-                            <h3 className={'font-semibold'}>Boolean aria:</h3>
-                            <Checkbox disabled sx={{padding:0,
-                                '&.Mui-disabled': {
-                                    color: 'inherit',
-                                    opacity: '0.3',
-                            }}}/>
-                            </div>
-                            <div>
                                 <h3 className={'font-semibold'}>Boolean aria:</h3>
-                                <Checkbox disabled sx={{padding:0,
+                                <Checkbox disabled sx={{
+                                    padding: 0,
                                     '&.Mui-disabled': {
                                         color: 'inherit',
                                         opacity: '0.3',
-                                    }}}/>
+                                    }
+                                }}/>
                             </div>
                             <div>
                                 <h3 className={'font-semibold'}>Boolean aria:</h3>
-                                <Checkbox disabled checked sx={{padding:0,
+                                <Checkbox disabled sx={{
+                                    padding: 0,
                                     '&.Mui-disabled': {
                                         color: 'inherit',
                                         opacity: '0.3',
-                                    }}}/>
+                                    }
+                                }}/>
+                            </div>
+                            <div>
+                                <h3 className={'font-semibold'}>Boolean aria:</h3>
+                                <Checkbox disabled checked sx={{
+                                    padding: 0,
+                                    '&.Mui-disabled': {
+                                        color: 'inherit',
+                                        opacity: '0.3',
+                                    }
+                                }}/>
                             </div>
                         </div>
                         <div className={'flex flex-col items-start w-[59%]'}>
@@ -152,134 +182,149 @@ const Item = ({setTop}:{setTop: React.Dispatch<React.SetStateAction<number>>}) =
                         </div>
                     </div>
                 </div>
-                <Accordion data={[{title:'Some title of long text', details:'description description description description description description description description\n' +
+                <Accordion data={[{
+                    title: 'Some title of long text',
+                    details: 'description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description'
+                }, {
+                    title: 'Some title of long text',
+                    details: 'description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
+                        '                    description description description description description description description description'
+                }, {
+                    title: 'Some title of long text',
+                    details: 'description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
                         '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description'}, {title:'Some title of long text', details:'description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description'}, {title:'Some title of long text', details:'description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description\n' +
-                        '                    description description description description description description description description'}]} />
+                        '                    description description description description description description description description'
+                }]}/>
             </div>
             <div className={'flex w-full flex-col md:h-auto md:w-[35%] p-4'}>
-                <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
+                <div
+                    className={`${theme === 'dark' ? 'shadow-black/70' : ''} 
+                    w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
                     <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        sx={{
+                            width: '95%',
+                            minHeight: '40px',
+                            color: 'inherit',
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}
                         variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        label={<p
+                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
+                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
+                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
+                        onDelete={() => {
+                        }}
+                        avatar={<Avatar src=""/>}/>
                     <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        sx={{
+                            width: '95%',
+                            minHeight: '40px',
+                            color: 'inherit',
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}
                         variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        label={<p
+                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
+                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
+                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
+                        onDelete={() => {
+                        }}
+                        avatar={<Avatar src=""/>}/>
                     <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        sx={{
+                            width: '95%',
+                            minHeight: '40px',
+                            color: 'inherit',
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}
                         variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        label={<p
+                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
+                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
+                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
+                        onDelete={() => {
+                        }}
+                        avatar={<Avatar src=""/>}/>
                     <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        sx={{
+                            width: '95%',
+                            minHeight: '40px',
+                            color: 'inherit',
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}
                         variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        label={<p
+                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
+                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
+                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
+                        onDelete={() => {
+                        }}
+                        avatar={<Avatar src=""/>}/>
                     <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        sx={{
+                            width: '95%',
+                            minHeight: '40px',
+                            color: 'inherit',
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}
                         variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        label={<p
+                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
+                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
+                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
+                        onDelete={() => {
+                        }}
+                        avatar={<Avatar src=""/>}/>
                     <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
+                        sx={{
+                            width: '95%',
+                            minHeight: '40px',
+                            color: 'inherit',
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}
                         variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
+                        label={<p
+                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
+                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
+                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
                         color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
-                    <Chip
-                        sx={{width:'95%', minHeight:'40px', color:'inherit', display:'flex', justifyContent:'space-between'}}
-                        variant="outlined"
-                        label={<p title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'} className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={()=>{}}
-                        avatar={<Avatar src="" />} />
+                        onDelete={() => {
+                        }}
+                        avatar={<Avatar src=""/>}/>
                 </div>
                 <div className={'flex w-full'}>
                     <div className={`w-[70%] ${theme === 'dark' ? 'shadow-black/70' : ''} rounded-md shadow-md`}>
-                        <TextArea />
+                        <TextArea/>
                     </div>
                     <div className={`flex flex-col grow items-center justify-center gap-2`}>
-                        <Button sx={{width:'80%'}} variant="outlined">
-                            <FavoriteBorderIcon />
-                            {/*<FavoriteIcon />*/}
+                        <Button sx={{width: '80%'}} variant="outlined">
+                            {
+                                isfavorit
+                                    ? <FavoriteIcon/>
+                                    : <FavoriteBorderIcon/>
+                            }
                         </Button>
-                        <Button sx={{width:'80%'}} variant="outlined">Send</Button>
+                        <Button sx={{width: '80%'}} variant="outlined">Send</Button>
                     </div>
                 </div>
                 <div></div>

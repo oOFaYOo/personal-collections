@@ -1,6 +1,6 @@
 import React from "react";
-import Table from "../../components/Table"
 import {useLocation} from "react-router-dom";
+import Table from "../../components/Table";
 
 const headCells:{id:string, label:string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' | 'action'}[] = [
     {
@@ -106,8 +106,6 @@ const rows = [
 ];
 
 const Users = () => {
-    // const [conf, setConf] = useState([{title:'title', type:'text'}, {title:'date', type:'date'}]);
-    // const [data, setData] = useState([{title:'sometitle', date:'05.03.2021'}]);
     const path = useLocation().pathname;
 
     return (
