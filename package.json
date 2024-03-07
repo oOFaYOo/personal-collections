@@ -19,6 +19,7 @@
     "@types/node": "^16.18.83",
     "@types/react": "^18.2.58",
     "@types/react-dom": "^18.2.19",
+    "axios": "^1.6.7",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
