@@ -40,18 +40,6 @@ class ApiClient implements IApiClient {
         });
         return {
             status: response.status,
-            data: undefined,
-        }
-    }
-
-    async getCurrentUser() {
-
-        const response = await axios({
-            method: 'get',
-            url: `/api/users/me`
-        });
-        return {
-            status: response.status,
             data: response.data,
         }
     }
@@ -118,7 +106,7 @@ class ApiClient implements IApiClient {
 
     async changeAccessLevel(id: string, isAdmin: boolean) {
 
-        const response = await axios({method: 'post', url: '', data: {isAdmin:isAdmin}});
+        const response = await axios({method: 'post', url: `/api/users/${id}/access`, data: {isAdmin:isAdmin}});
         return {
             status: response.status,
             data: undefined,
@@ -292,7 +280,7 @@ class ApiClient implements IApiClient {
 
     async uploadItemPicture(id: string) {
 
-        const response = await axios({method: 'post', url: `/api/items/${id}`, data: {}});
+        const response = await axios({method: 'post', url: `/api/items/${id}/picture`, data: {}});
         return {
             status: response.status,
             data: undefined,
