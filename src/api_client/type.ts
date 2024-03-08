@@ -1,8 +1,9 @@
 import {AdditionalColumnType} from "../components/Table/type";
 
 export interface IApiClient {
-    signUp: (name: string, mail: string, password: string) => Promise<IResponse<void>>;
-    signIn: (mail: string, password: string) => Promise<IResponse<IUser>>;
+    signUp: (name: string, email: string, password: string) => Promise<IResponse<void>>;
+    signIn: (email: string, password: string) => Promise<IResponse<ISession>>;
+    getCurrentUser: () => Promise<IResponse<IUserCredentials>>;
 //about user
     getUsers: () => Promise<IResponse<IUser[]>>;
     getUser: (id:string) => Promise<IResponse<IUser>>;
@@ -11,12 +12,12 @@ export interface IApiClient {
     unblockUser: (id:string) => Promise<IResponse<void>>;
     changeAccessLevel: (id:string, isAdmin:boolean) => Promise<IResponse<void>>;
     uploadUserPicture: (id:string) => Promise<IResponse<void>>;
-    editUserData: (id:string, user:IUserPatch) => Promise<IResponse<void>>;
+    editUserData: (id:string, user:IUser) => Promise<IResponse<void>>;
 //for main page
     getAllTags: () => Promise<IResponse<string>>;
     getBiggestCollections: () => Promise<IResponse<ICollection[]>>;
     getLastItems: () => Promise<IResponse<IItem[]>>;
-    getRandomUsers: () => Promise<IResponse<IUser[]>>;
+    getRandomUsers: () => Promise<IResponse<IUserCredentials[]>>;
 //collections
     getCollections: () => Promise<IResponse<ICollection[]>>;
     getCollection: (id:string) => Promise<IResponse<ICollection>>;
@@ -45,13 +46,14 @@ export interface IResponse<T> {
     data?: T;
 }
 
-export interface IUser {
+export interface IUserCredentials {
     id: string;
     eMail: string;
     password: string;
 }
 
-export interface IUserPatch extends IUser {
+export interface IUser {
+    id: string;
     picture: string;
     name: string;
     description: string;
@@ -122,6 +124,11 @@ export interface IComment {
     itemId: string;
     text: string;
     timestamp: string;
+}
+
+export interface ISession {
+    id: string;
+    userId: string;
 }
 
 export interface ILikeGeneral {

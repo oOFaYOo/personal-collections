@@ -5,20 +5,20 @@ import {
     IComment,
     IItem,
     IItemPatch,
-    IUserPatch
+    IUser
 } from "./type";
 
 const axios = require('axios');
 
 class ApiClient implements IApiClient {
-    async signUp(name: string, mail: string, password: string) {
+    async signUp(name: string, email: string, password: string) {
 
         const response = await axios({
             method: 'post',
             url: '/api/signup',
             data:{
                 name:name,
-                mail:mail,
+                email:email,
                 password:password
             }
         });
@@ -28,13 +28,13 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async signIn(mail: string, password: string) {
+    async signIn(email: string, password: string) {
 
         const response = await axios({
             method: 'post',
             url: '/api/signin',
             data:{
-                mail:mail,
+                email:email,
                 password:password
             }
         });
@@ -43,6 +43,19 @@ class ApiClient implements IApiClient {
             data: response.data,
         }
     }
+
+    async getCurrentUser() {
+
+        const response = await axios({
+            method: 'get',
+            url: '/api/users/current'
+        });
+        return {
+            status: response.status,
+            data: response.data,
+        }
+    }
+
 //about user
     async getUsers() {
 
@@ -125,7 +138,7 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async editUserData(id: string, user: IUserPatch) {
+    async editUserData(id: string, user: IUser) {
 
         const response = await axios({
             method: 'patch',

@@ -1,11 +1,16 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Modal} from "@mui/material";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
 import Table from "../../../components/Table";
 import UserForm from "../../../components/forms/UserForm";
 import CollectionForm from "../../../components/forms/CollectionForm";
 import {ModalFormType} from "./type";
 // @ts-ignore
 import noAvatar from "../../../svg/no-profile-picture.svg";
+import {IUser} from "../../../api_client/type";
+import api from "../../../api_client";
+import {useParams} from "react-router-dom";
 
 
 const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
@@ -98,10 +103,25 @@ const rows = [
 ];
 
 const User = () => {
+    const {currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
+    const {id} = useParams();
+
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
+    const [user, setUser] = useState<IUser | null>(null);
+
+    useEffect(() => {
+        (
+            async () => {
+                const response = await api.getUser(id as string);
+                if (response.status === 200) {
+                    setUser(response.data)
+                }
+            }
+        )()
+    }, [])
 
     const collections = [1];
-    const avatar = 'а';
 
     return (
         <div
@@ -124,41 +144,46 @@ const User = () => {
             <div className={'h-full w-full lg:w-[30%] flex flex-col mb-4'}>
                 <div className={'w-full h-[300px] flex justify-center items-center'}>
                     {
-                        avatar
+                        user?.picture
                             ? <img
-                                src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
+                                src={user.picture}
                                 className={'relative h-full rounded-full shadow-md'}/>
                             : <img src={noAvatar}/>
                     }
                 </div>
                 <div className={'w-full flex flex-col grow'}>
-                    <h1 className={'text-xl font-bold text-center my-2'}>Name Lastname</h1>
+                    <h1 className={'text-xl font-bold text-center my-2'}>{user?.name}</h1>
                     <div className={'flex justify-center gap-2 md:mt-4 my-2'}>
-                        <Button size={'small'} variant="outlined"
-                                onClick={() => setOpenModal(ModalFormType.User)}>Edit</Button>
-                        <Button size={'small'} variant="outlined">Delete</Button>
+                        {
+                            user?.id === currentUser?.id || currentUser?.isAdmin
+                                ? <>
+                                    <Button size={'small'} variant="outlined"
+                                            onClick={() => setOpenModal(ModalFormType.User)}>Edit</Button>
+                                    <Button size={'small'} variant="outlined">Delete</Button>
+                                </>
+                                : null
+                        }
                     </div>
                     <p className={'overflow-y-auto p-4 w-full flex grow h-[175px] styled_scrollbar text-justify'}>
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
+                        {user?.description}
                     </p>
                 </div>
             </div>
             <div className={'flex relative flex-col items-center justify-center lg:pl-4 h-full w-full lg:w-[70%]'}>
                 {collections.length === 0
                     ? null
-                    : <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
-                        <Button size={'small'} variant="outlined"
-                                onClick={() => setOpenModal(ModalFormType.Collection)}>Add</Button>
-                    </div>
+                    : user?.id === currentUser?.id || currentUser?.isAdmin
+                        ? <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
+                            <Button size={'small'} variant="outlined"
+                                    onClick={() => setOpenModal(ModalFormType.Collection)}>Add</Button>
+                        </div>
+                        : null
                 }
                 {
                     collections.length === 0
-                        ? <Button size={'large'} variant="outlined">create your first collection</Button>
+                        ? user?.id === currentUser?.id || currentUser?.isAdmin
+                            ? <Button size={'large'} variant="outlined">create your first collection</Button>
+                            : null
                         : <Table pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                             document.location = '/collections/' + id;
                         }}/>

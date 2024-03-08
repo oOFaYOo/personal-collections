@@ -1,48 +1,14 @@
 import "reflect-metadata";
 import {DataSource} from "typeorm";
-import {Collection, User} from "./classes";
-
-// export const AppDataSource = new DataSource({
-//     url:"postgres://default:SqLM6mDOP1wo@ep-dark-pond-a4yvj2b3-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require",
-//     type: "postgres",
-//     database: "verceldb",
-//     synchronize: true,
-//     logging: true,
-//     entities: [User],
-// })
-//
-// AppDataSource.initialize()
-//     .then(() => {
-//         const user = new User();
-//         user.eMail = '';
-//         user.password = '';
-//         user.picture = '';
-//         user.name = '';
-//         user.description = '';
-//         user.blocked = false;
-//         user.isAdmin = true;
-//         user.amountCollections = 0;
-//         user.amountItems = 0;
-//         AppDataSource.manager.save(user);
-//     })
-//     .catch((error: Error) => console.log(error));
-//
-// AppDataSource.initialize()
-//     .then(() => {
-//         const collection = new Collection();
-//
-//         AppDataSource.manager.save(collection);
-//     })
-//     .catch((error: Error) => console.log(error));
-//
-//
-// export default {};
+import {Collection, Session, User, UserCredentials} from "./classes";
 
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 import path from 'path';
 import {sql} from '@vercel/postgres';
+import {Simulate} from "react-dom/test-utils";
+import select = Simulate.select;
 
 const app = express();
 app.use(bodyParser.json());
@@ -54,51 +20,141 @@ app.use(
 );
 
 const PORT = process.env.PORT || 5000;
+const AppDataSource = new DataSource({
+    url:"postgres://default:SqLM6mDOP1wo@ep-dark-pond-a4yvj2b3-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require",
+    type: "postgres",
+    database: "verceldb",
+    synchronize: true,
+    logging: true,
+    entities: [User, UserCredentials, Session],
+});
+
+const usersRepository = AppDataSource.getRepository(User);
+const userCredentialsRepository = AppDataSource.getRepository(UserCredentials);
+const sessionsRepository = AppDataSource.getRepository(Session);
+
+async function getAuthedUser(cookies?: any) : Promise<User | null> {
+    const sessionId = cookies?.sessionId;
+    if (!sessionId)
+        return null;
+
+    const existingSessions = await sessionsRepository.find({where: {id: sessionId}});
+    if (existingSessions.length === 0)
+        return null;
+
+    const users = await usersRepository.find({where: {id: existingSessions[0].userId}});
+    if (!users.length)
+        return null;
+
+    return users[0];
+}
 
 app.use(express.static(path.join(__dirname, '../build')))
 
 /////////////////////////////////////for user
 
 app.post('/api/signup', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const {email, password, name} = req.body;
+    const existed = await userCredentialsRepository.find({where:{email: email}});
+    if (existed.length > 0)
+    {
+        res.status(409);
+        res.send("User already exists");
+        return;
+    }
 
-    // res.status(200);
-    // res.send();
+    const user = new User();
+    user.name = name;
+    user.blocked = false;
+    user.amountCollections = 0;
+    user.amountItems = 0;
+    user.isAdmin = false;
+    user.picture = "https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album";
+    user.description = "description description description";
+
+    const credentials = new UserCredentials();
+    credentials.email = email;
+    credentials.password = password;
+    credentials.user = user;
+
+
+    await usersRepository.save(user);
+    await userCredentialsRepository.save(credentials);
+
+    res.end();
 });
 
 app.post('/api/signin', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const {email, password} = req.body;
+    let existed = await userCredentialsRepository.find({where: {email: email}});
+    if (existed.length === 0) {
+        res.status(404);
+        res.send("User with email not found.");
+        return;
+    }
 
-    // res.status(200);
-    // res.send();
+    const credentials = existed[0];
+    if (credentials.password !== password) {
+        res.status(401);
+        res.send("Wrong password!");
+        return;
+    }
+    // const user = await usersRepository.find({where: {id: credentials.user.id}});
+    if (credentials.user.blocked) {
+        res.status(403);
+        res.send("User is blocked!");
+        return;
+    }
+
+    const session = new Session();
+    session.userId = credentials.user.id;
+
+    await sessionsRepository.save(session);
+
+    res.send(session);
+});
+
+app.get('/api/users/current', async (req, res) => {
+
+    const currentUser = await getAuthedUser(req.cookies);
+    res.send(currentUser);
 });
 
 app.get('/api/users', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
-
-    // res.status(200);
-    // res.send();
+    const users = await usersRepository.find();
+    res.send(users);
 });
 
 app.get('/api/users/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+
     const id = req.params.id;
+    const user = (await usersRepository.find({where: {id: id}}))[0];
+    res.send(user);
     // res.status(200);
     // res.send();
 });
 
 app.delete('/api/users/:id', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
     const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    await usersRepository.delete({id: id});
+    res.end();
 });
 
 app.post('/api/users/:id/block', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
     const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const user = (await usersRepository.find({where: {id: id}}))[0];
+    user.blocked = true;
+    await usersRepository.save(user);
+    res.end();
 });
 
 app.post('/api/users/:id/unblock', async (req, res) => {
@@ -285,3 +341,9 @@ app.post('/api/likes/', async (req, res) => {
     // res.status(200);
     // res.send();
 });
+
+AppDataSource.initialize()
+    .then(() => {
+        app.listen(PORT);
+    })
+    .catch((error: Error) => console.log(error));

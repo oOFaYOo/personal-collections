@@ -8,14 +8,14 @@ import HomeIcon from '@mui/icons-material/Home';
 import {Modal} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
-import {setTheme} from "../../store/slice";
+import {setCurrentUser, setTheme} from "../../store/slice";
 import RegAuth from "../forms/RegAuthForm";
 
 const iconClass = 'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -43,10 +43,14 @@ const Header = () => {
                         <HomeIcon fontSize={'medium'}
                                   className={iconClass}/>
                     </Link>
-                    <Link to={'/users/:id'}>
-                        <PersonIcon fontSize={'medium'}
-                                    className={iconClass}/>
-                    </Link>
+                    {
+                        currentUser
+                            ? <Link to={`/users/${localStorage.userId}`}>
+                                <PersonIcon fontSize={'medium'}
+                                            className={iconClass}/>
+                            </Link>
+                            : null
+                    }
                     {
                         theme === 'dark'
                             ? <LightModeIcon
@@ -64,8 +68,15 @@ const Header = () => {
                                     dispatch(setTheme('dark'));
                                 }}/>
                     }
-                    <OutputIcon onClick={() => setOpenModal(true)} fontSize={'medium'}
-                                className={iconClass}/>
+                    <OutputIcon fontSize={'medium'} className={iconClass} onClick={() => {
+                        if (currentUser) {
+                            dispatch(setCurrentUser(null));
+                            localStorage.removeItem('userId');
+                            document.cookie = "sessionId=0; max-age=0";
+                        } else {
+                            setOpenModal(true)
+                        }
+                    }}/>
                 </div>
             </header>
         </>

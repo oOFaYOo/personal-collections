@@ -1,15 +1,11 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {AdditionalColumnType} from "../src/components/Table/type";
 import {ThemeType} from "../src/api_client/type";
 
-@Entity("Users")
+@Entity("personal-collections-users")
 export class User{
     @PrimaryGeneratedColumn()
     id!: string;
-    @Column()
-    eMail!: string;
-    @Column()
-    password!: string;
     @Column()
     picture!: string;
     @Column()
@@ -26,7 +22,7 @@ export class User{
     amountItems!: number;
 }
 
-@Entity("Collections")
+@Entity("personal-collections-collections")
 export class Collection{
     @PrimaryGeneratedColumn()
     id!: string;
@@ -72,7 +68,7 @@ export class Collection{
     checkbox3!: { id: 'checkbox3', label: string, type: AdditionalColumnType };
 }
 
-@Entity("Items")
+@Entity("personal-collections-items")
 export class Item{
     @PrimaryGeneratedColumn()
     id!: string;
@@ -120,7 +116,7 @@ export class Item{
     checkbox3!: boolean | null;
 }
 
-@Entity("Comments")
+@Entity("personal-collections-comments")
 export class Comment{
     @PrimaryGeneratedColumn()
     id!: string;
@@ -134,7 +130,7 @@ export class Comment{
     timestamp!: string;
 }
 
-@Entity("Likes")
+@Entity("personal-collections-likes")
 export class Like {
     @PrimaryGeneratedColumn()
     id!: string;
@@ -142,4 +138,24 @@ export class Like {
     userId!: string;
     @Column()
     itemId!: string;
+}
+
+@Entity("personal-collections-sessions")
+export class Session {
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
+    @Column()
+    userId!: string;
+}
+
+@Entity("personal-collections-credentials")
+export class UserCredentials {
+    @PrimaryGeneratedColumn()
+    id!: string;
+    @OneToOne(() => User, (user) => user.id)
+    user!: User;
+    @Column()
+    email!: string;
+    @Column()
+    password!: string;
 }

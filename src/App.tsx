@@ -1,19 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import Main from "./pages/Main";
 import Header from "./components/Header";
 import {RootState} from "./store";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Search from "./pages/Search";
 import Collections from "./pages/Collections";
 import Users from "./pages/Users";
 import Collection from "./pages/Collections/Collection";
 import Item from "./pages/Collections/Collection/Item";
 import User from "./pages/Users/User";
+import api from "./api_client";
+import {setCurrentUser} from "./store/slice";
 
 const App = () => {
+    const dispatch = useDispatch();
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const [top, setTop] = useState(0);
+
+    useEffect(()=>{
+        (
+            async () => {
+                const response = await api.getCurrentUser();
+                if (response.status === 200){
+                    dispatch(setCurrentUser(response.data))
+                }
+            }
+        )()
+    },[])
 
     return (
         <>
