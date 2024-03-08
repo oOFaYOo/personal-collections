@@ -69,7 +69,7 @@ export interface ICollection {
 export interface ICollectionPatch extends ICollection{
     picture: string;
     name: string;
-    theme: 'anime' | 'game' | 'movie' | 'book';
+    theme: ThemeType;
     description: string;
     text1: { id: 'text1', label: string, type: AdditionalColumnType };
     text2: { id: 'text2', label: string, type: AdditionalColumnType };
@@ -92,7 +92,7 @@ export interface IItem {
     id: string;
     author: { name: string, id: string };
     collection: string; //id
-    theme: 'anime' | 'game' | 'movie' | 'book';
+    theme: ThemeType;
 }
 
 export interface IItemPatch {
@@ -134,3 +134,5 @@ export interface ILike {
     userId: string;
     itemId: string;
 }
+
+export type ThemeType = 'anime' | 'game' | 'movie' | 'book';

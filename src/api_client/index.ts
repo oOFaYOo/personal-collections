@@ -44,6 +44,17 @@ class ApiClient implements IApiClient {
         }
     }
 
+    async getCurrentUser() {
+
+        const response = await axios({
+            method: 'get',
+            url: `/api/users/me`
+        });
+        return {
+            status: response.status,
+            data: response.data,
+        }
+    }
 //about user
     async getUsers() {
 
