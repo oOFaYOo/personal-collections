@@ -8,23 +8,30 @@ import {
     IUser
 } from "./type";
 
-const axios = require('axios');
+import axios, {AxiosError} from "axios";
 
 class ApiClient implements IApiClient {
     async signUp(name: string, email: string, password: string) {
-
-        const response = await axios({
-            method: 'post',
-            url: '/api/signup',
-            data:{
-                name:name,
-                email:email,
-                password:password
+        try {
+            const response = await axios({
+                method: 'post',
+                url: '/api/signup',
+                data: {
+                    name: name,
+                    email: email,
+                    password: password
+                }
+            });
+            return {
+                status: response.status,
+                data: undefined,
             }
-        });
-        return {
-            status: response.status,
-            data: undefined,
+        } catch (error) {
+            let e = error as AxiosError;
+            return {
+                status: e?.response?.status ?? 0,
+                data: undefined,
+            }
         }
     }
 
@@ -33,14 +40,29 @@ class ApiClient implements IApiClient {
         const response = await axios({
             method: 'post',
             url: '/api/signin',
-            data:{
-                email:email,
-                password:password
+            data: {
+                email: email,
+                password: password
             }
         });
         return {
             status: response.status,
             data: response.data,
+        }
+    }
+
+    async logout(id: string) {
+
+        const response = await axios({
+            method: 'delete',
+            url: '/api/logout',
+            data: {
+                id: id,
+            }
+        });
+        return {
+            status: response.status,
+            data: undefined,
         }
     }
 
@@ -98,7 +120,7 @@ class ApiClient implements IApiClient {
         const response = await axios({
             method: 'post',
             url: `/api/users/${id}/block`,
-            });
+        });
         return {
             status: response.status,
             data: undefined,
@@ -110,7 +132,7 @@ class ApiClient implements IApiClient {
         const response = await axios({
             method: 'post',
             url: `/api/users/${id}/unblock`,
-            });
+        });
         return {
             status: response.status,
             data: undefined,
@@ -119,7 +141,7 @@ class ApiClient implements IApiClient {
 
     async changeAccessLevel(id: string, isAdmin: boolean) {
 
-        const response = await axios({method: 'post', url: `/api/users/${id}/access`, data: {isAdmin:isAdmin}});
+        const response = await axios({method: 'post', url: `/api/users/${id}/access`, data: {isAdmin: isAdmin}});
         return {
             status: response.status,
             data: undefined,
@@ -131,7 +153,8 @@ class ApiClient implements IApiClient {
         const response = await axios({
             method: 'post',
             url: `/api/users/${id}/picture`,
-            data: {}});
+            data: {}
+        });
         return {
             status: response.status,
             data: undefined,
@@ -143,7 +166,8 @@ class ApiClient implements IApiClient {
         const response = await axios({
             method: 'patch',
             url: `/api/users/${id}/edit`,
-            data: {}});
+            data: {}
+        });
         return {
             status: response.status,
             data: undefined,
@@ -166,7 +190,8 @@ class ApiClient implements IApiClient {
     async getBiggestCollections() {
 
         const response = await axios(
-            {method: 'get',
+            {
+                method: 'get',
                 url: '/api/main/collections'
             });
         return {
@@ -229,7 +254,11 @@ class ApiClient implements IApiClient {
 
     async addCollection(id: string, collection: ICollection) {
 
-        const response = await axios({method: 'post', url: `/api/collections/create`, data: {id:id, collection:collection}});
+        const response = await axios({
+            method: 'post',
+            url: `/api/collections/create`,
+            data: {id: id, collection: collection}
+        });
         return {
             status: response.status,
             data: undefined,
@@ -247,7 +276,7 @@ class ApiClient implements IApiClient {
 
     async editCollectionData(id: string, collection: ICollectionPatch) {
 
-        const response = await axios({method: 'patch', url: `/api/collections/${id}`, data: {collection:collection}});
+        const response = await axios({method: 'patch', url: `/api/collections/${id}`, data: {collection: collection}});
         return {
             status: response.status,
             data: undefined,
@@ -284,7 +313,7 @@ class ApiClient implements IApiClient {
 
     async addItem(id: string, item: IItem) {
 
-        const response = await axios({method: 'post', url: `/api/items`, data: {id:id, item:item}});
+        const response = await axios({method: 'post', url: `/api/items`, data: {id: id, item: item}});
         return {
             status: response.status,
             data: undefined,
@@ -302,7 +331,7 @@ class ApiClient implements IApiClient {
 
     async editItemData(id: string, item: IItemPatch) {
 
-        const response = await axios({method: 'patch', url: `/api/items/${id}`, data: {item:item}});
+        const response = await axios({method: 'patch', url: `/api/items/${id}`, data: {item: item}});
         return {
             status: response.status,
             data: undefined,
@@ -312,7 +341,7 @@ class ApiClient implements IApiClient {
 //comment
     async getComments(id: string) {
 
-        const response = await axios({method: 'get', url: `/api/comments`, data:{id:id}});
+        const response = await axios({method: 'get', url: `/api/comments`, data: {id: id}});
         return {
             status: response.status,
             data: response.data,
@@ -330,7 +359,7 @@ class ApiClient implements IApiClient {
 
     async addComment(id: string, comment: IComment) {
 
-        const response = await axios({method: 'post', url: `/api/comments`, data: {id:id, comment:comment}});
+        const response = await axios({method: 'post', url: `/api/comments`, data: {id: id, comment: comment}});
         return {
             status: response.status,
             data: undefined,
@@ -340,7 +369,7 @@ class ApiClient implements IApiClient {
 //like
     async addLike(id: string) {
 
-        const response = await axios({method: 'post', url: '/api/likes', data: {id:id}});
+        const response = await axios({method: 'post', url: '/api/likes', data: {id: id}});
         return {
             status: response.status,
             data: undefined,

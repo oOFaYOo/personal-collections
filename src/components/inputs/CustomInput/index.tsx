@@ -26,7 +26,7 @@ const CustomInput = ({
             type={type}
             size={size}
             required={required}
-            inputProps={{maxLength: 20}}
+            inputProps={{maxLength: 35}}
             value={value}
             sx={{
                 minWidth: '200px',

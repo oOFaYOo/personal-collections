@@ -1,4 +1,4 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {AdditionalColumnType} from "../src/components/Table/type";
 import {ThemeType} from "../src/api_client/type";
 
@@ -152,7 +152,8 @@ export class Session {
 export class UserCredentials {
     @PrimaryGeneratedColumn()
     id!: string;
-    @OneToOne(() => User, (user) => user.id)
+    @OneToOne(() => User)
+    @JoinColumn()
     user!: User;
     @Column()
     email!: string;

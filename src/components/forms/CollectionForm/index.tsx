@@ -5,8 +5,9 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import MultiTextInput from "../../inputs/MultiTextInput";
+import {IForm} from "../type";
 
-const CollectionForm = () => {
+const CollectionForm = ({setOpenModal}:IForm) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [name, setName] = useState('');
@@ -21,7 +22,9 @@ const CollectionForm = () => {
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
          p-8 gap-4 outline-none rounded-md shadow-md flex-col justify-evenly items-center overflow-y-auto max-h-[90vh] styled_scrollbar`}
               onSubmit={(e) => {
+                  e.preventDefault();
                   clean();
+                  setOpenModal(false);
               }}>
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>

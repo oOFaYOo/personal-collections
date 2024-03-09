@@ -32,7 +32,7 @@ const Item = ({setTop}: IItem) => {
                     }}
                     sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
-                    <ItemForm/>
+                    <ItemForm setOpenModal={setOpenModal}/>
                 </Modal>
             }
             <div

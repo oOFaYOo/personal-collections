@@ -5,8 +5,9 @@ import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import InputFileUpload from "../../inputs/UploadImage";
 import MultiTextInput from "../../inputs/MultiTextInput";
+import {IForm} from "../type";
 
-const UserForm = () => {
+const UserForm = ({setOpenModal}:IForm) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [name, setName] = useState('');
@@ -21,7 +22,9 @@ const UserForm = () => {
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
         p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center`}
               onSubmit={(e) => {
+                  e.preventDefault();
                   clean();
+                  setOpenModal(false);
               }}>
             <InputFileUpload/>
             <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'} fullWidth/>

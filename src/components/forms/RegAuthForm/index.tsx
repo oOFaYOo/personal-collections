@@ -6,8 +6,9 @@ import CustomInput from "../../inputs/CustomInput";
 import {ActionType} from "./type";
 import api from "../../../api_client"
 import {setCurrentUser} from "../../../store/slice";
+import {IForm} from "../type";
 
-const RegAuth = () => {
+const RegAuth = ({setOpenModal}:IForm) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const dispatch = useDispatch();
 
@@ -26,8 +27,10 @@ const RegAuth = () => {
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
         p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center`}
               onSubmit={async (e) => {
+                  e.preventDefault();
                   if(action === ActionType.signin){
                       const authResponse = await api.signIn(email, password);
+                      console.log(authResponse);
                       if(authResponse.status === 200){
                           document.cookie = 'sessionId='+ authResponse.data.id;
                           localStorage.userId = authResponse.data.userId;
@@ -36,15 +39,16 @@ const RegAuth = () => {
                               dispatch(setCurrentUser(response.data))
                           }
                       } else {
-                          console.log('ERORRRRR', authResponse.data);
+                          console.log('ERORRRRR', authResponse.status);
                       }
                   } else {
                       const response = await api.signUp(name, email, password);
                       if(response.status !== 200){
-                          console.log('ERORRRRR', response.data);
+                          console.log('ERORRRRR', response.status);
                       }
                   }
                   clean();
+                  setOpenModal(false);
               }}>
             <div className={'w-full flex justify-center gap-2'}>
                 <Button variant={action === ActionType.signin ? "contained" : "outlined"} onClick={() => {

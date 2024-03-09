@@ -234,8 +234,8 @@ const Collection = () => {
                     sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
                     {openModal === ModalFormType.Item
-                        ? <ItemForm/>
-                        : <CollectionForm/>
+                        ? <ItemForm setOpenModal={()=>setOpenModal(ModalFormType.Initial)}/>
+                        : <CollectionForm setOpenModal={()=>setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>
             }

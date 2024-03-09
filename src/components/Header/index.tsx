@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {setCurrentUser, setTheme} from "../../store/slice";
 import RegAuth from "../forms/RegAuthForm";
+import api from "../../api_client";
 
 const iconClass = 'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100';
 
@@ -27,7 +28,7 @@ const Header = () => {
                     onClose={() => setOpenModal(false)}
                     sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
-                    <RegAuth/>
+                    <RegAuth setOpenModal={setOpenModal}/>
                 </Modal>
             }
             <header
@@ -70,6 +71,7 @@ const Header = () => {
                     }
                     <OutputIcon fontSize={'medium'} className={iconClass} onClick={() => {
                         if (currentUser) {
+                            api.logout(currentUser.id);
                             dispatch(setCurrentUser(null));
                             localStorage.removeItem('userId');
                             document.cookie = "sessionId=0; max-age=0";

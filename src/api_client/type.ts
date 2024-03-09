@@ -3,6 +3,7 @@ import {AdditionalColumnType} from "../components/Table/type";
 export interface IApiClient {
     signUp: (name: string, email: string, password: string) => Promise<IResponse<void>>;
     signIn: (email: string, password: string) => Promise<IResponse<ISession>>;
+    logout: (id: string) => Promise<IResponse<void>>;
     getCurrentUser: () => Promise<IResponse<IUserCredentials>>;
 //about user
     getUsers: () => Promise<IResponse<IUser[]>>;

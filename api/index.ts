@@ -25,7 +25,7 @@ const AppDataSource = new DataSource({
     type: "postgres",
     database: "verceldb",
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [User, UserCredentials, Session],
 });
 
@@ -86,7 +86,7 @@ app.post('/api/signup', async (req, res) => {
 
 app.post('/api/signin', async (req, res) => {
     const {email, password} = req.body;
-    let existed = await userCredentialsRepository.find({where: {email: email}});
+    let existed = await userCredentialsRepository.find({where: {email: email}, relations: {user: true}});
     if (existed.length === 0) {
         res.status(404);
         res.send("User with email not found.");
@@ -99,10 +99,15 @@ app.post('/api/signin', async (req, res) => {
         res.send("Wrong password!");
         return;
     }
-    // const user = await usersRepository.find({where: {id: credentials.user.id}});
     if (credentials.user.blocked) {
         res.status(403);
         res.send("User is blocked!");
+        return;
+    }
+
+    const existingSession = (await sessionsRepository.find({where: {userId: credentials.user.id}}))[0];
+    if (existingSession) {
+        res.send(existingSession);
         return;
     }
 
@@ -112,6 +117,13 @@ app.post('/api/signin', async (req, res) => {
     await sessionsRepository.save(session);
 
     res.send(session);
+});
+
+app.delete('/api/logout', async (req, res) => {
+    const {id} = req.body;
+    await sessionsRepository.delete({userId: id});
+    res.status(200);
+    res.end();
 });
 
 app.get('/api/users/current', async (req, res) => {

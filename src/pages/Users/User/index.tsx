@@ -136,8 +136,8 @@ const User = () => {
                 >
                     {
                         openModal === ModalFormType.User
-                            ? <UserForm/>
-                            : <CollectionForm/>
+                            ? <UserForm setOpenModal={()=>setOpenModal(ModalFormType.Initial)}/>
+                            : <CollectionForm setOpenModal={()=>setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>
             }
@@ -164,9 +164,13 @@ const User = () => {
                                 : null
                         }
                     </div>
-                    <p className={'overflow-y-auto p-4 w-full flex grow h-[175px] styled_scrollbar text-justify'}>
-                        {user?.description}
-                    </p>
+                    {
+                        user?.description
+                        ? <p className={'overflow-y-auto p-4 w-full flex grow h-[175px] styled_scrollbar text-justify'}>
+                                {user?.description}
+                            </p>
+                        : null
+                    }
                 </div>
             </div>
             <div className={'flex relative flex-col items-center justify-center lg:pl-4 h-full w-full lg:w-[70%]'}>
