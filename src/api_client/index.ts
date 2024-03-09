@@ -104,7 +104,6 @@ class ApiClient implements IApiClient {
     }
 
     async deleteUser(id: string) {
-
         const response = await axios({
             method: 'delete',
             url: `/api/users/${id}`,

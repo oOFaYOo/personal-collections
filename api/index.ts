@@ -156,7 +156,11 @@ app.delete('/api/users/:id', async (req, res) => {
         return;
     }
     const id = req.params.id;
-    await usersRepository.delete({id: id});
+    const user = await usersRepository.find({where: {id: id}});
+    const credentials = await userCredentialsRepository.find({where: {user: user[0]}, relations: {user: true}});
+    await userCredentialsRepository.delete(credentials[0]);
+    await usersRepository.delete(user[0]);
+    await sessionsRepository.delete({userId: id});
     res.end();
 });
 
@@ -172,15 +176,20 @@ app.post('/api/users/:id/block', async (req, res) => {
 app.post('/api/users/:id/unblock', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
     const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const user = (await usersRepository.find({where: {id: id}}))[0];
+    user.blocked = false;
+    await usersRepository.save(user);
+    res.end();
 });
 
 app.post('/api/users/:id/access', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
     const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const {isAdmin} = req.body;
+    const user = (await usersRepository.find({where: {id: id}}))[0];
+    user.isAdmin = isAdmin;
+    await usersRepository.save(user);
+    res.end();
 });
 
 app.post('/api/users/:id/picture', async (req, res) => {
