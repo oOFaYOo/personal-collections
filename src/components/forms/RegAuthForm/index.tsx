@@ -40,19 +40,20 @@ const RegAuth = ({setOpenModal}:IForm) => {
                               console.log(1, response)
                               dispatch(setCurrentUser(response.data))
                           }
+                          setOpenModal(false);
                       } else {
-                          setMessage(`${authResponse.status}.${authResponse.data}`);
+                          console.log('err', authResponse.data)
+                          setMessage(`${authResponse.status} ${authResponse.data}`);
                           setTimeout(()=>{setMessage('')}, 3000);
                       }
                   } else {
                       const response = await api.signUp(name, email, password);
                       if(response.status !== 200){
-                          setMessage(`${response.status}.${response.data}`);
+                          setMessage(`${response.status} ${response.data}`);
                           setTimeout(()=>{setMessage('')}, 3000);
-                      }
+                      } else setOpenModal(false);
                   }
                   clean();
-                  setOpenModal(false);
               }}>
             {
                 !!message

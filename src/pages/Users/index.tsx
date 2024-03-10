@@ -89,10 +89,6 @@ const Users = () => {
                     if(user.blocked){
                         const response = await api.unblockUser(id);
                         if(response.status === 200){
-                        //     const response = await api.getCurrentUser();
-                        //   if (response.status === 200){
-                        //       dispatch(setCurrentUser(response.data))
-                        //   }
                             setUpdate(true);
                         }
                     } else {
@@ -119,7 +115,7 @@ const Users = () => {
                             document.location = "/main";
                             dispatch(setCurrentUser(null));
                             localStorage.removeItem('userId');
-                            document.cookie = "sessionId=0; max-age=0";
+                            document.cookie = `${document.cookie}; max-age=0`;
                         } else {
                             setUpdate(true);
                         }

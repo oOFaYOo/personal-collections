@@ -30,7 +30,7 @@ class ApiClient implements IApiClient {
             let e = error as AxiosError;
             return {
                 status: e?.response?.status ?? 0,
-                data: undefined,
+                data: e?.response?.data ?? ''
             }
         }
     }
@@ -53,7 +53,7 @@ class ApiClient implements IApiClient {
             let e = error as AxiosError;
             return {
                 status: e?.response?.status ?? 0,
-                data: undefined,
+                data: e?.response?.data ?? ''
             }
         }
     }

@@ -90,7 +90,7 @@ app.post('/api/signin', async (req, res) => {
     let existed = await userCredentialsRepository.find({where: {email: email}, relations: {user: true}});
     if (existed.length === 0) {
         res.status(404);
-        res.send("User with email not found.");
+        res.send("User with this email not found");
         return;
     }
 
