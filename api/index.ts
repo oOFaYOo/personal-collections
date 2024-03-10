@@ -130,7 +130,6 @@ app.delete('/api/logout', async (req, res) => {
 app.get('/api/users/current', async (req, res) => {
     console.log(req);
     const currentUser = await getAuthedUser(req.cookies);
-    console.log("Current user", currentUser);
     res.status(200);
     res.send(currentUser);
 });
@@ -168,7 +167,12 @@ app.delete('/api/users/:id', async (req, res) => {
 });
 
 app.post('/api/users/:id/block', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
     const id = req.params.id;
     const user = (await usersRepository.find({where: {id: id}}))[0];
     user.blocked = true;
@@ -178,7 +182,12 @@ app.post('/api/users/:id/block', async (req, res) => {
 });
 
 app.post('/api/users/:id/unblock', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
     const id = req.params.id;
     const user = (await usersRepository.find({where: {id: id}}))[0];
     user.blocked = false;
@@ -187,7 +196,12 @@ app.post('/api/users/:id/unblock', async (req, res) => {
 });
 
 app.post('/api/users/:id/access', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
     const id = req.params.id;
     const {isAdmin} = req.body;
     const user = (await usersRepository.find({where: {id: id}}))[0];
@@ -204,10 +218,19 @@ app.post('/api/users/:id/picture', async (req, res) => {
 });
 
 app.patch('/api/users/:id/edit', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
     const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const {name, description} = req.body;
+    const user = (await usersRepository.find({where: {id: id}}))[0];
+    user.name = name;
+    user.description = description;
+    await usersRepository.save(user);
+    res.end();
 });
 
 /////////////////////////////////////for main

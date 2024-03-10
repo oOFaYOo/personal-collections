@@ -6,28 +6,30 @@ import CustomInput from "../../inputs/CustomInput";
 import InputFileUpload from "../../inputs/UploadImage";
 import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
+import api from "../../../api_client";
+import {useParams} from "react-router-dom";
+import {IUser} from "../../../api_client/type";
 
-const UserForm = ({setOpenModal}:IForm) => {
+const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {id} = useParams();
 
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-
-    function clean() {
-        setName('');
-        setDescription('');
-    }
+    const [name, setName] = useState(user.name);
+    const [description, setDescription] = useState(user.description);
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
         p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center`}
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                   e.preventDefault();
-                  clean();
+                  const response = await api.editUserData(id!, {name:name, description:description});
+                  if(response.status === 200) setUpdate!(true);
+                  setName('');
+                  setDescription('');
                   setOpenModal(false);
               }}>
             <InputFileUpload/>
-            <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'} fullWidth/>
+            <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'} fullWidth required/>
             <MultiTextInput value={description} setValue={setDescription} name={'about'} placeholder={"About Me"}/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>

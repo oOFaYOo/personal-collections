@@ -111,19 +111,21 @@ const User = () => {
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
     const [user, setUser] = useState<IUser | null>(null);
+    const [update, setUpdate] = useState<boolean>(false);
 
     useEffect(() => {
         (
             async () => {
-                if (!user) {
+                if (!user || update) {
                     const response = await api.getUser(id as string);
                     if (response.status === 200) {
                         setUser(response.data)
                     }
                 }
+                setUpdate(false);
             }
         )()
-    }, [])
+    }, [currentUser, update])
 
     const collections = [1];
 
@@ -140,7 +142,7 @@ const User = () => {
                 >
                     {
                         openModal === ModalFormType.User
-                            ? <UserForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
+                            ? <UserForm user={user as IUser} setUpdate={setUpdate} setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                             : <CollectionForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>
@@ -186,7 +188,7 @@ const User = () => {
                             {
                                 user?.description
                                     ?
-                                    <p className={'overflow-y-auto p-4 w-full flex grow h-[175px] styled_scrollbar text-justify'}>
+                                    <p className={'overflow-y-auto p-4 w-full flex grow max-h-[175px] lg:h-[175px] styled_scrollbar text-justify'}>
                                         {user?.description}
                                     </p>
                                     : null

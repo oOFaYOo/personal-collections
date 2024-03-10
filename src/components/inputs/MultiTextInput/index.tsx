@@ -23,7 +23,6 @@ const MultiTextInput = ({
             type={type}
             size={size}
             required={required}
-            inputProps={{maxLength: 20}}
             value={value}
             className={'styled_scrollbar'}
             multiline

@@ -167,12 +167,12 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async editUserData(id: string, user: IUser) {
+    async editUserData(id: string, user: {name: string, description: string}) {
 
         const response = await axios({
             method: 'patch',
             url: `/api/users/${id}/edit`,
-            data: {}
+            data: {name:user.name, description:user.description}
         });
         return {
             status: response.status,
