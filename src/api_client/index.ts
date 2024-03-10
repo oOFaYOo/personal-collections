@@ -24,7 +24,7 @@ class ApiClient implements IApiClient {
             });
             return {
                 status: response.status,
-                data: undefined,
+                data: response.data,
             }
         } catch (error) {
             let e = error as AxiosError;
@@ -36,18 +36,25 @@ class ApiClient implements IApiClient {
     }
 
     async signIn(email: string, password: string) {
-
-        const response = await axios({
-            method: 'post',
-            url: '/api/signin',
-            data: {
-                email: email,
-                password: password
+        try {
+            const response = await axios({
+                method: 'post',
+                url: '/api/signin',
+                data: {
+                    email: email,
+                    password: password
+                }
+            });
+            return {
+                status: response.status,
+                data: response.data,
             }
-        });
-        return {
-            status: response.status,
-            data: response.data,
+        } catch (error) {
+            let e = error as AxiosError;
+            return {
+                status: e?.response?.status ?? 0,
+                data: undefined,
+            }
         }
     }
 

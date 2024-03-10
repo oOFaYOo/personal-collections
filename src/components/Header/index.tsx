@@ -69,12 +69,12 @@ const Header = () => {
                                     dispatch(setTheme('dark'));
                                 }}/>
                     }
-                    <OutputIcon fontSize={'medium'} className={iconClass} onClick={() => {
+                    <OutputIcon fontSize={'medium'} className={iconClass} onClick={async () => {
                         if (currentUser) {
-                            api.logout(currentUser.id);
+                            await api.logout(currentUser.id);
                             dispatch(setCurrentUser(null));
                             localStorage.removeItem('userId');
-                            document.cookie = "sessionId=0; max-age=0";
+                            document.cookie = `${document.cookie}; max-age=0`;
                         } else {
                             setOpenModal(true)
                         }

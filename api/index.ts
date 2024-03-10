@@ -35,6 +35,7 @@ const sessionsRepository = AppDataSource.getRepository(Session);
 
 async function getAuthedUser(cookies?: any) : Promise<User | null> {
     const sessionId = cookies?.sessionId;
+    console.log(cookies);
     if (!sessionId)
         return null;
 
@@ -127,8 +128,10 @@ app.delete('/api/logout', async (req, res) => {
 });
 
 app.get('/api/users/current', async (req, res) => {
-
+    console.log(req);
     const currentUser = await getAuthedUser(req.cookies);
+    console.log("Current user", currentUser);
+    res.status(200);
     res.send(currentUser);
 });
 
@@ -170,6 +173,7 @@ app.post('/api/users/:id/block', async (req, res) => {
     const user = (await usersRepository.find({where: {id: id}}))[0];
     user.blocked = true;
     await usersRepository.save(user);
+    await sessionsRepository.delete({userId: id});
     res.end();
 });
 

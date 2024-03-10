@@ -12,6 +12,7 @@ const RegAuth = ({setOpenModal}:IForm) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const dispatch = useDispatch();
 
+    const [message, setMessage] = useState<string>('');
     const [action, setAction] = useState<ActionType>(ActionType.signin);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -32,24 +33,32 @@ const RegAuth = ({setOpenModal}:IForm) => {
                       const authResponse = await api.signIn(email, password);
                       console.log(authResponse);
                       if(authResponse.status === 200){
-                          document.cookie = 'sessionId='+ authResponse.data.id;
+                          document.cookie = 'sessionId='+ authResponse.data.id +'; path=/;';
                           localStorage.userId = authResponse.data.userId;
                           const response = await api.getCurrentUser();
                           if (response.status === 200){
+                              console.log(1, response)
                               dispatch(setCurrentUser(response.data))
                           }
                       } else {
-                          console.log('ERORRRRR', authResponse.status);
+                          setMessage(`${authResponse.status}.${authResponse.data}`);
+                          setTimeout(()=>{setMessage('')}, 3000);
                       }
                   } else {
                       const response = await api.signUp(name, email, password);
                       if(response.status !== 200){
-                          console.log('ERORRRRR', response.status);
+                          setMessage(`${response.status}.${response.data}`);
+                          setTimeout(()=>{setMessage('')}, 3000);
                       }
                   }
                   clean();
                   setOpenModal(false);
               }}>
+            {
+                !!message
+                ? <p className={'text-rose-600'}>{message}</p>
+                : null
+            }
             <div className={'w-full flex justify-center gap-2'}>
                 <Button variant={action === ActionType.signin ? "contained" : "outlined"} onClick={() => {
                     setAction(ActionType.signin);
