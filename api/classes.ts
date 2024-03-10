@@ -16,9 +16,8 @@ export class User{
     blocked!: boolean;
     @Column()
     isAdmin!: boolean;
-    @Column()
+
     amountCollections!: number;
-    @Column()
     amountItems!: number;
 }
 
@@ -26,8 +25,9 @@ export class User{
 export class Collection{
     @PrimaryGeneratedColumn()
     id!: string;
-    @Column()
-    author!: { name: string, id: string };
+    @OneToOne(() => User)
+    @JoinColumn()
+    author!: User;
     @Column()
     picture!: string;
     @Column()
@@ -36,35 +36,35 @@ export class Collection{
     theme!: ThemeType;
     @Column()
     description!: string;
-    @Column()
+    @Column('json')
     text1!: { id: 'text1', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     text2!: { id: 'text2', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     text3!: { id: 'text3', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     paragraph1!: { id: 'paragraph1', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     paragraph2!: { id: 'paragraph2', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     paragraph3!: { id: 'paragraph3', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     number1!: { id: 'number1', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     number2!: { id: 'number2', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     number3!: { id: 'number3', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     date1!: { id: 'date1', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     date2!: { id: 'date2', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     date3!: { id: 'date3', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     checkbox1!: { id: 'checkbox1', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     checkbox2!: { id: 'checkbox2', label: string, type: AdditionalColumnType };
-    @Column()
+    @Column('json')
     checkbox3!: { id: 'checkbox3', label: string, type: AdditionalColumnType };
 }
 
@@ -72,10 +72,9 @@ export class Collection{
 export class Item{
     @PrimaryGeneratedColumn()
     id!: string;
-    @Column()
-    author!: { name: string, id: string };
-    @Column()
-    collection!: string; //id
+    @OneToOne(() => Collection)
+    @JoinColumn()
+    collection!: Collection;
     @Column()
     theme!: ThemeType;
     @Column()
@@ -84,36 +83,36 @@ export class Item{
     name!: string;
     @Column()
     tags!: string;
-    @Column()
-    text1!: string | null;
-    @Column()
-    text2!: string | null;
-    @Column()
-    text3!: string | null;
-    @Column()
-    paragraph1!: string | null;
-    @Column()
-    paragraph2!: string | null;
-    @Column()
-    paragraph3!: string | null;
-    @Column()
-    number1!: number | null;
-    @Column()
-    number2!: number | null;
-    @Column()
-    number3!: number | null;
-    @Column()
-    date1!: string | null;
-    @Column()
-    date2!: string | null;
-    @Column()
-    date3!: string | null;
-    @Column()
-    checkbox1!: boolean | null;
-    @Column()
-    checkbox2!: boolean | null;
-    @Column()
-    checkbox3!: boolean | null;
+    @Column({nullable: true})
+    text1!: string;
+    @Column({nullable: true})
+    text2!: string;
+    @Column({nullable: true})
+    text3!: string;
+    @Column({nullable: true})
+    paragraph1!: string;
+    @Column({nullable: true})
+    paragraph2!: string;
+    @Column({nullable: true})
+    paragraph3!: string;
+    @Column({nullable: true})
+    number1!: number;
+    @Column({nullable: true})
+    number2!: number;
+    @Column({nullable: true})
+    number3!: number;
+    @Column({nullable: true})
+    date1!: string;
+    @Column({nullable: true})
+    date2!: string;
+    @Column({nullable: true})
+    date3!: string;
+    @Column({nullable: true})
+    checkbox1!: boolean;
+    @Column({nullable: true})
+    checkbox2!: boolean;
+    @Column({nullable: true})
+    checkbox3!: boolean;
 }
 
 @Entity("personal-collections-comments")

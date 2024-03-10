@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {DataSource} from "typeorm";
-import {Collection, Session, User, UserCredentials} from "./classes";
+import {Collection, Item, Session, User, UserCredentials} from "./classes";
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -26,12 +26,14 @@ const AppDataSource = new DataSource({
     database: "verceldb",
     synchronize: true,
     logging: false,
-    entities: [User, UserCredentials, Session],
+    entities: [User, UserCredentials, Session, Collection, Item],
 });
 
 const usersRepository = AppDataSource.getRepository(User);
 const userCredentialsRepository = AppDataSource.getRepository(UserCredentials);
 const sessionsRepository = AppDataSource.getRepository(Session);
+const collectionsRepository = AppDataSource.getRepository(Collection);
+const itemsRepository = AppDataSource.getRepository(Item);
 
 async function getAuthedUser(cookies?: any) : Promise<User | null> {
     const sessionId = cookies?.sessionId;
@@ -135,18 +137,24 @@ app.get('/api/users/current', async (req, res) => {
 });
 
 app.get('/api/users', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
     const users = await usersRepository.find();
+
+    for(let user of users) {
+        const collections = await collectionsRepository.find({where: {author: user}});
+        const items = await itemsRepository.find({where: {collection: collections}});
+
+        user.amountItems = items.length;
+        user.amountCollections = collections.length;
+    }
+
     res.send(users);
 });
 
 app.get('/api/users/:id', async (req, res) => {
-
     const id = req.params.id;
+
     const user = (await usersRepository.find({where: {id: id}}))[0];
     res.send(user);
-    // res.status(200);
-    // res.send();
 });
 
 app.delete('/api/users/:id', async (req, res) => {
