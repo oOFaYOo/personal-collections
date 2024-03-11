@@ -37,7 +37,6 @@ const itemsRepository = AppDataSource.getRepository(Item);
 
 async function getAuthedUser(cookies?: any) : Promise<User | null> {
     const sessionId = cookies?.sessionId;
-    console.log(cookies);
     if (!sessionId)
         return null;
 
@@ -130,7 +129,6 @@ app.delete('/api/logout', async (req, res) => {
 });
 
 app.get('/api/users/current', async (req, res) => {
-    console.log(req);
     const currentUser = await getAuthedUser(req.cookies);
     res.status(200);
     res.send(currentUser);

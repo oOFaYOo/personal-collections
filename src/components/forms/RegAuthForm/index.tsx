@@ -31,18 +31,15 @@ const RegAuth = ({setOpenModal}:IForm) => {
                   e.preventDefault();
                   if(action === ActionType.signin){
                       const authResponse = await api.signIn(email, password);
-                      console.log(authResponse);
                       if(authResponse.status === 200){
                           document.cookie = 'sessionId='+ authResponse.data.id +'; path=/;';
                           localStorage.userId = authResponse.data.userId;
                           const response = await api.getCurrentUser();
                           if (response.status === 200){
-                              console.log(1, response)
                               dispatch(setCurrentUser(response.data))
                           }
                           setOpenModal(false);
                       } else {
-                          console.log('err', authResponse.data)
                           setMessage(`${authResponse.status} ${authResponse.data}`);
                           setTimeout(()=>{setMessage('')}, 3000);
                       }

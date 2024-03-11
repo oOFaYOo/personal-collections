@@ -58,9 +58,7 @@ const Users = () => {
         (async () => {
             if(!data || update) {
                 const response = await api.getUsers();
-                console.log(response)
                 if (response.status === 200) {
-                    console.log("New data");
                     setData(response.data);
                 }
             }
@@ -125,7 +123,7 @@ const Users = () => {
         ];
         return {...user, action:actions}
     }
-    console.log(currentUser)
+
     return (
         <div
             className={'relative w-full flex flex-wrap justify-evenly items-center grow p-4'}>
