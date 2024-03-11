@@ -21,11 +21,12 @@ export interface IApiClient {
     getRandomUsers: () => Promise<IResponse<IUserCredentials[]>>;
 //collections
     getCollections: () => Promise<IResponse<ICollection[]>>;
+    getUserCollections: (id:string) => Promise<IResponse<ICollection[]>>;
     getCollection: (id:string) => Promise<IResponse<ICollection>>;
     deleteCollection: (id:string) => Promise<IResponse<void>>;
     addCollection: (id:string, collection:ICollection) => Promise<IResponse<void>>;
     uploadCollectionPicture: (id:string) => Promise<IResponse<void>>;
-    editCollectionData: (id:string, collection:ICollectionPatch) => Promise<IResponse<void>>;
+    editCollectionData: (id:string, collection:ICollection) => Promise<IResponse<void>>;
 //items
     getItems: () => Promise<IResponse<(IItem & ILikeGeneral)[]>>;
     getItem: (id:string) => Promise<IResponse<IItem & ILikeGeneral>>;
@@ -66,10 +67,7 @@ export interface IUser {
 
 export interface ICollection {
     id: string;
-    author: { name: string, id: string };
-}
-
-export interface ICollectionPatch extends ICollection{
+    user: string;
     picture: string;
     name: string;
     theme: ThemeType;
@@ -93,7 +91,7 @@ export interface ICollectionPatch extends ICollection{
 
 export interface IItem {
     id: string;
-    author: { name: string, id: string };
+    user: string;
     collection: string; //id
     theme: ThemeType;
 }

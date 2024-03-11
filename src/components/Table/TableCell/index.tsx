@@ -4,7 +4,6 @@ import {Button, Checkbox} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {IAction, ITableCell} from "../type";
-
 // @ts-ignore
 import noAvatar from "../../../svg/no-profile-picture.svg";
 // @ts-ignore
@@ -39,7 +38,7 @@ const TableCell = ({row, item}: ITableCell) => {
                         ? <div
                             className={'h-[30px] w-[30px] rounded-full overflow-hidden flex justify-center items-center bg-neutral-100'}>
                             <img
-                                src={row[item.id] === 'user' ? noAvatar : (row[item.id] === 'other' ? noImg : row[item.id])}
+                                src={!!row[item.id] ? row[item.id] : row.isAdmin === undefined ? noImg : noAvatar}
                                 className={'relative max-w-[140%]'}/>
                         </div>
                         : (typeof row[item.id] === 'boolean'
@@ -52,7 +51,7 @@ const TableCell = ({row, item}: ITableCell) => {
                             }}/>
                             : item.type === 'paragraph'
                                 ?
-                                <p className={'overflow-y-auto min-w-[200px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
+                                <p className={'overflow-y-auto text-justify min-w-[200px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
                                 : row[item.id]))
             }
         </TableCellMUI>

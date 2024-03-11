@@ -1,7 +1,6 @@
 import {
     IApiClient,
     ICollection,
-    ICollectionPatch,
     IComment,
     IItem,
     IItemPatch,
@@ -240,6 +239,15 @@ class ApiClient implements IApiClient {
         }
     }
 
+    async getUserCollections(id:string) {
+
+        const response = await axios({method: 'get', url: `/api/user/collections/${id}`});
+        return {
+            status: response.status,
+            data: response.data,
+        }
+    }
+
     async getCollection(id: string) {
 
         const response = await axios({method: 'get', url: `/api/collections/${id}`});
@@ -263,7 +271,7 @@ class ApiClient implements IApiClient {
         const response = await axios({
             method: 'post',
             url: `/api/collections/create`,
-            data: {id: id, collection: collection}
+            data: {id: id, collection: {...collection}}
         });
         return {
             status: response.status,
@@ -280,7 +288,7 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async editCollectionData(id: string, collection: ICollectionPatch) {
+    async editCollectionData(id: string, collection: ICollection) {
 
         const response = await axios({method: 'patch', url: `/api/collections/${id}`, data: {collection: collection}});
         return {

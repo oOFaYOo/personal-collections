@@ -71,8 +71,8 @@ app.post('/api/signup', async (req, res) => {
     user.amountCollections = 0;
     user.amountItems = 0;
     user.isAdmin = false;
-    user.picture = "https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album";
-    user.description = "description description description";
+    user.picture = "";
+    user.description = "";
 
     const credentials = new UserCredentials();
     credentials.email = email;
@@ -138,7 +138,7 @@ app.get('/api/users', async (req, res) => {
     const users = await usersRepository.find();
 
     for(let user of users) {
-        const collections = await collectionsRepository.find({where: {author: user}});
+        const collections = await collectionsRepository.find({where: {user: user}});
         const items = await itemsRepository.find({where: {collection: collections}});
 
         user.amountItems = items.length;
@@ -273,9 +273,15 @@ app.get('/api/main/users', async (req, res) => {
 
 app.get('/api/collections', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
-
     // res.status(200);
     // res.send();
+});
+
+app.get('/api/user/collections/:id', async (req, res) => {
+    const {id} = req.params;
+    const user = (await usersRepository.find({where: {id: id}}))[0];
+    const collections = await collectionsRepository.find({where: {user: user}});
+    res.send(collections);
 });
 
 app.get('/api/collections/:id', async (req, res) => {
@@ -294,9 +300,11 @@ app.delete('/api/collections/:id', async (req, res) => {
 
 app.post('/api/collections/create', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
-
-    // res.status(200);
-    // res.send();
+    const {id, collection} = req.body;
+    delete collection.id;
+    collection.user = (await usersRepository.find({where: {id: id}}))[0];
+    await collectionsRepository.save(collection);
+    res.end();
 });
 
 app.post('/api/collections/:id/picture', async (req, res) => {

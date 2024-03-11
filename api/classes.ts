@@ -27,7 +27,7 @@ export class Collection{
     id!: string;
     @OneToOne(() => User)
     @JoinColumn()
-    author!: User;
+    user!: User;
     @Column()
     picture!: string;
     @Column()
@@ -36,35 +36,35 @@ export class Collection{
     theme!: ThemeType;
     @Column()
     description!: string;
-    @Column('json')
+    @Column('simple-json')
     text1!: { id: 'text1', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     text2!: { id: 'text2', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     text3!: { id: 'text3', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     paragraph1!: { id: 'paragraph1', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     paragraph2!: { id: 'paragraph2', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     paragraph3!: { id: 'paragraph3', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     number1!: { id: 'number1', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     number2!: { id: 'number2', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     number3!: { id: 'number3', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     date1!: { id: 'date1', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     date2!: { id: 'date2', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     date3!: { id: 'date3', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     checkbox1!: { id: 'checkbox1', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     checkbox2!: { id: 'checkbox2', label: string, type: AdditionalColumnType };
-    @Column('json')
+    @Column('simple-json')
     checkbox3!: { id: 'checkbox3', label: string, type: AdditionalColumnType };
 }
 

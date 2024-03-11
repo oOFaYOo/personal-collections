@@ -8,20 +8,20 @@ import CollectionForm from "../../../components/forms/CollectionForm";
 import {ModalFormType} from "./type";
 // @ts-ignore
 import noAvatar from "../../../svg/no-profile-picture.svg";
-import {IUser} from "../../../api_client/type";
+import {ICollection, IUser} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 import {setCurrentUser} from "../../../store/slice";
+import {ITableItem} from "../../../components/Table/type";
 
-
-const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
+const config: ITableItem [] = [
     {
         id: 'picture',
         label: '',
         type: 'picture'
     },
     {
-        id: 'title',
+        id: 'name',
         label: 'Title',
         type: 'text',
     },
@@ -37,51 +37,6 @@ const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'numb
     },
 ];
 
-const rows = [
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Anime',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Movie',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Game',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Game',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Anime',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Game',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-];
-
 const User = () => {
     const dispatch = useDispatch();
     const {currentUser, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -90,6 +45,7 @@ const User = () => {
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
     const [user, setUser] = useState<IUser | null>(null);
+    const [collections, setCollections] = useState<ICollection[] | null>(null);
     const [update, setUpdate] = useState<boolean>(false);
 
     useEffect(() => {
@@ -106,20 +62,32 @@ const User = () => {
         )()
     }, [currentUser, update])
 
-    function filter (rows:any){
-        let arrByTheme = filterByTheme.filter((item)=>item.filtered);
-        if(arrByTheme.length === 0 || arrByTheme.length === filterByTheme.length){
+    useEffect(() => {
+        (
+            async () => {
+                if (!collections) {
+                    const response = await api.getUserCollections(id as string);
+                    if (response.status === 200) {
+                        console.log(response);
+                        setCollections(response.data)
+                    }
+                }
+            }
+        )()
+    }, [])
+
+    function filter(rows: any) {
+        let arrByTheme = filterByTheme.filter((item) => item.filtered);
+        if (arrByTheme.length === 0 || arrByTheme.length === filterByTheme.length) {
             return rows;
         } else {
-            return rows.filter((row:any) =>
+            return rows.filter((row: any) =>
                 arrByTheme.find(condition =>
                     row.theme === condition.collectionTheme
                 )
             )
         }
     }
-
-    const collections = [1];
 
     return (
         <div
@@ -134,13 +102,14 @@ const User = () => {
                 >
                     {
                         openModal === ModalFormType.User
-                            ? <UserForm user={user as IUser} setUpdate={setUpdate} setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
+                            ? <UserForm user={user as IUser} setUpdate={setUpdate}
+                                        setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                             : <CollectionForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>
             }
             {!user
-                ? <CircularProgress />
+                ? <CircularProgress/>
                 : <>
                     <div className={'h-full w-full lg:w-[30%] flex flex-col mb-4'}>
                         <div className={'w-full h-[300px] flex justify-center items-center'}>
@@ -160,15 +129,15 @@ const User = () => {
                                         ? <>
                                             <Button size={'small'} variant="outlined"
                                                     onClick={() => setOpenModal(ModalFormType.User)}>Edit</Button>
-                                            <Button size={'small'} variant="outlined" onClick={async ()=>{
+                                            <Button size={'small'} variant="outlined" onClick={async () => {
                                                 const response = await api.deleteUser(id!);
-                                                if(response.status === 200){
-                                                    if(currentUser?.id === id){
+                                                if (response.status === 200) {
+                                                    if (currentUser?.id === id) {
                                                         api.logout(id);
                                                         dispatch(setCurrentUser(null));
                                                         localStorage.removeItem('userId');
                                                         document.cookie = `${document.cookie}; max-age=0`;
-                                                }
+                                                    }
                                                     document.location = '/users';
                                                 }
                                             }}
@@ -189,25 +158,33 @@ const User = () => {
                     </div>
                     <div
                         className={'flex relative flex-col items-center justify-center lg:pl-4 h-full w-full lg:w-[70%]'}>
-                        {collections.length === 0
-                            ? null
-                            : user?.id === currentUser?.id || currentUser?.isAdmin
-                                ? <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
-                                    <Button size={'small'} variant="outlined"
-                                            onClick={() => setOpenModal(ModalFormType.Collection)}>Add</Button>
-                                </div>
-                                : null
-                        }
-                        {
-                            collections.length === 0
-                                ? user?.id === currentUser?.id || currentUser?.isAdmin
-                                    ? <Button size={'large'} variant="outlined">create your first collection</Button>
-                                    : null
-                                : <Table pagination={true} data={filter(rows)} config={headCells} onRowClick={(e, id) => {
-                                    document.location = '/collections/' + id;
-                                }}/>
-                        }
+                        {!collections
+                            ? <CircularProgress/>
+                            : <>
+                                {collections.length === 0
+                                    ? null
+                                    : user?.id === currentUser?.id || currentUser?.isAdmin
+                                        ? <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
+                                            <Button size={'small'} variant="outlined"
+                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>Add</Button>
+                                        </div>
+                                        : null
+                                }
+                                {
+                                    collections.length === 0
+                                        ? user?.id === currentUser?.id || currentUser?.isAdmin
+                                            ?
+                                            <Button size={'large'} variant="outlined"
+                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>create your first collection</Button>
+                                            : null
+                                        : <Table pagination={true} data={filter(collections)} config={config}
+                                                 onRowClick={(e, id) => {
+                                                     document.location = '/collections/' + id;
+                                                 }}/>
+                                }
+                            </>}
                     </div>
+
                 </>
             }
         </div>
