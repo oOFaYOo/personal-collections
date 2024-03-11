@@ -143,4 +143,4 @@ export interface ILike {
     itemId: string;
 }
 
-export type ThemeType = 'anime' | 'game' | 'movie' | 'book';
+export type ThemeType = 'Anime' | 'Game' | 'Movie';

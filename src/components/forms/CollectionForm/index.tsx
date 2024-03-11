@@ -6,12 +6,14 @@ import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
+import {ThemeType} from "../../../api_client/type";
 
 const CollectionForm = ({setOpenModal}:IForm) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [collectionTheme, setCollectionTheme] = useState<ThemeType | 'Theme'>('Theme');
 
     function clean() {
         setName('');
@@ -33,7 +35,7 @@ const CollectionForm = ({setOpenModal}:IForm) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={0}
+                        value={collectionTheme}
                         onChange={() => {
                         }}
                         sx={{
@@ -49,10 +51,10 @@ const CollectionForm = ({setOpenModal}:IForm) => {
                             }
                         }}
                     >
-                        <MenuItem value={0}>Theme</MenuItem>
-                        <MenuItem value={1}>Ten</MenuItem>
-                        <MenuItem value={2}>Twenty</MenuItem>
-                        <MenuItem value={3}>Thirty</MenuItem>
+                        <MenuItem value={'Theme'}>Theme</MenuItem>
+                        <MenuItem value={'Anime'}>Anime</MenuItem>
+                        <MenuItem value={'Game'}>Game</MenuItem>
+                        <MenuItem value={'Movie'}>Movie</MenuItem>
                     </Select>
                 </FormControl>
                 <MultiTextInput value={description} setValue={setDescription} name={'description'}

@@ -41,63 +41,42 @@ const rows = [
     {
         id: '123543',
         title: 'Sometitle',
-        theme: 'Books',
+        theme: 'Anime',
         description: 'description description description description description description',
         picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
-        theme: 'Books',
+        theme: 'Movie',
         description: 'description description description description description description',
         picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
-        theme: 'Books',
+        theme: 'Game',
         description: 'description description description description description description',
         picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
-        theme: 'Books',
+        theme: 'Game',
         description: 'description description description description description description',
         picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
-        theme: 'Books',
+        theme: 'Anime',
         description: 'description description description description description description',
         picture: 'other'
     },
     {
         id: '123543',
         title: 'Sometitle',
-        theme: 'Books',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Books',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Books',
-        description: 'description description description description description description',
-        picture: 'other'
-    },
-    {
-        id: '123543',
-        title: 'Sometitle',
-        theme: 'Books',
+        theme: 'Game',
         description: 'description description description description description description',
         picture: 'other'
     },
@@ -105,7 +84,7 @@ const rows = [
 
 const User = () => {
     const dispatch = useDispatch();
-    const {currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {currentUser, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const {id} = useParams();
 
@@ -126,6 +105,19 @@ const User = () => {
             }
         )()
     }, [currentUser, update])
+
+    function filter (rows:any){
+        let arrByTheme = filterByTheme.filter((item)=>item.filtered);
+        if(arrByTheme.length === 0 || arrByTheme.length === filterByTheme.length){
+            return rows;
+        } else {
+            return rows.filter((row:any) =>
+                arrByTheme.find(condition =>
+                    row.theme === condition.collectionTheme
+                )
+            )
+        }
+    }
 
     const collections = [1];
 
@@ -211,7 +203,7 @@ const User = () => {
                                 ? user?.id === currentUser?.id || currentUser?.isAdmin
                                     ? <Button size={'large'} variant="outlined">create your first collection</Button>
                                     : null
-                                : <Table pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
+                                : <Table pagination={true} data={filter(rows)} config={headCells} onRowClick={(e, id) => {
                                     document.location = '/collections/' + id;
                                 }}/>
                         }
