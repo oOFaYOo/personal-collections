@@ -19,12 +19,7 @@ const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'numb
         type: 'picture'
     },
     {
-        id: 'id',
-        label: 'ID',
-        type: 'text',
-    },
-    {
-        id: 'title',
+        id: 'name',
         label: 'Title',
         type: 'text',
     },
@@ -34,19 +29,34 @@ const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'numb
         type: 'paragraph',
     },
     {
-        id: 'date',
+        id: 'text1',
+        label: 'text',
+        type: 'text',
+    },
+    {
+        id: 'text2',
+        label: 'text',
+        type: 'text',
+    },
+    {
+        id: 'text3',
+        label: 'text',
+        type: 'text',
+    },
+    {
+        id: 'date1',
         label: 'date',
         type: 'date',
     },
     {
-        id: 'amount',
-        label: 'amount',
-        type: 'number'
+        id: 'date2',
+        label: 'date',
+        type: 'date',
     },
     {
-        id: 'somebool',
-        label: 'somebool',
-        type: 'checkbox'
+        id: 'date3',
+        label: 'date',
+        type: 'date',
     },
 ];
 
@@ -54,164 +64,14 @@ const rows = [
     {
         id: '2',
         tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle',
-        somebool: true,
-        date: '05.03.2021',
-        amount: 354,
-        picture: 'other'
-    },
-    {
-        id: '3',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle3',
-        somebool: false,
-        date: '05.03.2022',
-        amount: 543,
-        picture: 'other'
-    },
-    {
-        id: '7',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle1',
-        somebool: true,
-        date: '05.03.2015',
-        amount: 154,
-        picture: 'other'
-    },
-    {
-        id: '8',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle',
-        somebool: false,
-        date: '05.03.2021',
-        amount: 354,
-        picture: 'other'
-    },
-    {
-        id: '9',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle3',
-        somebool: true,
-        date: '05.03.2022',
-        amount: 543,
-        picture: 'other'
-    },
-    {
-        id: '1',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle1',
-        somebool: false,
-        date: '05.03.2015',
-        amount: 154,
-        picture: 'other'
-    },
-    {
-        id: '0',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle',
-        somebool: true,
-        date: '05.03.2021',
-        amount: 354,
-        picture: 'other'
-    },
-    {
-        id: '87',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle3',
-        somebool: false,
-        date: '05.03.2022',
-        amount: 543,
-        picture: 'other'
-    },
-    {
-        id: '89',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle1',
-        somebool: true,
-        date: '05.03.2015',
-        amount: 154,
-        picture: 'other'
-    },
-    {
-        id: '34',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle',
-        somebool: false,
-        date: '05.03.2021',
-        amount: 354,
-        picture: 'other'
-    },
-    {
-        id: 'jkljhk',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle3',
-        somebool: true,
-        date: '05.03.2022',
-        amount: 543,
-        picture: 'other'
-    },
-    {
-        id: 'f5f7',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle1',
-        somebool: false,
-        date: '05.03.2015',
-        amount: 154,
-        picture: 'other'
-    },
-    {
-        id: '9mu',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle',
-        somebool: true,
-        date: '05.03.2021',
-        amount: 354,
-        picture: 'other'
-    },
-    {
-        id: 'c45e4',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle3',
-        somebool: false,
-        date: '05.03.2022',
-        amount: 543,
-        picture: 'other'
-    },
-    {
-        id: 'mlkhk',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle1',
-        somebool: true,
-        date: '05.03.2015',
-        amount: 154,
-        picture: 'other'
-    },
-    {
-        id: '6858',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle',
-        somebool: false,
-        date: '05.03.2021',
-        amount: 354,
-        picture: 'other'
-    },
-    {
-        id: '23',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle3',
-        somebool: true,
-        date: '05.03.2022',
-        amount: 543,
-        picture: 'other'
-    },
-    {
-        id: 'mi9hh',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        title: 'sometitle1',
-        somebool: false,
-        date: '05.03.2015',
-        amount: 154,
-        picture: 'other'
+        name: 'sometitle',
+        date1: '05.03.2021',
+        text1:'dfvd',
+        date2: '05.03.2021',
+        text2:'dfvd',
+        date3: '05.03.2021',
+        text3:'dfvd',
+        picture: ''
     },
 ];
 
@@ -224,11 +84,12 @@ const Collection = () => {
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
     const [collection, setCollection] = useState<ICollection | null>(null);
+    const [updateCollections, setUpdateCollections] = useState<boolean>(false);
 
     useEffect(() => {
         (
             async () => {
-                if (!collection) {
+                if (!collection || updateCollections) {
                     const response = await api.getCollection(id as string);
                     if (response.status === 200) {
                         setCollection(response.data)
@@ -236,9 +97,9 @@ const Collection = () => {
                 }
             }
         )()
-    }, [])
+    }, [updateCollections])
 
-    const items: any = [];
+    const items: any = [1];
 
     return (
         <div
@@ -253,12 +114,15 @@ const Collection = () => {
                 >
                     {openModal === ModalFormType.Item
                         ? <ItemForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
-                        : <CollectionForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
+                        : <CollectionForm currentCollection={collection as ICollection}
+                                          setOpenModal={() => setOpenModal(ModalFormType.Initial)}
+                                          setUpdate={setUpdateCollections}/>
                     }
                 </Modal>
             }
             <div
-                className={`${collection ? 'justify-between' : 'items-center justify-center'} flex flex-col md:flex-row md:max-h-[40vh] my-4 w-full grow`}>
+                className={`${collection ? 'justify-between' : 'items-center justify-center'} 
+                flex flex-col md:flex-row md:max-h-[40vh] mt-4 mb-[20px] w-full grow`}>
                 {
                     !collection
                         ? <CircularProgress/>
@@ -276,7 +140,7 @@ const Collection = () => {
                                 }
                             </div>
                             <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-between'}>
-                                <div className={'flex justify-between items-center mb-2'}>
+                                <div className={'flex justify-between items-center md:items-start mb-2'}>
                                     <div>
                                         <h1 className={'text-xl font-bold'}>{collection.name}</h1>
                                         <h2 className={'font-semibold italic'}>{collection.theme}</h2>

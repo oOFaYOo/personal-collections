@@ -262,10 +262,18 @@ app.get('/api/main/items', async (req, res) => {
 });
 
 app.get('/api/main/users', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const users = await usersRepository.find();
 
-    // res.status(200);
-    // res.send();
+    for(let user of users) {
+        const collections = await collectionsRepository.find({where: {user: user}});
+        const items = await itemsRepository.find({where: {collection: collections}});
+
+        user.amountItems = items.length;
+        user.amountCollections = collections.length;
+    }
+
+    users.sort((a,b) => b.amountCollections-a.amountCollections)
+    res.send(users.slice(0, 3));
 });
 
 //////////////////////////////////////////////////////for collections
@@ -297,33 +305,16 @@ app.delete('/api/collections/:id', async (req, res) => {
 });
 
 app.post('/api/collections/create', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
     const {id, collection} = req.body;
-    // delete collection.id;
-    // collection.user = (await usersRepository.find({where: {id: id}}))[0];
-    const newCollection = new Collection();
-    newCollection.user = (await usersRepository.find({where: {id: id}}))[0];
-    newCollection.name = collection.name;
-    newCollection.theme = collection.theme;
-    newCollection.description = collection.description;
-    newCollection.picture = 'https://sun9-55.userapi.com/impg/5dJJXD4jReeK8a7CbshHInxEOR19uOSqLO10XA/xHHvDv0HqZ4.jpg?size=1024x1024&quality=96&sign=7a7bee085f0ab70d0c1bff8319e5fe74&type=album';
-    newCollection.text1 = collection.text1;
-    newCollection.text2 = collection.text2;
-    newCollection.text3 = collection.text3;
-    newCollection.paragraph1 = collection.paragraph1;
-    newCollection.paragraph2 = collection.paragraph2;
-    newCollection.paragraph3 = collection.paragraph3;
-    newCollection.number1 = collection.number1;
-    newCollection.number2 = collection.number2;
-    newCollection.number3 = collection.number3;
-    newCollection.date1 = collection.date1;
-    newCollection.date2 = collection.date2;
-    newCollection.date3 = collection.date3;
-    newCollection.checkbox1 = collection.checkbox1;
-    newCollection.checkbox2 = collection.checkbox2;
-    newCollection.checkbox3 = collection.checkbox3;
-    await collectionsRepository.save(newCollection);
-    // await collectionsRepository.save(collection);
+    delete collection.id;
+    collection.user = (await usersRepository.find({where: {id: id}}))[0];
+    await collectionsRepository.save(collection);
     res.end();
 });
 
@@ -335,10 +326,36 @@ app.post('/api/collections/:id/picture', async (req, res) => {
 });
 
 app.patch('/api/collections/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
     const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const {collection} = req.body;
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
+    const updatedCollection = (await collectionsRepository.find({where: {id: id}}))[0];
+
+    updatedCollection.name = collection.name;
+    updatedCollection.description = collection.description;
+    updatedCollection.text1 = collection.text1;
+    updatedCollection.text2 = collection.text2;
+    updatedCollection.text3 = collection.text3;
+    updatedCollection.paragraph1 = collection.paragraph1;
+    updatedCollection.paragraph2 = collection.paragraph2;
+    updatedCollection.paragraph3 = collection.paragraph3;
+    updatedCollection.number1 = collection.number1;
+    updatedCollection.number2 = collection.number2;
+    updatedCollection.number3 = collection.number3;
+    updatedCollection.date1 = collection.date1;
+    updatedCollection.date2 = collection.date2;
+    updatedCollection.date3 = collection.date3;
+    updatedCollection.checkbox1 = collection.checkbox1;
+    updatedCollection.checkbox2 = collection.checkbox2;
+    updatedCollection.checkbox3 = collection.checkbox3;
+
+    await collectionsRepository.save(updatedCollection);
+    res.end();
 });
 
 ///////////////////////////////////////////////////for item

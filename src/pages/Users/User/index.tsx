@@ -67,11 +67,8 @@ const User = () => {
     useEffect(() => {
         (
             async () => {
-                console.log(1)
                 if (!collections || updateCollections) {
-                    (console.log(2))
                     const response = await api.getUserCollections(id as string);
-                    console.log(response.data)
                     if (response.status === 200) {
                         setCollections(response.data)
                     }
@@ -94,9 +91,9 @@ const User = () => {
                 >
                     {
                         openModal === ModalFormType.User
-                            ? <UserForm user={user as IUser} setUpdate={() => setUpdateUser(!updateUser)}
+                            ? <UserForm user={user as IUser} setUpdate={setUpdateUser}
                                         setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
-                            : <CollectionForm setUpdate={() => setUpdateCollections(!updateCollections)}
+                            : <CollectionForm setUpdate={setUpdateCollections}
                                               setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>

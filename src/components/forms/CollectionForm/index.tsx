@@ -6,68 +6,78 @@ import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
-import {ThemeType} from "../../../api_client/type";
+import {ICollection, ThemeType} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 
-const CollectionForm = ({setOpenModal, setUpdate}:IForm) => {
-    const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {currentCollection?:ICollection}) => {
+    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const {id} = useParams();
 
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const [name, setName] = useState(currentCollection ? currentCollection.name : '');
+    const [description, setDescription] = useState(currentCollection ? currentCollection.description : '');
     const [collectionTheme, setCollectionTheme] = useState<ThemeType | 'Theme'>('Theme');
 
-    const [text1, setText1] = useState<string>('');
-    const [text2, setText2] = useState<string>('');
-    const [text3, setText3] = useState<string>('');
+    const [text1, setText1] = useState<string>(currentCollection ? currentCollection.text1.label : '');
+    const [text2, setText2] = useState<string>(currentCollection ? currentCollection.text2.label : '');
+    const [text3, setText3] = useState<string>(currentCollection ? currentCollection.text3.label : '');
 
-    const [number1, setNumber1] = useState<string>('');
-    const [number2, setNumber2] = useState<string>('');
-    const [number3, setNumber3] = useState<string>('');
+    const [number1, setNumber1] = useState<string>(currentCollection ? currentCollection.number1.label : '');
+    const [number2, setNumber2] = useState<string>(currentCollection ? currentCollection.number2.label : '');
+    const [number3, setNumber3] = useState<string>(currentCollection ? currentCollection.number3.label : '');
 
-    const [paragraph1, setParagraph1] = useState<string>('');
-    const [paragraph2, setParagraph2] = useState<string>('');
-    const [paragraph3, setParagraph3] = useState<string>('');
+    const [paragraph1, setParagraph1] = useState<string>(currentCollection ? currentCollection.paragraph1.label : '');
+    const [paragraph2, setParagraph2] = useState<string>(currentCollection ? currentCollection.paragraph2.label : '');
+    const [paragraph3, setParagraph3] = useState<string>(currentCollection ? currentCollection.paragraph3.label : '');
 
-    const [checkbox1, setCheckbox1] = useState<string>('');
-    const [checkbox2, setCheckbox2] = useState<string>('');
-    const [checkbox3, setCheckbox3] = useState<string>('');
+    const [checkbox1, setCheckbox1] = useState<string>(currentCollection ? currentCollection.checkbox1.label : '');
+    const [checkbox2, setCheckbox2] = useState<string>(currentCollection ? currentCollection.checkbox2.label : '');
+    const [checkbox3, setCheckbox3] = useState<string>(currentCollection ? currentCollection.checkbox3.label : '');
 
-    const [date1, setDate1] = useState<string>('');
-    const [date2, setDate2] = useState<string>('');
-    const [date3, setDate3] = useState<string>('');
+    const [date1, setDate1] = useState<string>(currentCollection ? currentCollection.date1.label : '');
+    const [date2, setDate2] = useState<string>(currentCollection ? currentCollection.date2.label : '');
+    const [date3, setDate3] = useState<string>(currentCollection ? currentCollection.date3.label : '');
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
          p-8 gap-4 outline-none rounded-md shadow-md flex-col justify-evenly items-center overflow-y-auto max-h-[90vh] styled_scrollbar`}
               onSubmit={async (e) => {
                   e.preventDefault();
-                      await api.addCollection(id!, {
-                          id: '',
-                          user: id!,
-                          picture: '',
-                          name: name,
-                          theme: collectionTheme as ThemeType,
-                          description: description,
-                          text1: {id: 'text1', label: text1, type: 'text'},
-                          text2: {id: 'text2', label: text2, type: 'text'},
-                          text3: {id: 'text3', label: text3, type: 'text'},
-                          paragraph1: {id: 'paragraph1', label: paragraph1, type: 'paragraph'},
-                          paragraph2: {id: 'paragraph2', label: paragraph2, type: 'paragraph'},
-                          paragraph3: {id: 'paragraph3', label: paragraph3, type: 'paragraph'},
-                          number1: {id: 'number1', label: number1, type: 'number'},
-                          number2: {id: 'number2', label: number2, type: 'number'},
-                          number3: {id: 'number3', label: number3, type: 'number'},
-                          date1: {id: 'date1', label: date1, type: 'date'},
-                          date2: {id: 'date2', label: date2, type: 'date'},
-                          date3: {id: 'date3', label: date3, type: 'date'},
-                          checkbox1: {id: 'checkbox1', label: checkbox1, type: 'checkbox'},
-                          checkbox2: {id: 'checkbox2', label: checkbox2, type: 'checkbox'},
-                          checkbox3: {id: 'checkbox3', label: checkbox3, type: 'checkbox'},
-                      });
+                  const collectionData:ICollection = {
+                      id: '',
+                      user: id!,
+                      picture: '',
+                      theme: collectionTheme as ThemeType,
+                      name: name,
+                      description: description,
+                      text1: {id: 'text1', label: text1, type: 'text'},
+                      text2: {id: 'text2', label: text2, type: 'text'},
+                      text3: {id: 'text3', label: text3, type: 'text'},
+                      paragraph1: {id: 'paragraph1', label: paragraph1, type: 'paragraph'},
+                      paragraph2: {id: 'paragraph2', label: paragraph2, type: 'paragraph'},
+                      paragraph3: {id: 'paragraph3', label: paragraph3, type: 'paragraph'},
+                      number1: {id: 'number1', label: number1, type: 'number'},
+                      number2: {id: 'number2', label: number2, type: 'number'},
+                      number3: {id: 'number3', label: number3, type: 'number'},
+                      date1: {id: 'date1', label: date1, type: 'date'},
+                      date2: {id: 'date2', label: date2, type: 'date'},
+                      date3: {id: 'date3', label: date3, type: 'date'},
+                      checkbox1: {id: 'checkbox1', label: checkbox1, type: 'checkbox'},
+                      checkbox2: {id: 'checkbox2', label: checkbox2, type: 'checkbox'},
+                      checkbox3: {id: 'checkbox3', label: checkbox3, type: 'checkbox'},
+                  }
+                      if(!currentCollection){
+                          await api.addCollection(id!, {...collectionData, id: '', user: id!, picture: '',
+                              theme: collectionTheme as ThemeType, });
+                      }  else {
+                          await api.editCollectionData(id!, {...collectionData,
+                              id: currentCollection.id,
+                              user: currentCollection.user,
+                              picture: '',
+                              theme: currentCollection.theme })
+                      }
                       setOpenModal(false);
-                      if(setUpdate) setUpdate(true);
+                      setUpdate!(true);
               }}>
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
@@ -76,20 +86,32 @@ const CollectionForm = ({setOpenModal, setUpdate}:IForm) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={collectionTheme}
+                        disabled={!!currentCollection}
+                        value={currentCollection ? currentCollection.theme : collectionTheme}
                         onChange={(e) => {
                             setCollectionTheme(e.target.value as ThemeType | 'Theme');
                         }}
                         sx={{
+                            '&.Mui-disabled .MuiOutlinedInput-notchedOutline':{
+                                borderColor: theme === 'dark' ? 'rgba(229,229,229,0.3)' : 'rgba(23,23,23,0.3)',
+                            },
                             color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
                             '.MuiOutlinedInput-notchedOutline': {
                                 borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
                             },
                             '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
+                                borderColor: !!currentCollection ? 'none' : (theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'),
                             },
                             '.MuiSvgIcon-root ': {
-                                fill: "white !important",
+                                fill: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
+                            },
+                            '& .Mui-disabled':{
+                                '-webkit-text-fill-color': theme === 'dark' ? 'rgba(229,229,229,0.3)' : 'rgba(23,23,23,0.3)',
+                            },
+                            '.Mui-disabled':{
+                                '&.MuiSvgIcon-root ': {
+                                    opacity: '0.3',
+                                },
                             }
                         }}
                     >
@@ -147,7 +169,7 @@ const CollectionForm = ({setOpenModal, setUpdate}:IForm) => {
                     </div>
                 </div>
                 <Button variant="outlined"
-                        disabled={collectionTheme === "Theme"}
+                        disabled={!currentCollection && collectionTheme === "Theme"}
                         type={'submit'}
                         sx={{
                                 "&:disabled": {

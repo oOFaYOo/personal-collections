@@ -290,7 +290,10 @@ class ApiClient implements IApiClient {
 
     async editCollectionData(id: string, collection: ICollection) {
 
-        const response = await axios({method: 'patch', url: `/api/collections/${id}`, data: {collection: collection}});
+        const response = await axios({
+            method: 'patch',
+            url: `/api/collections/${id}`,
+            data: {collection: {...collection}}});
         return {
             status: response.status,
             data: undefined,
