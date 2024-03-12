@@ -41,9 +41,9 @@ const CollectionForm = ({setOpenModal, setUpdate}:IForm) => {
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
          p-8 gap-4 outline-none rounded-md shadow-md flex-col justify-evenly items-center overflow-y-auto max-h-[90vh] styled_scrollbar`}
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                   e.preventDefault();
-                      api.addCollection(id!, {
+                      await api.addCollection(id!, {
                           id: '',
                           user: id!,
                           picture: '',

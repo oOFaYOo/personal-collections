@@ -5,6 +5,9 @@ import Table from "../../components/Table"
 import {ITableItem} from "../../components/Table/type";
 import {ICollection} from "../../api_client/type";
 import api from "../../api_client";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store";
+import {filter} from "../../components/Table/functions";
 
 const config: ITableItem [] = [
     {
@@ -31,6 +34,8 @@ const config: ITableItem [] = [
 
 const Collections = () => {
     const path = useLocation().pathname;
+    const {filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
     const [collections, setCollections] = useState<ICollection[] | null>(null);
 
     useEffect(() => {
@@ -52,7 +57,10 @@ const Collections = () => {
             {
                 !collections
                 ? <CircularProgress />
-                : <Table pagination={true} data={collections} config={config} onRowClick={(e, id) => {
+                : <Table pagination={true}
+                         data={filter(collections, filterByTheme)}
+                         config={config}
+                         onRowClick={(e, id) => {
                         document.location = path + '/' + id;
                     }} />
             }

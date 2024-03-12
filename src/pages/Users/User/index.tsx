@@ -13,6 +13,7 @@ import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 import {setCurrentUser} from "../../../store/slice";
 import {ITableItem} from "../../../components/Table/type";
+import {filter} from "../../../components/Table/functions";
 
 const config: ITableItem [] = [
     {
@@ -66,8 +67,11 @@ const User = () => {
     useEffect(() => {
         (
             async () => {
+                console.log(1)
                 if (!collections || updateCollections) {
+                    (console.log(2))
                     const response = await api.getUserCollections(id as string);
+                    console.log(response.data)
                     if (response.status === 200) {
                         setCollections(response.data)
                     }
@@ -76,19 +80,6 @@ const User = () => {
             }
         )()
     }, [updateCollections])
-
-    function filter(rows: any) {
-        let arrByTheme = filterByTheme.filter((item) => item.filtered);
-        if (arrByTheme.length === 0 || arrByTheme.length === filterByTheme.length) {
-            return rows;
-        } else {
-            return rows.filter((row: any) =>
-                arrByTheme.find(condition =>
-                    row.theme === condition.collectionTheme
-                )
-            )
-        }
-    }
 
     return (
         <div
@@ -105,7 +96,8 @@ const User = () => {
                         openModal === ModalFormType.User
                             ? <UserForm user={user as IUser} setUpdate={() => setUpdateUser(!updateUser)}
                                         setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
-                            : <CollectionForm setUpdate={() => setUpdateCollections(!updateCollections)} setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
+                            : <CollectionForm setUpdate={() => setUpdateCollections(!updateCollections)}
+                                              setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>
             }
@@ -150,7 +142,8 @@ const User = () => {
                             {
                                 user?.description
                                     ?
-                                    <p className={'overflow-y-auto p-4 w-full flex grow max-h-[175px] lg:h-[175px] styled_scrollbar text-justify'}>
+                                    <p className={'overflow-y-auto p-4 w-full flex grow max-h-[175px] lg:h-[175px] ' +
+                                        'styled_scrollbar text-justify'}>
                                         {user?.description}
                                     </p>
                                     : null
@@ -178,7 +171,7 @@ const User = () => {
                                             <Button size={'large'} variant="outlined"
                                                     onClick={() => setOpenModal(ModalFormType.Collection)}>create your first collection</Button>
                                             : null
-                                        : <Table pagination={true} data={filter(collections)} config={config}
+                                        : <Table pagination={true} data={filter(collections, filterByTheme)} config={config}
                                                  onRowClick={(e, id) => {
                                                      document.location = '/collections/' + id;
                                                  }}/>

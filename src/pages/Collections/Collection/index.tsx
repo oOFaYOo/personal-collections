@@ -9,6 +9,8 @@ import {ModalFormType} from "./type";
 import noImg from "../../../svg/no-img.svg";
 import {ICollection} from "../../../api_client/type";
 import api from "../../../api_client";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
 
 const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
     {
@@ -218,6 +220,7 @@ const Collection = () => {
 
     const path = useLocation().pathname;
     const {id} = useParams();
+    const {currentUser, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
     const [collection, setCollection] = useState<ICollection | null>(null);
@@ -235,7 +238,7 @@ const Collection = () => {
         )()
     }, [])
 
-    const items = [1];
+    const items: any = [];
 
     return (
         <div
@@ -254,7 +257,8 @@ const Collection = () => {
                     }
                 </Modal>
             }
-            <div className={`${collection ? '' : 'items-center'} flex flex-col md:flex-row md:max-h-[40vh] my-4 grow justify-between`}>
+            <div
+                className={`${collection ? 'justify-between' : 'items-center justify-center'} flex flex-col md:flex-row md:max-h-[40vh] my-4 w-full grow`}>
                 {
                     !collection
                         ? <CircularProgress/>
@@ -281,34 +285,44 @@ const Collection = () => {
                                         </Link>
                                     </div>
                                     <div className={'flex flex-row justify-between gap-2'}>
-                                        {
-                                            items.length === 0
-                                                ? null
-                                                : <Button size={'small'} variant="outlined"
-                                                          onClick={() => setOpenModal(ModalFormType.Item)}>Add</Button>
+                                        {collection?.user === currentUser?.id || currentUser?.isAdmin
+                                            ? <>
+                                                    {
+                                                        items.length === 0
+                                                            ? null
+                                                            : <Button size={'small'} variant="outlined"
+                                                                      onClick={() => setOpenModal(ModalFormType.Item)}>Add</Button>
+                                                    }
+                                                    <Button size={'small'} variant="outlined"
+                                                            onClick={() => setOpenModal(ModalFormType.Collection)}>
+                                                        Edit
+                                                    </Button>
+                                                    <Button size={'small'} variant="outlined" onClick={() => {
+                                                        api.deleteCollection(id as string)
+                                                    }}>
+                                                        Delete
+                                                    </Button>
+                                                </>
+                                            : null
                                         }
-                                        <Button size={'small'} variant="outlined"
-                                                onClick={() => setOpenModal(ModalFormType.Collection)}>
-                                            Edit
-                                        </Button>
-                                        <Button size={'small'} variant="outlined" onClick={()=>{api.deleteCollection(id as string)}}>
-                                            Delete
-                                        </Button>
                                     </div>
                                 </div>
-                                <p className={'overflow-y-auto w-[90%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
+                                <p className={'overflow-y-auto w-full md:w-[80%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
                                     {collection.description}
                                 </p>
                             </div>
                         </>
                 }
             </div>
-            {
-                items.length === 0
-                    ? <div className={'my-8'}><Button size={'large'} variant="outlined"
-                                                      onClick={() => setOpenModal(ModalFormType.Item)}>
-                        add your first item</Button>
-                    </div>
+            {!items
+                ? <CircularProgress/>
+                : items.length === 0
+                    ? collection?.user === currentUser?.id || currentUser?.isAdmin
+                        ? <div className={'my-8'}><Button size={'large'} variant="outlined"
+                                                          onClick={() => setOpenModal(ModalFormType.Item)}>
+                            add your first item</Button>
+                        </div>
+                        : null
                     : <Table pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
                         document.location = path + '/' + id;
                     }}/>
