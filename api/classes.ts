@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {AdditionalColumnType} from "../src/components/Table/type";
 import {ThemeType} from "../src/api_client/type";
 
@@ -25,7 +25,7 @@ export class User{
 export class Collection{
     @PrimaryGeneratedColumn()
     id!: string;
-    @OneToOne(() => User)
+    @ManyToOne(() => User)
     @JoinColumn()
     user!: User;
     @Column()
@@ -72,7 +72,7 @@ export class Collection{
 export class Item{
     @PrimaryGeneratedColumn()
     id!: string;
-    @OneToOne(() => Collection)
+    @ManyToOne(() => Collection)
     @JoinColumn()
     collection!: Collection;
     @Column()

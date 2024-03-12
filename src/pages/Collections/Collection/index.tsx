@@ -1,13 +1,14 @@
-import React, {useState} from "react";
-import {Link, useLocation} from "react-router-dom";
-import {Button, Modal} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, useParams} from "react-router-dom";
+import {Button, CircularProgress, Modal} from "@mui/material";
 import ItemForm from "../../../components/forms/ItemForm";
 import CollectionForm from "../../../components/forms/CollectionForm";
 import Table from "../../../components/Table";
 import {ModalFormType} from "./type";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
-
+import {ICollection} from "../../../api_client/type";
+import api from "../../../api_client";
 
 const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
     {
@@ -216,11 +217,25 @@ const rows = [
 const Collection = () => {
 
     const path = useLocation().pathname;
+    const {id} = useParams();
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
+    const [collection, setCollection] = useState<ICollection | null>(null);
+
+    useEffect(() => {
+        (
+            async () => {
+                if (!collection) {
+                    const response = await api.getCollection(id as string);
+                    if (response.status === 200) {
+                        setCollection(response.data)
+                    }
+                }
+            }
+        )()
+    }, [])
 
     const items = [1];
-    const avatar = 'g';
 
     return (
         <div
@@ -234,57 +249,59 @@ const Collection = () => {
                     sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
                     {openModal === ModalFormType.Item
-                        ? <ItemForm setOpenModal={()=>setOpenModal(ModalFormType.Initial)}/>
-                        : <CollectionForm setOpenModal={()=>setOpenModal(ModalFormType.Initial)}/>
+                        ? <ItemForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
+                        : <CollectionForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>
             }
-            <div className={'flex flex-col md:flex-row md:max-h-[40vh] my-4 grow justify-between'}>
-                <div className={'w-full lg:w-[35%] h-[300px] grow md:h-full flex justify-center items-center'}>
-                    {
-                        avatar
-                            ? <img
-                                src={'https://sun9-27.userapi.com/impg/M2gNPOTpINWsFHVOpjc-RSk2rpNKlAfEriopig/ukWQzow150s.jpg?size=1024x1024&quality=96&sign=3908fb39593d5a5b7e8909ce936462bf&type=album'}
-                                className={'relative h-full rounded-full shadow-md'}/>
-                            : <div
-                                className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden ' +
-                                    'flex justify-center items-center bg-neutral-100'}>
-                                <img src={noImg} className={'relative max-w-[140%]'}/></div>
-                    }
-                </div>
-                <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-between'}>
-                    <div className={'flex justify-between items-center mb-2'}>
-                        <div>
-                            <h1 className={'text-xl font-bold'}>Title</h1>
-                            <h2 className={'font-semibold italic'}>theme</h2>
-                            <Link to={'/users/:id'}>
-                                <h3 className={'text-lg font-semibold text-[#1976d2]'}>author</h3>
-                            </Link>
-                        </div>
-                        <div className={'flex flex-row justify-between gap-2'}>
-                            {
-                                items.length === 0
-                                    ? null
-                                    : <Button size={'small'} variant="outlined"
-                                              onClick={() => setOpenModal(ModalFormType.Item)}>Add</Button>
-                            }
-                            <Button size={'small'} variant="outlined"
-                                    onClick={() => setOpenModal(ModalFormType.Collection)}>
-                                Edit
-                            </Button>
-                            <Button size={'small'} variant="outlined">
-                                Delete
-                            </Button>
-                        </div>
-                    </div>
-                    <p className={'overflow-y-auto w-[90%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                        description description description description description description description description
-                    </p>
-                </div>
+            <div className={`${collection ? '' : 'items-center'} flex flex-col md:flex-row md:max-h-[40vh] my-4 grow justify-between`}>
+                {
+                    !collection
+                        ? <CircularProgress/>
+                        : <>
+                            <div className={'w-full lg:w-[35%] h-[300px] grow md:h-full flex justify-center items-center'}>
+                                {
+                                    !!collection.picture
+                                        ? <img
+                                            src={collection.picture}
+                                            className={'relative h-full rounded-full shadow-md'}/>
+                                        : <div
+                                            className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden ' +
+                                                'flex justify-center items-center bg-neutral-100'}>
+                                            <img src={noImg} className={'relative max-w-[140%]'}/></div>
+                                }
+                            </div>
+                            <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-between'}>
+                                <div className={'flex justify-between items-center mb-2'}>
+                                    <div>
+                                        <h1 className={'text-xl font-bold'}>{collection.name}</h1>
+                                        <h2 className={'font-semibold italic'}>{collection.theme}</h2>
+                                        <Link to={`/users/${collection.user}`}>
+                                            <h3 className={'text-lg font-semibold text-[#1976d2]'}>author</h3>
+                                        </Link>
+                                    </div>
+                                    <div className={'flex flex-row justify-between gap-2'}>
+                                        {
+                                            items.length === 0
+                                                ? null
+                                                : <Button size={'small'} variant="outlined"
+                                                          onClick={() => setOpenModal(ModalFormType.Item)}>Add</Button>
+                                        }
+                                        <Button size={'small'} variant="outlined"
+                                                onClick={() => setOpenModal(ModalFormType.Collection)}>
+                                            Edit
+                                        </Button>
+                                        <Button size={'small'} variant="outlined" onClick={()=>{api.deleteCollection(id as string)}}>
+                                            Delete
+                                        </Button>
+                                    </div>
+                                </div>
+                                <p className={'overflow-y-auto w-[90%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
+                                    {collection.description}
+                                </p>
+                            </div>
+                        </>
+                }
             </div>
             {
                 items.length === 0

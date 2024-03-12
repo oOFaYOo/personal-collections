@@ -10,7 +10,7 @@ import {ThemeType} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 
-const CollectionForm = ({setOpenModal}:IForm) => {
+const CollectionForm = ({setOpenModal, setUpdate}:IForm) => {
     const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const {id} = useParams();
 
@@ -67,6 +67,7 @@ const CollectionForm = ({setOpenModal}:IForm) => {
                           checkbox3: {id: 'checkbox3', label: checkbox3, type: 'checkbox'},
                       });
                       setOpenModal(false);
+                      if(setUpdate) setUpdate(true);
               }}>
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>

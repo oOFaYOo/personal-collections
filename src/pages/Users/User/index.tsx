@@ -46,35 +46,36 @@ const User = () => {
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
     const [user, setUser] = useState<IUser | null>(null);
     const [collections, setCollections] = useState<ICollection[] | null>(null);
-    const [update, setUpdate] = useState<boolean>(false);
+    const [updateUser, setUpdateUser] = useState<boolean>(false);
+    const [updateCollections, setUpdateCollections] = useState<boolean>(false);
 
     useEffect(() => {
         (
             async () => {
-                if (!user || update) {
+                if (!user || updateUser) {
                     const response = await api.getUser(id as string);
                     if (response.status === 200) {
                         setUser(response.data)
                     }
                 }
-                setUpdate(false);
+                setUpdateUser(false);
             }
         )()
-    }, [currentUser, update])
+    }, [currentUser, updateUser])
 
     useEffect(() => {
         (
             async () => {
-                if (!collections) {
+                if (!collections || updateCollections) {
                     const response = await api.getUserCollections(id as string);
                     if (response.status === 200) {
-                        console.log(response);
                         setCollections(response.data)
                     }
                 }
+                setUpdateCollections(false);
             }
         )()
-    }, [])
+    }, [updateCollections])
 
     function filter(rows: any) {
         let arrByTheme = filterByTheme.filter((item) => item.filtered);
@@ -102,9 +103,9 @@ const User = () => {
                 >
                     {
                         openModal === ModalFormType.User
-                            ? <UserForm user={user as IUser} setUpdate={setUpdate}
+                            ? <UserForm user={user as IUser} setUpdate={() => setUpdateUser(!updateUser)}
                                         setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
-                            : <CollectionForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
+                            : <CollectionForm setUpdate={() => setUpdateCollections(!updateCollections)} setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>
             }

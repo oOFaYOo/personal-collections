@@ -79,7 +79,6 @@ app.post('/api/signup', async (req, res) => {
     credentials.password = password;
     credentials.user = user;
 
-
     await usersRepository.save(user);
     await userCredentialsRepository.save(credentials);
 
@@ -272,9 +271,8 @@ app.get('/api/main/users', async (req, res) => {
 //////////////////////////////////////////////////////for collections
 
 app.get('/api/collections', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-    // res.status(200);
-    // res.send();
+    const collections = await collectionsRepository.find();
+    res.send(collections);
 });
 
 app.get('/api/user/collections/:id', async (req, res) => {
@@ -285,25 +283,47 @@ app.get('/api/user/collections/:id', async (req, res) => {
 });
 
 app.get('/api/collections/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-    const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const {id} = req.params;
+    const collection = (await collectionsRepository.find({where: {id: id}, relations: {user: true}}))[0];
+    const userId = collection.user.id;
+    res.send({...collection, user:userId});
 });
 
 app.delete('/api/collections/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-    const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const {id} = req.params;
+    const collection = (await collectionsRepository.find({where: {id: id}}))[0];
+    await collectionsRepository.delete(collection);
+    res.end();
 });
 
 app.post('/api/collections/create', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
     const {id, collection} = req.body;
-    delete collection.id;
-    collection.user = (await usersRepository.find({where: {id: id}}))[0];
-    await collectionsRepository.save(collection);
+    // delete collection.id;
+    // collection.user = (await usersRepository.find({where: {id: id}}))[0];
+    const cole = new Collection();
+    cole.user = (await usersRepository.find({where: {id: id}}))[0];
+    cole.name = collection.name;
+    cole.theme = collection.theme;
+    cole.description = collection.description;
+    cole.picture = 'https://sun9-55.userapi.com/impg/5dJJXD4jReeK8a7CbshHInxEOR19uOSqLO10XA/xHHvDv0HqZ4.jpg?size=1024x1024&quality=96&sign=7a7bee085f0ab70d0c1bff8319e5fe74&type=album';
+    cole.text1 = collection.text1;
+    cole.text2 = collection.text2;
+    cole.text3 = collection.text3;
+    cole.paragraph1 = collection.paragraph1;
+    cole.paragraph2 = collection.paragraph2;
+    cole.paragraph3 = collection.paragraph3;
+    cole.number1 = collection.number1;
+    cole.number2 = collection.number2;
+    cole.number3 = collection.number3;
+    cole.date1 = collection.date1;
+    cole.date2 = collection.date2;
+    cole.date3 = collection.date3;
+    cole.checkbox1 = collection.checkbox1;
+    cole.checkbox2 = collection.checkbox2;
+    cole.checkbox3 = collection.checkbox3;
+    await collectionsRepository.save(cole);
+    // await collectionsRepository.save(collection);
     res.end();
 });
 

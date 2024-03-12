@@ -19,7 +19,8 @@ const TableCell = ({row, item}: ITableCell) => {
             sx={{
                 borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '',
                 minWidth: '50px',
-                padding: '7px'
+                padding: '7px',
+                maxWidth: '500px'
             }}>
             {
                 item.type === 'action'
