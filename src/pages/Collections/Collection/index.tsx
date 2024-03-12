@@ -161,8 +161,9 @@ const Collection = () => {
                                                             onClick={() => setOpenModal(ModalFormType.Collection)}>
                                                         Edit
                                                     </Button>
-                                                    <Button size={'small'} variant="outlined" onClick={() => {
-                                                        api.deleteCollection(id as string)
+                                                    <Button size={'small'} variant="outlined" onClick={async () => {
+                                                        await api.deleteCollection(id as string);
+                                                        document.location = `/users/${collection.user}`;
                                                     }}>
                                                         Delete
                                                     </Button>
