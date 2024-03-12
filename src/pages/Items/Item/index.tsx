@@ -1,17 +1,17 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../store";
+import {RootState} from "../../../store";
 import {Avatar, Button, Checkbox, Chip, Modal} from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import InsertCommentRoundedIcon from '@mui/icons-material/InsertCommentRounded';
-import Accordion from "../../../../components/Accordion"
-import TextArea from "../../../../components/inputs/CommentTextArea"
-import ItemForm from "../../../../components/forms/ItemForm";
+import Accordion from "../../../components/Accordion"
+import TextArea from "../../../components/inputs/CommentTextArea"
+import ItemForm from "../../../components/forms/ItemForm";
 import {IItem} from "./type";
 // @ts-ignore
-import noImg from "../../../../svg/no-img.svg";
+import noImg from "../../../svg/no-img.svg";
 
 const Item = ({setTop}: IItem) => {
 

@@ -3,7 +3,6 @@ import {
     ICollection,
     IComment,
     IItem,
-    IItemPatch,
     IUser
 } from "./type";
 
@@ -346,7 +345,7 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async editItemData(id: string, item: IItemPatch) {
+    async editItemData(id: string, item: IItem) {
 
         const response = await axios({method: 'patch', url: `/api/items/${id}`, data: {item: item}});
         return {

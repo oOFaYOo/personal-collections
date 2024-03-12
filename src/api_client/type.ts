@@ -33,7 +33,7 @@ export interface IApiClient {
     deleteItem: (id:string) => Promise<IResponse<void>>;
     addItem: (id:string, item:IItem) => Promise<IResponse<void>>;
     uploadItemPicture: (id:string) => Promise<IResponse<void>>;
-    editItemData: (id:string, item:IItemPatch) => Promise<IResponse<void>>;
+    editItemData: (id:string, item:IItem) => Promise<IResponse<void>>;
 //comment
     getComments:(id:string) => Promise<IResponse<IComment[]>>;
     deleteComment:(id:string) => Promise<IResponse<void>>;
@@ -94,9 +94,6 @@ export interface IItem {
     user: string;
     collection: string; //id
     theme: ThemeType;
-}
-
-export interface IItemPatch {
     picture: string;
     name: string;
     tags: string;

@@ -6,9 +6,10 @@ import {RootState} from "./store";
 import {useDispatch, useSelector} from "react-redux";
 import Search from "./pages/Search";
 import Collections from "./pages/Collections";
+import Items from "./pages/Items";
 import Users from "./pages/Users";
 import Collection from "./pages/Collections/Collection";
-import Item from "./pages/Collections/Collection/Item";
+import Item from "./pages/Items/Item";
 import User from "./pages/Users/User";
 import api from "./api_client";
 import {setCurrentUser} from "./store/slice";
@@ -41,6 +42,7 @@ const App = () => {
                     <Route path={'/main'} element={<Main/>}/>
                     <Route path={'/collections'} element={<Collections/>}/>
                     <Route path={'/collections/:id'} element={<Collection/>}/>
+                    <Route path={'/items'} element={<Items/>}/>
                     <Route path={'/collections/:id/:id'} element={<Item setTop={setTop}/>}/>
                     <Route path={'/users'} element={<Users/>}/>
                     <Route path={'/users/:id'} element={<User/>}/>

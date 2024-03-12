@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Link, useLocation, useParams} from "react-router-dom";
 import {Button, CircularProgress, Modal} from "@mui/material";
 import ItemForm from "../../../components/forms/ItemForm";
@@ -11,8 +11,10 @@ import {ICollection} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
+import {ITableItem} from "../../../components/Table/type";
+import {filter} from "../../../components/Table/functions";
 
-const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'number' | 'date' | 'checkbox' | 'picture' }[] = [
+const config: ITableItem[] = [
     {
         id: 'picture',
         label: '',
@@ -21,6 +23,11 @@ const headCells: { id: string, label: string, type: 'text' | 'paragraph' | 'numb
     {
         id: 'name',
         label: 'Title',
+        type: 'text',
+    },
+    {
+        id: 'theme',
+        label: 'Theme',
         type: 'text',
     },
     {
@@ -77,9 +84,8 @@ const rows = [
 
 
 const Collection = () => {
-
-    const path = useLocation().pathname;
     const {id} = useParams();
+    const path = useLocation().pathname;
     const {currentUser, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
@@ -92,7 +98,7 @@ const Collection = () => {
                 if (!collection || updateCollections) {
                     const response = await api.getCollection(id as string);
                     if (response.status === 200) {
-                        setCollection(response.data)
+                        setCollection(response.data);
                     }
                 }
             }
@@ -100,6 +106,15 @@ const Collection = () => {
     }, [updateCollections])
 
     const items: any = [1];
+
+    const additionalColumns = useMemo(() => {
+        if(collection) {
+            let {id, user, picture, name, theme, description, ...additionalColumns} = collection;
+
+            console.log(additionalColumns);
+            return additionalColumns;
+        }
+    }, [collection]);
 
     return (
         <div
@@ -188,7 +203,7 @@ const Collection = () => {
                             add your first item</Button>
                         </div>
                         : null
-                    : <Table pagination={true} data={rows} config={headCells} onRowClick={(e, id) => {
+                    : <Table pagination={true} data={filter(rows, filterByTheme)} config={config} onRowClick={(e, id) => {
                         document.location = path + '/' + id;
                     }}/>
             }
