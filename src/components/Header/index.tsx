@@ -46,7 +46,7 @@ const Header = () => {
                     </Link>
                     {
                         currentUser
-                            ? <Link to={`/users/${localStorage.userId}`}>
+                            ? <Link to={`/users/${localStorage.userId}`} reloadDocument>
                                 <PersonIcon fontSize={'medium'}
                                             className={iconClass}/>
                             </Link>
