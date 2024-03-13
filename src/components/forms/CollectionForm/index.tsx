@@ -125,7 +125,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {cu
                                 placeholder={'Description'}/>
             </div>
             <div className={'flex flex-col items-center gap-4'}>
-                <h3>Additional item fields</h3>
+                <h3 className={'font-semibold'}>Additional item fields</h3>
                 <div className={'flex lg:flex-row flex-col justify-evenly gap-2'}>
                     <div className={'flex flex-col gap-2'}>
                         <CustomInput emptyEffect={!text1} value={text1} setValue={setText1} placeholder={'Title of text field'}
