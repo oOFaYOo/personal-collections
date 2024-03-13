@@ -10,6 +10,7 @@ const MultiTextInput = ({
                             name,
                             placeholder,
                             required = false,
+                            disabled = false,
                             size = 'medium',
                             type = 'text'
                         }: IMultiTextInput) => {
@@ -24,6 +25,7 @@ const MultiTextInput = ({
             size={size}
             required={required}
             value={value}
+            disabled={disabled}
             className={'styled_scrollbar'}
             multiline
             sx={{
@@ -42,6 +44,12 @@ const MultiTextInput = ({
                     },
                     '&.Mui-focused fieldset': {
                         borderColor: '#1976d2',
+                    },
+                    '&.Mui-disabled fieldset': {
+                        borderColor: theme === 'dark' ? 'rgba(229,229,229,0.3)' : 'rgba(23,23,23,0.3)',
+                    },
+                    '&.Mui-disabled:hover fieldset': {
+                        borderColor: theme === 'dark' ? 'rgba(229,229,229,0.3)' : 'rgba(23,23,23,0.3)',
                     },
                 },
                 '.MuiOutlinedInput-input': {

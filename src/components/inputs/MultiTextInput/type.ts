@@ -8,4 +8,5 @@ export interface IMultiTextInput  {
     size?:"small" | "medium";
     type?: React.HTMLInputTypeAttribute;
     required?:boolean;
+    disabled?:boolean;
 }

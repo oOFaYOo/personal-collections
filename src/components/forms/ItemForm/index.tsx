@@ -131,17 +131,20 @@ const InputForm = ({setOpenModal, currentCollection}: IForm & { currentCollectio
                     <div>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph1.label}</p>
                         <MultiTextInput value={paragraph1} setValue={setParagraph1} name={'paragraph1'}
-                                        placeholder={'Paragraph'}/>
+                                        placeholder={currentCollection?.paragraph1.label ? 'Long text' : ''}
+                                     disabled={!currentCollection?.paragraph1.label}/>
                     </div>
                     <div>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph2.label}</p>
                         <MultiTextInput value={paragraph2} setValue={setParagraph2} name={'paragraph2'}
-                                        placeholder={'Paragraph'}/>
+                                        placeholder={currentCollection?.paragraph2.label ? 'Long text' : ''}
+                                     disabled={!currentCollection?.paragraph2.label}/>
                     </div>
                     <div>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph3.label}</p>
                         <MultiTextInput value={paragraph3} setValue={setParagraph3} name={'paragraph3'}
-                                        placeholder={'Paragraph'}/>
+                                        placeholder={currentCollection?.paragraph3.label ? 'Long text' : ''}
+                                     disabled={!currentCollection?.paragraph3.label}/>
                     </div>
                 </div>
                 <Button variant="outlined" type={'submit'}>ok</Button>
