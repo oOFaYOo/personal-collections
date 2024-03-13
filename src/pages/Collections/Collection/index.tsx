@@ -110,12 +110,6 @@ const Collection = () => {
     const additionalColumns = useMemo(() => {
         if(collection) {
             let {id, user, picture, name, theme, description, ...additionalColumns} = collection;
-
-            console.log(additionalColumns);
-            return additionalColumns;
-        }
-    }, [collection]);
-
     return (
         <div
             className={'relative w-full flex flex-col justify-evenly items-center grow px-4 pb-2'}>
@@ -128,7 +122,7 @@ const Collection = () => {
                     sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
                     {openModal === ModalFormType.Item
-                        ? <ItemForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
+                        ? <ItemForm setOpenModal={() => setOpenModal(ModalFormType.Initial)} currentCollection={collection as ICollection} />
                         : <CollectionForm currentCollection={collection as ICollection}
                                           setOpenModal={() => setOpenModal(ModalFormType.Initial)}
                                           setUpdate={setUpdateCollections}/>

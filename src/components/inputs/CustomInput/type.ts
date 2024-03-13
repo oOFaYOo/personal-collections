@@ -10,4 +10,5 @@ export interface ICustomInput {
     required?:boolean;
     disabled?:boolean;
     fullWidth?:boolean;
+    emptyEffect?:boolean;
 }

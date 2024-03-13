@@ -13,7 +13,8 @@ const CustomInput = ({
                          size = 'medium',
                          type = 'text',
                          disabled = false,
-                         fullWidth = false
+                         fullWidth = false,
+                         emptyEffect = false
                      }: ICustomInput) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -30,17 +31,24 @@ const CustomInput = ({
             value={value}
             sx={{
                 minWidth: '200px',
+                opacity: emptyEffect ? '0.3' : '1',
                 width: fullWidth ? '100%' : '',
                 input: {color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'},
                 '& .MuiInput-underline:after': {
-                    borderBottomColor: '#1976d2',
+                    borderColor: '#1976d2',
                 },
                 '& .MuiOutlinedInput-root': {
                     '& fieldset': {
                         borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
                     },
+                    '&.Mui-disabled fieldset': {
+                        borderColor: theme === 'dark' ? 'rgba(229,229,229,0.3)' : 'rgba(23,23,23,0.3)',
+                    },
                     '&:hover fieldset': {
                         borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
+                    },
+                    '&.Mui-disabled:hover fieldset': {
+                        borderColor: theme === 'dark' ? 'rgba(229,229,229,0.3)' : 'rgba(23,23,23,0.3)',
                     },
                     '&.Mui-focused fieldset': {
                         borderColor: '#1976d2',

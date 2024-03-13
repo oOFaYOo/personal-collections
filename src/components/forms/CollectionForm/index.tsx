@@ -124,47 +124,47 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {cu
                 <MultiTextInput value={description} setValue={setDescription} name={'description'}
                                 placeholder={'Description'}/>
             </div>
-            <div className={'flex flex-col items-center gap-4 opacity-80'}>
+            <div className={'flex flex-col items-center gap-4'}>
                 <h3>Additional item fields</h3>
                 <div className={'flex lg:flex-row flex-col justify-evenly gap-2'}>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput value={text1} setValue={setText1} placeholder={'Title of text field'}
+                        <CustomInput emptyEffect={!text1} value={text1} setValue={setText1} placeholder={'Title of text field'}
                                      name={'text1'} size={'small'}/>
-                        <CustomInput value={text2} setValue={setText2} placeholder={'Title of text field'}
+                        <CustomInput emptyEffect={!text2} value={text2} setValue={setText2} placeholder={'Title of text field'}
                                      name={'text2'} size={'small'}/>
-                        <CustomInput value={text3} setValue={setText3} placeholder={'Title of text field'}
+                        <CustomInput emptyEffect={!text3} value={text3} setValue={setText3} placeholder={'Title of text field'}
                                      name={'text3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput value={number1} setValue={setNumber1} placeholder={'Title of numeric field'}
+                        <CustomInput emptyEffect={!number1} value={number1} setValue={setNumber1} placeholder={'Title of numeric field'}
                                      name={'number1'} size={'small'}/>
-                        <CustomInput value={number2} setValue={setNumber2} placeholder={'Title of numeric field'}
+                        <CustomInput emptyEffect={!number2} value={number2} setValue={setNumber2} placeholder={'Title of numeric field'}
                                      name={'number2'} size={'small'}/>
-                        <CustomInput value={number3} setValue={setNumber3} placeholder={'Title of numeric field'}
+                        <CustomInput emptyEffect={!number3} value={number3} setValue={setNumber3} placeholder={'Title of numeric field'}
                                      name={'number3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput value={date1} setValue={setDate1} placeholder={'Title of date field'}
+                        <CustomInput emptyEffect={!date1} value={date1} setValue={setDate1} placeholder={'Title of date field'}
                                      name={'date1'} size={'small'}/>
-                        <CustomInput value={date2} setValue={setDate2} placeholder={'Title of date field'}
+                        <CustomInput emptyEffect={!date2} value={date2} setValue={setDate2} placeholder={'Title of date field'}
                                      name={'date2'} size={'small'}/>
-                        <CustomInput value={date3} setValue={setDate3} placeholder={'Title of date field'}
+                        <CustomInput emptyEffect={!date3} value={date3} setValue={setDate3} placeholder={'Title of date field'}
                                      name={'date3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput value={checkbox1} setValue={setCheckbox1} placeholder={'Title of checkbox field'}
+                        <CustomInput emptyEffect={!checkbox1} value={checkbox1} setValue={setCheckbox1} placeholder={'Title of checkbox field'}
                                      name={'checkbox1'} size={'small'}/>
-                        <CustomInput value={checkbox2} setValue={setCheckbox2} placeholder={'Title of checkbox field'}
+                        <CustomInput emptyEffect={!checkbox2} value={checkbox2} setValue={setCheckbox2} placeholder={'Title of checkbox field'}
                                      name={'checkbox2'} size={'small'}/>
-                        <CustomInput value={checkbox3} setValue={setCheckbox3} placeholder={'Title of checkbox field'}
+                        <CustomInput emptyEffect={!checkbox3} value={checkbox3} setValue={setCheckbox3} placeholder={'Title of checkbox field'}
                                      name={'checkbox3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput value={paragraph1} setValue={setParagraph1} placeholder={'Title of paragraph field'}
+                        <CustomInput emptyEffect={!paragraph1} value={paragraph1} setValue={setParagraph1} placeholder={'Title of paragraph field'}
                                      name={'paragraph1'} size={'small'}/>
-                        <CustomInput value={paragraph2} setValue={setParagraph2} placeholder={'Title of paragraph field'}
+                        <CustomInput emptyEffect={!paragraph2} value={paragraph2} setValue={setParagraph2} placeholder={'Title of paragraph field'}
                                      name={'paragraph2'} size={'small'}/>
-                        <CustomInput value={paragraph3} setValue={setParagraph3} placeholder={'Title of paragraph field'}
+                        <CustomInput emptyEffect={!paragraph3} value={paragraph3} setValue={setParagraph3} placeholder={'Title of paragraph field'}
                                      name={'paragraph3'} size={'small'}/>
                     </div>
                 </div>
