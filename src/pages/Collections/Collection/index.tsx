@@ -107,9 +107,6 @@ const Collection = () => {
 
     const items: any = [1];
 
-    const additionalColumns = useMemo(() => {
-        if(collection) {
-            let {id, user, picture, name, theme, description, ...additionalColumns} = collection;
     return (
         <div
             className={'relative w-full flex flex-col justify-evenly items-center grow px-4 pb-2'}>
