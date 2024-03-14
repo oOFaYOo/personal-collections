@@ -12,65 +12,11 @@ import api from "../../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {ITableItem} from "../../../components/Table/type";
-import {filter} from "../../../components/Table/functions";
-
-const config: ITableItem[] = [
-    {
-        id: 'picture',
-        label: '',
-        type: 'picture'
-    },
-    {
-        id: 'name',
-        label: 'Title',
-        type: 'text',
-    },
-    {
-        id: 'theme',
-        label: 'Theme',
-        type: 'text',
-    },
-    {
-        id: 'tags',
-        label: 'Tags',
-        type: 'paragraph',
-    },
-    {
-        id: 'text1',
-        label: 'text',
-        type: 'text',
-    },
-    {
-        id: 'text2',
-        label: 'text',
-        type: 'text',
-    },
-    {
-        id: 'text3',
-        label: 'text',
-        type: 'text',
-    },
-    {
-        id: 'date1',
-        label: 'date',
-        type: 'date',
-    },
-    {
-        id: 'date2',
-        label: 'date',
-        type: 'date',
-    },
-    {
-        id: 'date3',
-        label: 'date',
-        type: 'date',
-    },
-];
 
 const Collection = () => {
     const {id} = useParams();
     const path = useLocation().pathname;
-    const {currentUser, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
     const [collection, setCollection] = useState<ICollection | null>(null);
@@ -104,7 +50,45 @@ const Collection = () => {
                 setUpdateItems(false)
             }
         )()
-    }, [collection, updateItems])
+    }, [collection, updateItems]);
+
+    const config: ITableItem[] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: 'Title',
+            type: 'text',
+        },
+        {
+            id: 'theme',
+            label: 'Theme',
+            type: 'text',
+        },
+        {
+            id: 'tags',
+            label: 'Tags',
+            type: 'paragraph',
+        },
+    ];
+
+    (function handledConfig () {
+        if(collection) {
+            for(let value of Object.values(collection)){
+                if(!!value.label && (value.type === 'text' || value.type === 'date')){
+                        config.push({
+                            id: value.id,
+                            label: value.label,
+                            type: value.type
+                        });
+                }
+            }
+            return config;
+        }
+    })()
 
     return (
         <div
@@ -194,7 +178,7 @@ const Collection = () => {
                             add your first item</Button>
                         </div>
                         : null
-                    : <Table pagination={true} data={filter(items, filterByTheme)} config={config} onRowClick={(e, id) => {
+                    : <Table pagination={true} data={items} filtering={false} config={config} onRowClick={(e, id) => {
                         document.location = path + '/' + id;
                     }}/>
             }

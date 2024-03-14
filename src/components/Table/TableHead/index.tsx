@@ -9,7 +9,7 @@ import {ITableHead} from "../type";
 import {Checkbox, FormControlLabel, Popover} from "@mui/material";
 import {setFilterByTheme} from "../../../store/slice";
 
-const TableHead = ({order, orderBy, rowCount, config, onRequestSort}: ITableHead) => {
+const TableHead = ({order, orderBy, rowCount, config, onRequestSort, filtering=true}: ITableHead) => {
     const dispatch = useDispatch();
     const {theme, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
@@ -65,7 +65,7 @@ const TableHead = ({order, orderBy, rowCount, config, onRequestSort}: ITableHead
                                 : null
                         }
                         {
-                            headCell.id === 'theme'
+                            headCell.id === 'theme' && filtering
                                 ? <>
                                     <button onClick={handleClick}>
                                         <FilterAltIcon fontSize={'small'} className={`${open ? 'opacity-100' : 'opacity-0'} hover:opacity-30`} />

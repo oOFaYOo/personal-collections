@@ -10,7 +10,7 @@ import TableRow from "./TableRow";
 import {getComparator, stableSort} from "./functions";
 
 const Table = (
-    {onRowClick, data, config, pagination}: ITable) => {
+    {onRowClick, data, config, pagination, filtering}: ITable) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
@@ -60,6 +60,7 @@ const Table = (
                     onRequestSort={handleRequestSort}
                     rowCount={data.length}
                     config={config}
+                    filtering={filtering}
                 />
                 {visibleRows.map((row, index) => <TableRow key={index} row={row} config={config}
                                                            onRowClick={onRowClick}/>)}

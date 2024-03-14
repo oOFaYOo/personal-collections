@@ -6,10 +6,12 @@ export interface ITableHead {
     orderBy: string;
     rowCount: number;
     config: ITableItem[];
+    filtering?: boolean,
 }
 
 export interface ITable {
     pagination?: boolean,
+    filtering?: boolean,
     onRowClick?: (event: React.MouseEvent, id: string, row?:{ [p: string]: any }) => void,
     data: any[],
     config: ITableItem[]
