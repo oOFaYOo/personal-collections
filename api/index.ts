@@ -370,6 +370,8 @@ app.get('/api/items', async (req, res) => {
 app.get('/api/items/:id', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
     const id = req.params.id;
+    // itemsRepository.find({relations: {collection: {user: true}}})
+
     // res.status(200);
     // res.send();
 });
@@ -390,8 +392,8 @@ app.post('/api/items', async (req, res) => {
     }
     const {id, item} = req.body;
     delete item.id;
-    item.user = (await usersRepository.find({where: {id: item.user}}))[0];
-    item.collection = (await collectionsRepository.find({where:{id: id}}));
+
+    item.collection = (await collectionsRepository.find({where:{id: id}}))[0];
     item.timestamp = new Date(Date.now());
     await itemsRepository.save(item);
     res.end();

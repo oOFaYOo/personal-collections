@@ -115,6 +115,9 @@ export class Item{
     checkbox2!: boolean;
     @Column({nullable: true})
     checkbox3!: boolean;
+
+    userId!: string;
+    userName!: string;
 }
 
 @Entity("personal-collections-comments")

@@ -91,7 +91,8 @@ export interface ICollection {
 
 export interface IItem {
     id: string;
-    user: string;
+    userId: string;
+    userName: string;
     collection: string; //id
     theme: ThemeType;
     picture: string;
