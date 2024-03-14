@@ -114,9 +114,9 @@ const Item = ({setTop}: IItemComponents) => {
                                                             onClick={() => setOpenModal(true)}
                                                     >Edit</Button>
                                                     <Button size={'small'} sx={{width: '100%', maxWidth: 150}}
-                                                            variant="outlined" onClick={async ()=>{
-                                                                await api.deleteItem(itemId!);
-                                                                document.location = `/collections/${collectionId}`;
+                                                            variant="outlined" onClick={async () => {
+                                                        await api.deleteItem(itemId!);
+                                                        document.location = `/collections/${collectionId}`;
                                                     }}
                                                     >Delete</Button></>
                                                 : null
@@ -136,94 +136,71 @@ const Item = ({setTop}: IItemComponents) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className={'w-full mb-2 pl-8 flex lg:flex-row flex-col lg:justify-between'}>
-                                {
-                                    item.date1 || item.date2 || item.date3 || item.number1 || item.number2 || item.number3
-                                        ? <div
-                                            className={'flex gap-16 w-full text-nowrap justify-start mb-4 overflow-x-auto'}>
-                                            {item.date1 || item.date2 || item.date3
-                                                ? <div className={'flex flex-col items-start'}>
-                                                    {!item.date1
-                                                        ? null
-                                                        :
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).date1.label}:
-                                                            <p className={'font-normal opacity-70'}>{item.date1}</p>
-                                                        </h3>
-                                                    }
-                                                    {!item.date2
-                                                        ? null
-                                                        :
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).date2.label}:
-                                                            <p className={'font-normal opacity-70'}>{item.date2}</p>
-                                                        </h3>
-                                                    }
-                                                    {!item.date3
-                                                        ? null
-                                                        :
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).date3.label}:
-                                                            <p className={'font-normal opacity-70'}>{item.date3}</p>
-                                                        </h3>
-                                                    }
-                                                </div>
-                                                : null
-                                            }
-                                            {item.number1 || item.number2 || item.number3
-                                                ? <div className={'flex flex-col items-start'}>
-                                                    {!item.number1
-                                                        ? null
-                                                        :
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).number1.label}:
-                                                            <p className={'font-normal opacity-70'}>{item.number1}</p>
-                                                        </h3>
-                                                    }
-                                                    {!item.number2
-                                                        ? null
-                                                        :
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).number2.label}:
-                                                            <p className={'font-normal opacity-70'}>{item.number2}</p>
-                                                        </h3>
-                                                    }
-                                                    {!item.number3
-                                                        ? null
-                                                        :
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).number3.label}:
-                                                            <p className={'font-normal opacity-70'}>{item.number3}</p>
-                                                        </h3>
-                                                    }
-                                                </div>
-                                                : null
-                                            }
-                                        </div>
-                                        : null
+                            <div
+                                className={'w-full mb-2 pl-8 flex flex-wrap justify-evenly md:justify-start gap-8 lg:gap-16'}>
+                                {item.date1 || item.date2 || item.date3
+                                    ? <div className={'flex flex-col'}>
+                                        {!item.date1
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).date1.label}:
+                                                <p className={'font-normal opacity-70'}>{item.date1.split('-').reverse().join('.')}</p>
+                                            </h3>
+                                        }
+                                        {!item.date2
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).date2.label}:
+                                                <p className={'font-normal opacity-70'}>{item.date2.split('-').reverse().join('.')}</p>
+                                            </h3>
+                                        }
+                                        {!item.date3
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).date3.label}:
+                                                <p className={'font-normal opacity-70'}>{item.date3.split('-').reverse().join('.')}</p>
+                                            </h3>
+                                        }
+                                    </div>
+                                    : null
                                 }
-
-                                <div className={'flex gap-16 text-nowrap w-full justify-start'}>
-                                    {
-                                        (item.collection as ICollection).checkbox1.label
-                                        || (item.collection as ICollection).checkbox2.label
-                                        || (item.collection as ICollection).checkbox3.label
-                                        || item.text1 || item.text2 || item.text3
-                                            ? <div className={'flex flex-col items-start'}>
-                                                {
-                                                    (item.collection as ICollection).checkbox1.label
-                                                        ? <div>
-                                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox1.label}:</h3>
-                                                            <Checkbox disabled defaultChecked={item.checkbox1} sx={{
-                                                                padding: 0,
-                                                                color: 'inherit',
-                                                                opacity: '0.7',
-                                                                '&.Mui-disabled': {
-                                                                    color: 'inherit',
-                                                                    opacity: '0.3',
-                                                                }
-                                                            }}/>
-                                                        </div>
-                                                        : null
-                                                }
-                                                {(item.collection as ICollection).checkbox2.label
+                                {item.number1 || item.number2 || item.number3
+                                    ? <div className={'flex flex-col'}>
+                                        {!item.number1
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).number1.label}:
+                                                <p className={'font-normal opacity-70'}>{item.number1}</p>
+                                            </h3>
+                                        }
+                                        {!item.number2
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).number2.label}:
+                                                <p className={'font-normal opacity-70'}>{item.number2}</p>
+                                            </h3>
+                                        }
+                                        {!item.number3
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).number3.label}:
+                                                <p className={'font-normal opacity-70'}>{item.number3}</p>
+                                            </h3>
+                                        }
+                                    </div>
+                                    : null
+                                }
+                                {
+                                    (item.collection as ICollection).checkbox1.label
+                                    || (item.collection as ICollection).checkbox2.label
+                                    || (item.collection as ICollection).checkbox3.label
+                                    || item.text1 || item.text2 || item.text3
+                                        ? <div className={'flex flex-col'}>
+                                            {
+                                                (item.collection as ICollection).checkbox1.label
                                                     ? <div>
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox2.label}:</h3>
-                                                        <Checkbox disabled defaultChecked={item.checkbox2} sx={{
+                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox1.label}:</h3>
+                                                        <Checkbox disabled defaultChecked={item.checkbox1} sx={{
                                                             padding: 0,
                                                             color: 'inherit',
                                                             opacity: '0.7',
@@ -234,54 +211,67 @@ const Item = ({setTop}: IItemComponents) => {
                                                         }}/>
                                                     </div>
                                                     : null
-                                                }
-                                                {
-                                                    (item.collection as ICollection).checkbox3.label
-                                                        ? <div>
-                                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox3.label}:</h3>
-                                                            <Checkbox disabled defaultChecked={item.checkbox3} sx={{
-                                                                padding: 0,
+                                            }
+                                            {(item.collection as ICollection).checkbox2.label
+                                                ? <div>
+                                                    <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox2.label}:</h3>
+                                                    <Checkbox disabled defaultChecked={item.checkbox2} sx={{
+                                                        padding: 0,
+                                                        color: 'inherit',
+                                                        opacity: '0.7',
+                                                        '&.Mui-disabled': {
+                                                            color: 'inherit',
+                                                            opacity: '0.3',
+                                                        }
+                                                    }}/>
+                                                </div>
+                                                : null
+                                            }
+                                            {
+                                                (item.collection as ICollection).checkbox3.label
+                                                    ? <div>
+                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox3.label}:</h3>
+                                                        <Checkbox disabled defaultChecked={item.checkbox3} sx={{
+                                                            padding: 0,
+                                                            color: 'inherit',
+                                                            opacity: '0.7',
+                                                            '&.Mui-disabled': {
                                                                 color: 'inherit',
-                                                                opacity: '0.7',
-                                                                '&.Mui-disabled': {
-                                                                    color: 'inherit',
-                                                                    opacity: '0.3',
-                                                                }
-                                                            }}/>
-                                                        </div>
-                                                        : null
-                                                }
-                                            </div>
-                                            : null
-                                    }
-
-                                    {item.text1 || item.text2 || item.text3
-                                        ? <div className={'flex flex-col items-start'}>
-                                            {!item.text1
-                                                ? null
-                                                :
-                                                <h3 className={'font-semibold'}>{(item.collection as ICollection).text1.label}:
-                                                    <p className={'font-normal opacity-70'}>{item.text1}</p>
-                                                </h3>
-                                            }
-                                            {!item.text2
-                                                ? null
-                                                :
-                                                <h3 className={'font-semibold'}>{(item.collection as ICollection).text2.label}:
-                                                    <p className={'font-normal opacity-70'}>{item.text2}</p>
-                                                </h3>
-                                            }
-                                            {!item.text3
-                                                ? null
-                                                :
-                                                <h3 className={'font-semibold'}>{(item.collection as ICollection).text3.label}:
-                                                    <p className={'font-normal opacity-70'}>{item.text3}</p>
-                                                </h3>
+                                                                opacity: '0.3',
+                                                            }
+                                                        }}/>
+                                                    </div>
+                                                    : null
                                             }
                                         </div>
                                         : null
-                                    }
-                                </div>
+                                }
+                                {item.text1 || item.text2 || item.text3
+                                    ? <div className={'flex flex-col'}>
+                                        {!item.text1
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).text1.label}:
+                                                <p className={'font-normal opacity-70'}>{item.text1}</p>
+                                            </h3>
+                                        }
+                                        {!item.text2
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).text2.label}:
+                                                <p className={'font-normal opacity-70'}>{item.text2}</p>
+                                            </h3>
+                                        }
+                                        {!item.text3
+                                            ? null
+                                            :
+                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).text3.label}:
+                                                <p className={'font-normal opacity-70'}>{item.text3}</p>
+                                            </h3>
+                                        }
+                                    </div>
+                                    : null
+                                }
                             </div>
                             {
                                 item.paragraph1 || item.paragraph2 || item.paragraph3
