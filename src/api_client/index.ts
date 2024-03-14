@@ -309,6 +309,14 @@ class ApiClient implements IApiClient {
         }
     }
 
+    async getCollectionItems(id:string) {
+        const response = await axios({method: 'get', url: `/api/collection/items/${id}`});
+        return {
+            status: response.status,
+            data: response.data,
+        }
+    }
+
     async getItem(id: string) {
 
         const response = await axios({method: 'get', url: `/api/items/${id}`});
@@ -347,7 +355,7 @@ class ApiClient implements IApiClient {
 
     async editItemData(id: string, item: IItem) {
 
-        const response = await axios({method: 'patch', url: `/api/items/${id}`, data: {item: item}});
+        const response = await axios({method: 'patch', url: `/api/items/${id}`, data: {item: {...item}}});
         return {
             status: response.status,
             data: undefined,

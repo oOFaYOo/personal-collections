@@ -29,6 +29,7 @@ export interface IApiClient {
     editCollectionData: (id:string, collection:ICollection) => Promise<IResponse<void>>;
 //items
     getItems: () => Promise<IResponse<(IItem & ILikeGeneral)[]>>;
+    getCollectionItems: (id:string) => Promise<IResponse<IItem[]>>;
     getItem: (id:string) => Promise<IResponse<IItem & ILikeGeneral>>;
     deleteItem: (id:string) => Promise<IResponse<void>>;
     addItem: (id:string, item:IItem) => Promise<IResponse<void>>;

@@ -1,15 +1,15 @@
 import React, {useState} from "react";
 import InputFileUpload from "../../inputs/UploadImage";
-import {Button, Checkbox, FormControlLabel} from "@mui/material";
+import {Button, Checkbox} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
-import {ICollection, ThemeType} from "../../../api_client/type";
+import {ICollection, IItem} from "../../../api_client/type";
 import api from "../../../api_client";
 
-const InputForm = ({setOpenModal, currentCollection}: IForm & { currentCollection?: ICollection }) => {
+const InputForm = ({setOpenModal, currentCollection, currentItem}: IForm & { currentCollection?: ICollection, currentItem?:IItem }) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [name, setName] = useState<string>('');
@@ -43,8 +43,8 @@ const InputForm = ({setOpenModal, currentCollection}: IForm & { currentCollectio
                   if(!currentCollection) return;
                   const itemData = {
                       id: '',
-                      userName: "",
-                      userId: "",
+                      userName: '',
+                      userId: '',
                       collection: currentCollection.id, //id
                       theme: currentCollection.theme,
                       picture: 'https://sun9-25.userapi.com/impg/bhxPhGp-bsNvt26biI4iW-AfXvChjFzwSyrAag/7PUrA45ib50.jpg?size=1024x1024&quality=96&sign=398f408bfcb4e22d3489f6702dfc2709&type=album',
@@ -66,8 +66,17 @@ const InputForm = ({setOpenModal, currentCollection}: IForm & { currentCollectio
                       checkbox2: checkbox2,
                       checkbox3: checkbox3,
                   }
-                  await api.addItem(currentCollection?.id as string, {...itemData});
+                  if(!currentItem){
+                      await api.addItem(currentCollection?.id as string, {...itemData, id:'', userId:'', userName:''});
+                  }  else {
+                      await api.editItemData(currentItem?.id, {...itemData,
+                          id: currentItem.id,
+                          userId: currentItem.userId,
+                          userName: currentItem.userName,
+                          picture: ''})
+                  }
                   setOpenModal(false);
+                  // setUpdate!(true);
               }}>
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>

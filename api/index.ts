@@ -9,6 +9,7 @@ import path from 'path';
 import {sql} from '@vercel/postgres';
 import {Simulate} from "react-dom/test-utils";
 import select = Simulate.select;
+import collection from "../src/pages/Collections/Collection";
 
 const app = express();
 app.use(bodyParser.json());
@@ -361,26 +362,36 @@ app.patch('/api/collections/:id', async (req, res) => {
 ///////////////////////////////////////////////////for item
 
 app.get('/api/items', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const items = await itemsRepository.find({relations: {collection:true}});
+    for(let item of items){
+        const collection = (await collectionsRepository.find({where:{ id: item.collection.id}, relations: {user: true}}))[0];
+        item.userId = collection.user.id;
+        item.userName = collection.user.name;
+    }
+    res.send(items);
+});
 
-    // res.status(200);
-    // res.send();
+app.get('/api/collection/items/:id', async (req, res) => {
+    const {id} = req.params;
+    const collection = (await collectionsRepository.find({where: {id: id}}))[0];
+    const items = await itemsRepository.find({where: {collection: collection}});
+    res.send(items);
 });
 
 app.get('/api/items/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
     const id = req.params.id;
-    // itemsRepository.find({relations: {collection: {user: true}}})
-
-    // res.status(200);
-    // res.send();
+    const item = (await itemsRepository.find({where:{id:id}, relations: {collection: true}}))[0];
+    const collection = (await collectionsRepository.find({where:{ id: item.collection.id}, relations: {user: true}}))[0];
+    item.userId = collection.user.id;
+    item.userName = collection.user.name;
+    res.send(item);
 });
 
 app.delete('/api/items/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
     const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const item = (await itemsRepository.find({where:{id:id}}))[0];
+    await itemsRepository.delete(item);
+    res.end();
 });
 
 app.post('/api/items', async (req, res) => {
@@ -407,10 +418,7 @@ app.post('/api/items/:id/picture', async (req, res) => {
 });
 
 app.patch('/api/items/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-    const id = req.params.id;
-    // res.status(200);
-    // res.send();
+
 });
 
 ///////////////////////////////////////////////////////comment

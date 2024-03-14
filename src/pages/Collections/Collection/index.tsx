@@ -7,7 +7,7 @@ import Table from "../../../components/Table";
 import {ModalFormType} from "./type";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
-import {ICollection} from "../../../api_client/type";
+import {ICollection, IItem} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
@@ -67,22 +67,6 @@ const config: ITableItem[] = [
     },
 ];
 
-const rows = [
-    {
-        id: '2',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        name: 'sometitle',
-        date1: '05.03.2021',
-        text1:'dfvd',
-        date2: '05.03.2021',
-        text2:'dfvd',
-        date3: '05.03.2021',
-        text3:'dfvd',
-        picture: ''
-    },
-];
-
-
 const Collection = () => {
     const {id} = useParams();
     const path = useLocation().pathname;
@@ -90,8 +74,9 @@ const Collection = () => {
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
     const [collection, setCollection] = useState<ICollection | null>(null);
+    const [items, setItems] = useState<IItem[] | null>(null);
     const [updateCollections, setUpdateCollections] = useState<boolean>(false);
-
+console.log(updateCollections)
     useEffect(() => {
         (
             async () => {
@@ -101,11 +86,23 @@ const Collection = () => {
                         setCollection(response.data);
                     }
                 }
+                setUpdateCollections(false);
             }
         )()
     }, [updateCollections])
 
-    const items: any = [1];
+    useEffect(() => {
+        (
+            async () => {
+                if (!items && collection) {
+                    const response = await api.getCollectionItems(collection?.id!);
+                    if (response.status === 200) {
+                        setItems(response.data);
+                    }
+                }
+            }
+        )()
+    }, [collection])
 
     return (
         <div
@@ -158,7 +155,7 @@ const Collection = () => {
                                         {collection?.user === currentUser?.id || currentUser?.isAdmin
                                             ? <>
                                                     {
-                                                        items.length === 0
+                                                        items?.length === 0
                                                             ? null
                                                             : <Button size={'small'} variant="outlined"
                                                                       onClick={() => setOpenModal(ModalFormType.Item)}>Add</Button>
@@ -194,7 +191,7 @@ const Collection = () => {
                             add your first item</Button>
                         </div>
                         : null
-                    : <Table pagination={true} data={filter(rows, filterByTheme)} config={config} onRowClick={(e, id) => {
+                    : <Table pagination={true} data={filter(items, filterByTheme)} config={config} onRowClick={(e, id) => {
                         document.location = path + '/' + id;
                     }}/>
             }
