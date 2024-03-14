@@ -98,11 +98,11 @@ export class Item{
     @Column({nullable: true})
     paragraph3!: string;
     @Column({nullable: true})
-    number1!: number;
+    number1!: string;
     @Column({nullable: true})
-    number2!: number;
+    number2!: string;
     @Column({nullable: true})
-    number3!: number;
+    number3!: string;
     @Column({nullable: true})
     date1!: string;
     @Column({nullable: true})

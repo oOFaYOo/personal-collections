@@ -329,7 +329,7 @@ class ApiClient implements IApiClient {
 
     async addItem(id: string, item: IItem) {
 
-        const response = await axios({method: 'post', url: `/api/items`, data: {id: id, item: item}});
+        const response = await axios({method: 'post', url: `/api/items`, data: {id: id, item: {...item}}});
         return {
             status: response.status,
             data: undefined,

@@ -97,21 +97,21 @@ export interface IItem {
     picture: string;
     name: string;
     tags: string;
-    text1: string | null;
-    text2: string | null;
-    text3: string | null;
-    paragraph1: string | null;
-    paragraph2: string | null;
-    paragraph3: string | null;
-    number1: number | null;
-    number2: number | null;
-    number3: number | null;
-    date1: string | null;
-    date2: string | null;
-    date3: string | null;
-    checkbox1: boolean | null;
-    checkbox2: boolean | null;
-    checkbox3: boolean | null;
+    text1: string;
+    text2: string;
+    text3: string;
+    paragraph1: string;
+    paragraph2: string;
+    paragraph3: string;
+    number1: string;
+    number2: string;
+    number3: string;
+    date1: string;
+    date2: string;
+    date3: string;
+    checkbox1: boolean;
+    checkbox2: boolean;
+    checkbox3: boolean;
 }
 
 export interface IComment {
