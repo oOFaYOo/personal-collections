@@ -10,7 +10,7 @@ export interface ITableHead {
 
 export interface ITable {
     pagination?: boolean,
-    onRowClick?: (event: React.MouseEvent, id: string) => void,
+    onRowClick?: (event: React.MouseEvent, id: string, row?:{ [p: string]: any }) => void,
     data: any[],
     config: ITableItem[]
 }
@@ -33,7 +33,7 @@ export interface ITableCell {
 export interface ITableRow {
     row: { [p: string]: any };
     config: ITableItem[];
-    onRowClick?: (event: React.MouseEvent, id: string) => void;
+    onRowClick?: (event: React.MouseEvent, id: string, row?:{ [p: string]: any }) => void;
 }
 
 export interface IAction {

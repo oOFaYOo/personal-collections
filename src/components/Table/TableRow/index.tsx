@@ -8,7 +8,7 @@ const TableRow = ({config, row, onRowClick}: ITableRow) => {
     return (
         <TableRowMUI
             hover={!!onRowClick}
-            onClick={(event) => onRowClick ? onRowClick(event, row.id) : () => {
+            onClick={(event) => onRowClick ? onRowClick(event, row.id, row) : () => {
             }}
             tabIndex={-1}
             key={row.id}

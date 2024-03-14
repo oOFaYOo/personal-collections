@@ -9,7 +9,13 @@ import {IForm} from "../type";
 import {ICollection, IItem} from "../../../api_client/type";
 import api from "../../../api_client";
 
-const InputForm = ({setOpenModal, currentCollection, currentItem}: IForm & { currentCollection?: ICollection, currentItem?:IItem }) => {
+const InputForm = (
+    {
+        setOpenModal,
+        currentCollection,
+        currentItem,
+        setUpdate
+    }: IForm & { currentCollection?: ICollection, currentItem?: IItem }) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [name, setName] = useState<string>('');
@@ -40,7 +46,7 @@ const InputForm = ({setOpenModal, currentCollection, currentItem}: IForm & { cur
          p-8 gap-4 outline-none rounded-md shadow-md flex-col justify-evenly items-center overflow-y-auto max-h-[90vh] styled_scrollbar`}
               onSubmit={async (e) => {
                   e.preventDefault();
-                  if(!currentCollection) return;
+                  if (!currentCollection) return;
                   const itemData = {
                       id: '',
                       userName: '',
@@ -66,17 +72,24 @@ const InputForm = ({setOpenModal, currentCollection, currentItem}: IForm & { cur
                       checkbox2: checkbox2,
                       checkbox3: checkbox3,
                   }
-                  if(!currentItem){
-                      await api.addItem(currentCollection?.id as string, {...itemData, id:'', userId:'', userName:''});
-                  }  else {
-                      await api.editItemData(currentItem?.id, {...itemData,
+                  if (!currentItem) {
+                      await api.addItem(currentCollection?.id as string, {
+                          ...itemData,
+                          id: '',
+                          userId: '',
+                          userName: ''
+                      });
+                  } else {
+                      await api.editItemData(currentItem?.id, {
+                          ...itemData,
                           id: currentItem.id,
                           userId: currentItem.userId,
                           userName: currentItem.userName,
-                          picture: ''})
+                          picture: ''
+                      })
                   }
                   setOpenModal(false);
-                  // setUpdate!(true);
+                  setUpdate!(true);
               }}>
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
@@ -154,13 +167,16 @@ const InputForm = ({setOpenModal, currentCollection, currentItem}: IForm & { cur
                     </div>
                     <div className={'flex flex-col gap-2'}>
                         <p className={'text-center italic h-6'}>{currentCollection?.date1.label}</p>
-                        <CustomInput value={date1} setValue={setDate1} fullWidth type={'date'} placeholder={''} name={'date1'}
+                        <CustomInput value={date1} setValue={setDate1} fullWidth type={'date'} placeholder={''}
+                                     name={'date1'}
                                      size={'small'} disabled={!currentCollection?.date1.label}/>
                         <p className={'text-center italic h-6'}>{currentCollection?.date2.label}</p>
-                        <CustomInput value={date2} setValue={setDate2} fullWidth type={'date'} placeholder={''} name={'date2'}
+                        <CustomInput value={date2} setValue={setDate2} fullWidth type={'date'} placeholder={''}
+                                     name={'date2'}
                                      size={'small'} disabled={!currentCollection?.date2.label}/>
                         <p className={'text-center italic h-6'}>{currentCollection?.date3.label}</p>
-                        <CustomInput value={date3} setValue={setDate3} fullWidth type={'date'} placeholder={''} name={'date3'}
+                        <CustomInput value={date3} setValue={setDate3} fullWidth type={'date'} placeholder={''}
+                                     name={'date3'}
                                      size={'small'} disabled={!currentCollection?.date3.label}/>
                     </div>
                 </div>
@@ -169,19 +185,19 @@ const InputForm = ({setOpenModal, currentCollection, currentItem}: IForm & { cur
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph1.label}</p>
                         <MultiTextInput value={paragraph1} setValue={setParagraph1} name={'paragraph1'}
                                         placeholder={currentCollection?.paragraph1.label ? 'Long text' : ''}
-                                     disabled={!currentCollection?.paragraph1.label}/>
+                                        disabled={!currentCollection?.paragraph1.label}/>
                     </div>
                     <div>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph2.label}</p>
                         <MultiTextInput value={paragraph2} setValue={setParagraph2} name={'paragraph2'}
                                         placeholder={currentCollection?.paragraph2.label ? 'Long text' : ''}
-                                     disabled={!currentCollection?.paragraph2.label}/>
+                                        disabled={!currentCollection?.paragraph2.label}/>
                     </div>
                     <div>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph3.label}</p>
                         <MultiTextInput value={paragraph3} setValue={setParagraph3} name={'paragraph3'}
                                         placeholder={currentCollection?.paragraph3.label ? 'Long text' : ''}
-                                     disabled={!currentCollection?.paragraph3.label}/>
+                                        disabled={!currentCollection?.paragraph3.label}/>
                     </div>
                 </div>
                 <Button variant="outlined" type={'submit'}>ok</Button>

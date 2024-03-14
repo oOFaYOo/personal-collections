@@ -75,34 +75,36 @@ const Collection = () => {
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
     const [collection, setCollection] = useState<ICollection | null>(null);
     const [items, setItems] = useState<IItem[] | null>(null);
-    const [updateCollections, setUpdateCollections] = useState<boolean>(false);
+    const [updateCollection, setUpdateCollection] = useState<boolean>(false);
+    const [updateItems, setUpdateItems] = useState<boolean>(false);
 
     useEffect(() => {
         (
             async () => {
-                if (!collection || updateCollections) {
+                if (!collection || updateCollection) {
                     const response = await api.getCollection(id as string);
                     if (response.status === 200) {
                         setCollection(response.data);
                     }
                 }
-                setUpdateCollections(false);
+                setUpdateCollection(false);
             }
         )()
-    }, [updateCollections])
+    }, [updateCollection])
 
     useEffect(() => {
         (
             async () => {
-                if (!items && collection) {
+                if ((!items && collection) || (updateItems && collection) ) {
                     const response = await api.getCollectionItems(collection?.id!);
                     if (response.status === 200) {
                         setItems(response.data);
                     }
                 }
+                setUpdateItems(false)
             }
         )()
-    }, [collection])
+    }, [collection, updateItems])
 
     return (
         <div
@@ -116,10 +118,11 @@ const Collection = () => {
                     sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
                 >
                     {openModal === ModalFormType.Item
-                        ? <ItemForm setOpenModal={() => setOpenModal(ModalFormType.Initial)} currentCollection={collection as ICollection} />
+                        ? <ItemForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}
+                                    currentCollection={collection as ICollection} setUpdate={setUpdateItems} />
                         : <CollectionForm currentCollection={collection as ICollection}
                                           setOpenModal={() => setOpenModal(ModalFormType.Initial)}
-                                          setUpdate={setUpdateCollections}/>
+                                          setUpdate={setUpdateCollection}/>
                     }
                 </Modal>
             }

@@ -25,44 +25,34 @@ const config: ITableItem[] = [
         type: 'text',
     },
     {
+      id:'userName',
+      label: 'Author',
+      type: 'text',
+    },
+    {
         id: 'tags',
         label: 'Tags',
         type: 'paragraph',
     }
 ];
 
-const items = [
-    {
-        id: '2',
-        tags: '#dfhj #fjgdlk #gfj #hdjfhkd #kdfngd #fjbd #gssydg',
-        name: 'sometitle',
-        date1: '05.03.2021',
-        text1:'dfvd',
-        date2: '05.03.2021',
-        text2:'dfvd',
-        date3: '05.03.2021',
-        text3:'dfvd',
-        picture: ''
-    },
-];
-
 const Items = () => {
     const {filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
-    // const [items, setItems] = useState<IItem[] | null>(null);
-    //
-    // useEffect(() => {
-    //     (
-    //         async () => {
-    //             if (!items) {
-    //                 const response = await api.getItems();
-    //                 if (response.status === 200) {
-    //                     setItems(response.data)
-    //                 }
-    //             }
-    //         }
-    //     )()
-    // }, [])
+    const [items, setItems] = useState<IItem[] | null>(null);
+
+    useEffect(() => {
+        (
+            async () => {
+                if (!items) {
+                    const response = await api.getItems();
+                    if (response.status === 200) {
+                        setItems(response.data)
+                    }
+                }
+            }
+        )()
+    }, [])
 
     return (
         <div
@@ -73,8 +63,8 @@ const Items = () => {
                 : <Table pagination={true}
                          data={filter(items, filterByTheme)}
                          config={config}
-                         onRowClick={(e, id) => {
-                        document.location = '/collections/';
+                         onRowClick={(e, id, row) => {
+                        document.location = `/collections/${row?.collection.id}/${id}`;
                     }} />
             }
 
