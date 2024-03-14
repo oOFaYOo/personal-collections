@@ -408,6 +408,12 @@ app.get('/api/items/:id', async (req, res) => {
 });
 
 app.delete('/api/items/:id', async (req, res) => {
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
     const id = req.params.id;
     const item = (await itemsRepository.find({where:{id:id}}))[0];
     await itemsRepository.delete(item);
