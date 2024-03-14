@@ -1,18 +1,18 @@
 import React from 'react';
 import Textarea from '@mui/joy/Textarea';
 import Typography from '@mui/joy/Typography';
+import {ICommentTextArea} from "./type";
 
-const CommentTextArea = () => {
-    const [text, setText] = React.useState('');
-
+const CommentTextArea = ({value, setValue}:ICommentTextArea) => {
     return (
         <Textarea
+            value={value}
             placeholder="Your comment..."
-            onChange={(event) => setText(event.target.value)}
+            onChange={(event) => setValue(event.target.value)}
             minRows={3}
             endDecorator={
                 <Typography level="body-xs" sx={{ml: 'auto'}}>
-                    {text.length} character(s)
+                    {value.length} character(s)
                 </Typography>
             }
             sx={{

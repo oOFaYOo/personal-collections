@@ -118,6 +118,7 @@ export interface IItem {
 
 export interface IComment {
     id: string;
+    user: string;
     userId: string;
     itemId: string;
     text: string;

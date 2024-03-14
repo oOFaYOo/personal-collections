@@ -124,6 +124,9 @@ export class Item{
 export class Comment{
     @PrimaryGeneratedColumn()
     id!: string;
+    @ManyToOne(() => User)
+    @JoinColumn()
+    user!: User;
     @Column()
     userId!: string;
     @Column()

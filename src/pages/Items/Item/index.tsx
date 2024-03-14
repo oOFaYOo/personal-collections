@@ -14,6 +14,7 @@ import {IItem as IItemComponents} from "./type";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
 import api from "../../../api_client";
+import CommentsBlock from "./CommentsBlock";
 
 const Item = ({setTop}: IItemComponents) => {
     const {collectionId, itemId} = useParams();
@@ -37,8 +38,6 @@ const Item = ({setTop}: IItemComponents) => {
         )()
     }, [updateItem])
 
-    const isfavorit = false;
-
     function getAccordionData(item: IItem) {
         const accordionData = [];
         if (item.paragraph1) accordionData.push({
@@ -58,7 +57,7 @@ const Item = ({setTop}: IItemComponents) => {
 
 
     return (
-        <div className={'w-full flex grow md:flex-row flex-col'}>
+        <div className={`${item ? '' : 'justify-center items-center'} w-full flex grow md:flex-row flex-col`}>
             {
                 <Modal
                     open={openModal}
@@ -72,16 +71,18 @@ const Item = ({setTop}: IItemComponents) => {
                               currentItem={item!} setUpdate={setUpdateItem}/>
                 </Modal>
             }
-            <div
-                className={`${item ? '' : 'justify-center'} flex flex-col w-full md:w-[65%] items-center px-4 py-4 
+
+            {
+                !item
+                    ? <CircularProgress/>
+                    : <>
+                        <div
+                            className={`${item ? '' : 'justify-center'} flex flex-col w-full md:w-[65%] items-center px-4 py-4 
                 md:max-h-[90vh] styled_scrollbar overflow-y-auto`}
-                onScroll={(e) => {
-                    setTop(e.currentTarget.scrollTop)
-                }}>
-                {
-                    !item
-                        ? <CircularProgress/>
-                        : <>
+                            onScroll={(e) => {
+                                setTop(e.currentTarget.scrollTop)
+                            }}>
+
                             <div className={'w-full flex-col md:flex-row flex mb-4 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
                                 <div className={'md:h-full pb-4 md:w-[50%] h-[250px] flex justify-center items-center'}>
                                     {
@@ -278,136 +279,12 @@ const Item = ({setTop}: IItemComponents) => {
                                     ? <Accordion data={getAccordionData(item)}/>
                                     : null
                             }
-                        </>
-                }
-            </div>
-            <div className={'flex w-full flex-col md:h-auto md:w-[35%] p-4'}>
-                <div
-                    className={`${theme === 'dark' ? 'shadow-black/70' : ''} 
-                    w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
-                    <Chip
-                        sx={{
-                            width: '95%',
-                            minHeight: '40px',
-                            color: 'inherit',
-                            display: 'flex',
-                            justifyContent: 'space-between'
-                        }}
-                        variant="outlined"
-                        label={<p
-                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
-                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={() => {
-                        }}
-                        avatar={<Avatar src=""/>}/>
-                    <Chip
-                        sx={{
-                            width: '95%',
-                            minHeight: '40px',
-                            color: 'inherit',
-                            display: 'flex',
-                            justifyContent: 'space-between'
-                        }}
-                        variant="outlined"
-                        label={<p
-                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
-                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={() => {
-                        }}
-                        avatar={<Avatar src=""/>}/>
-                    <Chip
-                        sx={{
-                            width: '95%',
-                            minHeight: '40px',
-                            color: 'inherit',
-                            display: 'flex',
-                            justifyContent: 'space-between'
-                        }}
-                        variant="outlined"
-                        label={<p
-                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
-                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={() => {
-                        }}
-                        avatar={<Avatar src=""/>}/>
-                    <Chip
-                        sx={{
-                            width: '95%',
-                            minHeight: '40px',
-                            color: 'inherit',
-                            display: 'flex',
-                            justifyContent: 'space-between'
-                        }}
-                        variant="outlined"
-                        label={<p
-                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
-                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={() => {
-                        }}
-                        avatar={<Avatar src=""/>}/>
-                    <Chip
-                        sx={{
-                            width: '95%',
-                            minHeight: '40px',
-                            color: 'inherit',
-                            display: 'flex',
-                            justifyContent: 'space-between'
-                        }}
-                        variant="outlined"
-                        label={<p
-                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
-                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={() => {
-                        }}
-                        avatar={<Avatar src=""/>}/>
-                    <Chip
-                        sx={{
-                            width: '95%',
-                            minHeight: '40px',
-                            color: 'inherit',
-                            display: 'flex',
-                            justifyContent: 'space-between'
-                        }}
-                        variant="outlined"
-                        label={<p
-                            title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                            className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj bkjbdkjfb
-                            kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                        color="default"
-                        onDelete={() => {
-                        }}
-                        avatar={<Avatar src=""/>}/>
-                </div>
-                <div className={'flex w-full'}>
-                    <div className={`w-[70%] ${theme === 'dark' ? 'shadow-black/70' : ''} rounded-md shadow-md`}>
-                        <TextArea/>
-                    </div>
-                    <div className={`flex flex-col grow items-center justify-center gap-2`}>
-                        <div className={'flex items-center justify-evenly w-full text-sm'}>
-                            <p>
-                                {
-                                    isfavorit
-                                        ? <FavoriteIcon fontSize={"small"} className={'cursor-pointer text-[#1976d2]'}/>
-                                        : <FavoriteBorderIcon fontSize={"small"}
-                                                              className={'cursor-pointer opacity-70 hover:opacity-100 hover:text-[#1976d2]'}/>
-                                }
-                                232</p>
-                            <p><InsertCommentRoundedIcon fontSize={'small'} className={'opacity-70'}/>56</p>
+
+
                         </div>
-                        <Button sx={{width: '80%'}} variant="outlined">Send</Button>
-                    </div>
-                </div>
-            </div>
+                        <CommentsBlock item={item!}/>
+                    </>
+            }
         </div>
     )
 }

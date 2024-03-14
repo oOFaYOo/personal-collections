@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {DataSource} from "typeorm";
-import {Collection, Item, Session, User, UserCredentials} from "./classes";
+import {Collection, Comment, Item, Session, User, UserCredentials} from "./classes";
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -27,7 +27,7 @@ const AppDataSource = new DataSource({
     database: "verceldb",
     synchronize: true,
     logging: false,
-    entities: [User, UserCredentials, Session, Collection, Item],
+    entities: [User, UserCredentials, Session, Collection, Item, Comment],
 });
 
 const usersRepository = AppDataSource.getRepository(User);
@@ -35,6 +35,7 @@ const userCredentialsRepository = AppDataSource.getRepository(UserCredentials);
 const sessionsRepository = AppDataSource.getRepository(Session);
 const collectionsRepository = AppDataSource.getRepository(Collection);
 const itemsRepository = AppDataSource.getRepository(Item);
+const commentsRepository = AppDataSource.getRepository(Comment);
 
 async function getAuthedUser(cookies?: any) : Promise<User | null> {
     const sessionId = cookies?.sessionId;
@@ -493,10 +494,19 @@ app.delete('/api/comments/:id', async (req, res) => {
 });
 
 app.post('/api/comments', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
+    const {id, comment} = req.body;
+    delete comment.id;
 
-    // res.status(200);
-    // res.send();
+    comment.user = (await usersRepository.find({where:{id: comment.userId}}))[0];
+    comment.timestamp = new Date(Date.now());
+    await commentsRepository.save(comment);
+    res.end();
 });
 
 //////////////////////////////////////////////////likes

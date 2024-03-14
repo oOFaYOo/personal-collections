@@ -383,7 +383,7 @@ class ApiClient implements IApiClient {
 
     async addComment(id: string, comment: IComment) {
 
-        const response = await axios({method: 'post', url: `/api/comments`, data: {id: id, comment: comment}});
+        const response = await axios({method: 'post', url: `/api/comments`, data: {id: id, comment: {...comment}}});
         return {
             status: response.status,
             data: undefined,
