@@ -17,7 +17,7 @@ import api from "../../../api_client";
 
 const Item = ({setTop}: IItemComponents) => {
     const {collectionId, itemId} = useParams();
-    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [openModal, setOpenModal] = useState(false);
     const [item, setItem] = useState<IItem | null>(null);
@@ -39,17 +39,17 @@ const Item = ({setTop}: IItemComponents) => {
 
     const isfavorit = false;
 
-    function getAccordionData(item:IItem){
+    function getAccordionData(item: IItem) {
         const accordionData = [];
-        if(item.paragraph1) accordionData.push({
+        if (item.paragraph1) accordionData.push({
             title: (item.collection as ICollection).paragraph1.label,
             details: item.paragraph1
         })
-        if(item.paragraph2) accordionData.push({
+        if (item.paragraph2) accordionData.push({
             title: (item.collection as ICollection).paragraph2.label,
             details: item.paragraph2
         })
-        if(item.paragraph3) accordionData.push({
+        if (item.paragraph3) accordionData.push({
             title: (item.collection as ICollection).paragraph3.label,
             details: item.paragraph3
         })
@@ -107,11 +107,20 @@ const Item = ({setTop}: IItemComponents) => {
                                         </div>
                                         <div
                                             className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
-                                            <Button size={'small'} sx={{width: '100%', maxWidth: 150}} variant="outlined"
-                                                    onClick={() => setOpenModal(true)}
-                                            >Edit</Button>
-                                            <Button size={'small'} sx={{width: '100%', maxWidth: 150}} variant="outlined"
-                                            >Delete</Button>
+                                            {currentUser?.isAdmin || currentUser?.id === item.userId
+                                                ? <>
+                                                    <Button size={'small'} sx={{width: '100%', maxWidth: 150}}
+                                                            variant="outlined"
+                                                            onClick={() => setOpenModal(true)}
+                                                    >Edit</Button>
+                                                    <Button size={'small'} sx={{width: '100%', maxWidth: 150}}
+                                                            variant="outlined" onClick={async ()=>{
+                                                                await api.deleteItem(itemId!);
+                                                                document.location = `/collections/${collectionId}`;
+                                                    }}
+                                                    >Delete</Button></>
+                                                : null
+                                            }
                                         </div>
                                     </div>
                                     <div
@@ -130,7 +139,8 @@ const Item = ({setTop}: IItemComponents) => {
                             <div className={'w-full mb-2 pl-8 flex lg:flex-row flex-col lg:justify-between'}>
                                 {
                                     item.date1 || item.date2 || item.date3 || item.number1 || item.number2 || item.number3
-                                        ? <div className={'flex gap-16 w-full text-nowrap justify-start mb-4 overflow-x-auto'}>
+                                        ? <div
+                                            className={'flex gap-16 w-full text-nowrap justify-start mb-4 overflow-x-auto'}>
                                             {item.date1 || item.date2 || item.date3
                                                 ? <div className={'flex flex-col items-start'}>
                                                     {!item.date1
@@ -275,8 +285,8 @@ const Item = ({setTop}: IItemComponents) => {
                             </div>
                             {
                                 item.paragraph1 || item.paragraph2 || item.paragraph3
-                                ? <Accordion data={getAccordionData(item)}/>
-                                : null
+                                    ? <Accordion data={getAccordionData(item)}/>
+                                    : null
                             }
                         </>
                 }
