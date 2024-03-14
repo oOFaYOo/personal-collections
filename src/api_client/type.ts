@@ -94,7 +94,7 @@ export interface IItem {
     id: string;
     userId: string;
     userName: string;
-    collection: string; //id
+    collection: string | ICollection; //id
     theme: ThemeType;
     picture: string;
     name: string;

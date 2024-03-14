@@ -438,7 +438,36 @@ app.post('/api/items/:id/picture', async (req, res) => {
 });
 
 app.patch('/api/items/:id', async (req, res) => {
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
+    const {id} = req.params;
+    const {item} = req.body;
 
+    const updatedItem = (await itemsRepository.find({where:{id:id}}))[0];
+    updatedItem.name = item.name;
+    updatedItem.tags = item.tags;
+    updatedItem.text1 = item.text1;
+    updatedItem.text2 = item.text2;
+    updatedItem.text3 = item.text3;
+    updatedItem.paragraph1 = item.paragraph1;
+    updatedItem.paragraph2 = item.paragraph2;
+    updatedItem.paragraph3 = item.paragraph3;
+    updatedItem.number1 = item.number1;
+    updatedItem.number2 = item.number2;
+    updatedItem.number3 = item.number3;
+    updatedItem.date1 = item.date1;
+    updatedItem.date2 = item.date2;
+    updatedItem.date3 = item.date3;
+    updatedItem.checkbox1 = item.checkbox1;
+    updatedItem.checkbox2 = item.checkbox2;
+    updatedItem.checkbox3 = item.checkbox3;
+
+    await itemsRepository.save(updatedItem);
+    res.end();
 });
 
 ///////////////////////////////////////////////////////comment

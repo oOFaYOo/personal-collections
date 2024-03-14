@@ -43,7 +43,7 @@ const App = () => {
                     <Route path={'/collections'} element={<Collections/>}/>
                     <Route path={'/collections/:id'} element={<Collection/>}/>
                     <Route path={'/items'} element={<Items/>}/>
-                    <Route path={'/collections/:id/:id'} element={<Item setTop={setTop}/>}/>
+                    <Route path={'/collections/:collectionId/:itemId'} element={<Item setTop={setTop}/>}/>
                     <Route path={'/users'} element={<Users/>}/>
                     <Route path={'/users/:id'} element={<User/>}/>
                     <Route path={'/search'} element={<Search/>}/>

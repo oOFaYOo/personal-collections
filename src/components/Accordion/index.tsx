@@ -12,11 +12,11 @@ const CustomAccordion = ({data}: IAccordion) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     return (
-        <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} shadow-md rounded-md`}>
+        <div className={`${theme === 'dark' ? 'shadow-black/70' : ''} shadow-md rounded-md w-full`}>
             {
                 data.map((item, index) => {
                     return (
-                        <Accordion sx={{color: 'inherit', backgroundColor: 'inherit', boxShadow: 'none'}}>
+                        <Accordion sx={{width:'100%' , color: 'inherit', backgroundColor: 'inherit', boxShadow: 'none'}}>
                             <AccordionSummary
                                 expandIcon={<KeyboardArrowDownIcon sx={{color: theme === 'dark' ? 'white' : 'black'}}/>}
                             >
