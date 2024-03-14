@@ -76,7 +76,7 @@ const Collection = () => {
     const [collection, setCollection] = useState<ICollection | null>(null);
     const [items, setItems] = useState<IItem[] | null>(null);
     const [updateCollections, setUpdateCollections] = useState<boolean>(false);
-console.log(updateCollections)
+
     useEffect(() => {
         (
             async () => {

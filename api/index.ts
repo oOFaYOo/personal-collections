@@ -356,6 +356,26 @@ app.patch('/api/collections/:id', async (req, res) => {
     updatedCollection.checkbox3 = collection.checkbox3;
 
     await collectionsRepository.save(updatedCollection);
+
+    const items = await itemsRepository.find({where: {collection: updatedCollection}});
+    for(let item of  items){
+        item.text1 = collection.text1.label === '' ? '' : item.text1;
+        item.text2 = collection.text2.label === '' ? '' : item.text2;
+        item.text3 = collection.text3.label === '' ? '' : item.text3;
+        item.paragraph1 = collection.paragraph1.label === '' ? '' : item.paragraph1;
+        item.paragraph2 = collection.paragraph2.label === '' ? '' : item.paragraph2;
+        item.paragraph3 = collection.paragraph3.label === '' ? '' : item.paragraph3;
+        item.number1 = collection.number1.label === '' ? '' : item.number1;
+        item.number2 = collection.number2.label === '' ? '' : item.number2;
+        item.number3 = collection.number3.label === '' ? '' : item.number3;
+        item.date1 = collection.date1.label === '' ? '' : item.date1;
+        item.date2 = collection.date2.label === '' ? '' : item.date2;
+        item.date3 = collection.date3.label === '' ? '' : item.date3;
+        item.checkbox1 = collection.checkbox1.label === '' ? false : item.checkbox1;
+        item.checkbox2 = collection.checkbox2.label === '' ? false : item.checkbox2;
+        item.checkbox3 = collection.checkbox3.label === '' ? false : item.checkbox3;
+    }
+    await itemsRepository.save(items);
     res.end();
 });
 
