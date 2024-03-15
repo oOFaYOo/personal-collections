@@ -37,7 +37,6 @@ const CommentsBlock = ({item}: { item: IItem }) => {
         (async () => {
             if (!likes || updateLikes) {
                 const response = await api.getLikes(itemId!);
-                console.log(response.data)
                 if (response.status === 200) {
                     setLikes(response.data);
                 }
@@ -45,8 +44,6 @@ const CommentsBlock = ({item}: { item: IItem }) => {
             setUpdateLikes(false);
         })()
     }, [updateLikes])
-
-    const isfavorit = false;
 
     return (
         <div className={`${item ? 'justify-center items-center' : ''} flex w-full flex-col md:h-auto md:w-[35%] p-4`}>
@@ -81,13 +78,25 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                     <div className={'flex items-center justify-evenly w-full text-sm'}>
                         <p>
                             {
-                                isfavorit && currentUser
+                                likes?.find(value => value.userId.toString() === currentUser?.id.toString()) && currentUser
                                     ? <FavoriteIcon fontSize={"small"}
-
+                                                    onClick={async ()=>{
+                                                        if(currentUser) {
+                                                            await api.deleteLike((likes?.find(value => value.userId.toString() === currentUser?.id.toString()))!.id);
+                                                            setUpdateLikes(true);
+                                                        }
+                                                    }}
                                                     className={`${currentUser ? 'cursor-pointer' : 'cursor-default'} text-[#1976d2]`}/>
                                     : <FavoriteBorderIcon fontSize={"small"}
                                                           onClick={async ()=>{
-                                                             await api.addLike(itemId!, {id:'', userId:currentUser?.id!, itemId:itemId!})
+                                                              if(currentUser) {
+                                                                  await api.addLike(itemId!, {
+                                                                      id: '',
+                                                                      userId: currentUser?.id!,
+                                                                      itemId: itemId!
+                                                                  })
+                                                                  setUpdateLikes(true);
+                                                              }
                                                           }}
                                                           className={`${currentUser ? 'cursor-pointer' : 'cursor-default'}
                                                            opacity-70 hover:opacity-100 hover:text-[#1976d2]`}/>

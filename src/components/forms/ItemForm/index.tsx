@@ -118,7 +118,7 @@ const InputForm = (
                     </div>
                     <div className={'flex flex-col gap-2 mx-2'}>
                         <p className={'text-center h-6 italic md:mb-4'}>{currentCollection?.checkbox1.label}</p>
-                        <Checkbox value={checkbox1} onChange={(e) => setCheckbox1(e.currentTarget.checked)}
+                        <Checkbox checked={checkbox1} onChange={(e) => setCheckbox1(e.currentTarget.checked)}
                                   disabled={!currentCollection?.checkbox1.label && !currentItem} sx={{
                             padding: 0,
                             color: 'inherit',
@@ -128,7 +128,7 @@ const InputForm = (
                             }
                         }}/>
                         <p className={'text-center h-6 italic md:mb-4'}>{currentCollection?.checkbox2.label}</p>
-                        <Checkbox value={checkbox2} onChange={(e) => setCheckbox2(e.currentTarget.checked)}
+                        <Checkbox checked={checkbox2} onChange={(e) => setCheckbox2(e.currentTarget.checked)}
                                   disabled={!currentCollection?.checkbox2.label && !currentItem} sx={{
                             padding: 0,
                             color: 'inherit',
@@ -138,7 +138,7 @@ const InputForm = (
                             }
                         }}/>
                         <p className={'text-center h-6 italic md:mb-4'}>{currentCollection?.checkbox3.label}</p>
-                        <Checkbox value={checkbox3} onChange={(e) => setCheckbox3(e.currentTarget.checked)}
+                        <Checkbox checked={checkbox3} onChange={(e) => setCheckbox3(e.currentTarget.checked)}
                                   disabled={!currentCollection?.checkbox3.label && !currentItem} sx={{
                             padding: 0,
                             color: 'inherit',
