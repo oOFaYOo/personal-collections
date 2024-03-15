@@ -365,7 +365,7 @@ class ApiClient implements IApiClient {
 //comment
     async getComments(id: string) {
 
-        const response = await axios({method: 'get', url: `/api/comments`, data: {id: id}});
+        const response = await axios({method: 'get', url: `/api/comments/${id}`});
         return {
             status: response.status,
             data: response.data,

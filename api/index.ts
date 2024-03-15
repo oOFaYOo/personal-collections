@@ -479,11 +479,10 @@ app.patch('/api/items/:id', async (req, res) => {
 
 ///////////////////////////////////////////////////////comment
 
-app.get('/api/comments', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-
-    // res.status(200);
-    // res.send();
+app.get('/api/comments/:id', async (req, res) => {
+    const {id} = req.params;
+    const comments = await commentsRepository.find({where:{itemId:id}, relations:{user:true}});
+    res.send(comments);
 });
 
 app.delete('/api/comments/:id', async (req, res) => {

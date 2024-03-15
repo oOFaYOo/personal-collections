@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Avatar, Button, Chip, CircularProgress} from "@mui/material";
 import TextArea from "../../../../components/inputs/CommentTextArea";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -7,13 +7,28 @@ import InsertCommentRoundedIcon from "@mui/icons-material/InsertCommentRounded";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {useParams} from "react-router-dom";
-import {IItem} from "../../../../api_client/type";
+import {IComment, IItem, IUser} from "../../../../api_client/type";
+import api from "../../../../api_client";
 
 const CommentsBlock = ({item}: { item: IItem }) => {
     const {collectionId, itemId} = useParams();
     const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [comment, setComment] = useState<string>('');
+    const [comments, setComments] = useState<IComment[] | null>(null);
+    const [updateComments, setUpdateComments] = useState<boolean>(false);
+
+    useEffect(() => {
+        (async () => {
+            if(!comments || updateComments) {
+                const response = await api.getComments(itemId!);
+                if (response.status === 200) {
+                    setComments(response.data);
+                }
+            }
+            setUpdateComments(false);
+        })()
+    }, [updateComments])
 
     const isfavorit = false;
 
@@ -22,114 +37,29 @@ const CommentsBlock = ({item}: { item: IItem }) => {
             <div
                 className={`${theme === 'dark' ? 'shadow-black/70' : ''} 
                     w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
-                <Chip
-                    sx={{
-                        width: '95%',
-                        minHeight: '40px',
-                        color: 'inherit',
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                    }}
-                    variant="outlined"
-                    label={<p
-                        title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                        className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj
-                        bkjbdkjfb
-                        kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                    color="default"
-                    onDelete={() => {
-                    }}
-                    avatar={<Avatar src=""/>}/>
-                <Chip
-                    sx={{
-                        width: '95%',
-                        minHeight: '40px',
-                        color: 'inherit',
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                    }}
-                    variant="outlined"
-                    label={<p
-                        title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                        className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj
-                        bkjbdkjfb
-                        kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                    color="default"
-                    onDelete={() => {
-                    }}
-                    avatar={<Avatar src=""/>}/>
-                <Chip
-                    sx={{
-                        width: '95%',
-                        minHeight: '40px',
-                        color: 'inherit',
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                    }}
-                    variant="outlined"
-                    label={<p
-                        title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                        className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj
-                        bkjbdkjfb
-                        kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                    color="default"
-                    onDelete={() => {
-                    }}
-                    avatar={<Avatar src=""/>}/>
-                <Chip
-                    sx={{
-                        width: '95%',
-                        minHeight: '40px',
-                        color: 'inherit',
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                    }}
-                    variant="outlined"
-                    label={<p
-                        title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                        className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj
-                        bkjbdkjfb
-                        kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                    color="default"
-                    onDelete={() => {
-                    }}
-                    avatar={<Avatar src=""/>}/>
-                <Chip
-                    sx={{
-                        width: '95%',
-                        minHeight: '40px',
-                        color: 'inherit',
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                    }}
-                    variant="outlined"
-                    label={<p
-                        title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                        className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj
-                        bkjbdkjfb
-                        kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                    color="default"
-                    onDelete={() => {
-                    }}
-                    avatar={<Avatar src=""/>}/>
-                <Chip
-                    sx={{
-                        width: '95%',
-                        minHeight: '40px',
-                        color: 'inherit',
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                    }}
-                    variant="outlined"
-                    label={<p
-                        title={'HJbjkbfdkjbfkd bdjfbkdjbkdj bdjfbkd bfjdbfjbdkjbk bdkfjbdkjfbkdjbkj bdjbfbkdjbfkdjbfk bkdjfbd'}
-                        className={'overflow-hidden text-center text-ellipsis'}>Jbjbkjd bdjbfd bkjfbksj
-                        bkjbdkjfb
-                        kdjfb kdjbf jkdb kfbk dk bjfbdkjbkf</p>}
-                    color="default"
-                    onDelete={() => {
-                    }}
-                    avatar={<Avatar src=""/>}/>
+                {
+                    !comments
+                        ? <CircularProgress/>
+                        :  comments.sort((a,b) =>
+                            new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()).map((value, i) =>
+                            <Chip
+                                sx={{
+                                    width: '95%',
+                                    minHeight: '40px',
+                                    color: 'inherit',
+                                    display: 'flex',
+                                    justifyContent: 'space-between'
+                                }}
+                                variant="outlined"
+                                label={
+                                <p title={value.text}
+                                    className={'overflow-hidden text-center text-ellipsis'}>{value.text}</p>}
+                                color="default"
+                                onDelete={() => {
+                                }}
+                                avatar={<Avatar src={(value.user as unknown as IUser).picture}/>}/>
+                        )
+                }
             </div>
             <div className={'flex w-full'}>
                 {
@@ -156,15 +86,18 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                     {
                         !currentUser
                             ? null
-                            : <Button sx={{width: '80%'}} variant="outlined" disabled={comment === ''} onClick={() => {
+                            : <Button sx={{width: '80%'}} variant="outlined" disabled={comment === ''} onClick={ async () => {
                                 const commentData = {
                                     id: '',
                                     user: '',
                                     userId: currentUser?.id,
-                                    itemId: itemId,
+                                    itemId: itemId!,
                                     text: comment,
                                     timestamp: '',
                                 }
+                                await api.addComment(itemId!, commentData);
+                                setComment('');
+                                setUpdateComments(true);
                             }}>Send</Button>
                     }
                 </div>
