@@ -40,9 +40,9 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                 {
                     !comments
                         ? <CircularProgress/>
-                        :  comments.sort((a,b) =>
-                            new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()).map((value, i) =>
-                            <Chip
+                        :  comments.map((value, i) =>
+                            currentUser?.id === value.userId || currentUser?.isAdmin
+                            ? <Chip
                                 sx={{
                                     width: '95%',
                                     minHeight: '40px',
@@ -53,11 +53,27 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                 variant="outlined"
                                 label={
                                 <p title={value.text}
-                                    className={'overflow-hidden text-center text-ellipsis'}>{value.text}</p>}
+                                    className={'overflow-hidden ml-2 text-center text-ellipsis'}>{value.text}</p>}
                                 color="default"
-                                onDelete={() => {
+                                onDelete={ async () => {
+                                    await api.deleteComment(value.id);
+                                    setUpdateComments(true);
                                 }}
                                 avatar={<Avatar src={(value.user as unknown as IUser).picture}/>}/>
+                            : <Chip
+                                    sx={{
+                                        width: '95%',
+                                        minHeight: '40px',
+                                        color: 'inherit',
+                                        display: 'flex',
+                                        justifyContent: 'flex-start'
+                                    }}
+                                    variant="outlined"
+                                    label={
+                                        <p title={value.text}
+                                           className={'overflow-hidden ml-2 text-center text-ellipsis'}>{value.text}</p>}
+                                    color="default"
+                                    avatar={<Avatar src={(value.user as unknown as IUser).picture}/>}/>
                         )
                 }
             </div>

@@ -486,10 +486,16 @@ app.get('/api/comments/:id', async (req, res) => {
 });
 
 app.delete('/api/comments/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-    const id = req.params.id;
-    // res.status(200);
-    // res.send();
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
+    const {id} = req.params;
+    const comment = (await commentsRepository.find({where:{id:id}}))[0];
+    await commentsRepository.delete(comment);
+    res.end();
 });
 
 app.post('/api/comments', async (req, res) => {
