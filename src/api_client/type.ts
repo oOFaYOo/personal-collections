@@ -40,7 +40,8 @@ export interface IApiClient {
     deleteComment:(id:string) => Promise<IResponse<void>>;
     addComment:(id:string, comment:IComment) => Promise<IResponse<void>>;
 //like
-    addLike:(id:string) => Promise<IResponse<void>>;
+    getLikes: (id:string) => Promise<IResponse<ILike>>;
+    addLike:(id:string, like:ILike) => Promise<IResponse<void>>;
     deleteLike:(id:string) => Promise<IResponse<void>>;
 }
 

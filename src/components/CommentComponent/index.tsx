@@ -1,8 +1,9 @@
 import React from "react";
 import {Avatar, Chip} from "@mui/material";
 import {ICommentComponent} from "./type";
+import {Link} from "react-router-dom";
 
-const CommentComponent = ({text, avatarImage, onDelete} : ICommentComponent) => {
+const CommentComponent = ({text, avatarImage, onDelete, id} : ICommentComponent) => {
     const customStyle = {
         width: '95%',
         minHeight: '40px',
@@ -21,13 +22,15 @@ const CommentComponent = ({text, avatarImage, onDelete} : ICommentComponent) => 
                 label={textElement}
                 color="default"
                 onDelete={onDelete}
-                avatar={<Avatar src={avatarImage}/>}/>
+                avatar={
+                    <Avatar className={'cursor-pointer'} src={avatarImage} onClick={()=>{document.location = `/users/${id}`}}/>}/>
         : <Chip
             sx={customStyle}
             variant="outlined"
             label={textElement}
             color="default"
-            avatar={<Avatar src={avatarImage}/>}/>
+            avatar={
+                <Avatar className={'cursor-pointer'} src={avatarImage} onClick={()=>{document.location = `/users/${id}`}}/>}/>
     )
 }
 

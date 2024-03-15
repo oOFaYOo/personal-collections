@@ -2,7 +2,7 @@ import {
     IApiClient,
     ICollection,
     IComment,
-    IItem,
+    IItem, ILike,
     IUser
 } from "./type";
 
@@ -391,9 +391,18 @@ class ApiClient implements IApiClient {
     }
 
 //like
-    async addLike(id: string) {
+    async getLikes(id:string) {
 
-        const response = await axios({method: 'post', url: '/api/likes', data: {id: id}});
+        const response = await axios({method: 'get', url: `/api/likes/${id}`});
+        return {
+            status: response.status,
+            data: response.data,
+        }
+    }
+
+    async addLike(id: string, like: ILike) {
+
+        const response = await axios({method: 'post', url: '/api/likes', data: {id: id, like: {...like}}});
         return {
             status: response.status,
             data: undefined,
@@ -402,7 +411,7 @@ class ApiClient implements IApiClient {
 
     async deleteLike(id: string) {
 
-        const response = await axios({method: 'delete', url: `/api/likes/${id}`, data: {}});
+        const response = await axios({method: 'delete', url: `/api/likes`, data: {id:id}});
         return {
             status: response.status,
             data: undefined,

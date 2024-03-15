@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {DataSource} from "typeorm";
-import {Collection, Comment, Item, Session, User, UserCredentials} from "./classes";
+import {Collection, Comment, Item, Like, Session, User, UserCredentials} from "./classes";
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -27,7 +27,7 @@ const AppDataSource = new DataSource({
     database: "verceldb",
     synchronize: true,
     logging: false,
-    entities: [User, UserCredentials, Session, Collection, Item, Comment],
+    entities: [User, UserCredentials, Session, Collection, Item, Comment, Like],
 });
 
 const usersRepository = AppDataSource.getRepository(User);
@@ -36,6 +36,7 @@ const sessionsRepository = AppDataSource.getRepository(Session);
 const collectionsRepository = AppDataSource.getRepository(Collection);
 const itemsRepository = AppDataSource.getRepository(Item);
 const commentsRepository = AppDataSource.getRepository(Comment);
+const likesRepository = AppDataSource.getRepository(Like);
 
 async function getAuthedUser(cookies?: any) : Promise<User | null> {
     const sessionId = cookies?.sessionId;
@@ -516,18 +517,36 @@ app.post('/api/comments', async (req, res) => {
 
 //////////////////////////////////////////////////likes
 
-app.delete('/api/likes/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-    const id = req.params.id;
-    // res.status(200);
-    // res.send();
+app.get('/api/likes/:id', async (req, res) => {
+    const {id}= req.params;
+    const likes = await likesRepository.find({where:{itemId:id}});
+    res.send(likes);
 });
 
-app.post('/api/likes/', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+app.delete('/api/likes', async (req, res) => {
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
+    const {id} = req.body;
+    const like = (await likesRepository.find({where:{id:id}}))[0];
+    await likesRepository.delete(like);
+    res.end();
+});
 
-    // res.status(200);
-    // res.send();
+app.post('/api/likes', async (req, res) => {
+    const authedUser = await getAuthedUser(req.cookies);
+    if (!authedUser){
+        res.status(401);
+        res.end();
+        return;
+    }
+    const {id, like} = req.body;
+    delete like.id;
+    await likesRepository.save(like);
+    res.end();
 });
 
 AppDataSource.initialize()

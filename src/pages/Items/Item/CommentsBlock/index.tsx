@@ -7,7 +7,7 @@ import InsertCommentRoundedIcon from "@mui/icons-material/InsertCommentRounded";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {useParams} from "react-router-dom";
-import {IComment, IItem, IUser} from "../../../../api_client/type";
+import {IComment, IItem, ILike, IUser} from "../../../../api_client/type";
 import api from "../../../../api_client";
 import CommentComponent from "../../../../components/CommentComponent";
 
@@ -17,7 +17,9 @@ const CommentsBlock = ({item}: { item: IItem }) => {
 
     const [comment, setComment] = useState<string>('');
     const [comments, setComments] = useState<IComment[] | null>(null);
+    const [likes, setLikes] = useState<ILike[] | null>(null);
     const [updateComments, setUpdateComments] = useState<boolean>(false);
+    const [updateLikes, setUpdateLikes] = useState<boolean>(false);
 
     useEffect(() => {
         (async () => {
@@ -31,6 +33,19 @@ const CommentsBlock = ({item}: { item: IItem }) => {
         })()
     }, [updateComments])
 
+    useEffect(() => {
+        (async () => {
+            if (!likes || updateLikes) {
+                const response = await api.getLikes(itemId!);
+                console.log(response.data)
+                if (response.status === 200) {
+                    setLikes(response.data);
+                }
+            }
+            setUpdateLikes(false);
+        })()
+    }, [updateLikes])
+
     const isfavorit = false;
 
     return (
@@ -43,6 +58,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                         ? <CircularProgress/>
                         : comments.map((value, i) =>
                             <CommentComponent
+                                id={value.userId}
                                 text={value.text}
                                 avatarImage={(value.user as unknown as IUser).picture}
                                 onDelete={currentUser?.id === value.userId || currentUser?.isAdmin
@@ -67,12 +83,16 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                             {
                                 isfavorit && currentUser
                                     ? <FavoriteIcon fontSize={"small"}
+
                                                     className={`${currentUser ? 'cursor-pointer' : 'cursor-default'} text-[#1976d2]`}/>
                                     : <FavoriteBorderIcon fontSize={"small"}
+                                                          onClick={async ()=>{
+                                                             await api.addLike(itemId!, {id:'', userId:currentUser?.id!, itemId:itemId!})
+                                                          }}
                                                           className={`${currentUser ? 'cursor-pointer' : 'cursor-default'}
                                                            opacity-70 hover:opacity-100 hover:text-[#1976d2]`}/>
                             }
-                            232</p>
+                            {likes?.length}</p>
                         <p><InsertCommentRoundedIcon fontSize={'small'} className={'opacity-70'}/>{comments?.length}</p>
                     </div>
                     {
