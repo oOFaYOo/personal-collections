@@ -9,6 +9,7 @@ import {RootState} from "../../../../store";
 import {useParams} from "react-router-dom";
 import {IComment, IItem, IUser} from "../../../../api_client/type";
 import api from "../../../../api_client";
+import CommentComponent from "../../../../components/CommentComponent";
 
 const CommentsBlock = ({item}: { item: IItem }) => {
     const {collectionId, itemId} = useParams();
@@ -20,7 +21,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
 
     useEffect(() => {
         (async () => {
-            if(!comments || updateComments) {
+            if (!comments || updateComments) {
                 const response = await api.getComments(itemId!);
                 if (response.status === 200) {
                     setComments(response.data);
@@ -40,40 +41,15 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                 {
                     !comments
                         ? <CircularProgress/>
-                        :  comments.map((value, i) =>
-                            currentUser?.id === value.userId || currentUser?.isAdmin
-                            ? <Chip
-                                sx={{
-                                    width: '95%',
-                                    minHeight: '40px',
-                                    color: 'inherit',
-                                    display: 'flex',
-                                    justifyContent: 'space-between'
-                                }}
-                                variant="outlined"
-                                label={
-                                <p title={value.text}
-                                    className={'overflow-hidden ml-2 text-center text-ellipsis'}>{value.text}</p>}
-                                color="default"
-                                onDelete={ async () => {
-                                    await api.deleteComment(value.id);
-                                    setUpdateComments(true);
-                                }}
-                                avatar={<Avatar src={(value.user as unknown as IUser).picture}/>}/>
-                            : <Chip
-                                    sx={{
-                                        width: '95%',
-                                        minHeight: '40px',
-                                        color: 'inherit',
-                                        display: 'flex',
-                                        justifyContent: 'flex-start'
-                                    }}
-                                    variant="outlined"
-                                    label={
-                                        <p title={value.text}
-                                           className={'overflow-hidden ml-2 text-center text-ellipsis'}>{value.text}</p>}
-                                    color="default"
-                                    avatar={<Avatar src={(value.user as unknown as IUser).picture}/>}/>
+                        : comments.map((value, i) =>
+                            <CommentComponent
+                                text={value.text}
+                                avatarImage={(value.user as unknown as IUser).picture}
+                                onDelete={currentUser?.id === value.userId || currentUser?.isAdmin
+                                    ? async () => {
+                                        await api.deleteComment(value.id);
+                                        setUpdateComments(true);
+                                    } : undefined}/>
                         )
                 }
             </div>
@@ -97,24 +73,25 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                                            opacity-70 hover:opacity-100 hover:text-[#1976d2]`}/>
                             }
                             232</p>
-                        <p><InsertCommentRoundedIcon fontSize={'small'} className={'opacity-70'}/>56</p>
+                        <p><InsertCommentRoundedIcon fontSize={'small'} className={'opacity-70'}/>{comments?.length}</p>
                     </div>
                     {
                         !currentUser
                             ? null
-                            : <Button sx={{width: '80%'}} variant="outlined" disabled={comment === ''} onClick={ async () => {
-                                const commentData = {
-                                    id: '',
-                                    user: '',
-                                    userId: currentUser?.id,
-                                    itemId: itemId!,
-                                    text: comment,
-                                    timestamp: '',
-                                }
-                                await api.addComment(itemId!, commentData);
-                                setComment('');
-                                setUpdateComments(true);
-                            }}>Send</Button>
+                            : <Button sx={{width: '80%'}} variant="outlined" disabled={comment === ''}
+                                      onClick={async () => {
+                                          const commentData = {
+                                              id: '',
+                                              user: '',
+                                              userId: currentUser?.id,
+                                              itemId: itemId!,
+                                              text: comment,
+                                              timestamp: '',
+                                          }
+                                          await api.addComment(itemId!, commentData);
+                                          setComment('');
+                                          setUpdateComments(true);
+                                      }}>Send</Button>
                     }
                 </div>
             </div>
