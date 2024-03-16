@@ -55,6 +55,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                         ? <CircularProgress/>
                         : comments.map((value, i) =>
                             <CommentComponent
+                                key={i}
                                 id={value.userId}
                                 text={value.text}
                                 avatarImage={(value.user as unknown as IUser).picture}

@@ -18,7 +18,7 @@ const TableRow = ({config, row, onRowClick}: ITableRow) => {
         >
             {
                 config.map((item, index) =>
-                    <TableCell row={row} item={item} key={index}/>
+                    <TableCell row={row} item={item} key={item + `${index}`}/>
                 )
             }
         </TableRowMUI>

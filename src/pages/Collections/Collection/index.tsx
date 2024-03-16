@@ -36,6 +36,22 @@ const config: ITableItem[] = [
     },
 ];
 
+function handledConfig (config:ITableItem[], collection:ICollection) {
+    let updatedConfig = [...config];
+    if(collection) {
+        for(let value of Object.values(collection)){
+            if(!!value.label && (value.type === 'text' || value.type === 'date')){
+                updatedConfig.push({
+                    id: value.id,
+                    label: value.label,
+                    type: value.type
+                });
+            }
+        }
+        return updatedConfig;
+    }
+}
+
 const Collection = () => {
     const {id} = useParams();
     const path = useLocation().pathname;
@@ -75,21 +91,6 @@ const Collection = () => {
         )()
     }, [collection, updateItems]);
 
-
-    (function handledConfig () {
-        if(collection) {
-            for(let value of Object.values(collection)){
-                if(!!value.label && (value.type === 'text' || value.type === 'date')){
-                        config.push({
-                            id: value.id,
-                            label: value.label,
-                            type: value.type
-                        });
-                }
-            }
-            return config;
-        }
-    })()
 
     return (
         <div
@@ -179,7 +180,11 @@ const Collection = () => {
                             add your first item</Button>
                         </div>
                         : null
-                    : <Table pagination={true} data={items} filtering={false} config={config} onRowClick={(e, id) => {
+                    : <Table pagination={true}
+                             filtering={false}
+                             config={handledConfig(config, collection!)!}
+                             data={items}
+                             onRowClick={(e, id) => {
                         document.location = path + '/' + id;
                     }}/>
             }

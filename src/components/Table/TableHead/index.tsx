@@ -33,9 +33,9 @@ const TableHead = ({order, orderBy, rowCount, config, onRequestSort, filtering=t
 
     return (
             <TableRow>
-                {config.map((headCell) => (
+                {config.map((headCell, i) => (
                     <TableCell
-                        key={headCell.id}
+                        key={headCell.id + headCell.label + i}
                         align={'center'}
                         size={'small'}
                         sx={{fontWeight: 'bold', color: 'inherit', whiteSpace: 'nowrap', padding: '5px'}}

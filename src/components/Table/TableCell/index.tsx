@@ -53,7 +53,7 @@ const TableCell = ({row, item}: ITableCell) => {
                             : item.type === 'paragraph'
                                 ?
                                 <p className={'overflow-y-auto text-justify min-w-[200px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
-                                : row[item.id]))
+                                : item.type === 'date' ? row[item.id].split('-').reverse().join('.') : row[item.id]))
             }
         </TableCellMUI>
     )

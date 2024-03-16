@@ -16,7 +16,7 @@ const CustomAccordion = ({data}: IAccordion) => {
             {
                 data.map((item, index) => {
                     return (
-                        <Accordion
+                        <Accordion key={`${index}` + item}
                             sx={{width: '100%', color: 'inherit', backgroundColor: 'inherit', boxShadow: 'none'}}>
                             <AccordionSummary
                                 expandIcon={<KeyboardArrowDownIcon sx={{color: theme === 'dark' ? 'white' : 'black'}}/>}
