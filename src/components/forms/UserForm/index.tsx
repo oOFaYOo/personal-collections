@@ -36,4 +36,4 @@ const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
     )
 }
 
-export default UserForm;
+export default React.memo(UserForm);

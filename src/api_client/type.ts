@@ -3,17 +3,17 @@ import {AdditionalColumnType} from "../components/Table/type";
 export interface IApiClient {
     signUp: (name: string, email: string, password: string) => Promise<IResponse<void>>;
     signIn: (email: string, password: string) => Promise<IResponse<ISession>>;
-    logout: (id: string) => Promise<IResponse<void>>;
+    logout: (userId: string) => Promise<IResponse<void>>;
     getCurrentUser: () => Promise<IResponse<IUserCredentials>>;
 //about user
     getUsers: () => Promise<IResponse<IUser[]>>;
-    getUser: (id:string) => Promise<IResponse<IUser>>;
-    deleteUser: (id:string) => Promise<IResponse<void>>;
-    blockUser: (id:string) => Promise<IResponse<void>>;
-    unblockUser: (id:string) => Promise<IResponse<void>>;
-    changeAccessLevel: (id:string, isAdmin:boolean) => Promise<IResponse<void>>;
-    uploadUserPicture: (id:string) => Promise<IResponse<void>>;
-    editUserData: (id:string, user:IUser) => Promise<IResponse<void>>;
+    getUser: (userId:string) => Promise<IResponse<IUser>>;
+    deleteUser: (userId:string) => Promise<IResponse<void>>;
+    blockUser: (userId:string) => Promise<IResponse<void>>;
+    unblockUser: (userId:string) => Promise<IResponse<void>>;
+    changeAccessLevel: (userId:string, isAdmin:boolean) => Promise<IResponse<void>>;
+    uploadUserPicture: (userId:string) => Promise<IResponse<void>>;
+    editUserData: (userId:string, user:IUser) => Promise<IResponse<void>>;
 //for main page
     getAllTags: () => Promise<IResponse<string>>;
     getBiggestCollections: () => Promise<IResponse<ICollection[]>>;
@@ -21,28 +21,28 @@ export interface IApiClient {
     getRandomUsers: () => Promise<IResponse<IUserCredentials[]>>;
 //collections
     getCollections: () => Promise<IResponse<ICollection[]>>;
-    getUserCollections: (id:string) => Promise<IResponse<ICollection[]>>;
-    getCollection: (id:string) => Promise<IResponse<ICollection>>;
-    deleteCollection: (id:string) => Promise<IResponse<void>>;
-    addCollection: (id:string, collection:ICollection) => Promise<IResponse<void>>;
-    uploadCollectionPicture: (id:string) => Promise<IResponse<void>>;
-    editCollectionData: (id:string, collection:ICollection) => Promise<IResponse<void>>;
+    getUserCollections: (userId:string) => Promise<IResponse<ICollection[]>>;
+    getCollection: (collectionId:string) => Promise<IResponse<ICollection>>;
+    deleteCollection: (collectionId:string) => Promise<IResponse<void>>;
+    addCollection: (userId:string, collection:ICollection) => Promise<IResponse<void>>;
+    uploadCollectionPicture: (collectionId:string) => Promise<IResponse<void>>;
+    editCollectionData: (collectionId:string, collection:ICollection) => Promise<IResponse<void>>;
 //items
     getItems: () => Promise<IResponse<(IItem & ILikeGeneral)[]>>;
-    getCollectionItems: (id:string) => Promise<IResponse<IItem[]>>;
-    getItem: (id:string) => Promise<IResponse<IItem & ILikeGeneral>>;
-    deleteItem: (id:string) => Promise<IResponse<void>>;
-    addItem: (id:string, item:IItem) => Promise<IResponse<void>>;
-    uploadItemPicture: (id:string) => Promise<IResponse<void>>;
-    editItemData: (id:string, item:IItem) => Promise<IResponse<void>>;
+    getCollectionItems: (collectionId:string) => Promise<IResponse<IItem[]>>;
+    getItem: (itemId:string) => Promise<IResponse<IItem & ILikeGeneral>>;
+    deleteItem: (itemId:string) => Promise<IResponse<void>>;
+    addItem: (collectionId:string, item:IItem) => Promise<IResponse<void>>;
+    uploadItemPicture: (itemId:string) => Promise<IResponse<void>>;
+    editItemData: (itemId:string, item:IItem) => Promise<IResponse<void>>;
 //comment
-    getComments:(id:string) => Promise<IResponse<IComment[]>>;
-    deleteComment:(id:string) => Promise<IResponse<void>>;
-    addComment:(id:string, comment:IComment) => Promise<IResponse<void>>;
+    getComments:(itemId:string) => Promise<IResponse<IComment[]>>;
+    deleteComment:(commentId:string) => Promise<IResponse<void>>;
+    addComment:(comment:IComment) => Promise<IResponse<void>>;
 //like
-    getLikes: (id:string) => Promise<IResponse<ILike>>;
-    addLike:(id:string, like:ILike) => Promise<IResponse<void>>;
-    deleteLike:(id:string) => Promise<IResponse<void>>;
+    getLikes: (itemId:string) => Promise<IResponse<ILike>>;
+    addLike:(like:ILike) => Promise<IResponse<void>>;
+    deleteLike:(likeId:string) => Promise<IResponse<void>>;
 }
 
 export interface IResponse<T> {

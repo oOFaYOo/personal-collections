@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useLocation, useParams} from "react-router-dom";
 import {Button, CircularProgress, Modal} from "@mui/material";
 import ItemForm from "../../../components/forms/ItemForm";
@@ -12,6 +12,29 @@ import api from "../../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {ITableItem} from "../../../components/Table/type";
+
+const config: ITableItem[] = [
+    {
+        id: 'picture',
+        label: '',
+        type: 'picture'
+    },
+    {
+        id: 'name',
+        label: 'Title',
+        type: 'text',
+    },
+    {
+        id: 'theme',
+        label: 'Theme',
+        type: 'text',
+    },
+    {
+        id: 'tags',
+        label: 'Tags',
+        type: 'paragraph',
+    },
+];
 
 const Collection = () => {
     const {id} = useParams();
@@ -52,28 +75,6 @@ const Collection = () => {
         )()
     }, [collection, updateItems]);
 
-    const config: ITableItem[] = [
-        {
-            id: 'picture',
-            label: '',
-            type: 'picture'
-        },
-        {
-            id: 'name',
-            label: 'Title',
-            type: 'text',
-        },
-        {
-            id: 'theme',
-            label: 'Theme',
-            type: 'text',
-        },
-        {
-            id: 'tags',
-            label: 'Tags',
-            type: 'paragraph',
-        },
-    ];
 
     (function handledConfig () {
         if(collection) {
@@ -186,4 +187,4 @@ const Collection = () => {
     )
 }
 
-export default Collection;
+export default React.memo(Collection);

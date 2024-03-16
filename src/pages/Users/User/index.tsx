@@ -41,7 +41,6 @@ const config: ITableItem [] = [
 const User = () => {
     const dispatch = useDispatch();
     const {currentUser, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
-
     const {id} = useParams();
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
@@ -182,4 +181,4 @@ const User = () => {
     )
 }
 
-export default User;
+export default React.memo(User);

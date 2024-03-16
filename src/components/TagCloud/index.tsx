@@ -1,3 +1,4 @@
+import React from "react";
 import {ColorOptions, TagCloud as Cloud} from 'react-tagcloud';
 import {ITagCloud} from "./type";
 
@@ -21,4 +22,4 @@ const TagCloud = ({tags, onClick}: ITagCloud) => {
     )
 }
 
-export default TagCloud;
+export default React.memo(TagCloud);

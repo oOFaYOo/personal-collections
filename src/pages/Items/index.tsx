@@ -72,4 +72,4 @@ const Items = () => {
     )
 }
 
-export default Items;
+export default React.memo(Items);

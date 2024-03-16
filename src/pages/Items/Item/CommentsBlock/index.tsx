@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Avatar, Button, Chip, CircularProgress} from "@mui/material";
+import {Button, CircularProgress} from "@mui/material";
 import TextArea from "../../../../components/inputs/CommentTextArea";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import InsertCommentRoundedIcon from "@mui/icons-material/InsertCommentRounded";
+import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {useParams} from "react-router-dom";
@@ -78,19 +78,19 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                     <div className={'flex items-center justify-evenly w-full text-sm'}>
                         <p>
                             {
-                                likes?.find(value => value.userId.toString() === currentUser?.id.toString()) && currentUser
+                                likes?.find(value => value.userId?.toString() === currentUser?.id?.toString()) && currentUser
                                     ? <FavoriteIcon fontSize={"small"}
-                                                    onClick={async ()=>{
-                                                        if(currentUser) {
+                                                    onClick={async () => {
+                                                        if (currentUser) {
                                                             await api.deleteLike((likes?.find(value => value.userId.toString() === currentUser?.id.toString()))!.id);
                                                             setUpdateLikes(true);
                                                         }
                                                     }}
                                                     className={`${currentUser ? 'cursor-pointer' : 'cursor-default'} text-[#1976d2]`}/>
                                     : <FavoriteBorderIcon fontSize={"small"}
-                                                          onClick={async ()=>{
-                                                              if(currentUser) {
-                                                                  await api.addLike(itemId!, {
+                                                          onClick={async () => {
+                                                              if (currentUser) {
+                                                                  await api.addLike({
                                                                       id: '',
                                                                       userId: currentUser?.id!,
                                                                       itemId: itemId!
@@ -102,7 +102,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                                            opacity-70 hover:opacity-100 hover:text-[#1976d2]`}/>
                             }
                             {likes?.length}</p>
-                        <p><InsertCommentRoundedIcon fontSize={'small'} className={'opacity-70'}/>{comments?.length}</p>
+                        <p><InsertCommentOutlinedIcon fontSize={'small'} className={'opacity-70'}/>{comments?.length}</p>
                     </div>
                     {
                         !currentUser
@@ -117,7 +117,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                               text: comment,
                                               timestamp: '',
                                           }
-                                          await api.addComment(itemId!, commentData);
+                                          await api.addComment({...commentData});
                                           setComment('');
                                           setUpdateComments(true);
                                       }}>Send</Button>
@@ -128,4 +128,4 @@ const CommentsBlock = ({item}: { item: IItem }) => {
     )
 }
 
-export default CommentsBlock;
+export default React.memo(CommentsBlock);

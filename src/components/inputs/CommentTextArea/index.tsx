@@ -26,4 +26,4 @@ const CommentTextArea = ({value, setValue}:ICommentTextArea) => {
     );
 }
 
-export default CommentTextArea;
+export default React.memo(CommentTextArea);

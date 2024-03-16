@@ -25,4 +25,4 @@ const TableRow = ({config, row, onRowClick}: ITableRow) => {
     )
 }
 
-export default TableRow;
+export default React.memo(TableRow);

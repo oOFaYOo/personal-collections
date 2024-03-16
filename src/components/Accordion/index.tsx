@@ -16,7 +16,8 @@ const CustomAccordion = ({data}: IAccordion) => {
             {
                 data.map((item, index) => {
                     return (
-                        <Accordion sx={{width:'100%' , color: 'inherit', backgroundColor: 'inherit', boxShadow: 'none'}}>
+                        <Accordion
+                            sx={{width: '100%', color: 'inherit', backgroundColor: 'inherit', boxShadow: 'none'}}>
                             <AccordionSummary
                                 expandIcon={<KeyboardArrowDownIcon sx={{color: theme === 'dark' ? 'white' : 'black'}}/>}
                             >
@@ -33,4 +34,4 @@ const CustomAccordion = ({data}: IAccordion) => {
     );
 }
 
-export default CustomAccordion;
+export default React.memo(CustomAccordion);

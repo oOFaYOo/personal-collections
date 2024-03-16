@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import Table from "../../components/Table";
 import api from "../../api_client";
@@ -144,5 +144,4 @@ const Users = () => {
     )
 }
 
-
-export default Users;
+export default React.memo(Users);

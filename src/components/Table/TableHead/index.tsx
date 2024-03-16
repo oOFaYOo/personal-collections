@@ -32,7 +32,6 @@ const TableHead = ({order, orderBy, rowCount, config, onRequestSort, filtering=t
     const id = open ? 'simple-popover' : undefined;
 
     return (
-        // @ts-ignore
             <TableRow>
                 {config.map((headCell) => (
                     <TableCell
@@ -116,4 +115,4 @@ const TableHead = ({order, orderBy, rowCount, config, onRequestSort, filtering=t
     )
 }
 
-export default TableHead;
+export default React.memo(TableHead);

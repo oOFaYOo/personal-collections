@@ -206,4 +206,4 @@ const InputForm = (
     )
 }
 
-export default InputForm;
+export default React.memo(InputForm);

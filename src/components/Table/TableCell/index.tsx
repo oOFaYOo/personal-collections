@@ -59,4 +59,4 @@ const TableCell = ({row, item}: ITableCell) => {
     )
 }
 
-export default TableCell;
+export default React.memo(TableCell);

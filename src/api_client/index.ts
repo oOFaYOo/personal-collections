@@ -1,3 +1,4 @@
+import axios, {AxiosError} from "axios";
 import {
     IApiClient,
     ICollection,
@@ -5,8 +6,6 @@ import {
     IItem, ILike,
     IUser
 } from "./type";
-
-import axios, {AxiosError} from "axios";
 
 class ApiClient implements IApiClient {
     async signUp(name: string, email: string, password: string) {
@@ -56,13 +55,13 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async logout(id: string) {
+    async logout(userId: string) {
 
         const response = await axios({
             method: 'delete',
             url: '/api/logout',
             data: {
-                id: id,
+                userId: userId,
             }
         });
         return {
@@ -96,11 +95,11 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async getUser(id: string) {
+    async getUser(userId: string) {
 
         const response = await axios({
             method: 'get',
-            url: `/api/users/${id}`
+            url: `/api/users/${userId}`
         });
         return {
             status: response.status,
@@ -108,10 +107,10 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async deleteUser(id: string) {
+    async deleteUser(userId: string) {
         const response = await axios({
             method: 'delete',
-            url: `/api/users/${id}`,
+            url: `/api/users/${userId}`,
         });
         return {
             status: response.status,
@@ -119,11 +118,11 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async blockUser(id: string) {
+    async blockUser(userId: string) {
 
         const response = await axios({
             method: 'post',
-            url: `/api/users/${id}/block`,
+            url: `/api/users/${userId}/block`,
         });
         return {
             status: response.status,
@@ -131,11 +130,11 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async unblockUser(id: string) {
+    async unblockUser(userId: string) {
 
         const response = await axios({
             method: 'post',
-            url: `/api/users/${id}/unblock`,
+            url: `/api/users/${userId}/unblock`,
         });
         return {
             status: response.status,
@@ -143,20 +142,20 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async changeAccessLevel(id: string, isAdmin: boolean) {
+    async changeAccessLevel(userId: string, isAdmin: boolean) {
 
-        const response = await axios({method: 'post', url: `/api/users/${id}/access`, data: {isAdmin: isAdmin}});
+        const response = await axios({method: 'post', url: `/api/users/${userId}/access`, data: {isAdmin: isAdmin}});
         return {
             status: response.status,
             data: undefined,
         }
     }
 
-    async uploadUserPicture(id: string) {
+    async uploadUserPicture(userId: string) {
 
         const response = await axios({
             method: 'post',
-            url: `/api/users/${id}/picture`,
+            url: `/api/users/${userId}/picture`,
             data: {}
         });
         return {
@@ -165,11 +164,11 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async editUserData(id: string, user: {name: string, description: string}) {
+    async editUserData(userId: string, user: {name: string, description: string}) {
 
         const response = await axios({
             method: 'patch',
-            url: `/api/users/${id}/edit`,
+            url: `/api/users/${userId}/edit`,
             data: {name:user.name, description:user.description}
         });
         return {
@@ -238,39 +237,39 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async getUserCollections(id:string) {
+    async getUserCollections(userId:string) {
 
-        const response = await axios({method: 'get', url: `/api/user/collections/${id}`});
+        const response = await axios({method: 'get', url: `/api/user/collections/${userId}`});
         return {
             status: response.status,
             data: response.data,
         }
     }
 
-    async getCollection(id: string) {
+    async getCollection(collectionId: string) {
 
-        const response = await axios({method: 'get', url: `/api/collections/${id}`});
+        const response = await axios({method: 'get', url: `/api/collections/${collectionId}`});
         return {
             status: response.status,
             data: response.data,
         }
     }
 
-    async deleteCollection(id: string) {
+    async deleteCollection(collectionId: string) {
 
-        const response = await axios({method: 'delete', url: `/api/collections/${id}`});
+        const response = await axios({method: 'delete', url: `/api/collections/${collectionId}`});
         return {
             status: response.status,
             data: undefined,
         }
     }
 
-    async addCollection(id: string, collection: ICollection) {
+    async addCollection(userId: string, collection: ICollection) {
 
         const response = await axios({
             method: 'post',
             url: `/api/collections/create`,
-            data: {id: id, collection: {...collection}}
+            data: {userId: userId, collection: {...collection}}
         });
         return {
             status: response.status,
@@ -278,20 +277,20 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async uploadCollectionPicture(id: string) {
+    async uploadCollectionPicture(collectionId: string) {
 
-        const response = await axios({method: 'post', url: `/api/collections/${id}/picture`, data: {}});
+        const response = await axios({method: 'post', url: `/api/collections/${collectionId}/picture`, data: {}});
         return {
             status: response.status,
             data: undefined,
         }
     }
 
-    async editCollectionData(id: string, collection: ICollection) {
+    async editCollectionData(collectionId: string, collection: ICollection) {
 
         const response = await axios({
             method: 'patch',
-            url: `/api/collections/${id}`,
+            url: `/api/collections/${collectionId}`,
             data: {collection: {...collection}}});
         return {
             status: response.status,
@@ -309,53 +308,53 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async getCollectionItems(id:string) {
-        const response = await axios({method: 'get', url: `/api/collection/items/${id}`});
+    async getCollectionItems(collectionId:string) {
+        const response = await axios({method: 'get', url: `/api/collection/items/${collectionId}`});
         return {
             status: response.status,
             data: response.data,
         }
     }
 
-    async getItem(id: string) {
+    async getItem(itemId: string) {
 
-        const response = await axios({method: 'get', url: `/api/items/${id}`});
+        const response = await axios({method: 'get', url: `/api/items/${itemId}`});
         return {
             status: response.status,
             data: response.data,
         }
     }
 
-    async deleteItem(id: string) {
+    async deleteItem(itemId: string) {
 
-        const response = await axios({method: 'delete', url: `/api/items/${id}`});
+        const response = await axios({method: 'delete', url: `/api/items/${itemId}`});
         return {
             status: response.status,
             data: undefined,
         }
     }
 
-    async addItem(id: string, item: IItem) {
+    async addItem(collectionId: string, item: IItem) {
 
-        const response = await axios({method: 'post', url: `/api/items`, data: {id: id, item: {...item}}});
+        const response = await axios({method: 'post', url: `/api/items`, data: {collectionId: collectionId, item: {...item}}});
         return {
             status: response.status,
             data: undefined,
         }
     }
 
-    async uploadItemPicture(id: string) {
+    async uploadItemPicture(itemId: string) {
 
-        const response = await axios({method: 'post', url: `/api/items/${id}/picture`, data: {}});
+        const response = await axios({method: 'post', url: `/api/items/${itemId}/picture`, data: {}});
         return {
             status: response.status,
             data: undefined,
         }
     }
 
-    async editItemData(id: string, item: IItem) {
+    async editItemData(itemId: string, item: IItem) {
 
-        const response = await axios({method: 'patch', url: `/api/items/${id}`, data: {item: {...item}}});
+        const response = await axios({method: 'patch', url: `/api/items/${itemId}`, data: {item: {...item}}});
         return {
             status: response.status,
             data: undefined,
@@ -363,27 +362,27 @@ class ApiClient implements IApiClient {
     }
 
 //comment
-    async getComments(id: string) {
+    async getComments(itemId: string) {
 
-        const response = await axios({method: 'get', url: `/api/comments/${id}`});
+        const response = await axios({method: 'get', url: `/api/comments/${itemId}`});
         return {
             status: response.status,
             data: response.data,
         }
     }
 
-    async deleteComment(id: string) {
+    async deleteComment(commentId: string) {
 
-        const response = await axios({method: 'delete', url: `/api/comments/${id}`});
+        const response = await axios({method: 'delete', url: `/api/comments/${commentId}`, data:{commentId:commentId}});
         return {
             status: response.status,
             data: undefined,
         }
     }
 
-    async addComment(id: string, comment: IComment) {
+    async addComment(comment: IComment) {
 
-        const response = await axios({method: 'post', url: `/api/comments`, data: {id: id, comment: {...comment}}});
+        const response = await axios({method: 'post', url: `/api/comments`, data: {comment: {...comment}}});
         return {
             status: response.status,
             data: undefined,
@@ -391,27 +390,27 @@ class ApiClient implements IApiClient {
     }
 
 //like
-    async getLikes(id:string) {
+    async getLikes(itemId:string) {
 
-        const response = await axios({method: 'get', url: `/api/likes/${id}`});
+        const response = await axios({method: 'get', url: `/api/likes/${itemId}`});
         return {
             status: response.status,
             data: response.data,
         }
     }
 
-    async addLike(id: string, like: ILike) {
+    async addLike(like: ILike) {
 
-        const response = await axios({method: 'post', url: '/api/likes', data: {id: id, like: {...like}}});
+        const response = await axios({method: 'post', url: '/api/likes', data: {like: {...like}}});
         return {
             status: response.status,
             data: undefined,
         }
     }
 
-    async deleteLike(id: string) {
+    async deleteLike(likeId: string) {
 
-        const response = await axios({method: 'delete', url: `/api/likes`, data: {id:id}});
+        const response = await axios({method: 'delete', url: `/api/likes`, data: {likeId:likeId}});
         return {
             status: response.status,
             data: undefined,

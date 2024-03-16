@@ -15,7 +15,7 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-export default function InputFileUpload() {
+const UploadImage = () => {
     return (
         <Button
             component="label"
@@ -30,3 +30,5 @@ export default function InputFileUpload() {
         </Button>
     );
 }
+
+export default React.memo(UploadImage);

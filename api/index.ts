@@ -6,10 +6,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 import path from 'path';
-import {sql} from '@vercel/postgres';
 import {Simulate} from "react-dom/test-utils";
 import select = Simulate.select;
-import collection from "../src/pages/Collections/Collection";
 
 const app = express();
 app.use(bodyParser.json());
@@ -43,15 +41,15 @@ async function getAuthedUser(cookies?: any) : Promise<User | null> {
     if (!sessionId)
         return null;
 
-    const existingSessions = await sessionsRepository.find({where: {id: sessionId}});
-    if (existingSessions.length === 0)
+    const existingSession = (await sessionsRepository.find({where: {id: sessionId}}))[0];
+    if (!existingSession)
         return null;
 
-    const users = await usersRepository.find({where: {id: existingSessions[0].userId}});
-    if (!users.length)
+    const user = (await usersRepository.find({where: {id: existingSession.userId}}))[0];
+    if (!user)
         return null;
 
-    return users[0];
+    return user;
 }
 
 app.use(express.static(path.join(__dirname, '../build')))
@@ -60,9 +58,8 @@ app.use(express.static(path.join(__dirname, '../build')))
 
 app.post('/api/signup', async (req, res) => {
     const {email, password, name} = req.body;
-    const existed = await userCredentialsRepository.find({where:{email: email}});
-    if (existed.length > 0)
-    {
+    const existed = (await userCredentialsRepository.find({where:{email: email}}))[0];
+    if (existed){
         res.status(409);
         res.send("User already exists");
         return;
@@ -90,14 +87,14 @@ app.post('/api/signup', async (req, res) => {
 
 app.post('/api/signin', async (req, res) => {
     const {email, password} = req.body;
-    let existed = await userCredentialsRepository.find({where: {email: email}, relations: {user: true}});
-    if (existed.length === 0) {
+    let existed = (await userCredentialsRepository.find({where: {email: email}, relations: {user: true}}))[0];
+    if (!existed) {
         res.status(404);
         res.send("User with this email not found");
         return;
     }
 
-    const credentials = existed[0];
+    const credentials = existed;
     if (credentials.password !== password) {
         res.status(401);
         res.send("Wrong password!");
@@ -110,22 +107,21 @@ app.post('/api/signin', async (req, res) => {
     }
 
     const existingSession = (await sessionsRepository.find({where: {userId: credentials.user.id}}))[0];
-    if (existingSession) {
+    if (existingSession){
         res.send(existingSession);
         return;
     }
 
     const session = new Session();
     session.userId = credentials.user.id;
-
     await sessionsRepository.save(session);
 
     res.send(session);
 });
 
 app.delete('/api/logout', async (req, res) => {
-    const {id} = req.body;
-    await sessionsRepository.delete({userId: id});
+    const {userId} = req.body;
+    await sessionsRepository.delete({userId: userId});
     res.status(200);
     res.end();
 });
@@ -150,91 +146,90 @@ app.get('/api/users', async (req, res) => {
     res.send(users);
 });
 
-app.get('/api/users/:id', async (req, res) => {
-    const id = req.params.id;
+app.get('/api/users/:userId', async (req, res) => {
+    const {userId} = req.params;
 
-    const user = (await usersRepository.find({where: {id: id}}))[0];
+    const user = (await usersRepository.find({where: {id: userId}}))[0];
     res.send(user);
 });
 
-app.delete('/api/users/:id', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
+app.delete('/api/users/:userId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const id = req.params.id;
-    const user = await usersRepository.find({where: {id: id}});
+    const {userId} = req.params;
+    const user = await usersRepository.find({where: {id: userId}});
     const credentials = await userCredentialsRepository.find({where: {user: user[0]}, relations: {user: true}});
     await userCredentialsRepository.delete(credentials[0]);
     await usersRepository.delete(user[0]);
-    await sessionsRepository.delete({userId: id});
+    await sessionsRepository.delete({userId: userId});
     res.end();
 });
 
-app.post('/api/users/:id/block', async (req, res) => {
+app.post('/api/users/:userId/block', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const id = req.params.id;
-    const user = (await usersRepository.find({where: {id: id}}))[0];
+    const {userId} = req.params;
+    const user = (await usersRepository.find({where: {id: userId}}))[0];
     user.blocked = true;
     await usersRepository.save(user);
-    await sessionsRepository.delete({userId: id});
+    await sessionsRepository.delete({userId: userId});
     res.end();
 });
 
-app.post('/api/users/:id/unblock', async (req, res) => {
+app.post('/api/users/:userId/unblock', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const id = req.params.id;
-    const user = (await usersRepository.find({where: {id: id}}))[0];
+    const {userId} = req.params;
+    const user = (await usersRepository.find({where: {id: userId}}))[0];
     user.blocked = false;
     await usersRepository.save(user);
     res.end();
 });
 
-app.post('/api/users/:id/access', async (req, res) => {
+app.post('/api/users/:userId/access', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const id = req.params.id;
+    const {userId} = req.params;
     const {isAdmin} = req.body;
-    const user = (await usersRepository.find({where: {id: id}}))[0];
+    const user = (await usersRepository.find({where: {id: userId}}))[0];
     user.isAdmin = isAdmin;
     await usersRepository.save(user);
     res.end();
 });
 
-app.post('/api/users/:id/picture', async (req, res) => {
+app.post('/api/users/:userId/picture', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
-    const id = req.params.id;
+    const {userId} = req.params;
     // res.status(200);
     // res.send();
 });
 
-app.patch('/api/users/:id/edit', async (req, res) => {
+app.patch('/api/users/:userId/edit', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const id = req.params.id;
+    const {userId} = req.params;
     const {name, description} = req.body;
-    const user = (await usersRepository.find({where: {id: id}}))[0];
+    const user = (await usersRepository.find({where: {id: userId}}))[0];
     user.name = name;
     user.description = description;
     await usersRepository.save(user);
@@ -286,23 +281,23 @@ app.get('/api/collections', async (req, res) => {
     res.send(collections);
 });
 
-app.get('/api/user/collections/:id', async (req, res) => {
-    const {id} = req.params;
-    const user = (await usersRepository.find({where: {id: id}}))[0];
+app.get('/api/user/collections/:userId', async (req, res) => {
+    const {userId} = req.params;
+    const user = (await usersRepository.find({where: {id: userId}}))[0];
     const collections = await collectionsRepository.find({where: {user: user}});
     res.send(collections);
 });
 
-app.get('/api/collections/:id', async (req, res) => {
-    const {id} = req.params;
-    const collection = (await collectionsRepository.find({where: {id: id}, relations: {user: true}}))[0];
+app.get('/api/collections/:collectionId', async (req, res) => {
+    const {collectionId} = req.params;
+    const collection = (await collectionsRepository.find({where: {id: collectionId}, relations: {user: true}}))[0];
     const userId = collection.user.id;
     res.send({...collection, user:userId});
 });
 
-app.delete('/api/collections/:id', async (req, res) => {
-    const {id} = req.params;
-    const collection = (await collectionsRepository.find({where: {id: id}}))[0];
+app.delete('/api/collections/:collectionId', async (req, res) => {
+    const {collectionId} = req.params;
+    const collection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
     await collectionsRepository.delete(collection);
     res.end();
 });
@@ -314,30 +309,32 @@ app.post('/api/collections/create', async (req, res) => {
         res.end();
         return;
     }
-    const {id, collection} = req.body;
+    const {userId, collection} = req.body;
     delete collection.id;
-    collection.user = (await usersRepository.find({where: {id: id}}))[0];
+    collection.user = (await usersRepository.find({where: {id: userId}}))[0];
     await collectionsRepository.save(collection);
     res.end();
 });
 
-app.post('/api/collections/:id/picture', async (req, res) => {
+app.post('/api/collections/:collectionId/picture', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
-    const id = req.params.id;
+    const {collectionId} = req.params;
     // res.status(200);
     // res.send();
 });
 
-app.patch('/api/collections/:id', async (req, res) => {
-    const id = req.params.id;
-    const {collection} = req.body;
+app.patch('/api/collections/:collectionId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const updatedCollection = (await collectionsRepository.find({where: {id: id}}))[0];
+
+    const {collectionId} = req.params;
+    const {collection} = req.body;
+
+    const updatedCollection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
 
     updatedCollection.name = collection.name;
     updatedCollection.description = collection.description;
@@ -393,31 +390,31 @@ app.get('/api/items', async (req, res) => {
     res.send(items);
 });
 
-app.get('/api/collection/items/:id', async (req, res) => {
-    const {id} = req.params;
-    const collection = (await collectionsRepository.find({where: {id: id}}))[0];
+app.get('/api/collection/items/:collectionId', async (req, res) => {
+    const {collectionId} = req.params;
+    const collection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
     const items = await itemsRepository.find({where: {collection: collection}});
     res.send(items);
 });
 
-app.get('/api/items/:id', async (req, res) => {
-    const id = req.params.id;
-    const item = (await itemsRepository.find({where:{id:id}, relations: {collection: true}}))[0];
+app.get('/api/items/:itemId', async (req, res) => {
+    const {itemId} = req.params;
+    const item = (await itemsRepository.find({where:{id:itemId}, relations: {collection: true}}))[0];
     const collection = (await collectionsRepository.find({where:{ id: item.collection.id}, relations: {user: true}}))[0];
     item.userId = collection.user.id;
     item.userName = collection.user.name;
     res.send(item);
 });
 
-app.delete('/api/items/:id', async (req, res) => {
+app.delete('/api/items/:itemId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const id = req.params.id;
-    const item = (await itemsRepository.find({where:{id:id}}))[0];
+    const {itemId} = req.params;
+    const item = (await itemsRepository.find({where:{id:itemId}}))[0];
     await itemsRepository.delete(item);
     res.end();
 });
@@ -429,33 +426,33 @@ app.post('/api/items', async (req, res) => {
         res.end();
         return;
     }
-    const {id, item} = req.body;
+    const {collectionId, item} = req.body;
     delete item.id;
 
-    item.collection = (await collectionsRepository.find({where:{id: id}}))[0];
+    item.collection = (await collectionsRepository.find({where:{id: collectionId}}))[0];
     item.timestamp = new Date(Date.now());
     await itemsRepository.save(item);
     res.end();
 });
 
-app.post('/api/items/:id/picture', async (req, res) => {
+app.post('/api/items/:itemId/picture', async (req, res) => {
     // const sessionid = req.cookies?.sessionid;
-    const id = req.params.id;
+    const {itemId} = req.params;
     // res.status(200);
     // res.send();
 });
 
-app.patch('/api/items/:id', async (req, res) => {
+app.patch('/api/items/:itemId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const {id} = req.params;
+    const {itemId} = req.params;
     const {item} = req.body;
 
-    const updatedItem = (await itemsRepository.find({where:{id:id}}))[0];
+    const updatedItem = (await itemsRepository.find({where:{id:itemId}}))[0];
     updatedItem.name = item.name;
     updatedItem.tags = item.tags;
     updatedItem.text1 = item.text1;
@@ -480,21 +477,21 @@ app.patch('/api/items/:id', async (req, res) => {
 
 ///////////////////////////////////////////////////////comment
 
-app.get('/api/comments/:id', async (req, res) => {
-    const {id} = req.params;
-    const comments = await commentsRepository.find({where:{itemId:id}, relations:{user:true}});
+app.get('/api/comments/:itemId', async (req, res) => {
+    const {itemId} = req.params;
+    const comments = await commentsRepository.find({where:{itemId:itemId}, relations:{user:true}});
     res.send(comments);
 });
 
-app.delete('/api/comments/:id', async (req, res) => {
+app.delete('/api/comments', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
     if (!authedUser){
         res.status(401);
         res.end();
         return;
     }
-    const {id} = req.params;
-    const comment = (await commentsRepository.find({where:{id:id}}))[0];
+    const {commentId} = req.body;
+    const comment = (await commentsRepository.find({where:{id:commentId}}))[0];
     await commentsRepository.delete(comment);
     res.end();
 });
@@ -506,7 +503,7 @@ app.post('/api/comments', async (req, res) => {
         res.end();
         return;
     }
-    const {id, comment} = req.body;
+    const {comment} = req.body;
     delete comment.id;
 
     comment.user = (await usersRepository.find({where:{id: comment.userId}}))[0];
@@ -517,9 +514,9 @@ app.post('/api/comments', async (req, res) => {
 
 //////////////////////////////////////////////////likes
 
-app.get('/api/likes/:id', async (req, res) => {
-    const {id}= req.params;
-    const likes = await likesRepository.find({where:{itemId:id}});
+app.get('/api/likes/:itemId', async (req, res) => {
+    const {itemId}= req.params;
+    const likes = await likesRepository.find({where:{itemId:itemId}});
     res.send(likes);
 });
 
@@ -530,8 +527,8 @@ app.delete('/api/likes', async (req, res) => {
         res.end();
         return;
     }
-    const {id} = req.body;
-    const like = (await likesRepository.find({where:{id:id}}))[0];
+    const {likeId} = req.body;
+    const like = (await likesRepository.find({where:{id:likeId}}))[0];
     await likesRepository.delete(like);
     res.end();
 });
@@ -543,7 +540,7 @@ app.post('/api/likes', async (req, res) => {
         res.end();
         return;
     }
-    const {id, like} = req.body;
+    const {like} = req.body;
     delete like.id;
     await likesRepository.save(like);
     res.end();

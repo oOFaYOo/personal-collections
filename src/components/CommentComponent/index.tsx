@@ -1,7 +1,6 @@
 import React from "react";
 import {Avatar, Chip} from "@mui/material";
 import {ICommentComponent} from "./type";
-import {Link} from "react-router-dom";
 
 const CommentComponent = ({text, avatarImage, onDelete, id} : ICommentComponent) => {
     const customStyle = {
@@ -9,7 +8,7 @@ const CommentComponent = ({text, avatarImage, onDelete, id} : ICommentComponent)
         minHeight: '40px',
         color: 'inherit',
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: onDelete ? 'space-between' : 'flex-start'
     }
 
     const textElement =  <p title={text} className={'overflow-hidden ml-2 text-center text-ellipsis'}>{text}</p>;
@@ -34,4 +33,4 @@ const CommentComponent = ({text, avatarImage, onDelete, id} : ICommentComponent)
     )
 }
 
-export default CommentComponent;
+export default React.memo(CommentComponent);

@@ -10,7 +10,7 @@ import {ICollection, ThemeType} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 
-const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {currentCollection?:ICollection}) => {
+const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { currentCollection?: ICollection }) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const {id} = useParams();
 
@@ -43,7 +43,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {cu
          p-8 gap-4 outline-none rounded-md shadow-md flex-col justify-evenly items-center overflow-y-auto max-h-[90vh] styled_scrollbar`}
               onSubmit={async (e) => {
                   e.preventDefault();
-                  const collectionData:ICollection = {
+                  const collectionData: ICollection = {
                       id: '',
                       user: id!,
                       picture: '',
@@ -66,18 +66,22 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {cu
                       checkbox2: {id: 'checkbox2', label: checkbox2, type: 'checkbox'},
                       checkbox3: {id: 'checkbox3', label: checkbox3, type: 'checkbox'},
                   }
-                      if(!currentCollection){
-                          await api.addCollection(id!, {...collectionData, id: '', user: id!, picture: '',
-                              theme: collectionTheme as ThemeType, });
-                      }  else {
-                          await api.editCollectionData(id!, {...collectionData,
-                              id: currentCollection.id,
-                              user: currentCollection.user,
-                              picture: '',
-                              theme: currentCollection.theme })
-                      }
-                      setOpenModal(false);
-                      setUpdate!(true);
+                  if (!currentCollection) {
+                      await api.addCollection(id!, {
+                          ...collectionData, id: '', user: id!, picture: '',
+                          theme: collectionTheme as ThemeType,
+                      });
+                  } else {
+                      await api.editCollectionData(id!, {
+                          ...collectionData,
+                          id: currentCollection.id,
+                          user: currentCollection.user,
+                          picture: '',
+                          theme: currentCollection.theme
+                      })
+                  }
+                  setOpenModal(false);
+                  setUpdate!(true);
               }}>
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
@@ -92,7 +96,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {cu
                             setCollectionTheme(e.target.value as ThemeType | 'Theme');
                         }}
                         sx={{
-                            '&.Mui-disabled .MuiOutlinedInput-notchedOutline':{
+                            '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
                                 borderColor: theme === 'dark' ? 'rgba(229,229,229,0.3)' : 'rgba(23,23,23,0.3)',
                             },
                             color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
@@ -105,10 +109,10 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {cu
                             '.MuiSvgIcon-root ': {
                                 fill: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',
                             },
-                            '& .Mui-disabled':{
+                            '& .Mui-disabled': {
                                 '-webkit-text-fill-color': theme === 'dark' ? 'rgba(229,229,229,0.3)' : 'rgba(23,23,23,0.3)',
                             },
-                            '.Mui-disabled':{
+                            '.Mui-disabled': {
                                 '&.MuiSvgIcon-root ': {
                                     opacity: '0.3',
                                 },
@@ -128,43 +132,58 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {cu
                 <h3 className={'font-semibold'}>Additional item fields</h3>
                 <div className={'flex lg:flex-row flex-col justify-evenly gap-2'}>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput emptyEffect={!text1} value={text1} setValue={setText1} placeholder={'Title of text field'}
+                        <CustomInput emptyEffect={!text1} value={text1} setValue={setText1}
+                                     placeholder={'Title of text field'}
                                      name={'text1'} size={'small'}/>
-                        <CustomInput emptyEffect={!text2} value={text2} setValue={setText2} placeholder={'Title of text field'}
+                        <CustomInput emptyEffect={!text2} value={text2} setValue={setText2}
+                                     placeholder={'Title of text field'}
                                      name={'text2'} size={'small'}/>
-                        <CustomInput emptyEffect={!text3} value={text3} setValue={setText3} placeholder={'Title of text field'}
+                        <CustomInput emptyEffect={!text3} value={text3} setValue={setText3}
+                                     placeholder={'Title of text field'}
                                      name={'text3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput emptyEffect={!number1} value={number1} setValue={setNumber1} placeholder={'Title of numeric field'}
+                        <CustomInput emptyEffect={!number1} value={number1} setValue={setNumber1}
+                                     placeholder={'Title of numeric field'}
                                      name={'number1'} size={'small'}/>
-                        <CustomInput emptyEffect={!number2} value={number2} setValue={setNumber2} placeholder={'Title of numeric field'}
+                        <CustomInput emptyEffect={!number2} value={number2} setValue={setNumber2}
+                                     placeholder={'Title of numeric field'}
                                      name={'number2'} size={'small'}/>
-                        <CustomInput emptyEffect={!number3} value={number3} setValue={setNumber3} placeholder={'Title of numeric field'}
+                        <CustomInput emptyEffect={!number3} value={number3} setValue={setNumber3}
+                                     placeholder={'Title of numeric field'}
                                      name={'number3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput emptyEffect={!date1} value={date1} setValue={setDate1} placeholder={'Title of date field'}
+                        <CustomInput emptyEffect={!date1} value={date1} setValue={setDate1}
+                                     placeholder={'Title of date field'}
                                      name={'date1'} size={'small'}/>
-                        <CustomInput emptyEffect={!date2} value={date2} setValue={setDate2} placeholder={'Title of date field'}
+                        <CustomInput emptyEffect={!date2} value={date2} setValue={setDate2}
+                                     placeholder={'Title of date field'}
                                      name={'date2'} size={'small'}/>
-                        <CustomInput emptyEffect={!date3} value={date3} setValue={setDate3} placeholder={'Title of date field'}
+                        <CustomInput emptyEffect={!date3} value={date3} setValue={setDate3}
+                                     placeholder={'Title of date field'}
                                      name={'date3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput emptyEffect={!checkbox1} value={checkbox1} setValue={setCheckbox1} placeholder={'Title of checkbox field'}
+                        <CustomInput emptyEffect={!checkbox1} value={checkbox1} setValue={setCheckbox1}
+                                     placeholder={'Title of checkbox field'}
                                      name={'checkbox1'} size={'small'}/>
-                        <CustomInput emptyEffect={!checkbox2} value={checkbox2} setValue={setCheckbox2} placeholder={'Title of checkbox field'}
+                        <CustomInput emptyEffect={!checkbox2} value={checkbox2} setValue={setCheckbox2}
+                                     placeholder={'Title of checkbox field'}
                                      name={'checkbox2'} size={'small'}/>
-                        <CustomInput emptyEffect={!checkbox3} value={checkbox3} setValue={setCheckbox3} placeholder={'Title of checkbox field'}
+                        <CustomInput emptyEffect={!checkbox3} value={checkbox3} setValue={setCheckbox3}
+                                     placeholder={'Title of checkbox field'}
                                      name={'checkbox3'} size={'small'}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <CustomInput emptyEffect={!paragraph1} value={paragraph1} setValue={setParagraph1} placeholder={'Title of paragraph field'}
+                        <CustomInput emptyEffect={!paragraph1} value={paragraph1} setValue={setParagraph1}
+                                     placeholder={'Title of paragraph field'}
                                      name={'paragraph1'} size={'small'}/>
-                        <CustomInput emptyEffect={!paragraph2} value={paragraph2} setValue={setParagraph2} placeholder={'Title of paragraph field'}
+                        <CustomInput emptyEffect={!paragraph2} value={paragraph2} setValue={setParagraph2}
+                                     placeholder={'Title of paragraph field'}
                                      name={'paragraph2'} size={'small'}/>
-                        <CustomInput emptyEffect={!paragraph3} value={paragraph3} setValue={setParagraph3} placeholder={'Title of paragraph field'}
+                        <CustomInput emptyEffect={!paragraph3} value={paragraph3} setValue={setParagraph3}
+                                     placeholder={'Title of paragraph field'}
                                      name={'paragraph3'} size={'small'}/>
                     </div>
                 </div>
@@ -172,15 +191,15 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}:IForm & {cu
                         disabled={!currentCollection && collectionTheme === "Theme"}
                         type={'submit'}
                         sx={{
-                                "&:disabled": {
-                                    borderColor: 'inherit',
-                                    color: 'inherit',
-                                    opacity: theme === 'dark' ? '0.3' : '',
-                                }
-                            }}>ok</Button>
+                            "&:disabled": {
+                                borderColor: 'inherit',
+                                color: 'inherit',
+                                opacity: theme === 'dark' ? '0.3' : '',
+                            }
+                        }}>ok</Button>
             </div>
         </form>
     )
 }
 
-export default CollectionForm;
+export default React.memo(CollectionForm);

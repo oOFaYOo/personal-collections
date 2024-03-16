@@ -82,4 +82,4 @@ const RegAuth = ({setOpenModal}:IForm) => {
     )
 }
 
-export default RegAuth;
+export default React.memo(RegAuth);

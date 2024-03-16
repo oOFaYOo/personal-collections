@@ -61,4 +61,4 @@ const MultiTextInput = ({
     )
 }
 
-export default MultiTextInput;
+export default React.memo(MultiTextInput);

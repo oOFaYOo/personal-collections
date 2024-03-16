@@ -2,12 +2,8 @@ import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import {Avatar, Button, Checkbox, Chip, CircularProgress, Modal} from "@mui/material";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import InsertCommentRoundedIcon from '@mui/icons-material/InsertCommentRounded';
+import {Button, Checkbox, Chip, CircularProgress, Modal} from "@mui/material";
 import Accordion from "../../../components/Accordion"
-import TextArea from "../../../components/inputs/CommentTextArea"
 import ItemForm from "../../../components/forms/ItemForm";
 import {ICollection, IItem} from "../../../api_client/type";
 import {IItem as IItemComponents} from "./type";
@@ -18,9 +14,9 @@ import CommentsBlock from "./CommentsBlock";
 
 const Item = ({setTop}: IItemComponents) => {
     const {collectionId, itemId} = useParams();
-    const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
-    const [openModal, setOpenModal] = useState(false);
+    const [openModal, setOpenModal] = useState<boolean>(false);
     const [item, setItem] = useState<IItem | null>(null);
     const [updateItem, setUpdateItem] = useState<boolean>(false);
 
@@ -279,8 +275,6 @@ const Item = ({setTop}: IItemComponents) => {
                                     ? <Accordion data={getAccordionData(item)}/>
                                     : null
                             }
-
-
                         </div>
                         <CommentsBlock item={item!}/>
                     </>
@@ -289,4 +283,4 @@ const Item = ({setTop}: IItemComponents) => {
     )
 }
 
-export default Item;
+export default React.memo(Item);
