@@ -11,6 +11,7 @@ import {IItem as IItemComponents} from "./type";
 import noImg from "../../../svg/no-img.svg";
 import api from "../../../api_client";
 import CommentsBlock from "./CommentsBlock";
+import AdditionalDataContainer from "../../../components/AdditionalDataContainer";
 
 const Item = ({setTop}: IItemComponents) => {
     const {collectionId, itemId} = useParams();
@@ -78,7 +79,6 @@ const Item = ({setTop}: IItemComponents) => {
                             onScroll={(e) => {
                                 setTop(e.currentTarget.scrollTop)
                             }}>
-
                             <div className={'w-full flex-col md:flex-row flex mb-4 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
                                 <div className={'md:h-full pb-4 md:w-[50%] h-[250px] flex justify-center items-center'}>
                                     {
@@ -135,58 +135,8 @@ const Item = ({setTop}: IItemComponents) => {
                             </div>
                             <div
                                 className={'w-full mb-2 pl-8 flex flex-wrap justify-evenly md:justify-start gap-8 lg:gap-16'}>
-                                {item.date1 || item.date2 || item.date3
-                                    ? <div className={'flex flex-col'}>
-                                        {!item.date1
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).date1.label}:
-                                                <p className={'font-normal opacity-70'}>{item.date1.split('-').reverse().join('.')}</p>
-                                            </h3>
-                                        }
-                                        {!item.date2
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).date2.label}:
-                                                <p className={'font-normal opacity-70'}>{item.date2.split('-').reverse().join('.')}</p>
-                                            </h3>
-                                        }
-                                        {!item.date3
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).date3.label}:
-                                                <p className={'font-normal opacity-70'}>{item.date3.split('-').reverse().join('.')}</p>
-                                            </h3>
-                                        }
-                                    </div>
-                                    : null
-                                }
-                                {item.number1 || item.number2 || item.number3
-                                    ? <div className={'flex flex-col'}>
-                                        {!item.number1
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).number1.label}:
-                                                <p className={'font-normal opacity-70'}>{item.number1}</p>
-                                            </h3>
-                                        }
-                                        {!item.number2
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).number2.label}:
-                                                <p className={'font-normal opacity-70'}>{item.number2}</p>
-                                            </h3>
-                                        }
-                                        {!item.number3
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).number3.label}:
-                                                <p className={'font-normal opacity-70'}>{item.number3}</p>
-                                            </h3>
-                                        }
-                                    </div>
-                                    : null
-                                }
+                                <AdditionalDataContainer keys={['date1', 'date2', 'date3']} item={item} date/>
+                                <AdditionalDataContainer keys={['number1', 'number2', 'number3']} item={item}/>
                                 {
                                     (item.collection as ICollection).checkbox1.label
                                     || (item.collection as ICollection).checkbox2.label
@@ -243,32 +193,7 @@ const Item = ({setTop}: IItemComponents) => {
                                         </div>
                                         : null
                                 }
-                                {item.text1 || item.text2 || item.text3
-                                    ? <div className={'flex flex-col'}>
-                                        {!item.text1
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).text1.label}:
-                                                <p className={'font-normal opacity-70'}>{item.text1}</p>
-                                            </h3>
-                                        }
-                                        {!item.text2
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).text2.label}:
-                                                <p className={'font-normal opacity-70'}>{item.text2}</p>
-                                            </h3>
-                                        }
-                                        {!item.text3
-                                            ? null
-                                            :
-                                            <h3 className={'font-semibold'}>{(item.collection as ICollection).text3.label}:
-                                                <p className={'font-normal opacity-70'}>{item.text3}</p>
-                                            </h3>
-                                        }
-                                    </div>
-                                    : null
-                                }
+                                <AdditionalDataContainer keys={['text1', 'text2', 'text3']} item={item}/>
                             </div>
                             {
                                 item.paragraph1 || item.paragraph2 || item.paragraph3
