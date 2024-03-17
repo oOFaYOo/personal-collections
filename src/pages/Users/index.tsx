@@ -26,11 +26,6 @@ const config: ITableItem [] = [
         type: 'number',
     },
     {
-        id: 'amountItems',
-        label: 'Items',
-        type: 'number'
-    },
-    {
         id: 'description',
         label: 'Description',
         type: 'paragraph'

@@ -53,7 +53,7 @@ const InputForm = (
                       userId: '',
                       collection: currentCollection.id, //id
                       theme: currentCollection.theme,
-                      picture: 'https://sun9-25.userapi.com/impg/bhxPhGp-bsNvt26biI4iW-AfXvChjFzwSyrAag/7PUrA45ib50.jpg?size=1024x1024&quality=96&sign=398f408bfcb4e22d3489f6702dfc2709&type=album',
+                      picture: '',
                       name: name,
                       tags: tags,
                       text1: text1,

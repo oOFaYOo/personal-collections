@@ -1,6 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {AdditionalColumnType} from "../src/components/Table/type";
 import {ThemeType} from "../src/api_client/type";
+import items from "../src/pages/Items";
 
 @Entity("personal-collections-users")
 export class User{
@@ -18,7 +19,6 @@ export class User{
     isAdmin!: boolean;
 
     amountCollections!: number;
-    amountItems!: number;
 }
 
 @Entity("personal-collections-collections")
@@ -28,6 +28,9 @@ export class Collection{
     @ManyToOne(() => User)
     @JoinColumn()
     user!: User;
+    @OneToMany(() => Item, i => i.collection)
+    @JoinColumn()
+    items!: Item[];
     @Column()
     picture!: string;
     @Column()

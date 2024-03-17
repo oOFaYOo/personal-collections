@@ -11,8 +11,8 @@ const TagCloud = ({tags, onClick}: ITagCloud) => {
 
     return (
         <Cloud
-            minSize={12}
-            maxSize={35}
+            minSize={25}
+            maxSize={55}
             tags={tags}
             onClick={tag => {
                 onClick(tag.value)

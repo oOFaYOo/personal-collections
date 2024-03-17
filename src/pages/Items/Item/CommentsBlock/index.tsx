@@ -18,20 +18,19 @@ const CommentsBlock = ({item}: { item: IItem }) => {
     const [comment, setComment] = useState<string>('');
     const [comments, setComments] = useState<IComment[] | null>(null);
     const [likes, setLikes] = useState<ILike[] | null>(null);
-    const [updateComments, setUpdateComments] = useState<boolean>(false);
     const [updateLikes, setUpdateLikes] = useState<boolean>(false);
 
     useEffect(() => {
+        setInterval(() => {
         (async () => {
-            if (!comments || updateComments) {
+            if (!comments) {
                 const response = await api.getComments(itemId!);
                 if (response.status === 200) {
-                    setComments(response.data);
+                    setComments(response.data.sort((a:IComment,b:IComment)=>new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
                 }
             }
-            setUpdateComments(false);
-        })()
-    }, [updateComments])
+        })()}, 3500)
+    }, [])
 
     useEffect(() => {
         (async () => {
@@ -62,7 +61,6 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                 onDelete={currentUser?.id === value.userId || currentUser?.isAdmin
                                     ? async () => {
                                         await api.deleteComment(value.id);
-                                        setUpdateComments(true);
                                     } : undefined}/>
                         )
                 }
@@ -120,7 +118,6 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                           }
                                           await api.addComment({...commentData});
                                           setComment('');
-                                          setUpdateComments(true);
                                       }}>Send</Button>
                     }
                 </div>

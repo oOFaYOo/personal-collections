@@ -15,7 +15,7 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-const UploadImage = () => {
+const UploadImage = ({setPicture}:{setPicture?: React.Dispatch<React.SetStateAction<File|null>>}) => {
     return (
         <Button
             component="label"
@@ -26,7 +26,11 @@ const UploadImage = () => {
             sx={{textWrap: 'nowrap', minWidth: '150px'}}
         >
             Add photo
-            <VisuallyHiddenInput type="file" name={'avatar'}/>
+            <VisuallyHiddenInput type="file" name={'avatar'} accept="image/jpeg,image/png,image/jpeg" onChange={(event) => {
+                if(event.target.files) {
+                    setPicture!(event.target.files[0])
+                }
+            }}/>
         </Button>
     );
 }

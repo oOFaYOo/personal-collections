@@ -9,7 +9,7 @@ const AdditionalInputsContainer = ({placeholder, name, values, setValues} : IAdd
             {
                 values.map((value, i) => {
                     return <CustomInput emptyEffect={!value} value={value} setValue={setValues[i]}
-                                        placeholder={placeholder}
+                                        placeholder={placeholder} key={value + `${i}`}
                                         name={name + `${i+1}`} size={'small'}/>
                 })
             }

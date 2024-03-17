@@ -12,7 +12,7 @@ export interface IApiClient {
     blockUser: (userId:string) => Promise<IResponse<void>>;
     unblockUser: (userId:string) => Promise<IResponse<void>>;
     changeAccessLevel: (userId:string, isAdmin:boolean) => Promise<IResponse<void>>;
-    uploadUserPicture: (userId:string) => Promise<IResponse<void>>;
+    uploadUserPicture: (userId:string, picture: File) => Promise<IResponse<void>>;
     editUserData: (userId:string, user:IUser) => Promise<IResponse<void>>;
 //for main page
     getAllTags: () => Promise<IResponse<string>>;
@@ -64,7 +64,6 @@ export interface IUser {
     blocked: boolean;
     isAdmin: boolean;
     amountCollections: number;
-    amountItems: number;
 }
 
 export interface ICollection {
