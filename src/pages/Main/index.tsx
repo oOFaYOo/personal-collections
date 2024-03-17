@@ -147,16 +147,18 @@ const Main = () => {
 
     return (
         <div
-            className={`${tags ? 'items-start' : 'items-center'} relative w-full flex p-2 lg:flex-row flex-col-reverse justify-start grow gap-4`}>
+            className={`${tags ? 'items-start' : 'items-center'} relative w-full flex p-2 lg:flex-row flex-col-reverse 
+            justify-start grow gap-4`}>
             <div className={`${tags ? 'overflow-y-auto styled_scrollbar' : ''} 
             flex flex-col items-center justify-start lg:w-[20%] w-full contrast-75 max-h-[40vh] lg:max-h-[85vh]`}>
                 {
                     !tags
                     ? <CircularProgress/>
-                    : <TagCloud tags={tags} onClick={(tag: string) => alert(tag)}/>
+                    : <TagCloud tags={tags} onClick={(tag: string) => {}}/>
                 }
             </div>
-            <div className={`${collections && users ? 'justify-start' : 'justify-center items-center'} lg:w-[80%] lg:p-0 pt-4 w-full lg:h-[85vh] flex flex-col`}>
+            <div className={`${collections && users ? 'justify-start' : 'justify-center items-center'} lg:w-[80%] lg:p-0 
+            pt-4 w-full lg:h-[85vh] flex flex-col`}>
                 {
                     collections && users && items
                         ? <>

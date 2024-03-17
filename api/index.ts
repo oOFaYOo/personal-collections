@@ -8,8 +8,13 @@ import cookieParser from "cookie-parser";
 import path from 'path';
 import {Simulate} from "react-dom/test-utils";
 import select = Simulate.select;
-
+import {Dropbox} from "dropbox";
+import fs from 'fs';
+import axios from "axios";
 const app = express();
+// const dropBoxToken = process.env.token;
+// const dbx = new Dropbox({ accessToken: ""});
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
@@ -69,7 +74,6 @@ app.post('/api/signup', async (req, res) => {
     user.name = name;
     user.blocked = false;
     user.amountCollections = 0;
-    user.amountItems = 0;
     user.isAdmin = false;
     user.picture = "";
     user.description = "";
@@ -137,9 +141,6 @@ app.get('/api/users', async (req, res) => {
 
     for(let user of users) {
         const collections = await collectionsRepository.find({where: {user: user}});
-        const items = await itemsRepository.find({where: {collection: collections}});
-
-        user.amountItems = items.length;
         user.amountCollections = collections.length;
     }
 
@@ -214,10 +215,29 @@ app.post('/api/users/:userId/access', async (req, res) => {
 });
 
 app.post('/api/users/:userId/picture', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
     const {userId} = req.params;
-    // res.status(200);
-    // res.send();
+    const imageType = req.header("Content-Type");
+    // console.log(userId, imageType!.slice(imageType!.indexOf('/')+1))
+    // await dbx.filesUpload({path: `/avatar/jjj/${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: req.body})
+
+    // const size = +(req.header('Content-Size') ?? 0)
+    // let fileContent = Buffer.alloc(200);
+    // req.on('data', (content) => {
+    //     fileContent += content;
+    // });
+    // req.on('end', async ()=>{
+    //     await dbx.filesUpload({path: `/avatar/jjj.${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: fileContent})
+    // })
+    // req.on('end', async () => {
+    //     console.log(size)
+    //     console.log(fileContent);
+    //     const t = fs.createWriteStream("D:/a.jpg");
+    //     t.write(fileContent);
+    //     t.end();
+    //     await dbx.filesUpload({path: `/avatar/${userId}/b.jpg`, contents: fileContent });
+    //     res.end();
+    // })
+    res.end();
 });
 
 app.patch('/api/users/:userId/edit', async (req, res) => {
@@ -239,24 +259,26 @@ app.patch('/api/users/:userId/edit', async (req, res) => {
 /////////////////////////////////////for main
 
 app.get('/api/main/tags', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-
-    // res.status(200);
-    // res.send();
+    const tags = await itemsRepository.find({select:{tags:true}});
+    res.send(tags.map(item => item.tags).join(', '));
 });
 
 app.get('/api/main/collections', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-
-    // res.status(200);
-    // res.send();
+    let collections = await collectionsRepository.find({relations: {items: true}});
+    collections = collections.sort((a,b) => b.items.length - a.items.length).slice(0, 5);
+    collections.forEach(collection => {collection.items = []});
+    res.send(collections);
 });
 
 app.get('/api/main/items', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-
-    // res.status(200);
-    // res.send();
+    let items = await itemsRepository.find({relations: {collection:true}});
+    items = items.sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0,3);
+    for(let item of items){
+        const collection = (await collectionsRepository.find({where:{ id: item.collection.id}, relations: {user: true}}))[0];
+        item.userId = collection.user.id;
+        item.userName = collection.user.name;
+    }
+    res.send(items);
 });
 
 app.get('/api/main/users', async (req, res) => {
@@ -264,9 +286,6 @@ app.get('/api/main/users', async (req, res) => {
 
     for(let user of users) {
         const collections = await collectionsRepository.find({where: {user: user}});
-        const items = await itemsRepository.find({where: {collection: collections}});
-
-        user.amountItems = items.length;
         user.amountCollections = collections.length;
     }
 

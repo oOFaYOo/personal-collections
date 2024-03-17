@@ -151,12 +151,15 @@ class ApiClient implements IApiClient {
         }
     }
 
-    async uploadUserPicture(userId: string) {
+    async uploadUserPicture(userId: string, picture: File) {
 
         const response = await axios({
             method: 'post',
             url: `/api/users/${userId}/picture`,
-            data: {}
+            headers: {
+                "Content-Type": picture.type,
+            },
+            data: picture
         });
         return {
             status: response.status,
