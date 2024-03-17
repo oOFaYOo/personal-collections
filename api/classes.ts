@@ -1,7 +1,6 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {AdditionalColumnType} from "../src/components/Table/type";
 import {ThemeType} from "../src/api_client/type";
-import items from "../src/pages/Items";
 
 @Entity("personal-collections-users")
 export class User{

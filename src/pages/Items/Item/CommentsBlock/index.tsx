@@ -48,7 +48,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
         <div className={`${item ? 'justify-center items-center' : ''} flex w-full flex-col md:h-auto md:w-[35%] p-4`}>
             <div
                 className={`${theme === 'dark' ? 'shadow-black/70' : ''} 
-                    w-full h-[40vh] md:h-[65vh] mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
+                    w-full h-[40vh] md:grow mb-4 overflow-y-auto styled_scrollbar rounded-md shadow-md flex flex-col items-center gap-4 p-4`}>
                 {
                     !comments
                         ? <CircularProgress/>

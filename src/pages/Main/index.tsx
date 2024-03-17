@@ -170,7 +170,9 @@ const Main = () => {
                                               'items-center opacity-30 hover:opacity-100'}>
                                         <ArrowForwardIosIcon color={'inherit'} fontSize={"large"}/>
                                     </Link>
-                                    <Table data={items} config={itemsConfig}/>
+                                    <Table data={items} config={itemsConfig} onRowClick={(e, id, row) => {
+                                        document.location = '/collections/'+ row?.collection.id + '/' + id;
+                                    }}/>
                                 </div>
                                 <div className={'w-full md:w-[50%] mobile:flex-col flex flex-row-reverse'}>
                                     <Link to={'/users'}
