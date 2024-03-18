@@ -8,9 +8,12 @@ import {IAction, ITableCell} from "../type";
 import noAvatar from "../../../svg/no-profile-picture.svg";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
+import {useTranslation} from "react-i18next";
 
 const TableCell = ({row, item}: ITableCell) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
+    const {t, i18n} = useTranslation();
 
     return (
         <TableCellMUI
@@ -53,7 +56,11 @@ const TableCell = ({row, item}: ITableCell) => {
                             : item.type === 'paragraph'
                                 ?
                                 <p className={'overflow-y-auto text-justify min-w-[200px] max-h-[100px] styled_scrollbar'}>{row[item.id]}</p>
-                                : item.type === 'date' ? row[item.id].split('-').reverse().join('.') : row[item.id]))
+                                : item.type === 'date'
+                                    ? row[item.id].split('-').reverse().join('.')
+                                    : row[item.id] === 'Game' || row[item.id] === 'Anime' || row[item.id] === 'Movie'
+                                        ? t(`theme.${row[item.id]}`)
+                                        : row[item.id]))
             }
         </TableCellMUI>
     )

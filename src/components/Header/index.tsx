@@ -11,6 +11,8 @@ import {RootState} from "../../store";
 import {setCurrentUser, setTheme} from "../../store/slice";
 import RegAuth from "../forms/RegAuthForm";
 import api from "../../api_client";
+import i18n from "i18next";
+import {useTranslation} from "react-i18next";
 
 const iconClass = 'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100';
 
@@ -19,6 +21,13 @@ const Header = () => {
     const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [openModal, setOpenModal] = useState(false);
+    const [language, setLanguage] = useState<string>('ru');
+
+    const {t, i18n} = useTranslation();
+    const changeLanguage = async (lang:string) => {
+        await i18n.changeLanguage(lang);
+        setLanguage(lang === 'en' ? 'ru' : 'en');
+    }
 
     return (
         <>
@@ -34,12 +43,17 @@ const Header = () => {
             <header
                 className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
             w-full min-h-16 max-h-16 flex justify-between sticky top-0 items-center z-[1] mobile:px-4 px-16`}>
-                <input type={'text'} placeholder={'Search...'}
+                <input type={'text'} placeholder={t('search')}
                        className={`${theme === 'dark' ? 'bg-white/10' : 'bg-white/30'}
                    outline-none rounded-md mobile:w-[60%] w-[43%] focus:border-2 focus:border-sky-500 align-middle py-2 px-4 shadow-md`}
                 />
                 <div className={'flex flex-nowrap justify-end items-center'}>
-                    <p className={'ml-2'}>EN</p>
+                    {
+                        language === 'ru'
+                            ? <button className={'ml-2'} onClick={()=>changeLanguage('ru')}>RU</button>
+                            : <button className={'ml-2'} onClick={()=>changeLanguage('en')}>EN</button>
+                    }
+
                     <Link to={'/'}>
                         <HomeIcon fontSize={'medium'}
                                   className={iconClass}/>

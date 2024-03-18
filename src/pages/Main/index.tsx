@@ -10,70 +10,7 @@ import {ICollection, IItem, IUser} from "../../api_client/type";
 import {filter} from "../../components/Table/functions";
 import {ITableItem} from "../../components/Table/type";
 import {CircularProgress} from "@mui/material";
-
-const collectionsConfig: ITableItem [] = [
-    {
-        id: 'picture',
-        label: '',
-        type: 'picture'
-    },
-    {
-        id: 'name',
-        label: 'Title',
-        type: 'text',
-    },
-    {
-        id: 'theme',
-        label: 'Theme',
-        type: 'text',
-    },
-    {
-        id: 'description',
-        label: 'Description',
-        type: 'paragraph'
-    },
-];
-
-const usersConfig: ITableItem [] = [
-    {
-        id: 'picture',
-        label: '',
-        type: 'picture'
-    },
-    {
-        id: 'name',
-        label: 'Name',
-        type: 'text',
-    },
-    {
-        id: 'amountCollections',
-        label: 'Collections',
-        type: 'number',
-    }
-];
-
-const itemsConfig: ITableItem[] = [
-    {
-        id: 'picture',
-        label: '',
-        type: 'picture'
-    },
-    {
-        id: 'name',
-        label: 'Title',
-        type: 'text',
-    },
-    {
-        id: 'collectionName',
-        label: 'Collection',
-        type: 'text',
-    },
-    {
-        id:'userName',
-        label: 'Author',
-        type: 'text',
-    }
-];
+import {useTranslation} from "react-i18next";
 
 const Main = () => {
 
@@ -83,6 +20,72 @@ const Main = () => {
     const [items, setItems] = useState<IItem & {collectionName:string}[] | null>(null);
     const [users, setUsers] = useState<IUser[] | null>(null);
     const [tags, setTags] = useState<{value:string, count:number}[] | null>(null);
+
+    const {t, i18n} = useTranslation();
+
+    const collectionsConfig: ITableItem [] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: t("table.title"),
+            type: 'text',
+        },
+        {
+            id: 'theme',
+            label: t("table.theme"),
+            type: 'text',
+        },
+        {
+            id: 'description',
+            label: t("table.description"),
+            type: 'paragraph'
+        },
+    ];
+
+    const itemsConfig: ITableItem[] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: t("table.title"),
+            type: 'text',
+        },
+        {
+            id: 'collectionName',
+            label:  t("table.collectionName"),
+            type: 'text',
+        },
+        {
+            id:'userName',
+            label: t("table.userName"),
+            type: 'text',
+        },
+    ];
+
+    const usersConfig: ITableItem [] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: t("table.name"),
+            type: 'text',
+        },
+        {
+            id: 'amountCollections',
+            label: t("table.amountCollections"),
+            type: 'text',
+        }
+    ];
 
     useEffect(() => {
         (

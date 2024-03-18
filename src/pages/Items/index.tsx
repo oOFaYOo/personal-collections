@@ -7,39 +7,42 @@ import api from "../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {filter} from "../../components/Table/functions";
-
-const config: ITableItem[] = [
-    {
-        id: 'picture',
-        label: '',
-        type: 'picture'
-    },
-    {
-        id: 'name',
-        label: 'Title',
-        type: 'text',
-    },
-    {
-        id: 'theme',
-        label: 'Theme',
-        type: 'text',
-    },
-    {
-      id:'userName',
-      label: 'Author',
-      type: 'text',
-    },
-    {
-        id: 'tags',
-        label: 'Tags',
-        type: 'paragraph',
-    }
-];
+import {useTranslation} from "react-i18next";
 
 const Items = () => {
     const {filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [items, setItems] = useState<IItem[] | null>(null);
+
+    const {t, i18n} = useTranslation();
+
+    const config: ITableItem [] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: t("table.title"),
+            type: 'text',
+        },
+        {
+            id: 'theme',
+            label: t("table.theme"),
+            type: 'text',
+        },
+        {
+            id:'userName',
+            label: t("table.userName"),
+            type: 'text',
+        },
+        {
+            id: 'tags',
+            label: t("table.tags"),
+            type: 'paragraph',
+        }
+    ]
 
     useEffect(() => {
         (
@@ -67,7 +70,6 @@ const Items = () => {
                         document.location = `/collections/${row?.collection.id}/${id}`;
                     }} />
             }
-
         </div>
     )
 }

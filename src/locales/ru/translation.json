@@ -1,0 +1,30 @@
+{
+  "author": "автор",
+  "search": "Поиск...",
+  "table": {
+    "title": "Название",
+    "theme": "Тема",
+    "tags": "Тэги",
+    "name": "Имя",
+    "description": "Описание",
+    "userName": "Автор",
+    "amountCollections": "Коллекции",
+    "collectionName": "Коллекция"
+  },
+  "theme": {
+    "Anime": "Аниме",
+    "Theme": "Тема",
+    "Game": "Игры",
+    "Movie": "Кино"
+  },
+  "edit": "редактировать",
+  "delete": "удалить",
+  "add": "добавить",
+  "send": "отправить",
+  "commentPlaceholder": "Твой комментарий...",
+  "characters": "символ(ов)",
+  "add_long_collection": "создай свою первую коллекцию",
+  "add_long_item": "создай свой первый элемент коллекции",
+  "admin": "администратор",
+  "block": "блокировка"
+}

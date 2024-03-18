@@ -1,0 +1,30 @@
+{
+  "author": "author",
+  "search": "Search...",
+  "table": {
+    "title": "Title",
+    "theme": "Theme",
+    "tags": "Tags",
+    "name": "Name",
+    "description": "Description",
+    "userName": "Author",
+    "amountCollections": "Collections",
+    "collectionName": "Collection"
+  },
+  "theme": {
+    "Anime": "Anime",
+    "Theme": "Theme",
+    "Game": "Game",
+    "Movie": "Movie"
+  },
+  "edit": "edit",
+  "delete": "delete",
+  "add": "add",
+  "send": "send",
+  "commentPlaceholder": "Your comment...",
+  "characters": "character(s)",
+  "add_long_collection": "create your first collection",
+  "add_long_item": "add your first item",
+  "admin": "admin",
+  "block": "block"
+}

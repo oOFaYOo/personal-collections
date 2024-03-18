@@ -14,29 +14,7 @@ import {useParams} from "react-router-dom";
 import {setCurrentUser} from "../../../store/slice";
 import {ITableItem} from "../../../components/Table/type";
 import {filter} from "../../../components/Table/functions";
-
-const config: ITableItem [] = [
-    {
-        id: 'picture',
-        label: '',
-        type: 'picture'
-    },
-    {
-        id: 'name',
-        label: 'Title',
-        type: 'text',
-    },
-    {
-        id: 'theme',
-        label: 'Theme',
-        type: 'text',
-    },
-    {
-        id: 'description',
-        label: 'Description',
-        type: 'paragraph'
-    },
-];
+import {useTranslation} from "react-i18next";
 
 const User = () => {
     const dispatch = useDispatch();
@@ -48,6 +26,31 @@ const User = () => {
     const [collections, setCollections] = useState<ICollection[] | null>(null);
     const [updateUser, setUpdateUser] = useState<boolean>(false);
     const [updateCollections, setUpdateCollections] = useState<boolean>(false);
+
+    const {t, i18n} = useTranslation();
+
+    const config: ITableItem [] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: t("table.name"),
+            type: 'text',
+        },
+        {
+            id: 'theme',
+            label: t("table.theme"),
+            type: 'text',
+        },
+        {
+            id: 'description',
+            label: t("table.description"),
+            type: 'paragraph'
+        }
+    ]
 
     useEffect(() => {
         (
@@ -117,7 +120,7 @@ const User = () => {
                                     user?.id === currentUser?.id || currentUser?.isAdmin
                                         ? <>
                                             <Button size={'small'} variant="outlined"
-                                                    onClick={() => setOpenModal(ModalFormType.User)}>Edit</Button>
+                                                    onClick={() => setOpenModal(ModalFormType.User)}>{t("edit")}</Button>
                                             <Button size={'small'} variant="outlined" onClick={async () => {
                                                 const response = await api.deleteUser(id!);
                                                 if (response.status === 200) {
@@ -130,7 +133,7 @@ const User = () => {
                                                     document.location = '/users';
                                                 }
                                             }}
-                                            >Delete</Button>
+                                            >{t('delete')}</Button>
                                         </>
                                         : null
                                 }
@@ -156,7 +159,7 @@ const User = () => {
                                     : user?.id === currentUser?.id || currentUser?.isAdmin
                                         ? <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
                                             <Button size={'small'} variant="outlined"
-                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>Add</Button>
+                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>{t('add')}</Button>
                                         </div>
                                         : null
                                 }
@@ -165,7 +168,7 @@ const User = () => {
                                         ? user?.id === currentUser?.id || currentUser?.isAdmin
                                             ?
                                             <Button size={'large'} variant="outlined"
-                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>create your first collection</Button>
+                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>{t('add_long_collection')}</Button>
                                             : null
                                         : <Table pagination={true} data={filter(collections, filterByTheme)} config={config}
                                                  onRowClick={(e, id) => {

@@ -8,29 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {CircularProgress} from "@mui/material";
 import {setCurrentUser} from "../../store/slice";
-
-const config: ITableItem [] = [
-    {
-        id: 'picture',
-        label: '',
-        type: 'picture'
-    },
-    {
-        id: 'name',
-        label: 'Name',
-        type: 'text',
-    },
-    {
-        id: 'amountCollections',
-        label: 'Collections',
-        type: 'number',
-    },
-    {
-        id: 'description',
-        label: 'Description',
-        type: 'paragraph'
-    },
-];
+import {useTranslation} from "react-i18next";
 
 const Users = () => {
     const dispatch = useDispatch();
@@ -38,6 +16,31 @@ const Users = () => {
     const {currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const [data, setData] = useState<IUser[] | null>(null);
     const [update, setUpdate] = useState<boolean>(false);
+
+    const {t, i18n} = useTranslation();
+
+    const config: ITableItem [] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: t("table.name"),
+            type: 'text',
+        },
+        {
+            id: 'amountCollections',
+            label: t("table.amountCollections"),
+            type: 'text',
+        },
+        {
+            id: 'description',
+            label: t("table.description"),
+            type: 'paragraph'
+        },
+    ];
 
     (function handledConfig () {
         if (!config.find(c => c.id === 'action') && currentUser && currentUser.isAdmin) {
@@ -69,7 +72,7 @@ const Users = () => {
     function addActions(user: IUser) {
         const actions = [
             {
-                name: 'admin', callback: async (id: string) => {
+                name: t('admin'), callback: async (id: string) => {
                     const response = await api.changeAccessLevel(id, !user.isAdmin);
                     if(response.status === 200){
                         if (currentUser?.id === id){
@@ -83,7 +86,7 @@ const Users = () => {
                 }, active: user.isAdmin
             },
             {
-                name: 'block', callback: async (id: string) => {
+                name: t('block'), callback: async (id: string) => {
                     if(user.blocked){
                         const response = await api.unblockUser(id);
                         if(response.status === 200){
@@ -105,7 +108,7 @@ const Users = () => {
                 }, active: user.blocked
             },
             {
-                name: 'delete', callback: async (id: string) => {
+                name: t('delete'), callback: async (id: string) => {
                     const response = await api.deleteUser(id);
                     if(response.status === 200){
                         if(currentUser?.id === id){

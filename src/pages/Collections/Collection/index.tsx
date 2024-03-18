@@ -12,29 +12,8 @@ import api from "../../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {ITableItem} from "../../../components/Table/type";
+import {Trans, useTranslation} from "react-i18next";
 
-const config: ITableItem[] = [
-    {
-        id: 'picture',
-        label: '',
-        type: 'picture'
-    },
-    {
-        id: 'name',
-        label: 'Title',
-        type: 'text',
-    },
-    {
-        id: 'theme',
-        label: 'Theme',
-        type: 'text',
-    },
-    {
-        id: 'tags',
-        label: 'Tags',
-        type: 'paragraph',
-    },
-];
 
 function handledConfig (config:ITableItem[], collection:ICollection) {
     let updatedConfig = [...config];
@@ -62,6 +41,31 @@ const Collection = () => {
     const [items, setItems] = useState<IItem[] | null>(null);
     const [updateCollection, setUpdateCollection] = useState<boolean>(false);
     const [updateItems, setUpdateItems] = useState<boolean>(false);
+
+    const {t, i18n} = useTranslation();
+
+    const config: ITableItem[] = [
+        {
+            id: 'picture',
+            label: '',
+            type: 'picture'
+        },
+        {
+            id: 'name',
+            label: t("table.title"),
+            type: 'text',
+        },
+        {
+            id: 'theme',
+            label: t("table.theme"),
+            type: 'text',
+        },
+        {
+            id: 'tags',
+            label: t("table.tags"),
+            type: 'paragraph',
+        },
+    ];
 
     useEffect(() => {
         (
@@ -135,9 +139,9 @@ const Collection = () => {
                                 <div className={'flex justify-between items-center md:items-start mb-2'}>
                                     <div>
                                         <h1 className={'text-xl font-bold'}>{collection.name}</h1>
-                                        <h2 className={'font-semibold italic'}>{collection.theme}</h2>
+                                        <h2 className={'font-semibold italic'}>{t(`theme.${collection.theme}`)}</h2>
                                         <Link to={`/users/${collection.user}`}>
-                                            <h3 className={'text-lg font-semibold text-[#1976d2]'}>author</h3>
+                                            <h3 className={'text-lg font-semibold text-[#1976d2]'}>{t("author")}</h3>
                                         </Link>
                                     </div>
                                     <div className={'flex flex-row justify-between gap-2'}>
@@ -147,17 +151,19 @@ const Collection = () => {
                                                         items?.length === 0
                                                             ? null
                                                             : <Button size={'small'} variant="outlined"
-                                                                      onClick={() => setOpenModal(ModalFormType.Item)}>Add</Button>
+                                                                      onClick={() => setOpenModal(ModalFormType.Item)}>
+                                                                {t('add')}
+                                                              </Button>
                                                     }
                                                     <Button size={'small'} variant="outlined"
                                                             onClick={() => setOpenModal(ModalFormType.Collection)}>
-                                                        Edit
+                                                        {t("edit")}
                                                     </Button>
                                                     <Button size={'small'} variant="outlined" onClick={async () => {
                                                         await api.deleteCollection(id as string);
                                                         document.location = `/users/${collection.user}`;
                                                     }}>
-                                                        Delete
+                                                        {t("delete")}
                                                     </Button>
                                                 </>
                                             : null
@@ -177,7 +183,7 @@ const Collection = () => {
                     ? collection?.user === currentUser?.id || currentUser?.isAdmin
                         ? <div className={'my-8'}><Button size={'large'} variant="outlined"
                                                           onClick={() => setOpenModal(ModalFormType.Item)}>
-                            add your first item</Button>
+                            {t('add_long_item')}</Button>
                         </div>
                         : null
                     : <Table pagination={true}

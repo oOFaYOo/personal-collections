@@ -12,6 +12,7 @@ import noImg from "../../../svg/no-img.svg";
 import api from "../../../api_client";
 import CommentsBlock from "./CommentsBlock";
 import AdditionalDataContainer from "../../../components/AdditionalDataContainer";
+import {useTranslation} from "react-i18next";
 
 const Item = ({setTop}: IItemComponents) => {
     const {collectionId, itemId} = useParams();
@@ -20,6 +21,8 @@ const Item = ({setTop}: IItemComponents) => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [item, setItem] = useState<IItem | null>(null);
     const [updateItem, setUpdateItem] = useState<boolean>(false);
+
+    const {t, i18n} = useTranslation();
 
     useEffect(() => {
         (
@@ -51,7 +54,6 @@ const Item = ({setTop}: IItemComponents) => {
         })
         return accordionData;
     }
-
 
     return (
         <div className={`${item ? '' : 'justify-center items-center'} w-full flex grow md:flex-row flex-col`}>
@@ -97,25 +99,25 @@ const Item = ({setTop}: IItemComponents) => {
                                         <div className={'flex flex-col p-2'}>
                                             <h1 className={'text-xl font-bold'}>{item.name}</h1>
                                             <p className={'opacity-30 text-sm'}>{item.id}</p>
-                                            <h2 className={'font-semibold italic'}>{item.theme}</h2>
+                                            <h2 className={'font-semibold italic'}>{t(`theme.${item.theme}`)}</h2>
                                             <Link to={`/users/${item.userId}`}>
-                                                <h3 className={'text-lg font-semibold text-[#1976d2]'}>author</h3>
+                                                <h3 className={'text-lg font-semibold text-[#1976d2]'}>{t("author")}</h3>
                                             </Link>
                                         </div>
                                         <div
                                             className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
                                             {currentUser?.isAdmin || currentUser?.id === item.userId
                                                 ? <>
-                                                    <Button size={'small'} sx={{width: '100%', maxWidth: 150}}
+                                                    <Button size={'small'} sx={{width: '100%', minWidth:120, maxWidth:150}}
                                                             variant="outlined"
                                                             onClick={() => setOpenModal(true)}
-                                                    >Edit</Button>
-                                                    <Button size={'small'} sx={{width: '100%', maxWidth: 150}}
+                                                    >{t('edit')}</Button>
+                                                    <Button size={'small'} sx={{width: '100%', minWidth: 120, maxWidth:150}}
                                                             variant="outlined" onClick={async () => {
                                                         await api.deleteItem(itemId!);
                                                         document.location = `/collections/${collectionId}`;
                                                     }}
-                                                    >Delete</Button></>
+                                                    >{t('delete')}</Button></>
                                                 : null
                                             }
                                         </div>

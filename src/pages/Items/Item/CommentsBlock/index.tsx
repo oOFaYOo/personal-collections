@@ -10,6 +10,7 @@ import {useParams} from "react-router-dom";
 import {IComment, IItem, ILike, IUser} from "../../../../api_client/type";
 import api from "../../../../api_client";
 import CommentComponent from "../../../../components/CommentComponent";
+import {useTranslation} from "react-i18next";
 
 const CommentsBlock = ({item}: { item: IItem }) => {
     const {collectionId, itemId} = useParams();
@@ -20,16 +21,27 @@ const CommentsBlock = ({item}: { item: IItem }) => {
     const [likes, setLikes] = useState<ILike[] | null>(null);
     const [updateLikes, setUpdateLikes] = useState<boolean>(false);
 
+    const {t, i18n} = useTranslation();
+
+    const getCommentsCallback = async () => {
+        const response = await api.getComments(itemId!);
+        if (response.status === 200) {
+            setComments(response.data.sort((a: IComment, b: IComment) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
+        }
+    }
+
     useEffect(() => {
-        setInterval(() => {
+        let interval: NodeJS.Timer;
         (async () => {
             if (!comments) {
-                const response = await api.getComments(itemId!);
-                if (response.status === 200) {
-                    setComments(response.data.sort((a:IComment,b:IComment)=>new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
-                }
+                await getCommentsCallback();
+                    interval = setInterval(async () => {
+                    await getCommentsCallback();
+                }, 3000)
             }
-        })()}, 3500)
+        })()
+        return () => clearInterval(interval)
+
     }, [])
 
     useEffect(() => {
@@ -101,7 +113,8 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                                            opacity-70 hover:opacity-100 hover:text-[#1976d2]`}/>
                             }
                             {likes?.length}</p>
-                        <p><InsertCommentOutlinedIcon fontSize={'small'} className={'opacity-70'}/>{comments?.length}</p>
+                        <p><InsertCommentOutlinedIcon fontSize={'small'} className={'opacity-70'}/>{comments?.length}
+                        </p>
                     </div>
                     {
                         !currentUser
@@ -118,7 +131,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                           }
                                           await api.addComment({...commentData});
                                           setComment('');
-                                      }}>Send</Button>
+                                      }}>{t('send')}</Button>
                     }
                 </div>
             </div>
