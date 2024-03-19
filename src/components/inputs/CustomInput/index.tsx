@@ -32,7 +32,7 @@ const CustomInput = ({
             sx={{
                 minWidth: '200px',
                 opacity: emptyEffect ? '0.3' : '1',
-                width: fullWidth ? '100%' : '',
+                width: '100%',
                 input: {color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'},
                 '& .MuiInput-underline:after': {
                     borderColor: '#1976d2',

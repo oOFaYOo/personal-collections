@@ -13,6 +13,8 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {ITableItem} from "../../../components/Table/type";
 import {Trans, useTranslation} from "react-i18next";
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 
 function handledConfig (config:ITableItem[], collection:ICollection) {
@@ -170,9 +172,10 @@ const Collection = () => {
                                         }
                                     </div>
                                 </div>
-                                <p className={'overflow-y-auto w-full md:w-[80%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
+                                <Markdown remarkPlugins={[remarkGfm]}
+                                    className={'overflow-y-auto w-full md:w-[80%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
                                     {collection.description}
-                                </p>
+                                </Markdown>
                             </div>
                         </>
                 }

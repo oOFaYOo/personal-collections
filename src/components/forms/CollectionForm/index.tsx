@@ -90,7 +90,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
                 <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'title'} required/>
-                <FormControl fullWidth sx={{width: '200px'}}>
+                <FormControl sx={{minWidth: '250px'}}>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -139,27 +139,27 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                         placeholder={t('titleTextField')}
                         name={'text'}
                         values={[text1, text2, text3]}
-                        setValues={[setText1, setText2, setText3]} />
+                        setValues={[setText1, setText2, setText3]}/>
                     <AdditionalInputsTitleContainer
                         placeholder={t('titleNumericField')}
                         name={'number'}
                         values={[number1, number2, number3]}
-                        setValues={[setNumber1, setNumber2, setNumber3]} />
+                        setValues={[setNumber1, setNumber2, setNumber3]}/>
                     <AdditionalInputsTitleContainer
                         placeholder={t('titleDateField')}
                         name={'date'}
                         values={[date1, date2, date3]}
-                        setValues={[setDate1, setDate2, setDate3]} />
+                        setValues={[setDate1, setDate2, setDate3]}/>
                     <AdditionalInputsTitleContainer
                         placeholder={t('titleCheckboxField')}
                         name={'checkbox'}
                         values={[checkbox1, checkbox2, checkbox3]}
-                        setValues={[setCheckbox1, setCheckbox2, setCheckbox3]} />
+                        setValues={[setCheckbox1, setCheckbox2, setCheckbox3]}/>
                     <AdditionalInputsTitleContainer
                         placeholder={t('titleParagraphField')}
                         name={'paragraph'}
                         values={[paragraph1, paragraph2, paragraph3]}
-                        setValues={[setParagraph1, setParagraph2, setParagraph3]} />
+                        setValues={[setParagraph1, setParagraph2, setParagraph3]}/>
                 </div>
                 <Button variant="outlined"
                         disabled={!currentCollection && collectionTheme === "Theme"}

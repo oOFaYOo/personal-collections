@@ -15,6 +15,8 @@ import {setCurrentUser} from "../../../store/slice";
 import {ITableItem} from "../../../components/Table/type";
 import {filter} from "../../../components/Table/functions";
 import {useTranslation} from "react-i18next";
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const User = () => {
     const dispatch = useDispatch();
@@ -141,10 +143,12 @@ const User = () => {
                             {
                                 user?.description
                                     ?
-                                    <p className={'overflow-y-auto p-4 w-full flex grow max-h-[175px] lg:h-[175px] ' +
+                                    <Markdown
+                                        remarkPlugins={[remarkGfm]}
+                                        className={'overflow-y-auto p-4 w-full flex grow max-h-[175px] lg:h-[175px] ' +
                                         'styled_scrollbar text-justify'}>
                                         {user?.description}
-                                    </p>
+                                    </Markdown>
                                     : null
                             }
                         </div>

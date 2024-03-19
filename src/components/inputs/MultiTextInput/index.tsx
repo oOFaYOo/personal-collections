@@ -31,7 +31,7 @@ const MultiTextInput = ({
             sx={{
                 maxHeight: 56,
                 overflowY: 'auto',
-                width: '250px',
+                width: '100%',
                 '& .MuiInput-underline:after': {
                     borderBottomColor: '#1976d2',
                 },

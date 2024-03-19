@@ -7,6 +7,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {IAccordion} from "./type";
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const CustomAccordion = ({data}: IAccordion) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -17,14 +19,21 @@ const CustomAccordion = ({data}: IAccordion) => {
                 data.map((item, index) => {
                     return (
                         <Accordion key={`${index}` + item}
-                            sx={{width: '100%', color: 'inherit', backgroundColor: 'inherit', boxShadow: 'none'}}>
+                                   sx={{
+                                       width: '100%',
+                                       color: 'inherit',
+                                       backgroundColor: 'inherit',
+                                       boxShadow: 'none'
+                                   }}>
                             <AccordionSummary
                                 expandIcon={<KeyboardArrowDownIcon sx={{color: theme === 'dark' ? 'white' : 'black'}}/>}
                             >
                                 <Typography>{item.title}</Typography>
                             </AccordionSummary>
                             <AccordionDetails className={'opacity-70'}>
-                                {item.details}
+                                <Markdown remarkPlugins={[remarkGfm]}>
+                                    {item.details}
+                                </Markdown>
                             </AccordionDetails>
                         </Accordion>
                     )

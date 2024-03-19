@@ -184,19 +184,19 @@ const InputForm = (
                     </div>
                 </div>
                 <div className={'flex lg:flex-row w-full justify-between flex-col gap-2'}>
-                    <div>
+                    <div className={'lg:w-[250px] w-full'}>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph1.label}</p>
                         <MultiTextInput value={paragraph1} setValue={setParagraph1} name={'paragraph1'}
                                         placeholder={currentCollection?.paragraph1.label ? t('longtext') : ''}
                                         disabled={!currentCollection?.paragraph1.label && !currentItem}/>
                     </div>
-                    <div>
+                    <div className={'lg:w-[250px] w-full'}>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph2.label}</p>
                         <MultiTextInput value={paragraph2} setValue={setParagraph2} name={'paragraph2'}
                                         placeholder={currentCollection?.paragraph2.label ? t('longtext') : ''}
                                         disabled={!currentCollection?.paragraph2.label && !currentItem}/>
                     </div>
-                    <div>
+                    <div className={'lg:w-[250px] w-full'}>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph3.label}</p>
                         <MultiTextInput value={paragraph3} setValue={setParagraph3} name={'paragraph3'}
                                         placeholder={currentCollection?.paragraph3.label ? t('longtext') : ''}
