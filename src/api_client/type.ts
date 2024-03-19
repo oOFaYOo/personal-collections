@@ -43,6 +43,8 @@ export interface IApiClient {
     getLikes: (itemId:string) => Promise<IResponse<ILike>>;
     addLike:(like:ILike) => Promise<IResponse<void>>;
     deleteLike:(likeId:string) => Promise<IResponse<void>>;
+//search
+    getSearchResult:(searchValue:string) => Promise<IResponse<any>>;
 }
 
 export interface IResponse<T> {

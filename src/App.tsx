@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import Main from "./pages/Main";
 import Header from "./components/Header";
 import {RootState} from "./store";
@@ -29,6 +29,7 @@ const App = () => {
             }
         )()
     },[])
+
 
     return (
         <>

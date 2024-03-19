@@ -554,7 +554,7 @@ app.delete('/api/likes', async (req, res) => {
 
 app.post('/api/likes', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
@@ -562,6 +562,11 @@ app.post('/api/likes', async (req, res) => {
     const {like} = req.body;
     delete like.id;
     await likesRepository.save(like);
+    res.end();
+});
+
+app.get('/api/search', async (req, res)=>{
+    const {value} = req.query;
     res.end();
 });
 

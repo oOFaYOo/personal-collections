@@ -3,7 +3,7 @@ import {
     IApiClient,
     ICollection,
     IComment,
-    IItem, ILike,
+    IItem, ILike, IResponse,
     IUser
 } from "./type";
 
@@ -419,6 +419,14 @@ class ApiClient implements IApiClient {
             data: undefined,
         }
 
+    }
+
+    async getSearchResult(searchValue:string) {
+        const response = await axios({method: 'get', url: `/api/search?value=${searchValue}`});
+        return {
+            status: response.status,
+            data: response.data,
+        }
     }
 }
 

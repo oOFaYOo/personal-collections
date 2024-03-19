@@ -10,7 +10,8 @@ export const initialState: IPersonalCollectionsState = {
         {collectionTheme:"Anime", filtered:false},
         {collectionTheme:"Game", filtered:false},
         {collectionTheme:"Movie", filtered:false},
-    ]
+    ],
+    searchValue: '',
 };
 
 export const PersonalCollectionsStoreSlice = createSlice({
@@ -26,13 +27,17 @@ export const PersonalCollectionsStoreSlice = createSlice({
         setFilterByTheme : (state, action: PayloadAction<{ collectionTheme:ThemeType, filtered:boolean }[]>) => {
             state.filterByTheme = action.payload
         },
+        setSearchValue : (state, action: PayloadAction<string>) => {
+            state.searchValue = action.payload
+        },
     },
 });
 
 export const {
     setTheme,
     setCurrentUser,
-    setFilterByTheme
+    setFilterByTheme,
+    setSearchValue
      } = PersonalCollectionsStoreSlice.actions;
 
 export default PersonalCollectionsStoreSlice.reducer;
