@@ -8,8 +8,8 @@ import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
-import {IUser} from "../../../api_client/type";
 import {useTranslation} from "react-i18next";
+import {IUser} from "../../../api_client/UserRequests/type";
 
 const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -27,8 +27,8 @@ const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
               onSubmit={async (e) => {
                   e.preventDefault();
                   console.log(picture);
-                  await api.uploadUserPicture(id!, picture!);
-                  await api.editUserData(id!, {name:name, description:description});
+                  await api.UserRequests.uploadUserPicture(id!, picture!);
+                  await api.UserRequests.editUserData(id!, {name:name, description:description});
                   setUpdate!(true);
                   setName('');
                   setDescription('');

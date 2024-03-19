@@ -6,12 +6,12 @@ import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
-import {ICollection} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 import AdditionalInputsTitleContainer from "../../AdditionalInputsTitleContainer";
 import {useTranslation} from "react-i18next";
 import {ThemeType} from "../../../store/type";
+import {ICollection} from "../../../api_client/CollectionRequests/type";
 
 const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { currentCollection?: ICollection }) => {
     const {theme, collectionTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -41,7 +41,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
     const [date2, setDate2] = useState<string>(currentCollection ? currentCollection.date2.label : '');
     const [date3, setDate3] = useState<string>(currentCollection ? currentCollection.date3.label : '');
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -72,12 +72,12 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                       checkbox3: {id: 'checkbox3', label: checkbox3, type: 'checkbox'},
                   }
                   if (!currentCollection) {
-                      await api.addCollection(id!, {
+                      await api.CollectionRequests.addCollection(id!, {
                           ...collectionData, id: '', user: id!, picture: '',
                           theme: collectionTopic as ThemeType,
                       });
                   } else {
-                      await api.editCollectionData(id!, {
+                      await api.CollectionRequests.editCollectionData(id!, {
                           ...collectionData,
                           id: currentCollection.id,
                           user: currentCollection.user,

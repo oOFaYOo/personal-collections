@@ -14,7 +14,7 @@ const Search = () => {
         (
             async () => {
                 if(debouncedSearchTerm){
-                    const response = await api.getSearchResult(searchValue);
+                    const response = await api.SearchRequest.getSearchResult(searchValue);
                     if(response.status === 200){
                         console.log(response.data);
                         setData(response.data);

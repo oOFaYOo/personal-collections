@@ -8,7 +8,6 @@ import CollectionForm from "../../../components/forms/CollectionForm";
 import {ModalFormType} from "./type";
 // @ts-ignore
 import noAvatar from "../../../svg/no-profile-picture.svg";
-import {ICollection, IUser} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 import {setCurrentUser} from "../../../store/slice";
@@ -17,6 +16,8 @@ import {filter} from "../../../components/Table/functions";
 import {useTranslation} from "react-i18next";
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import {IUser} from "../../../api_client/UserRequests/type";
+import {ICollection} from "../../../api_client/CollectionRequests/type";
 
 const User = () => {
     const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const User = () => {
     const [updateUser, setUpdateUser] = useState<boolean>(false);
     const [updateCollections, setUpdateCollections] = useState<boolean>(false);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     const config: ITableItem [] = [
         {
@@ -58,7 +59,7 @@ const User = () => {
         (
             async () => {
                 if (!user || updateUser) {
-                    const response = await api.getUser(id as string);
+                    const response = await api.UserRequests.getUser(id as string);
                     if (response.status === 200) {
                         setUser(response.data)
                     }
@@ -72,7 +73,7 @@ const User = () => {
         (
             async () => {
                 if (!collections || updateCollections) {
-                    const response = await api.getUserCollections(id as string);
+                    const response = await api.CollectionRequests.getUserCollections(id as string);
                     if (response.status === 200) {
                         setCollections(response.data)
                     }
@@ -124,10 +125,10 @@ const User = () => {
                                             <Button size={'small'} variant="outlined"
                                                     onClick={() => setOpenModal(ModalFormType.User)}>{t("edit")}</Button>
                                             <Button size={'small'} variant="outlined" onClick={async () => {
-                                                const response = await api.deleteUser(id!);
+                                                const response = await api.UserRequests.deleteUser(id!);
                                                 if (response.status === 200) {
                                                     if (currentUser?.id === id) {
-                                                        api.logout(id);
+                                                        await api.AuthRequests.logout(id!);
                                                         dispatch(setCurrentUser(null));
                                                         localStorage.removeItem('userId');
                                                         document.cookie = `${document.cookie}; max-age=0`;

@@ -99,7 +99,7 @@ const Header = () => {
                         }
                         <OutputIcon fontSize={'medium'} className={iconClass} onClick={async () => {
                             if (currentUser) {
-                                await api.logout(currentUser.id);
+                                await api.AuthRequests.logout(currentUser.id);
                                 dispatch(setCurrentUser(null));
                                 localStorage.removeItem('userId');
                                 document.cookie = `${document.cookie}; max-age=0`;

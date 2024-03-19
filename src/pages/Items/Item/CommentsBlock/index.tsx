@@ -7,10 +7,14 @@ import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {useParams} from "react-router-dom";
-import {IComment, IItem, ILike, IUser} from "../../../../api_client/type";
+
 import api from "../../../../api_client";
 import CommentComponent from "../../../../components/CommentComponent";
 import {useTranslation} from "react-i18next";
+import {ILike} from "../../../../api_client/LikeRequests/type";
+import {IComment} from "../../../../api_client/CommentRequests/type";
+import {IItem} from "../../../../api_client/ItemRequests/type";
+import {IUser} from "../../../../api_client/UserRequests/type";
 
 const CommentsBlock = ({item}: { item: IItem }) => {
     const {collectionId, itemId} = useParams();
@@ -21,10 +25,10 @@ const CommentsBlock = ({item}: { item: IItem }) => {
     const [likes, setLikes] = useState<ILike[] | null>(null);
     const [updateLikes, setUpdateLikes] = useState<boolean>(false);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     const getCommentsCallback = async () => {
-        const response = await api.getComments(itemId!);
+        const response = await api.CommentRequests.getComments(itemId!);
         if (response.status === 200) {
             setComments(response.data.sort((a: IComment, b: IComment) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
         }
@@ -47,7 +51,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
     useEffect(() => {
         (async () => {
             if (!likes || updateLikes) {
-                const response = await api.getLikes(itemId!);
+                const response = await api.LikeRequests.getLikes(itemId!);
                 if (response.status === 200) {
                     setLikes(response.data);
                 }
@@ -72,7 +76,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                 avatarImage={(value.user as unknown as IUser).picture}
                                 onDelete={currentUser?.id === value.userId || currentUser?.isAdmin
                                     ? async () => {
-                                        await api.deleteComment(value.id);
+                                        await api.CommentRequests.deleteComment(value.id);
                                     } : undefined}/>
                         )
                 }
@@ -93,7 +97,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                     ? <FavoriteIcon fontSize={"small"}
                                                     onClick={async () => {
                                                         if (currentUser) {
-                                                            await api.deleteLike((likes?.find(value => value.userId.toString() === currentUser?.id.toString()))!.id);
+                                                            await api.LikeRequests.deleteLike((likes?.find(value => value.userId.toString() === currentUser?.id.toString()))!.id);
                                                             setUpdateLikes(true);
                                                         }
                                                     }}
@@ -101,7 +105,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                     : <FavoriteBorderIcon fontSize={"small"}
                                                           onClick={async () => {
                                                               if (currentUser) {
-                                                                  await api.addLike({
+                                                                  await api.LikeRequests.addLike({
                                                                       id: '',
                                                                       userId: currentUser?.id!,
                                                                       itemId: itemId!
@@ -132,7 +136,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                               text: comment,
                                               timestamp: '',
                                           }
-                                          await api.addComment({...commentData});
+                                          await api.CommentRequests.addComment({...commentData});
                                           setComment('');
                                       }}>{t('send')}</Button>
                     }

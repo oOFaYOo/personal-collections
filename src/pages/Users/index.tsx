@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import Table from "../../components/Table";
 import api from "../../api_client";
-import {IUser} from "../../api_client/type";
 import {ITableItem} from "../../components/Table/type";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {CircularProgress} from "@mui/material";
 import {setCurrentUser} from "../../store/slice";
 import {useTranslation} from "react-i18next";
+import {IUser} from "../../api_client/UserRequests/type";
 
 const Users = () => {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Users = () => {
     const [data, setData] = useState<IUser[] | null>(null);
     const [update, setUpdate] = useState<boolean>(false);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     const config: ITableItem [] = [
         {
@@ -60,7 +60,7 @@ const Users = () => {
     useEffect(() => {
         (async () => {
             if(!data || update) {
-                const response = await api.getUsers();
+                const response = await api.UserRequests.getUsers();
                 if (response.status === 200) {
                     setData(response.data);
                 }
@@ -73,10 +73,10 @@ const Users = () => {
         const actions = [
             {
                 name: t('admin'), callback: async (id: string) => {
-                    const response = await api.changeAccessLevel(id, !user.isAdmin);
+                    const response = await api.UserRequests.changeAccessLevel(id, !user.isAdmin);
                     if(response.status === 200){
                         if (currentUser?.id === id){
-                            const response = await api.getCurrentUser();
+                            const response = await api.AuthRequests.getCurrentUser();
                             if (response.status === 200){
                                 dispatch(setCurrentUser(response.data))
                             }
@@ -88,15 +88,15 @@ const Users = () => {
             {
                 name: t('block'), callback: async (id: string) => {
                     if(user.blocked){
-                        const response = await api.unblockUser(id);
+                        const response = await api.UserRequests.unblockUser(id);
                         if(response.status === 200){
                             setUpdate(true);
                         }
                     } else {
-                        const response = await api.blockUser(id);
+                        const response = await api.UserRequests.blockUser(id);
                         if(response.status === 200){
                             if(id === currentUser?.id){
-                                api.logout(id);
+                                await api.AuthRequests.logout(id);
                                 document.location = "/main";
                                 dispatch(setCurrentUser(null));
                                 localStorage.removeItem('userId');
@@ -109,10 +109,10 @@ const Users = () => {
             },
             {
                 name: t('delete'), callback: async (id: string) => {
-                    const response = await api.deleteUser(id);
+                    const response = await api.UserRequests.deleteUser(id);
                     if(response.status === 200){
                         if(currentUser?.id === id){
-                            api.logout(id);
+                            await api.AuthRequests.logout(id);
                             document.location = "/main";
                             dispatch(setCurrentUser(null));
                             localStorage.removeItem('userId');

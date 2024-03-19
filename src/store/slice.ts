@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {IPersonalCollectionsState, ThemeType} from "./type";
-import {IUser} from "../api_client/type";
+import {IUser} from "../api_client/UserRequests/type";
+
 
 const allTopics: ThemeType[] = ['Anime', 'Game', 'Movie'];
 

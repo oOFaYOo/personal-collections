@@ -3,12 +3,12 @@ import {useLocation} from "react-router-dom";
 import {CircularProgress} from "@mui/material";
 import Table from "../../components/Table"
 import {ITableItem} from "../../components/Table/type";
-import {ICollection} from "../../api_client/type";
 import api from "../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {filter} from "../../components/Table/functions";
 import {useTranslation} from "react-i18next";
+import {ICollection} from "../../api_client/CollectionRequests/type";
 
 const Collections = () => {
     const path = useLocation().pathname;
@@ -16,7 +16,7 @@ const Collections = () => {
 
     const [collections, setCollections] = useState<ICollection[] | null>(null);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     const config: ITableItem [] = [
         {
@@ -45,7 +45,7 @@ const Collections = () => {
         (
             async () => {
                 if (!collections) {
-                    const response = await api.getCollections();
+                    const response = await api.CollectionRequests.getCollections();
                     if (response.status === 200) {
                         setCollections(response.data)
                     }

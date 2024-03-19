@@ -6,11 +6,13 @@ import {RootState} from "../../store";
 import TagCloud from "../../components/TagCloud";
 import Table from "../../components/Table";
 import api from "../../api_client";
-import {ICollection, IItem, IUser} from "../../api_client/type";
 import {filter} from "../../components/Table/functions";
 import {ITableItem} from "../../components/Table/type";
 import {CircularProgress} from "@mui/material";
 import {useTranslation} from "react-i18next";
+import {IItem} from "../../api_client/ItemRequests/type";
+import {IUser} from "../../api_client/UserRequests/type";
+import {ICollection} from "../../api_client/CollectionRequests/type";
 
 const Main = () => {
 
@@ -21,7 +23,7 @@ const Main = () => {
     const [users, setUsers] = useState<IUser[] | null>(null);
     const [tags, setTags] = useState<{value:string, count:number}[] | null>(null);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     const collectionsConfig: ITableItem [] = [
         {
@@ -91,7 +93,7 @@ const Main = () => {
         (
             async () => {
                 if (!collections) {
-                    const response = await api.getBiggestCollections();
+                    const response = await api.MainPageRequests.getBiggestCollections();
                     if (response.status === 200) {
                         setCollections(response.data);
                     }
@@ -104,7 +106,7 @@ const Main = () => {
         (
             async () => {
                 if (!users) {
-                    const response = await api.getRandomUsers();
+                    const response = await api.MainPageRequests.getRandomUsers();
                     if (response.status === 200) {
                         setUsers(response.data.sort((a:IUser,b:IUser) => b.amountCollections - a.amountCollections));
                     }
@@ -117,7 +119,7 @@ const Main = () => {
         (
             async () => {
                 if (!items) {
-                    const response = await api.getLastItems();
+                    const response = await api.MainPageRequests.getLastItems();
                     if (response.status === 200) {
                         setItems(response.data.map((item:IItem & {collectionName:string}) => {
                             return {...item, collectionName: (item.collection as ICollection).name}
@@ -132,7 +134,7 @@ const Main = () => {
         (
             async () => {
                 if (!tags) {
-                    const response = await api.getAllTags();
+                    const response = await api.MainPageRequests.getAllTags();
                     if (response.status === 200) {
                         let comparingObj:{[key:string]:number} = {};
                         response.data.split(', ').forEach((tag:string) => {

@@ -1,4 +1,5 @@
-import {IUser} from "../api_client/type";
+import {IUser} from "../api_client/UserRequests/type";
+
 
 export interface IPersonalCollectionsState {
     theme: 'light' | 'dark';

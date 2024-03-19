@@ -5,7 +5,6 @@ import {RootState} from "../../../store";
 import {Button, Checkbox, Chip, CircularProgress, Modal} from "@mui/material";
 import Accordion from "../../../components/Accordion"
 import ItemForm from "../../../components/forms/ItemForm";
-import {ICollection, IItem} from "../../../api_client/type";
 import {IItem as IItemComponents} from "./type";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
@@ -13,6 +12,8 @@ import api from "../../../api_client";
 import CommentsBlock from "./CommentsBlock";
 import AdditionalDataContainer from "../../../components/AdditionalDataContainer";
 import {useTranslation} from "react-i18next";
+import {IItem} from "../../../api_client/ItemRequests/type";
+import {ICollection} from "../../../api_client/CollectionRequests/type";
 
 const Item = ({setTop}: IItemComponents) => {
     const {collectionId, itemId} = useParams();
@@ -28,7 +29,7 @@ const Item = ({setTop}: IItemComponents) => {
         (
             async () => {
                 if (!item || updateItem) {
-                    const response = await api.getItem(itemId!);
+                    const response = await api.ItemRequests.getItem(itemId!);
                     if (response.status === 200) {
                         setItem(response.data);
                     }
@@ -114,7 +115,7 @@ const Item = ({setTop}: IItemComponents) => {
                                                     >{t('edit')}</Button>
                                                     <Button size={'small'} sx={{width: '100%', minWidth: 120, maxWidth:150}}
                                                             variant="outlined" onClick={async () => {
-                                                        await api.deleteItem(itemId!);
+                                                        await api.ItemRequests.deleteItem(itemId!);
                                                         document.location = `/collections/${collectionId}`;
                                                     }}
                                                     >{t('delete')}</Button></>

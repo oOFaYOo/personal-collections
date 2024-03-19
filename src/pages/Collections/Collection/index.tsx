@@ -7,15 +7,15 @@ import Table from "../../../components/Table";
 import {ModalFormType} from "./type";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
-import {ICollection, IItem} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {ITableItem} from "../../../components/Table/type";
-import {Trans, useTranslation} from "react-i18next";
+import {useTranslation} from "react-i18next";
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
+import {ICollection} from "../../../api_client/CollectionRequests/type";
+import {IItem} from "../../../api_client/ItemRequests/type";
 
 function handledConfig (config:ITableItem[], collection:ICollection) {
     let updatedConfig = [...config];
@@ -44,7 +44,7 @@ const Collection = () => {
     const [updateCollection, setUpdateCollection] = useState<boolean>(false);
     const [updateItems, setUpdateItems] = useState<boolean>(false);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     const config: ITableItem[] = [
         {
@@ -73,7 +73,7 @@ const Collection = () => {
         (
             async () => {
                 if (!collection || updateCollection) {
-                    const response = await api.getCollection(id as string);
+                    const response = await api.CollectionRequests.getCollection(id as string);
                     if (response.status === 200) {
                         setCollection(response.data);
                     }
@@ -87,7 +87,7 @@ const Collection = () => {
         (
             async () => {
                 if ((!items && collection) || (updateItems && collection) ) {
-                    const response = await api.getCollectionItems(collection?.id!);
+                    const response = await api.ItemRequests.getCollectionItems(collection?.id!);
                     if (response.status === 200) {
                         setItems(response.data);
                     }
@@ -162,7 +162,7 @@ const Collection = () => {
                                                         {t("edit")}
                                                     </Button>
                                                     <Button size={'small'} variant="outlined" onClick={async () => {
-                                                        await api.deleteCollection(id as string);
+                                                        await api.CollectionRequests.deleteCollection(id as string);
                                                         document.location = `/users/${collection.user}`;
                                                     }}>
                                                         {t("delete")}

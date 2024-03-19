@@ -22,7 +22,7 @@ const App = () => {
     useEffect(()=>{
         (
             async () => {
-                const response = await api.getCurrentUser();
+                const response = await api.AuthRequests.getCurrentUser();
                 if (response.status === 200){
                     dispatch(setCurrentUser(response.data))
                 }

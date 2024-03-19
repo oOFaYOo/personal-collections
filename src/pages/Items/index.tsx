@@ -2,19 +2,19 @@ import React, {useEffect, useState} from "react";
 import {CircularProgress} from "@mui/material";
 import Table from "../../components/Table"
 import {ITableItem} from "../../components/Table/type";
-import {IItem} from "../../api_client/type";
 import api from "../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 import {filter} from "../../components/Table/functions";
 import {useTranslation} from "react-i18next";
+import {IItem} from "../../api_client/ItemRequests/type";
 
 const Items = () => {
     const {filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [items, setItems] = useState<IItem[] | null>(null);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     const config: ITableItem [] = [
         {
@@ -48,7 +48,7 @@ const Items = () => {
         (
             async () => {
                 if (!items) {
-                    const response = await api.getItems();
+                    const response = await api.ItemRequests.getItems();
                     if (response.status === 200) {
                         setItems(response.data)
                     }

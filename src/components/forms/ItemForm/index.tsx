@@ -6,9 +6,10 @@ import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
-import {ICollection, IItem} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useTranslation} from "react-i18next";
+import {ICollection} from "../../../api_client/CollectionRequests/type";
+import {IItem} from "../../../api_client/ItemRequests/type";
 
 const InputForm = (
     {
@@ -42,7 +43,7 @@ const InputForm = (
     const [date2, setDate2] = useState<string>(currentItem ? currentItem.date2 : '');
     const [date3, setDate3] = useState<string>(currentItem ? currentItem.date3 : '');
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -76,14 +77,14 @@ const InputForm = (
                       checkbox3: checkbox3,
                   }
                   if (!currentItem) {
-                      await api.addItem(currentCollection?.id as string, {
+                      await api.ItemRequests.addItem(currentCollection?.id as string, {
                           ...itemData,
                           id: '',
                           userId: '',
                           userName: ''
                       });
                   } else {
-                      await api.editItemData(currentItem?.id, {
+                      await api.ItemRequests.editItemData(currentItem?.id, {
                           ...itemData,
                           id: currentItem.id,
                           userId: currentItem.userId,

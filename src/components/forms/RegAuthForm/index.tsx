@@ -33,11 +33,11 @@ const RegAuth = ({setOpenModal}:IForm) => {
               onSubmit={async (e) => {
                   e.preventDefault();
                   if(action === ActionType.signin){
-                      const authResponse = await api.signIn(email, password);
+                      const authResponse = await api.AuthRequests.signIn(email, password);
                       if(authResponse.status === 200){
                           document.cookie = 'sessionId='+ authResponse.data.id +'; path=/;';
                           localStorage.userId = authResponse.data.userId;
-                          const response = await api.getCurrentUser();
+                          const response = await api.AuthRequests.getCurrentUser();
                           if (response.status === 200){
                               dispatch(setCurrentUser(response.data))
                           }
@@ -47,7 +47,7 @@ const RegAuth = ({setOpenModal}:IForm) => {
                           setTimeout(()=>{setMessage('')}, 3000);
                       }
                   } else {
-                      const response = await api.signUp(name, email, password);
+                      const response = await api.AuthRequests.signUp(name, email, password);
                       if(response.status !== 200){
                           setMessage(`${response.status} ${response.data}`);
                           setTimeout(()=>{setMessage('')}, 3000);
