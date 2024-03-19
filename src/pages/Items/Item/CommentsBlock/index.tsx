@@ -109,11 +109,14 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                                                   setUpdateLikes(true);
                                                               }
                                                           }}
-                                                          className={`${currentUser ? 'cursor-pointer' : 'cursor-default'}
-                                                           opacity-70 hover:opacity-100 hover:text-[#1976d2]`}/>
+                                                          className={`${currentUser 
+                                                              ? 'cursor-pointer hover:opacity-100 hover:text-[#1976d2]' 
+                                                              : 'cursor-default'}
+                                                           opacity-70`}/>
                             }
                             {likes?.length}</p>
-                        <p><InsertCommentOutlinedIcon fontSize={'small'} className={'opacity-70'}/>{comments?.length}
+                        <p><InsertCommentOutlinedIcon fontSize={'small'} className={'opacity-70'}/>
+                            {comments?.length}
                         </p>
                     </div>
                     {
