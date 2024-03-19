@@ -23,13 +23,13 @@ const Header = () => {
     const {theme, currentUser, searchValue} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [openModal, setOpenModal] = useState(false);
-    const [language, setLanguage] = useState<string>('ru');
-    // const [searchValue, setSearchValue] = useState<string>('');
+    const [language, setLanguage] = useState<string>(localStorage.language ?? 'en');
 
     const {t, i18n} = useTranslation();
     const changeLanguage = async (lang: string) => {
         await i18n.changeLanguage(lang);
-        setLanguage(lang === 'en' ? 'ru' : 'en');
+        localStorage.language = lang;
+        setLanguage(lang === 'en' ? 'en' : 'ru');
     }
 
     return (
@@ -65,8 +65,8 @@ const Header = () => {
                     <div className={'flex flex-nowrap justify-end items-center'}>
                         {
                             language === 'ru'
-                                ? <button className={'ml-2'} onClick={() => changeLanguage('ru')}>RU</button>
-                                : <button className={'ml-2'} onClick={() => changeLanguage('en')}>EN</button>
+                                ? <button className={'ml-2'} onClick={() => changeLanguage('en')}>EN</button>
+                                : <button className={'ml-2'} onClick={() => changeLanguage('ru')}>RU</button>
                         }
                         <Link to={'/'}>
                             <HomeIcon fontSize={'medium'}
