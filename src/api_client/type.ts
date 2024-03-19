@@ -1,4 +1,5 @@
 import {AdditionalColumnType} from "../components/Table/type";
+import {ThemeType} from "../store/type";
 
 export interface IApiClient {
     signUp: (name: string, email: string, password: string) => Promise<IResponse<void>>;
@@ -142,5 +143,3 @@ export interface ILike {
     userId: string;
     itemId: string;
 }
-
-export type ThemeType = 'Anime' | 'Game' | 'Movie';

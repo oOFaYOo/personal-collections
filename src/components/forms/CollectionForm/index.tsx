@@ -6,19 +6,20 @@ import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
-import {ICollection, ThemeType} from "../../../api_client/type";
+import {ICollection} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 import AdditionalInputsTitleContainer from "../../AdditionalInputsTitleContainer";
 import {useTranslation} from "react-i18next";
+import {ThemeType} from "../../../store/type";
 
 const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { currentCollection?: ICollection }) => {
-    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {theme, collectionTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const {id} = useParams();
 
     const [name, setName] = useState(currentCollection ? currentCollection.name : '');
     const [description, setDescription] = useState(currentCollection ? currentCollection.description : '');
-    const [collectionTheme, setCollectionTheme] = useState<ThemeType | 'Theme'>('Theme');
+    const [collectionTopic, setCollectionTopic] = useState<ThemeType | 'Theme'>('Theme');
 
     const [text1, setText1] = useState<string>(currentCollection ? currentCollection.text1.label : '');
     const [text2, setText2] = useState<string>(currentCollection ? currentCollection.text2.label : '');
@@ -51,7 +52,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                       id: '',
                       user: id!,
                       picture: '',
-                      theme: collectionTheme as ThemeType,
+                      theme: collectionTopic as ThemeType,
                       name: name,
                       description: description,
                       text1: {id: 'text1', label: text1, type: 'text'},
@@ -73,7 +74,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                   if (!currentCollection) {
                       await api.addCollection(id!, {
                           ...collectionData, id: '', user: id!, picture: '',
-                          theme: collectionTheme as ThemeType,
+                          theme: collectionTopic as ThemeType,
                       });
                   } else {
                       await api.editCollectionData(id!, {
@@ -95,9 +96,9 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         disabled={!!currentCollection}
-                        value={currentCollection ? currentCollection.theme : collectionTheme}
+                        value={currentCollection ? currentCollection.theme : collectionTopic}
                         onChange={(e) => {
-                            setCollectionTheme(e.target.value as ThemeType | 'Theme');
+                            setCollectionTopic(e.target.value as ThemeType | 'Theme');
                         }}
                         sx={{
                             '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
@@ -124,9 +125,9 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                         }}
                     >
                         <MenuItem value={'Theme'}>{t('table.theme')}</MenuItem>
-                        <MenuItem value={'Anime'}>{t('theme.Anime')}</MenuItem>
-                        <MenuItem value={'Game'}>{t('theme.Game')}</MenuItem>
-                        <MenuItem value={'Movie'}>{t('theme.Movie')}</MenuItem>
+                        {
+                            collectionTheme.map((value, i) => <MenuItem value={value}>{t(`theme.${value}`)}</MenuItem>)
+                        }
                     </Select>
                 </FormControl>
                 <MultiTextInput value={description} setValue={setDescription} name={'description'}
@@ -162,7 +163,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                         setValues={[setParagraph1, setParagraph2, setParagraph3]}/>
                 </div>
                 <Button variant="outlined"
-                        disabled={!currentCollection && collectionTheme === "Theme"}
+                        disabled={!currentCollection && collectionTopic === "Theme"}
                         type={'submit'}
                         sx={{
                             "&:disabled": {

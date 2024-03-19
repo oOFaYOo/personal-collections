@@ -126,7 +126,7 @@ const Item = ({setTop}: IItemComponents) => {
                                         className={'flex mobile:max-h-[150px] sm:max-h-[150px] opacity-70 flex-wrap grow ' +
                                             'overflow-y-auto text-justify gap-1 styled_scrollbar p-2'}>
                                         {
-                                            (item.tags.split(', ')).map((tag, index) =>
+                                            (item.tags.split(' ')).filter(value => !!value).map((tag, index) =>
                                                 <Chip key={index} label={`#${tag}`} variant="outlined"
                                                       className={'hover:border-sky-600 cursor-default'}
                                                       sx={{color: 'inherit'}}/>

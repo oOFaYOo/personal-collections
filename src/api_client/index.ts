@@ -3,8 +3,7 @@ import {
     IApiClient,
     ICollection,
     IComment,
-    IItem, ILike, IResponse,
-    IUser
+    IItem, ILike
 } from "./type";
 
 class ApiClient implements IApiClient {

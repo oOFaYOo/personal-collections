@@ -1,5 +1,6 @@
-import {ThemeType} from "../../api_client/type";
+
 import {OrderType} from "./type";
+import {ThemeType} from "../../store/type";
 
 export function filter(rows: any, filterByTheme:{collectionTheme: ThemeType, filtered: boolean}[]) {
     let arrByTheme = filterByTheme.filter((item) => item.filtered);

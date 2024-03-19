@@ -13,7 +13,7 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const TableCell = ({row, item}: ITableCell) => {
-    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {theme, collectionTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const {t, i18n} = useTranslation();
 
@@ -64,7 +64,7 @@ const TableCell = ({row, item}: ITableCell) => {
                                 </Markdown>
                                 : item.type === 'date'
                                     ? row[item.id].split('-').reverse().join('.')
-                                    : row[item.id] === 'Game' || row[item.id] === 'Anime' || row[item.id] === 'Movie'
+                                    : collectionTheme.includes(row[item.id])
                                         ? t(`theme.${row[item.id]}`)
                                         : row[item.id]))
             }
