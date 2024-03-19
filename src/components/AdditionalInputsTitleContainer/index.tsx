@@ -1,8 +1,8 @@
 import React from "react";
 import CustomInput from "../inputs/CustomInput";
-import {IAdditionalInputsContainer} from "./type";
+import {IAdditionalInputsTitleContainer} from "./type";
 
-const AdditionalInputsContainer = ({placeholder, name, values, setValues} : IAdditionalInputsContainer) => {
+const AdditionalInputsTitleContainer = ({placeholder, name, values, setValues} : IAdditionalInputsTitleContainer) => {
 
     return (
         <div className={'flex flex-col gap-2'}>
@@ -17,4 +17,4 @@ const AdditionalInputsContainer = ({placeholder, name, values, setValues} : IAdd
     )
 }
 
-export default AdditionalInputsContainer;
+export default AdditionalInputsTitleContainer;

@@ -7,6 +7,7 @@ import {ActionType} from "./type";
 import api from "../../../api_client"
 import {setCurrentUser} from "../../../store/slice";
 import {IForm} from "../type";
+import {useTranslation} from "react-i18next";
 
 const RegAuth = ({setOpenModal}:IForm) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -17,6 +18,8 @@ const RegAuth = ({setOpenModal}:IForm) => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+
+    const {t, i18n} = useTranslation();
 
     function clean() {
         setName('');
@@ -61,21 +64,21 @@ const RegAuth = ({setOpenModal}:IForm) => {
                 <Button variant={action === ActionType.signin ? "contained" : "outlined"} onClick={() => {
                     setAction(ActionType.signin);
                     clean();
-                }}>sign in</Button>
+                }}>{t('signin')}</Button>
                 <Button variant={action === ActionType.signup ? "contained" : "outlined"} onClick={() => {
                     setAction(ActionType.signup);
                     clean();
-                }}>sign up</Button>
+                }}>{t('signup')}</Button>
             </div>
             {
                 action === ActionType.signup
-                    ? <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'} type={'text'}
+                    ? <CustomInput value={name} setValue={setName} placeholder={t("table.name")} name={'name'} type={'text'}
                                    required fullWidth/>
                     : null
             }
-            <CustomInput value={email} setValue={setEmail} placeholder={'eMail'} name={'eMail'} type={'email'}
+            <CustomInput value={email} setValue={setEmail} placeholder={t("email")} name={'eMail'} type={'email'}
                          required fullWidth/>
-            <CustomInput value={password} setValue={setPassword} placeholder={'Password'} name={'password'}
+            <CustomInput value={password} setValue={setPassword} placeholder={t("password")} name={'password'}
                          type={'password'} required fullWidth/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>

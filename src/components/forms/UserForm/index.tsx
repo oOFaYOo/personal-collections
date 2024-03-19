@@ -9,6 +9,7 @@ import {IForm} from "../type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 import {IUser} from "../../../api_client/type";
+import {useTranslation} from "react-i18next";
 
 const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -17,6 +18,8 @@ const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
     const [name, setName] = useState(user.name);
     const [description, setDescription] = useState(user.description);
     const [picture, setPicture] = useState<File|null>(null);
+
+    const {t, i18n} = useTranslation();
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -33,8 +36,8 @@ const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
                   setOpenModal(false);
               }}>
             <InputFileUpload setPicture={setPicture} />
-            <CustomInput value={name} setValue={setName} placeholder={'Name'} name={'name'} fullWidth required/>
-            <MultiTextInput value={description} setValue={setDescription} name={'about'} placeholder={"About Me"}/>
+            <CustomInput value={name} setValue={setName} placeholder={t('table.name')} name={'name'} fullWidth required/>
+            <MultiTextInput value={description} setValue={setDescription} name={'about'} placeholder={t('aboutme')}/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>
     )

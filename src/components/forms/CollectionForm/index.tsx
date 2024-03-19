@@ -9,7 +9,8 @@ import {IForm} from "../type";
 import {ICollection, ThemeType} from "../../../api_client/type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
-import AdditionalInputsContainer from "../../AdditionalInputsContainer";
+import AdditionalInputsTitleContainer from "../../AdditionalInputsTitleContainer";
+import {useTranslation} from "react-i18next";
 
 const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { currentCollection?: ICollection }) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -38,6 +39,8 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
     const [date1, setDate1] = useState<string>(currentCollection ? currentCollection.date1.label : '');
     const [date2, setDate2] = useState<string>(currentCollection ? currentCollection.date2.label : '');
     const [date3, setDate3] = useState<string>(currentCollection ? currentCollection.date3.label : '');
+
+    const {t, i18n} = useTranslation();
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -86,7 +89,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
               }}>
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
-                <CustomInput value={name} setValue={setName} placeholder={'Title'} name={'title'} required/>
+                <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'title'} required/>
                 <FormControl fullWidth sx={{width: '200px'}}>
                     <Select
                         labelId="demo-simple-select-label"
@@ -120,40 +123,40 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                             }
                         }}
                     >
-                        <MenuItem value={'Theme'}>Theme</MenuItem>
-                        <MenuItem value={'Anime'}>Anime</MenuItem>
-                        <MenuItem value={'Game'}>Game</MenuItem>
-                        <MenuItem value={'Movie'}>Movie</MenuItem>
+                        <MenuItem value={'Theme'}>{t('table.theme')}</MenuItem>
+                        <MenuItem value={'Anime'}>{t('theme.Anime')}</MenuItem>
+                        <MenuItem value={'Game'}>{t('theme.Game')}</MenuItem>
+                        <MenuItem value={'Movie'}>{t('theme.Movie')}</MenuItem>
                     </Select>
                 </FormControl>
                 <MultiTextInput value={description} setValue={setDescription} name={'description'}
-                                placeholder={'Description'}/>
+                                placeholder={t('table.description')}/>
             </div>
             <div className={'flex flex-col items-center gap-4'}>
-                <h3 className={'font-semibold'}>Additional item fields</h3>
+                <h3 className={'font-semibold'}>{t('additionalTitle')}</h3>
                 <div className={'flex lg:flex-row flex-col justify-evenly gap-2'}>
-                    <AdditionalInputsContainer
-                        placeholder={'Title of text field'}
+                    <AdditionalInputsTitleContainer
+                        placeholder={t('titleTextField')}
                         name={'text'}
                         values={[text1, text2, text3]}
                         setValues={[setText1, setText2, setText3]} />
-                    <AdditionalInputsContainer
-                        placeholder={'Title of numeric field'}
+                    <AdditionalInputsTitleContainer
+                        placeholder={t('titleNumericField')}
                         name={'number'}
                         values={[number1, number2, number3]}
                         setValues={[setNumber1, setNumber2, setNumber3]} />
-                    <AdditionalInputsContainer
-                        placeholder={'Title of date field'}
+                    <AdditionalInputsTitleContainer
+                        placeholder={t('titleDateField')}
                         name={'date'}
                         values={[date1, date2, date3]}
                         setValues={[setDate1, setDate2, setDate3]} />
-                    <AdditionalInputsContainer
-                        placeholder={'Title of checkbox field'}
+                    <AdditionalInputsTitleContainer
+                        placeholder={t('titleCheckboxField')}
                         name={'checkbox'}
                         values={[checkbox1, checkbox2, checkbox3]}
                         setValues={[setCheckbox1, setCheckbox2, setCheckbox3]} />
-                    <AdditionalInputsContainer
-                        placeholder={'Title of paragraph field'}
+                    <AdditionalInputsTitleContainer
+                        placeholder={t('titleParagraphField')}
                         name={'paragraph'}
                         values={[paragraph1, paragraph2, paragraph3]}
                         setValues={[setParagraph1, setParagraph2, setParagraph3]} />

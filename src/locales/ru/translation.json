@@ -26,5 +26,21 @@
   "add_long_collection": "создай свою первую коллекцию",
   "add_long_item": "создай свой первый элемент коллекции",
   "admin": "администратор",
-  "block": "блокировка"
+  "block": "блокировка",
+  "signin": "вход",
+  "signup": "регистрация",
+  "password": "Пароль",
+  "email": "Электронная почта",
+  "aboutme": "Обо мне",
+  "additionalTitle": "Заголовки дополнительных полей элементов коллекции",
+  "additionalFields": "Дополнительные поля элементов коллекции",
+  "titleTextField": "Текстовое поле",
+  "titleNumericField": "Числовое поле",
+  "titleDateField": "Поле даты",
+  "titleCheckboxField": "Поле да/нет",
+  "titleParagraphField": "Длиннотекстовое поле",
+  "tagField": "Тэг, тэг, тэг...",
+  "text": "Текст",
+  "number": "Число",
+  "longtext": "Длинный текст"
 }

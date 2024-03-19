@@ -135,7 +135,7 @@ const Collection = () => {
                                             <img src={noImg} className={'relative max-w-[140%]'}/></div>
                                 }
                             </div>
-                            <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-between'}>
+                            <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-start'}>
                                 <div className={'flex justify-between items-center md:items-start mb-2'}>
                                     <div>
                                         <h1 className={'text-xl font-bold'}>{collection.name}</h1>

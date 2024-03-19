@@ -8,6 +8,7 @@ import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
 import {ICollection, IItem} from "../../../api_client/type";
 import api from "../../../api_client";
+import {useTranslation} from "react-i18next";
 
 const InputForm = (
     {
@@ -40,6 +41,8 @@ const InputForm = (
     const [date1, setDate1] = useState<string>(currentItem ? currentItem.date1 : ''); //2024-05-19
     const [date2, setDate2] = useState<string>(currentItem ? currentItem.date2 : '');
     const [date3, setDate3] = useState<string>(currentItem ? currentItem.date3 : '');
+
+    const {t, i18n} = useTranslation();
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -93,27 +96,27 @@ const InputForm = (
               }}>
             <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
-                <CustomInput value={name} setValue={setName} placeholder={'Title'} name={'title'} required/>
-                <MultiTextInput value={tags} setValue={setTags} name={'tags'} placeholder={"Tag, tag, tag..."}
+                <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'title'} required/>
+                <MultiTextInput value={tags} setValue={setTags} name={'tags'} placeholder={t('tagField')}
                                 required/>
             </div>
             <div className={'flex flex-col items-center gap-4'}>
-                <h3 className={'font-semibold'}>Additional item Fields</h3>
+                <h3 className={'font-semibold'}>{t('additionalFields')}</h3>
                 <div className={'flex lg:flex-row flex-col w-full justify-between gap-2'}>
                     <div className={'flex flex-col gap-2'}>
                         <p className={'text-center italic h-6'}>{currentCollection?.text1.label}</p>
                         <CustomInput value={text1} setValue={setText1} fullWidth name={'text1'} size={'small'}
-                                     placeholder={currentCollection?.text1.label ? 'Text' : ''}
+                                     placeholder={currentCollection?.text1.label ? t('text') : ''}
                                      disabled={!currentCollection?.text1.label && !currentItem}/>
 
                         <p className={'text-center italic h-6'}>{currentCollection?.text2.label}</p>
                         <CustomInput value={text2} setValue={setText2} fullWidth name={'text2'} size={'small'}
-                                     placeholder={currentCollection?.text2.label ? 'Text' : ''}
+                                     placeholder={currentCollection?.text2.label ? t('text') : ''}
                                      disabled={!currentCollection?.text2.label && !currentItem}/>
 
                         <p className={'text-center italic h-6'}>{currentCollection?.text3.label}</p>
                         <CustomInput value={text3} setValue={setText3} fullWidth name={'text3'} size={'small'}
-                                     placeholder={currentCollection?.text3.label ? 'Text' : ''}
+                                     placeholder={currentCollection?.text3.label ? t('text') : ''}
                                      disabled={!currentCollection?.text3.label && !currentItem}/>
                     </div>
                     <div className={'flex flex-col gap-2 mx-2'}>
@@ -152,17 +155,17 @@ const InputForm = (
                         <p className={'text-center italic h-6'}>{currentCollection?.number1.label}</p>
                         <CustomInput value={number1} setValue={setNumber1} fullWidth type={'number'} name={'number1'}
                                      size={'small'}
-                                     placeholder={currentCollection?.number1.label! ? 'Number' : ''}
+                                     placeholder={currentCollection?.number1.label! ? t('number') : ''}
                                      disabled={!currentCollection?.number1.label && !currentItem}/>
                         <p className={'text-center italic h-6'}>{currentCollection?.number2.label}</p>
                         <CustomInput value={number2} setValue={setNumber2} fullWidth type={'number'} name={'number2'}
                                      size={'small'}
-                                     placeholder={currentCollection?.number2.label! ? 'Number' : ''}
+                                     placeholder={currentCollection?.number2.label! ? t('number') : ''}
                                      disabled={!currentCollection?.number2.label && !currentItem}/>
                         <p className={'text-center italic h-6'}>{currentCollection?.number3.label}</p>
                         <CustomInput value={number3} setValue={setNumber3} fullWidth type={'number'} name={'number3'}
                                      size={'small'}
-                                     placeholder={currentCollection?.number3.label! ? 'Number' : ''}
+                                     placeholder={currentCollection?.number3.label! ? t('number') : ''}
                                      disabled={!currentCollection?.number3.label && !currentItem}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
@@ -184,19 +187,19 @@ const InputForm = (
                     <div>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph1.label}</p>
                         <MultiTextInput value={paragraph1} setValue={setParagraph1} name={'paragraph1'}
-                                        placeholder={currentCollection?.paragraph1.label ? 'Long text' : ''}
+                                        placeholder={currentCollection?.paragraph1.label ? t('longtext') : ''}
                                         disabled={!currentCollection?.paragraph1.label && !currentItem}/>
                     </div>
                     <div>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph2.label}</p>
                         <MultiTextInput value={paragraph2} setValue={setParagraph2} name={'paragraph2'}
-                                        placeholder={currentCollection?.paragraph2.label ? 'Long text' : ''}
+                                        placeholder={currentCollection?.paragraph2.label ? t('longtext') : ''}
                                         disabled={!currentCollection?.paragraph2.label && !currentItem}/>
                     </div>
                     <div>
                         <p className={'text-center italic h-6'}>{currentCollection?.paragraph3.label}</p>
                         <MultiTextInput value={paragraph3} setValue={setParagraph3} name={'paragraph3'}
-                                        placeholder={currentCollection?.paragraph3.label ? 'Long text' : ''}
+                                        placeholder={currentCollection?.paragraph3.label ? t('longtext') : ''}
                                         disabled={!currentCollection?.paragraph3.label && !currentItem}/>
                     </div>
                 </div>

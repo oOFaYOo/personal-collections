@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface IAdditionalInputsContainer {
+export interface IAdditionalInputsTitleContainer {
     placeholder:string;
     name:string;
     values: string[];

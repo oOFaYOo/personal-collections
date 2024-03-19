@@ -26,5 +26,21 @@
   "add_long_collection": "create your first collection",
   "add_long_item": "add your first item",
   "admin": "admin",
-  "block": "block"
+  "block": "block",
+  "signin": "sign in",
+  "signup": "sign up",
+  "password": "Password",
+  "email": "eMail",
+  "aboutme": "About me",
+  "additionalTitle": "Additional item fields",
+  "additionalFields": "Additional item fields",
+  "titleTextField": "Title of text field",
+  "titleNumericField": "Title of numeric field",
+  "titleDateField": "Title of date field",
+  "titleCheckboxField": "Title of yes/no field",
+  "titleParagraphField": "Title of paragraph field",
+  "tagField": "Tag, tag, tag...",
+  "text": "Text",
+  "number": "Number",
+  "longtext": "Long text"
 }
