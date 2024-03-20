@@ -4,11 +4,13 @@ import AddIcon from "@mui/icons-material/Add";
 import CustomInput from "../inputs/CustomInput";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {IAdditionalTitlesContainer} from "./type";
+import {useTranslation} from "react-i18next";
 
-const AdditionalTitlesContainer = ({title, values, setValues, placeholder}:IAdditionalTitlesContainer) => {
+const AdditionalTitlesContainer = ({title, values, setValues}:IAdditionalTitlesContainer) => {
+    const {t} = useTranslation();
     return (
         <div className={'flex flex-col gap-2 lg:w-[230px] w-full'}>
-            <h3 className={'w-[calc(100%-24px)] text-center italic font-semibold'}>{title}</h3>
+            <h3 className={'w-[calc(100%-24px)] text-center italic font-semibold'}>{`${title} ${t('fields')}`}</h3>
             {
                 !values.includes(null)
                     ? null
@@ -17,7 +19,7 @@ const AdditionalTitlesContainer = ({title, values, setValues, placeholder}:IAddi
                         arr[values.indexOf(null)] = '';
                         setValues(arr)
                     }}>
-                        <AddIcon fontSize={'small'}/> Add field
+                        <AddIcon fontSize={'small'}/>{t('buttons.addfield')}
                     </Button>
             }
             {
@@ -31,7 +33,7 @@ const AdditionalTitlesContainer = ({title, values, setValues, placeholder}:IAddi
                             size={'small'}
                             type={'text'}
                             required
-                            placeholder={placeholder}
+                            placeholder={`${t('titleof')} ${t('field')}`}
                             setValue={(string)=>{
                                 const arr = [...values];
                                 arr[index] = string;

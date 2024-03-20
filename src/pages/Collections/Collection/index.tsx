@@ -154,18 +154,18 @@ const Collection = () => {
                                                             ? null
                                                             : <Button size={'small'} variant="outlined"
                                                                       onClick={() => setOpenModal(ModalFormType.Item)}>
-                                                                {t('add')}
+                                                                {t('buttons.add')}
                                                               </Button>
                                                     }
                                                     <Button size={'small'} variant="outlined"
                                                             onClick={() => setOpenModal(ModalFormType.Collection)}>
-                                                        {t("edit")}
+                                                        {t("buttons.edit")}
                                                     </Button>
                                                     <Button size={'small'} variant="outlined" onClick={async () => {
                                                         await api.CollectionRequests.deleteCollection(id as string);
                                                         document.location = `/users/${collection.user}`;
                                                     }}>
-                                                        {t("delete")}
+                                                        {t("buttons.delete")}
                                                     </Button>
                                                 </>
                                             : null
@@ -186,7 +186,7 @@ const Collection = () => {
                     ? collection?.user === currentUser?.id || currentUser?.isAdmin
                         ? <div className={'my-8'}><Button size={'large'} variant="outlined"
                                                           onClick={() => setOpenModal(ModalFormType.Item)}>
-                            {t('add_long_item')}</Button>
+                            {t('buttons.add_long_item')}</Button>
                         </div>
                         : null
                     : <Table pagination={true}

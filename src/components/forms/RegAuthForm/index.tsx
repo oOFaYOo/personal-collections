@@ -28,7 +28,7 @@ const RegAuth = ({setOpenModal}:IForm) => {
     }
 
     return (
-        <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
+        <form className={`${theme === 'dark' ? 'bg-neutral-800 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
         p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center`}
               onSubmit={async (e) => {
                   e.preventDefault();
@@ -64,11 +64,11 @@ const RegAuth = ({setOpenModal}:IForm) => {
                 <Button variant={action === ActionType.signin ? "contained" : "outlined"} onClick={() => {
                     setAction(ActionType.signin);
                     clean();
-                }}>{t('signin')}</Button>
+                }}>{t('buttons.signin')}</Button>
                 <Button variant={action === ActionType.signup ? "contained" : "outlined"} onClick={() => {
                     setAction(ActionType.signup);
                     clean();
-                }}>{t('signup')}</Button>
+                }}>{t('buttons.signup')}</Button>
             </div>
             {
                 action === ActionType.signup

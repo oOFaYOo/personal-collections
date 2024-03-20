@@ -138,7 +138,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                           }
                                           await api.CommentRequests.addComment({...commentData});
                                           setComment('');
-                                      }}>{t('send')}</Button>
+                                      }}>{t('buttons.send')}</Button>
                     }
                 </div>
             </div>

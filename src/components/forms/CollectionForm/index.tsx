@@ -46,39 +46,34 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
 
     const additionalTitlesContainerConfig = [
         {
-            title: 'String fields',
-            placeholder: 'Title of string field',
+            title: t('titleTextField'),
             values: textFieldsTitles,
             setValues: setTextFieldsTitles,
         },
         {
-            title: 'Numeric fields',
-            placeholder: 'Title of numeric field',
+            title: t('titleNumericField'),
             values: numberFieldsTitles,
             setValues: setNumberFieldsTitles,
         },
         {
-            title: 'Date fields',
-            placeholder: 'Title of date field',
+            title: t('titleDateField'),
             values: dateFieldsTitles,
             setValues: setDateFieldsTitles,
         },
         {
-            title: 'Boolean fields',
-            placeholder: 'Title of boolean field',
+            title: t('titleCheckboxField'),
             values: checkboxFieldsTitles,
             setValues: setCheckboxFieldsTitles,
         },
         {
-            title: 'Long text fields',
-            placeholder: 'Title of long text field',
+            title: t('titleParagraphField'),
             values: paragraphFieldsTitles,
             setValues: setParagraphFieldsTitles,
         }
     ];
 
     return (
-        <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
+        <form className={`${theme === 'dark' ? 'bg-neutral-800 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
          p-8 gap-4 outline-none rounded-md shadow-md flex-col justify-evenly items-center overflow-y-auto max-h-[90vh] styled_scrollbar`}
               onSubmit={async (e) => {
                   e.preventDefault();
@@ -175,7 +170,6 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                         additionalTitlesContainerConfig.map((item, i) =>
                             <AdditionalTitlesContainer
                                 title={item.title}
-                                placeholder={item.placeholder}
                                 values={item.values}
                                 setValues={item.setValues}
                             />)

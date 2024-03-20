@@ -72,7 +72,7 @@ const Users = () => {
     function addActions(user: IUser) {
         const actions = [
             {
-                name: t('admin'), callback: async (id: string) => {
+                name: t('buttons.admin'), callback: async (id: string) => {
                     const response = await api.UserRequests.changeAccessLevel(id, !user.isAdmin);
                     if(response.status === 200){
                         if (currentUser?.id === id){
@@ -86,7 +86,7 @@ const Users = () => {
                 }, active: user.isAdmin
             },
             {
-                name: t('block'), callback: async (id: string) => {
+                name: t('buttons.block'), callback: async (id: string) => {
                     if(user.blocked){
                         const response = await api.UserRequests.unblockUser(id);
                         if(response.status === 200){
@@ -108,7 +108,7 @@ const Users = () => {
                 }, active: user.blocked
             },
             {
-                name: t('delete'), callback: async (id: string) => {
+                name: t('buttons.delete'), callback: async (id: string) => {
                     const response = await api.UserRequests.deleteUser(id);
                     if(response.status === 200){
                         if(currentUser?.id === id){

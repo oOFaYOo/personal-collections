@@ -19,10 +19,10 @@ const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
     const [description, setDescription] = useState(user.description);
     const [picture, setPicture] = useState<File|null>(null);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     return (
-        <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
+        <form className={`${theme === 'dark' ? 'bg-neutral-800 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
         p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center`}
               onSubmit={async (e) => {
                   e.preventDefault();

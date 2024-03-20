@@ -112,13 +112,13 @@ const Item = ({setTop}: IItemComponents) => {
                                                     <Button size={'small'} sx={{width: '100%', minWidth:120, maxWidth:150}}
                                                             variant="outlined"
                                                             onClick={() => setOpenModal(true)}
-                                                    >{t('edit')}</Button>
+                                                    >{t('buttons.edit')}</Button>
                                                     <Button size={'small'} sx={{width: '100%', minWidth: 120, maxWidth:150}}
                                                             variant="outlined" onClick={async () => {
                                                         await api.ItemRequests.deleteItem(itemId!);
                                                         document.location = `/collections/${collectionId}`;
                                                     }}
-                                                    >{t('delete')}</Button></>
+                                                    >{t('buttons.delete')}</Button></>
                                                 : null
                                             }
                                         </div>

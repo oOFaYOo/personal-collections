@@ -81,7 +81,7 @@ const TableHead = ({order, orderBy, rowCount, config, onRequestSort, filtering=t
                                     >
                                         <div
                                             className={`${theme === 'dark' ?
-                                                'bg-neutral-900 text-neutral-200' 
+                                                'bg-neutral-800 text-neutral-200' 
                                                 : 'bg-neutral-100 text-neutral-900'} p-4 flex flex-col gap-2`}>
                                             {
                                                 headCell.id === 'theme'

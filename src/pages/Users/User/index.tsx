@@ -123,7 +123,7 @@ const User = () => {
                                     user?.id === currentUser?.id || currentUser?.isAdmin
                                         ? <>
                                             <Button size={'small'} variant="outlined"
-                                                    onClick={() => setOpenModal(ModalFormType.User)}>{t("edit")}</Button>
+                                                    onClick={() => setOpenModal(ModalFormType.User)}>{t("buttons.edit")}</Button>
                                             <Button size={'small'} variant="outlined" onClick={async () => {
                                                 const response = await api.UserRequests.deleteUser(id!);
                                                 if (response.status === 200) {
@@ -136,7 +136,7 @@ const User = () => {
                                                     document.location = '/users';
                                                 }
                                             }}
-                                            >{t('delete')}</Button>
+                                            >{t('buttons.delete')}</Button>
                                         </>
                                         : null
                                 }
@@ -164,7 +164,7 @@ const User = () => {
                                     : user?.id === currentUser?.id || currentUser?.isAdmin
                                         ? <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
                                             <Button size={'small'} variant="outlined"
-                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>{t('add')}</Button>
+                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>{t('buttons.add')}</Button>
                                         </div>
                                         : null
                                 }
@@ -173,7 +173,7 @@ const User = () => {
                                         ? user?.id === currentUser?.id || currentUser?.isAdmin
                                             ?
                                             <Button size={'large'} variant="outlined"
-                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>{t('add_long_collection')}</Button>
+                                                    onClick={() => setOpenModal(ModalFormType.Collection)}>{t('buttons.add_long_collection')}</Button>
                                             : null
                                         : <Table pagination={true} data={filter(collections, filterByTheme)} config={config}
                                                  onRowClick={(e, id) => {

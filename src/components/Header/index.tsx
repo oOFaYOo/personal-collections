@@ -44,7 +44,7 @@ const Header = () => {
                 </Modal>
             }
                 <header
-                    className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
+                    className={`${theme === 'dark' ? 'bg-neutral-800 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
             w-full min-h-16 max-h-16 flex justify-between sticky top-0 items-center z-[1] mobile:px-4 px-16`}>
                     <div className={'mobile:w-[60%] w-[43%] flex items-center'}>
                         <input type={'text'} placeholder={t('search')} value={searchValue}
