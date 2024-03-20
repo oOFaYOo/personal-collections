@@ -4,7 +4,6 @@ import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
-import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
@@ -156,23 +155,23 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                     >
                         <MenuItem value={'Theme'}>{t('table.theme')}</MenuItem>
                         {
-                            collectionTheme.map((value, i) => <MenuItem value={value}>{t(`theme.${value}`)}</MenuItem>)
+                            collectionTheme.map((value, i) =>
+                                <MenuItem key={i} value={value}>
+                                    {t(`theme.${value}`)}
+                                </MenuItem>
+                            )
                         }
                     </Select>
                 </FormControl>
-                <MultiTextInput value={description} setValue={setDescription} name={'description'}
-                                placeholder={t('table.description')}/>
+                <CustomInput multiline name={'description'} value={description} setValue={setDescription}
+                             placeholder={t('table.description')}/>
             </div>
             <div className={'flex flex-col items-center gap-4'}>
                 <h3 className={'font-semibold text-lg'}>{t('additionalTitle')}</h3>
                 <div className={'flex w-full lg:flex-row flex-col justify-evenly gap-2'}>
                     {
-                        additionalTitlesContainerConfig.map((item, i) =>
-                            <AdditionalTitlesContainer
-                                title={item.title}
-                                values={item.values}
-                                setValues={item.setValues}
-                            />)
+                      additionalTitlesContainerConfig.map((item, i) =>
+                         <AdditionalTitlesContainer key={i} title={item.title} values={item.values} setValues={item.setValues}/>)
                     }
                 </div>
                 <Button variant="outlined" type={'submit'} disabled={!currentCollection && collectionTopic === "Theme"}

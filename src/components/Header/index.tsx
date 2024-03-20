@@ -12,7 +12,6 @@ import {RootState} from "../../store";
 import {setCurrentUser, setSearchValue, setTheme} from "../../store/slice";
 import RegAuth from "../forms/RegAuthForm";
 import api from "../../api_client";
-import i18n from "i18next";
 import {useTranslation} from "react-i18next";
 
 const iconClass = 'mobile:ml-2 ml-8 cursor-pointer opacity-70 hover:opacity-100';

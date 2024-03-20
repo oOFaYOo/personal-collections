@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 const AdditionalTitlesContainer = ({title, values, setValues}:IAdditionalTitlesContainer) => {
     const {t} = useTranslation();
     return (
-        <div className={'flex flex-col gap-2 lg:w-[230px] w-full'}>
+        <div className={'flex flex-col gap-2 lg:min-w-[230px] w-full'}>
             <h3 className={'w-[calc(100%-24px)] text-center italic font-semibold'}>{`${title} ${t('fields')}`}</h3>
             {
                 !values.includes(null)
@@ -54,4 +54,4 @@ const AdditionalTitlesContainer = ({title, values, setValues}:IAdditionalTitlesC
     )
 }
 
-export default AdditionalTitlesContainer;
+export default React.memo(AdditionalTitlesContainer);

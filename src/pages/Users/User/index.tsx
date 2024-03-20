@@ -112,8 +112,8 @@ const User = () => {
                                 user?.picture
                                     ? <img
                                         src={user.picture}
-                                        className={'relative h-full rounded-full shadow-md'}/>
-                                    : <img src={noAvatar}/>
+                                        className={'relative h-full rounded-full shadow-md'} alt={'user avatar'}/>
+                                    : <img src={noAvatar} alt={'user avatar'}/>
                             }
                         </div>
                         <div className={'w-full flex flex-col grow'}>

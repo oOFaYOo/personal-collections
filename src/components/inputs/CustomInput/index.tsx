@@ -13,9 +13,27 @@ const CustomInput = ({
                          size = 'medium',
                          type = 'text',
                          disabled = false,
+                         multiline = false
                      }: ICustomInput) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
+    const sxMultilineText = {
+        maxHeight: 56,
+        overflowY: 'auto',
+        '.MuiOutlinedInput-input': {
+            color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'
+        }
+    };
+
+    const sxText = {
+        input: {color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'},
+    };
+
+    let sx;
+
+    if(multiline) sx = sxMultilineText;
+    else sx = sxText;
 
     return (
         <TextField
@@ -23,17 +41,16 @@ const CustomInput = ({
             name={name}
             disabled={disabled}
             type={type}
+            multiline={multiline}
             size={size}
+            className={'styled_scrollbar'}
             required={required}
-            inputProps={{maxLength: 35}}
+            inputProps={{maxLength: multiline ? '' : 35}}
             value={value}
             sx={{
-                minWidth: '200px',
+                ...sx,
                 width: '100%',
-                input: {color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'},
-                '& .MuiInput-underline:after': {
-                    borderColor: '#1976d2',
-                },
+                minWidth: '200px',
                 '& .MuiOutlinedInput-root': {
                     '& fieldset': {
                         borderColor: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)',

@@ -17,7 +17,7 @@ import {IItem} from "../../../../api_client/ItemRequests/type";
 import {IUser} from "../../../../api_client/UserRequests/type";
 
 const CommentsBlock = ({item}: { item: IItem }) => {
-    const {collectionId, itemId} = useParams();
+    const {itemId} = useParams();
     const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [comment, setComment] = useState<string>('');

@@ -1,49 +1,42 @@
 import React, {useState} from "react";
 import InputFileUpload from "../../inputs/UploadImage";
-import {Button, Checkbox} from "@mui/material";
+import {Button} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
-import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
 import api from "../../../api_client";
 import {useTranslation} from "react-i18next";
 import {ICollection} from "../../../api_client/CollectionRequests/type";
 import {IItem} from "../../../api_client/ItemRequests/type";
+import AdditionalFormDataContainer from "../../AdditionalFormDataContainer";
 
-const InputForm = (
-    {
-        setOpenModal,
-        currentCollection,
-        currentItem,
-        setUpdate
-    }: IForm & { currentCollection?: ICollection, currentItem?: IItem }) => {
+const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IForm & { currentCollection?: ICollection, currentItem?: IItem }) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {t} = useTranslation();
 
     const [name, setName] = useState<string>(currentItem ? currentItem.name : '');
     const [tags, setTags] = useState<string>(currentItem ? currentItem.tags : '');
-
-    const [text1, setText1] = useState<string>(currentItem ? currentItem.text1 : '');
-    const [text2, setText2] = useState<string>(currentItem ? currentItem.text2 : '');
-    const [text3, setText3] = useState<string>(currentItem ? currentItem.text3 : '');
-
-    const [number1, setNumber1] = useState<string>(currentItem ? currentItem.number1 : '');
-    const [number2, setNumber2] = useState<string>(currentItem ? currentItem.number2 : '');
-    const [number3, setNumber3] = useState<string>(currentItem ? currentItem.number3 : '');
-
-    const [paragraph1, setParagraph1] = useState<string>(currentItem ? currentItem.paragraph1 : '');
-    const [paragraph2, setParagraph2] = useState<string>(currentItem ? currentItem.paragraph2 : '');
-    const [paragraph3, setParagraph3] = useState<string>(currentItem ? currentItem.paragraph3 : '');
-
-    const [checkbox1, setCheckbox1] = useState<boolean>(currentItem ? currentItem.checkbox1 : false);
-    const [checkbox2, setCheckbox2] = useState<boolean>(currentItem ? currentItem.checkbox2 : false);
-    const [checkbox3, setCheckbox3] = useState<boolean>(currentItem ? currentItem.checkbox3 : false);
-
-    const [date1, setDate1] = useState<string>(currentItem ? currentItem.date1 : ''); //2024-05-19
-    const [date2, setDate2] = useState<string>(currentItem ? currentItem.date2 : '');
-    const [date3, setDate3] = useState<string>(currentItem ? currentItem.date3 : '');
-
-    const {t} = useTranslation();
+    const [textFields, setTextFields] = useState<(string)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentItem ? currentItem['text' + item] : '')
+    );
+    const [numberFields, setNumberFields] = useState<(string)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentItem ? currentItem['number' + item] : '')
+    );
+    const [checkboxFields, setCheckboxFields] = useState<(boolean)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentItem ? currentItem['checkbox' + item] : false)
+    );
+    const [dateFields, setDateFields] = useState<(string)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentItem ? currentItem['date' + item] : '')
+    );
+    const [paragraphFields, setParagraphFields] = useState<(string)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentItem ? currentItem['paragraph' + item] : '')
+    );
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-800 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -60,21 +53,21 @@ const InputForm = (
                       picture: '',
                       name: name,
                       tags: tags,
-                      text1: text1,
-                      text2: text2,
-                      text3: text3,
-                      paragraph1: paragraph1,
-                      paragraph2: paragraph2,
-                      paragraph3: paragraph3,
-                      number1: number1.toString(),
-                      number2: number2.toString(),
-                      number3: number3.toString(),
-                      date1: date1,
-                      date2: date2,
-                      date3: date3,
-                      checkbox1: checkbox1,
-                      checkbox2: checkbox2,
-                      checkbox3: checkbox3,
+                      text1: textFields[0],
+                      text2: textFields[1],
+                      text3: textFields[2],
+                      paragraph1: paragraphFields[0],
+                      paragraph2: paragraphFields[1],
+                      paragraph3: paragraphFields[2],
+                      number1: numberFields[0].toString(),
+                      number2: numberFields[1].toString(),
+                      number3: numberFields[2].toString(),
+                      date1: dateFields[0],
+                      date2: dateFields[1],
+                      date3: dateFields[2],
+                      checkbox1: checkboxFields[0],
+                      checkbox2: checkboxFields[1],
+                      checkbox3: checkboxFields[2],
                   }
                   if (!currentItem) {
                       await api.ItemRequests.addItem(currentCollection?.id as string, {
@@ -94,117 +87,91 @@ const InputForm = (
                   }
                   setOpenModal(false);
                   setUpdate!(true);
-              }}>
-            <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
+              }}
+        >
+            <div className={'flex md:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
                 <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'title'} required/>
-                <MultiTextInput value={tags} setValue={setTags} name={'tags'} placeholder={t('tagField')}
-                                required/>
+                <CustomInput value={tags} setValue={setTags} placeholder={t('tagField')} required multiline name={'tags'}/>
             </div>
             <div className={'flex flex-col items-center gap-4'}>
-                <h3 className={'font-semibold'}>{t('additionalFields')}</h3>
-                <div className={'flex lg:flex-row flex-col w-full justify-between gap-2'}>
-                    <div className={'flex flex-col gap-2'}>
-                        <p className={'text-center italic h-6'}>{currentCollection?.text1.label}</p>
-                        <CustomInput value={text1} setValue={setText1}  name={'text1'} size={'small'}
-                                     placeholder={currentCollection?.text1.label ? t('text') : ''}
-                                     disabled={!currentCollection?.text1.label && !currentItem}/>
-
-                        <p className={'text-center italic h-6'}>{currentCollection?.text2.label}</p>
-                        <CustomInput value={text2} setValue={setText2}  name={'text2'} size={'small'}
-                                     placeholder={currentCollection?.text2.label ? t('text') : ''}
-                                     disabled={!currentCollection?.text2.label && !currentItem}/>
-
-                        <p className={'text-center italic h-6'}>{currentCollection?.text3.label}</p>
-                        <CustomInput value={text3} setValue={setText3}  name={'text3'} size={'small'}
-                                     placeholder={currentCollection?.text3.label ? t('text') : ''}
-                                     disabled={!currentCollection?.text3.label && !currentItem}/>
-                    </div>
-                    <div className={'flex flex-col gap-2 mx-2'}>
-                        <p className={'text-center h-6 italic md:mb-4'}>{currentCollection?.checkbox1.label}</p>
-                        <Checkbox checked={checkbox1} onChange={(e) => setCheckbox1(e.currentTarget.checked)}
-                                  disabled={!currentCollection?.checkbox1.label && !currentItem} sx={{
-                            padding: 0,
-                            color: 'inherit',
-                            '&.Mui-disabled': {
-                                color: 'inherit',
-                                opacity: '0.3',
-                            }
-                        }}/>
-                        <p className={'text-center h-6 italic md:mb-4'}>{currentCollection?.checkbox2.label}</p>
-                        <Checkbox checked={checkbox2} onChange={(e) => setCheckbox2(e.currentTarget.checked)}
-                                  disabled={!currentCollection?.checkbox2.label && !currentItem} sx={{
-                            padding: 0,
-                            color: 'inherit',
-                            '&.Mui-disabled': {
-                                color: 'inherit',
-                                opacity: '0.3',
-                            }
-                        }}/>
-                        <p className={'text-center h-6 italic md:mb-4'}>{currentCollection?.checkbox3.label}</p>
-                        <Checkbox checked={checkbox3} onChange={(e) => setCheckbox3(e.currentTarget.checked)}
-                                  disabled={!currentCollection?.checkbox3.label && !currentItem} sx={{
-                            padding: 0,
-                            color: 'inherit',
-                            '&.Mui-disabled': {
-                                color: 'inherit',
-                                opacity: '0.3',
-                            }
-                        }}/>
-                    </div>
-                    <div className={'flex flex-col gap-2'}>
-                        <p className={'text-center italic h-6'}>{currentCollection?.number1.label}</p>
-                        <CustomInput value={number1} setValue={setNumber1}  type={'number'} name={'number1'}
-                                     size={'small'}
-                                     placeholder={currentCollection?.number1.label! ? t('number') : ''}
-                                     disabled={!currentCollection?.number1.label && !currentItem}/>
-                        <p className={'text-center italic h-6'}>{currentCollection?.number2.label}</p>
-                        <CustomInput value={number2} setValue={setNumber2}  type={'number'} name={'number2'}
-                                     size={'small'}
-                                     placeholder={currentCollection?.number2.label! ? t('number') : ''}
-                                     disabled={!currentCollection?.number2.label && !currentItem}/>
-                        <p className={'text-center italic h-6'}>{currentCollection?.number3.label}</p>
-                        <CustomInput value={number3} setValue={setNumber3}  type={'number'} name={'number3'}
-                                     size={'small'}
-                                     placeholder={currentCollection?.number3.label! ? t('number') : ''}
-                                     disabled={!currentCollection?.number3.label && !currentItem}/>
-                    </div>
-                    <div className={'flex flex-col gap-2'}>
-                        <p className={'text-center italic h-6'}>{currentCollection?.date1.label}</p>
-                        <CustomInput value={date1} setValue={setDate1}  type={'date'} placeholder={''}
-                                     name={'date1'}
-                                     size={'small'} disabled={!currentCollection?.date1.label && !currentItem}/>
-                        <p className={'text-center italic h-6'}>{currentCollection?.date2.label}</p>
-                        <CustomInput value={date2} setValue={setDate2}  type={'date'} placeholder={''}
-                                     name={'date2'}
-                                     size={'small'} disabled={!currentCollection?.date2.label && !currentItem}/>
-                        <p className={'text-center italic h-6'}>{currentCollection?.date3.label}</p>
-                        <CustomInput value={date3} setValue={setDate3}  type={'date'} placeholder={''}
-                                     name={'date3'}
-                                     size={'small'} disabled={!currentCollection?.date3.label && !currentItem}/>
-                    </div>
-                </div>
-                <div className={'flex lg:flex-row w-full justify-between flex-col gap-2'}>
-                    <div className={'lg:w-[250px] w-full'}>
-                        <p className={'text-center italic h-6'}>{currentCollection?.paragraph1.label}</p>
-                        <MultiTextInput value={paragraph1} setValue={setParagraph1} name={'paragraph1'}
-                                        placeholder={currentCollection?.paragraph1.label ? t('longtext') : ''}
-                                        disabled={!currentCollection?.paragraph1.label && !currentItem}/>
-                    </div>
-                    <div className={'lg:w-[250px] w-full'}>
-                        <p className={'text-center italic h-6'}>{currentCollection?.paragraph2.label}</p>
-                        <MultiTextInput value={paragraph2} setValue={setParagraph2} name={'paragraph2'}
-                                        placeholder={currentCollection?.paragraph2.label ? t('longtext') : ''}
-                                        disabled={!currentCollection?.paragraph2.label && !currentItem}/>
-                    </div>
-                    <div className={'lg:w-[250px] w-full'}>
-                        <p className={'text-center italic h-6'}>{currentCollection?.paragraph3.label}</p>
-                        <MultiTextInput value={paragraph3} setValue={setParagraph3} name={'paragraph3'}
-                                        placeholder={currentCollection?.paragraph3.label ? t('longtext') : ''}
-                                        disabled={!currentCollection?.paragraph3.label && !currentItem}/>
-                    </div>
-                </div>
-                <Button variant="outlined" type={'submit'}>ok</Button>
+                <h3 className={'font-semibold text-lg text-center'}>{t('additionalFields')}</h3>
+                {
+                    currentCollection?.text1.label === '' &&
+                    currentCollection?.text2.label === '' &&
+                    currentCollection?.text3.label === ''
+                        ? null
+                        : <AdditionalFormDataContainer
+                            type={'text'}
+                            title={`${t('titleTextField')} ${t('fields')}`}
+                            currentCollection={currentCollection!}
+                            currentItem={currentItem!}
+                            values={textFields}
+                            // @ts-ignore
+                            setValues={setTextFields}
+                        />
+                }
+                {
+                    currentCollection?.number1.label === '' &&
+                    currentCollection?.number2.label === '' &&
+                    currentCollection?.number3.label === ''
+                        ? null
+                        : <AdditionalFormDataContainer
+                            type={'number'}
+                            title={`${t('titleNumericField')} ${t('fields')}`}
+                            currentCollection={currentCollection!}
+                            currentItem={currentItem!}
+                            values={numberFields}
+                            // @ts-ignore
+                            setValues={setNumberFields}
+                        />
+                }
+                {
+                    currentCollection?.checkbox1.label === '' &&
+                    currentCollection?.checkbox2.label === '' &&
+                    currentCollection?.checkbox3.label === ''
+                        ? null
+                        : <AdditionalFormDataContainer
+                            type={'checkbox'}
+                            title={`${t('titleCheckboxField')} ${t('fields')}`}
+                            currentCollection={currentCollection!}
+                            currentItem={currentItem!}
+                            values={checkboxFields}
+                            // @ts-ignore
+                            setValues={setCheckboxFields}
+                        />
+                }
+                {
+                    currentCollection?.date1.label === '' &&
+                    currentCollection?.date2.label === '' &&
+                    currentCollection?.date3.label === ''
+                        ? null
+                        : <AdditionalFormDataContainer
+                            type={'date'}
+                            title={`${t('titleDateField')} ${t('fields')}`}
+                            currentCollection={currentCollection!}
+                            currentItem={currentItem!}
+                            values={dateFields}
+                            // @ts-ignore
+                            setValues={setDateFields}
+                        />
+                }
+                {
+                    currentCollection?.paragraph1.label === '' &&
+                    currentCollection?.paragraph2.label === '' &&
+                    currentCollection?.paragraph3.label === ''
+                        ? null
+                        : <AdditionalFormDataContainer
+                            type={'paragraph'}
+                            title={`${t('titleParagraphField')} ${t('fields')}`}
+                            currentCollection={currentCollection!}
+                            currentItem={currentItem!}
+                            values={paragraphFields}
+                            // @ts-ignore
+                            setValues={setParagraphFields}
+                        />
+                }
+                <Button className={'md:w-[200px] w-full'} variant="outlined" type={'submit'}>ok</Button>
             </div>
         </form>
     )

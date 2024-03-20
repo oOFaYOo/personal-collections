@@ -130,11 +130,11 @@ const Collection = () => {
                                     !!collection.picture
                                         ? <img
                                             src={collection.picture}
-                                            className={'relative h-full rounded-full shadow-md'}/>
+                                            className={'relative h-full rounded-full shadow-md'} alt={'collection avatar'}/>
                                         : <div
                                             className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden ' +
                                                 'flex justify-center items-center bg-neutral-100'}>
-                                            <img src={noImg} className={'relative max-w-[140%]'}/></div>
+                                            <img src={noImg} className={'relative max-w-[140%]'} alt={'collection avatar'}/></div>
                                 }
                             </div>
                             <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-start'}>

@@ -4,7 +4,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import CustomInput from "../../inputs/CustomInput";
 import InputFileUpload from "../../inputs/UploadImage";
-import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
@@ -37,7 +36,7 @@ const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
               }}>
             <InputFileUpload setPicture={setPicture} />
             <CustomInput value={name} setValue={setName} placeholder={t('table.name')} name={'name'} required/>
-            <MultiTextInput value={description} setValue={setDescription} name={'about'} placeholder={t('aboutme')}/>
+            <CustomInput value={description} setValue={setDescription} placeholder={t('aboutme')} name={'aboutme'} multiline/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>
     )

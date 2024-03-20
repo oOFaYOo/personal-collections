@@ -23,7 +23,7 @@ const Item = ({setTop}: IItemComponents) => {
     const [item, setItem] = useState<IItem | null>(null);
     const [updateItem, setUpdateItem] = useState<boolean>(false);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         (
@@ -88,11 +88,11 @@ const Item = ({setTop}: IItemComponents) => {
                                         item.picture
                                             ? <img
                                                 src={item.picture}
-                                                className={'relative h-full rounded-full shadow-md'}/>
+                                                className={'relative h-full rounded-full shadow-md'} alt={'item avatar'}/>
                                             : <div
                                                 className={'relative h-[245px] md:min-w-[245px] w-[245px] rounded-full ' +
                                                     'shadow-md overflow-hidden flex justify-center items-center bg-neutral-100'}>
-                                                <img src={noImg} className={'relative max-w-[140%]'}/></div>
+                                                <img src={noImg} className={'relative max-w-[140%]'} alt={'item avatar'}/></div>
                                     }
                                 </div>
                                 <div className={'flex w-full md:w-[50%] flex-col'}>
