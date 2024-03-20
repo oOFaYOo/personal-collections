@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import {DataSource} from "typeorm";
 import {Collection, Comment, Item, Like, Session, User, UserCredentials} from "./classes";
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";

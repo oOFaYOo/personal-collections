@@ -137,7 +137,7 @@ const Main = () => {
                     const response = await api.MainPageRequests.getAllTags();
                     if (response.status === 200) {
                         let comparingObj:{[key:string]:number} = {};
-                        response.data.split(', ').forEach((tag:string) => {
+                        response.data.split(' ').filter((value:string) => !!value).forEach((tag:string) => {
                             if(comparingObj[tag]) comparingObj[tag]+=comparingObj[tag]
                             else comparingObj[tag] = 1
                         });

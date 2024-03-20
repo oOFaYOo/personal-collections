@@ -13,8 +13,6 @@ const CustomInput = ({
                          size = 'medium',
                          type = 'text',
                          disabled = false,
-                         fullWidth = false,
-                         emptyEffect = false
                      }: ICustomInput) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -31,7 +29,6 @@ const CustomInput = ({
             value={value}
             sx={{
                 minWidth: '200px',
-                opacity: emptyEffect ? '0.3' : '1',
                 width: '100%',
                 input: {color: theme === 'dark' ? 'rgb(229 229 229)' : 'rgb(23 23 23)'},
                 '& .MuiInput-underline:after': {
@@ -55,7 +52,7 @@ const CustomInput = ({
                     },
                 },
             }}
-            onChange={(e) => setValue(e.currentTarget.value)}
+            onChange={e => setValue(e.currentTarget.value)}
         />
     )
 }

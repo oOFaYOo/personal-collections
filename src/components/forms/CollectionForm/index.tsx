@@ -8,10 +8,10 @@ import MultiTextInput from "../../inputs/MultiTextInput";
 import {IForm} from "../type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
-import AdditionalInputsTitleContainer from "../../AdditionalInputsTitleContainer";
 import {useTranslation} from "react-i18next";
 import {ThemeType} from "../../../store/type";
 import {ICollection} from "../../../api_client/CollectionRequests/type";
+import AdditionalTitlesContainer from "../../AdditionalTitlesContainer";
 
 const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { currentCollection?: ICollection }) => {
     const {theme, collectionTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
@@ -21,27 +21,61 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
     const [description, setDescription] = useState(currentCollection ? currentCollection.description : '');
     const [collectionTopic, setCollectionTopic] = useState<ThemeType | 'Theme'>('Theme');
 
-    const [text1, setText1] = useState<string>(currentCollection ? currentCollection.text1.label : '');
-    const [text2, setText2] = useState<string>(currentCollection ? currentCollection.text2.label : '');
-    const [text3, setText3] = useState<string>(currentCollection ? currentCollection.text3.label : '');
-
-    const [number1, setNumber1] = useState<string>(currentCollection ? currentCollection.number1.label : '');
-    const [number2, setNumber2] = useState<string>(currentCollection ? currentCollection.number2.label : '');
-    const [number3, setNumber3] = useState<string>(currentCollection ? currentCollection.number3.label : '');
-
-    const [paragraph1, setParagraph1] = useState<string>(currentCollection ? currentCollection.paragraph1.label : '');
-    const [paragraph2, setParagraph2] = useState<string>(currentCollection ? currentCollection.paragraph2.label : '');
-    const [paragraph3, setParagraph3] = useState<string>(currentCollection ? currentCollection.paragraph3.label : '');
-
-    const [checkbox1, setCheckbox1] = useState<string>(currentCollection ? currentCollection.checkbox1.label : '');
-    const [checkbox2, setCheckbox2] = useState<string>(currentCollection ? currentCollection.checkbox2.label : '');
-    const [checkbox3, setCheckbox3] = useState<string>(currentCollection ? currentCollection.checkbox3.label : '');
-
-    const [date1, setDate1] = useState<string>(currentCollection ? currentCollection.date1.label : '');
-    const [date2, setDate2] = useState<string>(currentCollection ? currentCollection.date2.label : '');
-    const [date3, setDate3] = useState<string>(currentCollection ? currentCollection.date3.label : '');
-
     const {t} = useTranslation();
+
+    const [textFieldsTitles, setTextFieldsTitles] = useState<(string | null)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentCollection && currentCollection['text' + item].label !== '' ? currentCollection['text' + item].label : null)
+    );
+    const [numberFieldsTitles, setNumberFieldsTitles] = useState<(string | null)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentCollection && currentCollection['number' + item].label !== '' ? currentCollection['number' + item].label : null)
+    );
+    const [dateFieldsTitles, setDateFieldsTitles] = useState<(string | null)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentCollection && currentCollection['date' + item].label !== '' ? currentCollection['date' + item].label : null)
+    );
+    const [checkboxFieldsTitles, setCheckboxFieldsTitles] = useState<(string | null)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentCollection && currentCollection['checkbox' + item].label !== '' ? currentCollection['checkbox' + item].label : null)
+    );
+    const [paragraphFieldsTitles, setParagraphFieldsTitles] = useState<(string | null)[]>(
+        // @ts-ignore
+        [1, 2, 3].map((item) => currentCollection && currentCollection['paragraph' + item].label !== '' ? currentCollection['paragraph' + item].label : null)
+    );
+
+    const additionalTitlesContainerConfig = [
+        {
+            title: 'String fields',
+            placeholder: 'Title of string field',
+            values: textFieldsTitles,
+            setValues: setTextFieldsTitles,
+        },
+        {
+            title: 'Numeric fields',
+            placeholder: 'Title of numeric field',
+            values: numberFieldsTitles,
+            setValues: setNumberFieldsTitles,
+        },
+        {
+            title: 'Date fields',
+            placeholder: 'Title of date field',
+            values: dateFieldsTitles,
+            setValues: setDateFieldsTitles,
+        },
+        {
+            title: 'Boolean fields',
+            placeholder: 'Title of boolean field',
+            values: checkboxFieldsTitles,
+            setValues: setCheckboxFieldsTitles,
+        },
+        {
+            title: 'Long text fields',
+            placeholder: 'Title of long text field',
+            values: paragraphFieldsTitles,
+            setValues: setParagraphFieldsTitles,
+        }
+    ];
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-900 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -55,21 +89,21 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                       theme: collectionTopic as ThemeType,
                       name: name,
                       description: description,
-                      text1: {id: 'text1', label: text1, type: 'text'},
-                      text2: {id: 'text2', label: text2, type: 'text'},
-                      text3: {id: 'text3', label: text3, type: 'text'},
-                      paragraph1: {id: 'paragraph1', label: paragraph1, type: 'paragraph'},
-                      paragraph2: {id: 'paragraph2', label: paragraph2, type: 'paragraph'},
-                      paragraph3: {id: 'paragraph3', label: paragraph3, type: 'paragraph'},
-                      number1: {id: 'number1', label: number1, type: 'number'},
-                      number2: {id: 'number2', label: number2, type: 'number'},
-                      number3: {id: 'number3', label: number3, type: 'number'},
-                      date1: {id: 'date1', label: date1, type: 'date'},
-                      date2: {id: 'date2', label: date2, type: 'date'},
-                      date3: {id: 'date3', label: date3, type: 'date'},
-                      checkbox1: {id: 'checkbox1', label: checkbox1, type: 'checkbox'},
-                      checkbox2: {id: 'checkbox2', label: checkbox2, type: 'checkbox'},
-                      checkbox3: {id: 'checkbox3', label: checkbox3, type: 'checkbox'},
+                      text1: {id: 'text1', label: textFieldsTitles[0] ?? '', type: 'text'},
+                      text2: {id: 'text2', label: textFieldsTitles[1] ?? '', type: 'text'},
+                      text3: {id: 'text3', label: textFieldsTitles[2] ?? '', type: 'text'},
+                      paragraph1: {id: 'paragraph1', label: paragraphFieldsTitles[0] ?? '', type: 'paragraph'},
+                      paragraph2: {id: 'paragraph2', label: paragraphFieldsTitles[1] ?? '', type: 'paragraph'},
+                      paragraph3: {id: 'paragraph3', label: paragraphFieldsTitles[2] ?? '', type: 'paragraph'},
+                      number1: {id: 'number1', label: numberFieldsTitles[0] ?? '', type: 'number'},
+                      number2: {id: 'number2', label: numberFieldsTitles[1] ?? '', type: 'number'},
+                      number3: {id: 'number3', label: numberFieldsTitles[2] ?? '', type: 'number'},
+                      date1: {id: 'date1', label: dateFieldsTitles[0] ?? '', type: 'date'},
+                      date2: {id: 'date2', label: dateFieldsTitles[1] ?? '', type: 'date'},
+                      date3: {id: 'date3', label: dateFieldsTitles[2] ?? '', type: 'date'},
+                      checkbox1: {id: 'checkbox1', label: checkboxFieldsTitles[0] ?? '', type: 'checkbox'},
+                      checkbox2: {id: 'checkbox2', label: checkboxFieldsTitles[1] ?? '', type: 'checkbox'},
+                      checkbox3: {id: 'checkbox3', label: checkboxFieldsTitles[2] ?? '', type: 'checkbox'},
                   }
                   if (!currentCollection) {
                       await api.CollectionRequests.addCollection(id!, {
@@ -88,9 +122,10 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                   setOpenModal(false);
                   setUpdate!(true);
               }}>
-            <div className={'flex lg:flex-row gap-2 flex-col items-center justify-between mb-4'}>
+            <div className={'flex lg:flex-row lg:gap-12 gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
-                <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'title'} required/>
+                <CustomInput value={name} setValue={(string) => setName(string)} placeholder={t('table.title')}
+                             name={'title'} required/>
                 <FormControl sx={{minWidth: '250px'}}>
                     <Select
                         labelId="demo-simple-select-label"
@@ -134,37 +169,19 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                                 placeholder={t('table.description')}/>
             </div>
             <div className={'flex flex-col items-center gap-4'}>
-                <h3 className={'font-semibold'}>{t('additionalTitle')}</h3>
-                <div className={'flex lg:flex-row flex-col justify-evenly gap-2'}>
-                    <AdditionalInputsTitleContainer
-                        placeholder={t('titleTextField')}
-                        name={'text'}
-                        values={[text1, text2, text3]}
-                        setValues={[setText1, setText2, setText3]}/>
-                    <AdditionalInputsTitleContainer
-                        placeholder={t('titleNumericField')}
-                        name={'number'}
-                        values={[number1, number2, number3]}
-                        setValues={[setNumber1, setNumber2, setNumber3]}/>
-                    <AdditionalInputsTitleContainer
-                        placeholder={t('titleDateField')}
-                        name={'date'}
-                        values={[date1, date2, date3]}
-                        setValues={[setDate1, setDate2, setDate3]}/>
-                    <AdditionalInputsTitleContainer
-                        placeholder={t('titleCheckboxField')}
-                        name={'checkbox'}
-                        values={[checkbox1, checkbox2, checkbox3]}
-                        setValues={[setCheckbox1, setCheckbox2, setCheckbox3]}/>
-                    <AdditionalInputsTitleContainer
-                        placeholder={t('titleParagraphField')}
-                        name={'paragraph'}
-                        values={[paragraph1, paragraph2, paragraph3]}
-                        setValues={[setParagraph1, setParagraph2, setParagraph3]}/>
+                <h3 className={'font-semibold text-lg'}>{t('additionalTitle')}</h3>
+                <div className={'flex w-full lg:flex-row flex-col justify-evenly gap-2'}>
+                    {
+                        additionalTitlesContainerConfig.map((item, i) =>
+                            <AdditionalTitlesContainer
+                                title={item.title}
+                                placeholder={item.placeholder}
+                                values={item.values}
+                                setValues={item.setValues}
+                            />)
+                    }
                 </div>
-                <Button variant="outlined"
-                        disabled={!currentCollection && collectionTopic === "Theme"}
-                        type={'submit'}
+                <Button variant="outlined" type={'submit'} disabled={!currentCollection && collectionTopic === "Theme"}
                         sx={{
                             "&:disabled": {
                                 borderColor: 'inherit',

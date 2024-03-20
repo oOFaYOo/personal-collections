@@ -106,17 +106,17 @@ const InputForm = (
                 <div className={'flex lg:flex-row flex-col w-full justify-between gap-2'}>
                     <div className={'flex flex-col gap-2'}>
                         <p className={'text-center italic h-6'}>{currentCollection?.text1.label}</p>
-                        <CustomInput value={text1} setValue={setText1} fullWidth name={'text1'} size={'small'}
+                        <CustomInput value={text1} setValue={setText1}  name={'text1'} size={'small'}
                                      placeholder={currentCollection?.text1.label ? t('text') : ''}
                                      disabled={!currentCollection?.text1.label && !currentItem}/>
 
                         <p className={'text-center italic h-6'}>{currentCollection?.text2.label}</p>
-                        <CustomInput value={text2} setValue={setText2} fullWidth name={'text2'} size={'small'}
+                        <CustomInput value={text2} setValue={setText2}  name={'text2'} size={'small'}
                                      placeholder={currentCollection?.text2.label ? t('text') : ''}
                                      disabled={!currentCollection?.text2.label && !currentItem}/>
 
                         <p className={'text-center italic h-6'}>{currentCollection?.text3.label}</p>
-                        <CustomInput value={text3} setValue={setText3} fullWidth name={'text3'} size={'small'}
+                        <CustomInput value={text3} setValue={setText3}  name={'text3'} size={'small'}
                                      placeholder={currentCollection?.text3.label ? t('text') : ''}
                                      disabled={!currentCollection?.text3.label && !currentItem}/>
                     </div>
@@ -154,32 +154,32 @@ const InputForm = (
                     </div>
                     <div className={'flex flex-col gap-2'}>
                         <p className={'text-center italic h-6'}>{currentCollection?.number1.label}</p>
-                        <CustomInput value={number1} setValue={setNumber1} fullWidth type={'number'} name={'number1'}
+                        <CustomInput value={number1} setValue={setNumber1}  type={'number'} name={'number1'}
                                      size={'small'}
                                      placeholder={currentCollection?.number1.label! ? t('number') : ''}
                                      disabled={!currentCollection?.number1.label && !currentItem}/>
                         <p className={'text-center italic h-6'}>{currentCollection?.number2.label}</p>
-                        <CustomInput value={number2} setValue={setNumber2} fullWidth type={'number'} name={'number2'}
+                        <CustomInput value={number2} setValue={setNumber2}  type={'number'} name={'number2'}
                                      size={'small'}
                                      placeholder={currentCollection?.number2.label! ? t('number') : ''}
                                      disabled={!currentCollection?.number2.label && !currentItem}/>
                         <p className={'text-center italic h-6'}>{currentCollection?.number3.label}</p>
-                        <CustomInput value={number3} setValue={setNumber3} fullWidth type={'number'} name={'number3'}
+                        <CustomInput value={number3} setValue={setNumber3}  type={'number'} name={'number3'}
                                      size={'small'}
                                      placeholder={currentCollection?.number3.label! ? t('number') : ''}
                                      disabled={!currentCollection?.number3.label && !currentItem}/>
                     </div>
                     <div className={'flex flex-col gap-2'}>
                         <p className={'text-center italic h-6'}>{currentCollection?.date1.label}</p>
-                        <CustomInput value={date1} setValue={setDate1} fullWidth type={'date'} placeholder={''}
+                        <CustomInput value={date1} setValue={setDate1}  type={'date'} placeholder={''}
                                      name={'date1'}
                                      size={'small'} disabled={!currentCollection?.date1.label && !currentItem}/>
                         <p className={'text-center italic h-6'}>{currentCollection?.date2.label}</p>
-                        <CustomInput value={date2} setValue={setDate2} fullWidth type={'date'} placeholder={''}
+                        <CustomInput value={date2} setValue={setDate2}  type={'date'} placeholder={''}
                                      name={'date2'}
                                      size={'small'} disabled={!currentCollection?.date2.label && !currentItem}/>
                         <p className={'text-center italic h-6'}>{currentCollection?.date3.label}</p>
-                        <CustomInput value={date3} setValue={setDate3} fullWidth type={'date'} placeholder={''}
+                        <CustomInput value={date3} setValue={setDate3}  type={'date'} placeholder={''}
                                      name={'date3'}
                                      size={'small'} disabled={!currentCollection?.date3.label && !currentItem}/>
                     </div>

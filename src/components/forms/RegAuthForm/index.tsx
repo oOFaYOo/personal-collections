@@ -19,7 +19,7 @@ const RegAuth = ({setOpenModal}:IForm) => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     function clean() {
         setName('');
@@ -73,13 +73,13 @@ const RegAuth = ({setOpenModal}:IForm) => {
             {
                 action === ActionType.signup
                     ? <CustomInput value={name} setValue={setName} placeholder={t("table.name")} name={'name'} type={'text'}
-                                   required fullWidth/>
+                                   required/>
                     : null
             }
             <CustomInput value={email} setValue={setEmail} placeholder={t("email")} name={'eMail'} type={'email'}
-                         required fullWidth/>
+                         required/>
             <CustomInput value={password} setValue={setPassword} placeholder={t("password")} name={'password'}
-                         type={'password'} required fullWidth/>
+                         type={'password'} required/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>
     )
