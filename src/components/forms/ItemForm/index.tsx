@@ -10,8 +10,12 @@ import {useTranslation} from "react-i18next";
 import {ICollection} from "../../../api_client/CollectionRequests/type";
 import {IItem} from "../../../api_client/ItemRequests/type";
 import AdditionalFormDataContainer from "../../AdditionalFormDataContainer";
+import {AdditionalColumnType} from "../../Table/type";
 
-const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IForm & { currentCollection?: ICollection, currentItem?: IItem }) => {
+const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IForm & {
+    currentCollection?: ICollection,
+    currentItem?: IItem
+}) => {
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const {t} = useTranslation();
 
@@ -37,6 +41,45 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
         // @ts-ignore
         [1, 2, 3].map((item) => currentItem ? currentItem['paragraph' + item] : '')
     );
+
+    const additionalFormDataContainerConfig = [
+        {
+            invisible: currentCollection?.text1.label === '' && currentCollection?.text2.label === '' && currentCollection?.text3.label === '',
+            type: 'text',
+            title: `${t('titleTextField')} ${t('fields')}`,
+            values: textFields,
+            setValues: setTextFields,
+        },
+        {
+            invisible: currentCollection?.number1.label === '' && currentCollection?.number2.label === '' && currentCollection?.number3.label === '',
+            type: 'number',
+            title: `${t('titleNumericField')} ${t('fields')}`,
+            values: numberFields,
+            setValues: setNumberFields,
+
+        },
+        {
+            invisible: currentCollection?.checkbox1.label === '' && currentCollection?.checkbox2.label === '' && currentCollection?.checkbox3.label === '',
+            type: 'checkbox',
+            title: `${t('titleCheckboxField')} ${t('fields')}`,
+            values: checkboxFields,
+            setValues: setCheckboxFields,
+        },
+        {
+            invisible: currentCollection?.date1.label === '' && currentCollection?.date2.label === '' && currentCollection?.date3.label === '',
+            type: 'date',
+            title: `${t('titleDateField')} ${t('fields')}`,
+            values: dateFields,
+            setValues: setDateFields,
+        },
+        {
+            invisible: currentCollection?.paragraph1.label === '' && currentCollection?.paragraph2.label === '' && currentCollection?.paragraph3.label === '',
+            type: 'paragraph',
+            title: `${t('titleParagraphField')} ${t('fields')}`,
+            values: paragraphFields,
+            setValues: setParagraphFields,
+        }
+    ];
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-800 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -92,84 +135,26 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
             <div className={'flex md:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
                 <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'title'} required/>
-                <CustomInput value={tags} setValue={setTags} placeholder={t('tagField')} required multiline name={'tags'}/>
+                <CustomInput value={tags} setValue={setTags} placeholder={t('tagField')} required multiline
+                             name={'tags'}/>
             </div>
             <div className={'flex flex-col items-center gap-4'}>
                 <h3 className={'font-semibold text-lg text-center'}>{t('additionalFields')}</h3>
                 {
-                    currentCollection?.text1.label === '' &&
-                    currentCollection?.text2.label === '' &&
-                    currentCollection?.text3.label === ''
-                        ? null
-                        : <AdditionalFormDataContainer
-                            type={'text'}
-                            title={`${t('titleTextField')} ${t('fields')}`}
-                            currentCollection={currentCollection!}
-                            currentItem={currentItem!}
-                            values={textFields}
-                            // @ts-ignore
-                            setValues={setTextFields}
-                        />
-                }
-                {
-                    currentCollection?.number1.label === '' &&
-                    currentCollection?.number2.label === '' &&
-                    currentCollection?.number3.label === ''
-                        ? null
-                        : <AdditionalFormDataContainer
-                            type={'number'}
-                            title={`${t('titleNumericField')} ${t('fields')}`}
-                            currentCollection={currentCollection!}
-                            currentItem={currentItem!}
-                            values={numberFields}
-                            // @ts-ignore
-                            setValues={setNumberFields}
-                        />
-                }
-                {
-                    currentCollection?.checkbox1.label === '' &&
-                    currentCollection?.checkbox2.label === '' &&
-                    currentCollection?.checkbox3.label === ''
-                        ? null
-                        : <AdditionalFormDataContainer
-                            type={'checkbox'}
-                            title={`${t('titleCheckboxField')} ${t('fields')}`}
-                            currentCollection={currentCollection!}
-                            currentItem={currentItem!}
-                            values={checkboxFields}
-                            // @ts-ignore
-                            setValues={setCheckboxFields}
-                        />
-                }
-                {
-                    currentCollection?.date1.label === '' &&
-                    currentCollection?.date2.label === '' &&
-                    currentCollection?.date3.label === ''
-                        ? null
-                        : <AdditionalFormDataContainer
-                            type={'date'}
-                            title={`${t('titleDateField')} ${t('fields')}`}
-                            currentCollection={currentCollection!}
-                            currentItem={currentItem!}
-                            values={dateFields}
-                            // @ts-ignore
-                            setValues={setDateFields}
-                        />
-                }
-                {
-                    currentCollection?.paragraph1.label === '' &&
-                    currentCollection?.paragraph2.label === '' &&
-                    currentCollection?.paragraph3.label === ''
-                        ? null
-                        : <AdditionalFormDataContainer
-                            type={'paragraph'}
-                            title={`${t('titleParagraphField')} ${t('fields')}`}
-                            currentCollection={currentCollection!}
-                            currentItem={currentItem!}
-                            values={paragraphFields}
-                            // @ts-ignore
-                            setValues={setParagraphFields}
-                        />
+                    additionalFormDataContainerConfig.map((value, i) =>
+                        value.invisible
+                            ? null
+                            : <AdditionalFormDataContainer
+                                key={i}
+                                type={value.type as AdditionalColumnType}
+                                title={value.title}
+                                currentCollection={currentCollection!}
+                                currentItem={currentItem!}
+                                values={value.values}
+                                // @ts-ignore
+                                setValues={value.setValues}
+                            />
+                    )
                 }
                 <Button className={'md:w-[200px] w-full'} variant="outlined" type={'submit'}>ok</Button>
             </div>

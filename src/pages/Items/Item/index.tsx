@@ -109,11 +109,11 @@ const Item = ({setTop}: IItemComponents) => {
                                             className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
                                             {currentUser?.isAdmin || currentUser?.id === item.userId
                                                 ? <>
-                                                    <Button size={'small'} sx={{width: '100%', minWidth:120, maxWidth:150}}
+                                                    <Button size={'small'} sx={{width: '100%', maxWidth:150}}
                                                             variant="outlined"
                                                             onClick={() => setOpenModal(true)}
                                                     >{t('buttons.edit')}</Button>
-                                                    <Button size={'small'} sx={{width: '100%', minWidth: 120, maxWidth:150}}
+                                                    <Button size={'small'} sx={{width: '100%', maxWidth:150}}
                                                             variant="outlined" onClick={async () => {
                                                         await api.ItemRequests.deleteItem(itemId!);
                                                         document.location = `/collections/${collectionId}`;
