@@ -1,5 +1,5 @@
 export interface IAdditionalDataContainer {
-    keys: string[];
+    itemKey: string;
     item: any;
     date?: boolean;
 }

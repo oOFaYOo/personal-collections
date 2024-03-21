@@ -126,7 +126,13 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                     {
                         !currentUser
                             ? null
-                            : <Button sx={{width: '80%'}} variant="outlined" disabled={comment === ''}
+                            : <Button sx={{
+                                width:'80%',
+                                "&:disabled": {
+                                    borderColor: 'inherit',
+                                    color: 'inherit',
+                                    opacity: theme === 'dark' ? '0.3' : '',
+                                }}} variant="outlined" disabled={comment === ''}
                                       onClick={async () => {
                                           const commentData = {
                                               id: '',

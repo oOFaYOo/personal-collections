@@ -71,7 +71,6 @@ const Item = ({setTop}: IItemComponents) => {
                               currentItem={item!} setUpdate={setUpdateItem}/>
                 </Modal>
             }
-
             {
                 !item
                     ? <CircularProgress/>
@@ -109,11 +108,11 @@ const Item = ({setTop}: IItemComponents) => {
                                             className={'relative flex items-center justify-center md:justify-start md:flex-col lg:flex-row lg:h-8 gap-1'}>
                                             {currentUser?.isAdmin || currentUser?.id === item.userId
                                                 ? <>
-                                                    <Button size={'small'} sx={{width: '100%', maxWidth:150}}
+                                                    <Button size={'small'} sx={{width: '100%', maxWidth: 150}}
                                                             variant="outlined"
                                                             onClick={() => setOpenModal(true)}
                                                     >{t('buttons.edit')}</Button>
-                                                    <Button size={'small'} sx={{width: '100%', maxWidth:150}}
+                                                    <Button size={'small'} sx={{width: '100%', maxWidth: 150}}
                                                             variant="outlined" onClick={async () => {
                                                         await api.ItemRequests.deleteItem(itemId!);
                                                         document.location = `/collections/${collectionId}`;
@@ -124,8 +123,8 @@ const Item = ({setTop}: IItemComponents) => {
                                         </div>
                                     </div>
                                     <div
-                                        className={'flex mobile:max-h-[150px] sm:max-h-[150px] opacity-70 flex-wrap grow ' +
-                                            'overflow-y-auto text-justify gap-1 styled_scrollbar p-2'}>
+                                        className={'flex mobile:max-h-[150px] sm:max-h-[150px] opacity-70 flex-wrap grow' +
+                                            'overflow-y-auto gap-1 styled_scrollbar p-2'}>
                                         {
                                             (item.tags.split(' ')).filter(value => !!value).map((tag, index) =>
                                                 <Chip key={index} label={`#${tag}`} variant="outlined"
@@ -138,65 +137,11 @@ const Item = ({setTop}: IItemComponents) => {
                             </div>
                             <div
                                 className={'w-full mb-2 pl-8 flex flex-wrap justify-evenly md:justify-start gap-8 lg:gap-16'}>
-                                <AdditionalDataContainer keys={['date1', 'date2', 'date3']} item={item} date/>
-                                <AdditionalDataContainer keys={['number1', 'number2', 'number3']} item={item}/>
                                 {
-                                    (item.collection as ICollection).checkbox1.label
-                                    || (item.collection as ICollection).checkbox2.label
-                                    || (item.collection as ICollection).checkbox3.label
-                                    || item.text1 || item.text2 || item.text3
-                                        ? <div className={'flex flex-col'}>
-                                            {
-                                                (item.collection as ICollection).checkbox1.label
-                                                    ? <div>
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox1.label}:</h3>
-                                                        <Checkbox disabled defaultChecked={item.checkbox1} sx={{
-                                                            padding: 0,
-                                                            color: 'inherit',
-                                                            opacity: '0.7',
-                                                            '&.Mui-disabled': {
-                                                                color: 'inherit',
-                                                                opacity: '0.3',
-                                                            }
-                                                        }}/>
-                                                    </div>
-                                                    : null
-                                            }
-                                            {(item.collection as ICollection).checkbox2.label
-                                                ? <div>
-                                                    <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox2.label}:</h3>
-                                                    <Checkbox disabled defaultChecked={item.checkbox2} sx={{
-                                                        padding: 0,
-                                                        color: 'inherit',
-                                                        opacity: '0.7',
-                                                        '&.Mui-disabled': {
-                                                            color: 'inherit',
-                                                            opacity: '0.3',
-                                                        }
-                                                    }}/>
-                                                </div>
-                                                : null
-                                            }
-                                            {
-                                                (item.collection as ICollection).checkbox3.label
-                                                    ? <div>
-                                                        <h3 className={'font-semibold'}>{(item.collection as ICollection).checkbox3.label}:</h3>
-                                                        <Checkbox disabled defaultChecked={item.checkbox3} sx={{
-                                                            padding: 0,
-                                                            color: 'inherit',
-                                                            opacity: '0.7',
-                                                            '&.Mui-disabled': {
-                                                                color: 'inherit',
-                                                                opacity: '0.3',
-                                                            }
-                                                        }}/>
-                                                    </div>
-                                                    : null
-                                            }
-                                        </div>
-                                        : null
+                                    ['text', 'number', 'checkbox', 'date'].map((value, i) =>
+                                        <AdditionalDataContainer itemKey={value} item={item} date={value === 'date'}
+                                                                 key={i}/>)
                                 }
-                                <AdditionalDataContainer keys={['text1', 'text2', 'text3']} item={item}/>
                             </div>
                             {
                                 item.paragraph1 || item.paragraph2 || item.paragraph3
