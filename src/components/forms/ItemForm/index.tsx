@@ -3,13 +3,13 @@ import InputFileUpload from "../../inputs/UploadImage";
 import {Button} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import CustomInput from "../../inputs/CustomInput";
+import CustomInput from "../../inputs/Input";
 import {IForm} from "../type";
 import api from "../../../api_client";
 import {useTranslation} from "react-i18next";
 import {ICollection} from "../../../api_client/CollectionRequests/type";
 import {IItem} from "../../../api_client/ItemRequests/type";
-import AdditionalFormDataContainer from "../../AdditionalFormDataContainer";
+import AdditionalFormDataContainer from "../../containers/AdditionalFormDataContainer";
 import {AdditionalColumnType} from "../../Table/type";
 
 const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IForm & {

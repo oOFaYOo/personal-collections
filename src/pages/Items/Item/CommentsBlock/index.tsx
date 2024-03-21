@@ -7,7 +7,6 @@ import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {useParams} from "react-router-dom";
-
 import api from "../../../../api_client";
 import CommentComponent from "../../../../components/CommentComponent";
 import {useTranslation} from "react-i18next";
@@ -15,6 +14,7 @@ import {ILike} from "../../../../api_client/LikeRequests/type";
 import {IComment} from "../../../../api_client/CommentRequests/type";
 import {IItem} from "../../../../api_client/ItemRequests/type";
 import {IUser} from "../../../../api_client/UserRequests/type";
+import {makeRequest} from "../../../../functions";
 
 const CommentsBlock = ({item}: { item: IItem }) => {
     const {itemId} = useParams();
@@ -39,7 +39,7 @@ const CommentsBlock = ({item}: { item: IItem }) => {
         (async () => {
             if (!comments) {
                 await getCommentsCallback();
-                    interval = setInterval(async () => {
+                interval = setInterval(async () => {
                     await getCommentsCallback();
                 }, 3000)
             }
@@ -47,17 +47,9 @@ const CommentsBlock = ({item}: { item: IItem }) => {
         return () => clearInterval(interval)
 
     }, [])
-
     useEffect(() => {
-        (async () => {
-            if (!likes || updateLikes) {
-                const response = await api.LikeRequests.getLikes(itemId!);
-                if (response.status === 200) {
-                    setLikes(response.data);
-                }
-            }
-            setUpdateLikes(false);
-        })()
+        makeRequest(likes, setLikes, api.LikeRequests.getLikes(itemId!), updateLikes,
+            setUpdateLikes)
     }, [updateLikes])
 
     return (
@@ -113,8 +105,8 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                                                                   setUpdateLikes(true);
                                                               }
                                                           }}
-                                                          className={`${currentUser 
-                                                              ? 'cursor-pointer hover:opacity-100 hover:text-[#1976d2]' 
+                                                          className={`${currentUser
+                                                              ? 'cursor-pointer hover:opacity-100 hover:text-[#1976d2]'
                                                               : 'cursor-default'}
                                                            opacity-70`}/>
                             }
@@ -127,12 +119,13 @@ const CommentsBlock = ({item}: { item: IItem }) => {
                         !currentUser
                             ? null
                             : <Button sx={{
-                                width:'80%',
+                                width: '80%',
                                 "&:disabled": {
                                     borderColor: 'inherit',
                                     color: 'inherit',
                                     opacity: theme === 'dark' ? '0.3' : '',
-                                }}} variant="outlined" disabled={comment === ''}
+                                }
+                            }} variant="outlined" disabled={comment === ''}
                                       onClick={async () => {
                                           const commentData = {
                                               id: '',

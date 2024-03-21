@@ -1,6 +1,6 @@
 import React from "react";
 import {IAdditionalDataContainer} from "./type";
-import {Checkbox} from "@mui/material";
+import Checkbox from "../../inputs/Checkbox";
 
 const AdditionalDataContainer = ({itemKey, item, date = false}: IAdditionalDataContainer) => {
     return <div className={'flex flex-col'}>
@@ -9,20 +9,12 @@ const AdditionalDataContainer = ({itemKey, item, date = false}: IAdditionalDataC
                 if (item[itemKey + 1] || item[itemKey + 2] || item[itemKey + 3]) {
                     return <>
                         {
-                            item[itemKey + value] || itemKey ===  'checkbox'
+                            item[itemKey + value] || itemKey === 'checkbox'
                                 ? <h3 className={'font-semibold'}>{item.collection[itemKey + value].label}:
                                     {
                                         itemKey === 'checkbox'
                                             ? <div>
-                                                <Checkbox disabled defaultChecked={item[itemKey + value]} sx={{
-                                                    padding: 0,
-                                                    color: 'inherit',
-                                                    opacity: '0.7',
-                                                    '&.Mui-disabled': {
-                                                        color: 'inherit',
-                                                        opacity: '0.3',
-                                                    }
-                                                }}/>
+                                                <Checkbox className={'opacity-70'} disabled checked={item[itemKey + value]}/>
                                             </div>
                                             : <p className={'font-normal opacity-70'}>
                                                 {date ? item[itemKey + value].split('-').reverse().join('.') : item[itemKey + value]}

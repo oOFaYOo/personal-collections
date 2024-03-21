@@ -5,8 +5,6 @@ import ItemForm from "../../../components/forms/ItemForm";
 import CollectionForm from "../../../components/forms/CollectionForm";
 import Table from "../../../components/Table";
 import {ModalFormType} from "./type";
-// @ts-ignore
-import noImg from "../../../svg/no-img.svg";
 import api from "../../../api_client";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
@@ -16,22 +14,10 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {ICollection} from "../../../api_client/CollectionRequests/type";
 import {IItem} from "../../../api_client/ItemRequests/type";
-
-function handledConfig (config:ITableItem[], collection:ICollection) {
-    let updatedConfig = [...config];
-    if(collection) {
-        for(let value of Object.values(collection)){
-            if(!!value.label && (value.type === 'text' || value.type === 'date')){
-                updatedConfig.push({
-                    id: value.id,
-                    label: value.label,
-                    type: value.type
-                });
-            }
-        }
-        return updatedConfig;
-    }
-}
+import {handleConfigTextDate, makeRequest} from "../../../functions";
+import getConfig from "../../../tableConfigs";
+// @ts-ignore
+import noImg from "../../../svg/no-img.svg";
 
 const Collection = () => {
     const {id} = useParams();
@@ -45,58 +31,17 @@ const Collection = () => {
     const [updateItems, setUpdateItems] = useState<boolean>(false);
 
     const {t} = useTranslation();
-
-    const config: ITableItem[] = [
-        {
-            id: 'picture',
-            label: '',
-            type: 'picture'
-        },
-        {
-            id: 'name',
-            label: t("table.title"),
-            type: 'text',
-        },
-        {
-            id: 'theme',
-            label: t("table.theme"),
-            type: 'text',
-        },
-        {
-            id: 'tags',
-            label: t("table.tags"),
-            type: 'paragraph',
-        },
-    ];
+    const config: ITableItem[] = getConfig(t, 'table.title').collection;
 
     useEffect(() => {
-        (
-            async () => {
-                if (!collection || updateCollection) {
-                    const response = await api.CollectionRequests.getCollection(id as string);
-                    if (response.status === 200) {
-                        setCollection(response.data);
-                    }
-                }
-                setUpdateCollection(false);
-            }
-        )()
+        makeRequest(collection, setCollection,
+            api.CollectionRequests.getCollection(id as string), updateCollection, setUpdateCollection)
     }, [updateCollection])
-
     useEffect(() => {
-        (
-            async () => {
-                if ((!items && collection) || (updateItems && collection) ) {
-                    const response = await api.ItemRequests.getCollectionItems(collection?.id!);
-                    if (response.status === 200) {
-                        setItems(response.data);
-                    }
-                }
-                setUpdateItems(false)
-            }
-        )()
+        if (collection) {
+            makeRequest(items, setItems, api.ItemRequests.getCollectionItems(collection?.id!), updateItems, setUpdateItems)
+        }
     }, [collection, updateItems]);
-
 
     return (
         <div
@@ -111,7 +56,7 @@ const Collection = () => {
                 >
                     {openModal === ModalFormType.Item
                         ? <ItemForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}
-                                    currentCollection={collection as ICollection} setUpdate={setUpdateItems} />
+                                    currentCollection={collection as ICollection} setUpdate={setUpdateItems}/>
                         : <CollectionForm currentCollection={collection as ICollection}
                                           setOpenModal={() => setOpenModal(ModalFormType.Initial)}
                                           setUpdate={setUpdateCollection}/>
@@ -134,7 +79,8 @@ const Collection = () => {
                                         : <div
                                             className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden ' +
                                                 'flex justify-center items-center bg-neutral-100'}>
-                                            <img src={noImg} className={'relative max-w-[140%]'} alt={'collection avatar'}/></div>
+                                            <img src={noImg} className={'relative max-w-[140%]'} alt={'collection avatar'}/>
+                                        </div>
                                 }
                             </div>
                             <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-start'}>
@@ -149,31 +95,31 @@ const Collection = () => {
                                     <div className={'flex flex-row justify-between gap-2'}>
                                         {collection?.user === currentUser?.id || currentUser?.isAdmin
                                             ? <>
-                                                    {
-                                                        items?.length === 0
-                                                            ? null
-                                                            : <Button size={'small'} variant="outlined"
-                                                                      onClick={() => setOpenModal(ModalFormType.Item)}>
-                                                                {t('buttons.add')}
-                                                              </Button>
-                                                    }
-                                                    <Button size={'small'} variant="outlined"
-                                                            onClick={() => setOpenModal(ModalFormType.Collection)}>
-                                                        {t("buttons.edit")}
-                                                    </Button>
-                                                    <Button size={'small'} variant="outlined" onClick={async () => {
-                                                        await api.CollectionRequests.deleteCollection(id as string);
-                                                        document.location = `/users/${collection.user}`;
-                                                    }}>
-                                                        {t("buttons.delete")}
-                                                    </Button>
-                                                </>
+                                                {
+                                                    items?.length === 0
+                                                        ? null
+                                                        : <Button size={'small'} variant="outlined"
+                                                                  onClick={() => setOpenModal(ModalFormType.Item)}>
+                                                            {t('buttons.add')}
+                                                        </Button>
+                                                }
+                                                <Button size={'small'} variant="outlined"
+                                                        onClick={() => setOpenModal(ModalFormType.Collection)}>
+                                                    {t("buttons.edit")}
+                                                </Button>
+                                                <Button size={'small'} variant="outlined" onClick={async () => {
+                                                    await api.CollectionRequests.deleteCollection(id as string);
+                                                    document.location = `/users/${collection.user}`;
+                                                }}>
+                                                    {t("buttons.delete")}
+                                                </Button>
+                                            </>
                                             : null
                                         }
                                     </div>
                                 </div>
                                 <Markdown remarkPlugins={[remarkGfm]}
-                                    className={'overflow-y-auto w-full md:w-[80%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
+                                          className={'overflow-y-auto w-full md:w-[80%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
                                     {collection.description}
                                 </Markdown>
                             </div>
@@ -191,11 +137,11 @@ const Collection = () => {
                         : null
                     : <Table pagination={true}
                              filtering={false}
-                             config={handledConfig(config, collection!)!}
+                             config={handleConfigTextDate(config, collection!)!}
                              data={items}
                              onRowClick={(e, id) => {
-                        document.location = path + '/' + id;
-                    }}/>
+                                 document.location = path + '/' + id;
+                             }}/>
             }
         </div>
     )

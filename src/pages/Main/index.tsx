@@ -13,10 +13,12 @@ import {useTranslation} from "react-i18next";
 import {IItem} from "../../api_client/ItemRequests/type";
 import {IUser} from "../../api_client/UserRequests/type";
 import {ICollection} from "../../api_client/CollectionRequests/type";
+import {makeRequest} from "../../functions";
+import getConfig from "../../tableConfigs";
 
 const Main = () => {
 
-    const {theme, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [collections, setCollections] = useState<ICollection[] | null>(null);
     const [items, setItems] = useState<IItem & {collectionName:string}[] | null>(null);
@@ -24,130 +26,32 @@ const Main = () => {
     const [tags, setTags] = useState<{value:string, count:number}[] | null>(null);
 
     const {t} = useTranslation();
+    const collectionsConfig: ITableItem[] = getConfig(t, 'table.title').main.collections as ITableItem[];
+    const itemsConfig: ITableItem[] = getConfig(t, 'table.title').main.items as ITableItem[];
+    const usersConfig: ITableItem [] = getConfig(t, 'table.name').main.users as ITableItem[];
 
-    const collectionsConfig: ITableItem [] = [
-        {
-            id: 'picture',
-            label: '',
-            type: 'picture'
-        },
-        {
-            id: 'name',
-            label: t("table.title"),
-            type: 'text',
-        },
-        {
-            id: 'theme',
-            label: t("table.theme"),
-            type: 'text',
-        },
-        {
-            id: 'description',
-            label: t("table.description"),
-            type: 'paragraph'
-        },
-    ];
-
-    const itemsConfig: ITableItem[] = [
-        {
-            id: 'picture',
-            label: '',
-            type: 'picture'
-        },
-        {
-            id: 'name',
-            label: t("table.title"),
-            type: 'text',
-        },
-        {
-            id: 'collectionName',
-            label:  t("table.collectionName"),
-            type: 'text',
-        },
-        {
-            id:'userName',
-            label: t("table.userName"),
-            type: 'text',
-        },
-    ];
-
-    const usersConfig: ITableItem [] = [
-        {
-            id: 'picture',
-            label: '',
-            type: 'picture'
-        },
-        {
-            id: 'name',
-            label: t("table.name"),
-            type: 'text',
-        },
-        {
-            id: 'amountCollections',
-            label: t("table.amountCollections"),
-            type: 'text',
-        }
-    ];
-
+    useEffect(() => {makeRequest(collections, setCollections, api.MainPageRequests.getBiggestCollections())}, [])
     useEffect(() => {
-        (
-            async () => {
-                if (!collections) {
-                    const response = await api.MainPageRequests.getBiggestCollections();
-                    if (response.status === 200) {
-                        setCollections(response.data);
-                    }
-                }
-            }
-        )()
+        makeRequest(users, setUsers, api.MainPageRequests.getRandomUsers(), undefined, undefined,
+            (data)=>{return data.sort((a:IUser,b:IUser) => b.amountCollections - a.amountCollections)})
     }, [])
-
     useEffect(() => {
-        (
-            async () => {
-                if (!users) {
-                    const response = await api.MainPageRequests.getRandomUsers();
-                    if (response.status === 200) {
-                        setUsers(response.data.sort((a:IUser,b:IUser) => b.amountCollections - a.amountCollections));
-                    }
-                }
-            }
-        )()
+        makeRequest(items, setItems, api.MainPageRequests.getLastItems(), undefined, undefined,
+            (data) => {return data.map((item:IItem & {collectionName:string}) => {
+                return {...item, collectionName: (item.collection as ICollection).name}})})
     }, [])
-
     useEffect(() => {
-        (
-            async () => {
-                if (!items) {
-                    const response = await api.MainPageRequests.getLastItems();
-                    if (response.status === 200) {
-                        setItems(response.data.map((item:IItem & {collectionName:string}) => {
-                            return {...item, collectionName: (item.collection as ICollection).name}
-                        }));
-                    }
-                }
-            }
-        )()
-    }, [])
-
-    useEffect(() => {
-        (
-            async () => {
-                if (!tags) {
-                    const response = await api.MainPageRequests.getAllTags();
-                    if (response.status === 200) {
-                        let comparingObj:{[key:string]:number} = {};
-                        response.data.split(' ').filter((value:string) => !!value).forEach((tag:string) => {
-                            if(comparingObj[tag]) comparingObj[tag]+=comparingObj[tag]
-                            else comparingObj[tag] = 1
-                        });
-                        setTags((Object.entries(comparingObj)).map(value => {
-                            return {value:value[0], count:value[1]}
-                        }));
-                    }
-                }
-            }
-        )()
+        makeRequest(tags, setTags, api.MainPageRequests.getAllTags(), undefined, undefined,
+            (data) => {
+                let comparingObj:{[key:string]:number} = {};
+                data.split(' ').filter((value:string) => !!value).forEach((tag:string) => {
+                    if(comparingObj[tag]) comparingObj[tag]+=comparingObj[tag]
+                    else comparingObj[tag] = 1
+                });
+                return (Object.entries(comparingObj)).map(value => {
+                    return {value:value[0], count:value[1]}
+                })
+            })
     }, [])
 
     return (

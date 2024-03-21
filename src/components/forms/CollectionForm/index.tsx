@@ -3,14 +3,14 @@ import {Button, FormControl, MenuItem, Select} from "@mui/material";
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import CustomInput from "../../inputs/CustomInput";
+import CustomInput from "../../inputs/Input";
 import {IForm} from "../type";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {ThemeType} from "../../../store/type";
 import {ICollection} from "../../../api_client/CollectionRequests/type";
-import AdditionalTitlesContainer from "../../AdditionalTitlesContainer";
+import AdditionalTitlesContainer from "../../containers/AdditionalTitlesContainer";
 
 const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { currentCollection?: ICollection }) => {
     const {theme, collectionTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);

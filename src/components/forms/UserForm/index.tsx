@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Button} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import CustomInput from "../../inputs/CustomInput";
+import CustomInput from "../../inputs/Input";
 import InputFileUpload from "../../inputs/UploadImage";
 import {IForm} from "../type";
 import api from "../../../api_client";

@@ -8,53 +8,18 @@ import {RootState} from "../../store";
 import {filter} from "../../components/Table/functions";
 import {useTranslation} from "react-i18next";
 import {IItem} from "../../api_client/ItemRequests/type";
+import {makeRequest} from "../../functions";
+import getConfig from "../../tableConfigs";
 
 const Items = () => {
     const {filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
-
     const [items, setItems] = useState<IItem[] | null>(null);
 
     const {t} = useTranslation();
-
-    const config: ITableItem [] = [
-        {
-            id: 'picture',
-            label: '',
-            type: 'picture'
-        },
-        {
-            id: 'name',
-            label: t("table.title"),
-            type: 'text',
-        },
-        {
-            id: 'theme',
-            label: t("table.theme"),
-            type: 'text',
-        },
-        {
-            id:'userName',
-            label: t("table.userName"),
-            type: 'text',
-        },
-        {
-            id: 'tags',
-            label: t("table.tags"),
-            type: 'paragraph',
-        }
-    ]
+    const config: ITableItem[] = getConfig(t, 'table.title').items as ITableItem[];
 
     useEffect(() => {
-        (
-            async () => {
-                if (!items) {
-                    const response = await api.ItemRequests.getItems();
-                    if (response.status === 200) {
-                        setItems(response.data)
-                    }
-                }
-            }
-        )()
+        makeRequest(items, setItems, api.ItemRequests.getItems())
     }, [])
 
     return (
@@ -62,13 +27,13 @@ const Items = () => {
             className={'relative w-full flex flex-wrap justify-evenly items-center grow p-4'}>
             {
                 !items
-                ? <CircularProgress />
-                : <Table pagination={true}
-                         data={filter(items, filterByTheme)}
-                         config={config}
-                         onRowClick={(e, id, row) => {
-                        document.location = `/collections/${row?.collection.id}/${id}`;
-                    }} />
+                    ? <CircularProgress/>
+                    : <Table pagination={true}
+                             data={filter(items, filterByTheme)}
+                             config={config}
+                             onRowClick={(e, id, row) => {
+                                 document.location = `/collections/${row?.collection.id}/${id}`;
+                             }}/>
             }
         </div>
     )

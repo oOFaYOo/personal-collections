@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface ICustomInput {
+export interface IInput {
     value:string;
     setValue: (string:string)=>void;
     name:string;

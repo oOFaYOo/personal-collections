@@ -2,18 +2,19 @@ import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import {Button, Checkbox, Chip, CircularProgress, Modal} from "@mui/material";
+import {Button, Chip, CircularProgress, Modal} from "@mui/material";
 import Accordion from "../../../components/Accordion"
 import ItemForm from "../../../components/forms/ItemForm";
 import {IItem as IItemComponents} from "./type";
-// @ts-ignore
-import noImg from "../../../svg/no-img.svg";
 import api from "../../../api_client";
 import CommentsBlock from "./CommentsBlock";
-import AdditionalDataContainer from "../../../components/AdditionalDataContainer";
+import AdditionalDataContainer from "../../../components/containers/AdditionalDataContainer";
 import {useTranslation} from "react-i18next";
 import {IItem} from "../../../api_client/ItemRequests/type";
 import {ICollection} from "../../../api_client/CollectionRequests/type";
+import {getAccordionData, makeRequest} from "../../../functions";
+// @ts-ignore
+import noImg from "../../../svg/no-img.svg";
 
 const Item = ({setTop}: IItemComponents) => {
     const {collectionId, itemId} = useParams();
@@ -26,35 +27,8 @@ const Item = ({setTop}: IItemComponents) => {
     const {t} = useTranslation();
 
     useEffect(() => {
-        (
-            async () => {
-                if (!item || updateItem) {
-                    const response = await api.ItemRequests.getItem(itemId!);
-                    if (response.status === 200) {
-                        setItem(response.data);
-                    }
-                }
-                setUpdateItem(false);
-            }
-        )()
+        makeRequest(item, setItem, api.ItemRequests.getItem(itemId!), updateItem, setUpdateItem)
     }, [updateItem])
-
-    function getAccordionData(item: IItem) {
-        const accordionData = [];
-        if (item.paragraph1) accordionData.push({
-            title: (item.collection as ICollection).paragraph1.label,
-            details: item.paragraph1
-        })
-        if (item.paragraph2) accordionData.push({
-            title: (item.collection as ICollection).paragraph2.label,
-            details: item.paragraph2
-        })
-        if (item.paragraph3) accordionData.push({
-            title: (item.collection as ICollection).paragraph3.label,
-            details: item.paragraph3
-        })
-        return accordionData;
-    }
 
     return (
         <div className={`${item ? '' : 'justify-center items-center'} w-full flex grow md:flex-row flex-col`}>

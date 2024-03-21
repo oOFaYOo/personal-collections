@@ -6,18 +6,19 @@ import Table from "../../../components/Table";
 import UserForm from "../../../components/forms/UserForm";
 import CollectionForm from "../../../components/forms/CollectionForm";
 import {ModalFormType} from "./type";
-// @ts-ignore
-import noAvatar from "../../../svg/no-profile-picture.svg";
 import api from "../../../api_client";
 import {useParams} from "react-router-dom";
 import {setCurrentUser} from "../../../store/slice";
-import {ITableItem} from "../../../components/Table/type";
 import {filter} from "../../../components/Table/functions";
 import {useTranslation} from "react-i18next";
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {IUser} from "../../../api_client/UserRequests/type";
 import {ICollection} from "../../../api_client/CollectionRequests/type";
+import {makeRequest} from "../../../functions";
+import getConfig from "../../../tableConfigs";
+// @ts-ignore
+import noAvatar from "../../../svg/no-profile-picture.svg";
 
 const User = () => {
     const dispatch = useDispatch();
@@ -31,56 +32,14 @@ const User = () => {
     const [updateCollections, setUpdateCollections] = useState<boolean>(false);
 
     const {t} = useTranslation();
-
-    const config: ITableItem [] = [
-        {
-            id: 'picture',
-            label: '',
-            type: 'picture'
-        },
-        {
-            id: 'name',
-            label: t("table.name"),
-            type: 'text',
-        },
-        {
-            id: 'theme',
-            label: t("table.theme"),
-            type: 'text',
-        },
-        {
-            id: 'description',
-            label: t("table.description"),
-            type: 'paragraph'
-        }
-    ]
+    const config = getConfig(t, 'table.name').user;
 
     useEffect(() => {
-        (
-            async () => {
-                if (!user || updateUser) {
-                    const response = await api.UserRequests.getUser(id as string);
-                    if (response.status === 200) {
-                        setUser(response.data)
-                    }
-                }
-                setUpdateUser(false);
-            }
-        )()
+        makeRequest(user, setUser, api.UserRequests.getUser(id as string), updateUser, setUpdateUser)
     }, [currentUser, updateUser])
-
     useEffect(() => {
-        (
-            async () => {
-                if (!collections || updateCollections) {
-                    const response = await api.CollectionRequests.getUserCollections(id as string);
-                    if (response.status === 200) {
-                        setCollections(response.data)
-                    }
-                }
-                setUpdateCollections(false);
-            }
-        )()
+        makeRequest(collections, setCollections, api.CollectionRequests.getUserCollections(id as string),
+            updateCollections, setUpdateCollections)
     }, [updateCollections])
 
     return (
@@ -147,7 +106,7 @@ const User = () => {
                                     <Markdown
                                         remarkPlugins={[remarkGfm]}
                                         className={'overflow-y-auto p-4 w-full flex grow max-h-[175px] lg:h-[175px] ' +
-                                        'styled_scrollbar text-justify'}>
+                                            'styled_scrollbar text-justify'}>
                                         {user?.description}
                                     </Markdown>
                                     : null
@@ -175,7 +134,8 @@ const User = () => {
                                             <Button size={'large'} variant="outlined"
                                                     onClick={() => setOpenModal(ModalFormType.Collection)}>{t('buttons.add_long_collection')}</Button>
                                             : null
-                                        : <Table pagination={true} data={filter(collections, filterByTheme)} config={config}
+                                        : <Table pagination={true} data={filter(collections, filterByTheme)}
+                                                 config={config}
                                                  onRowClick={(e, id) => {
                                                      document.location = '/collections/' + id;
                                                  }}/>

@@ -1,8 +1,8 @@
 import React from "react";
-import CustomInput from "../inputs/CustomInput";
+import CustomInput from "../../inputs/Input";
 import {useTranslation} from "react-i18next";
-import {Checkbox} from "@mui/material";
 import {IAdditionalFormDataContainer} from "./type";
+import Checkbox from "../../inputs/Checkbox";
 
 const AdditionalFormDataContainer = ({title, type, currentCollection, currentItem, values, setValues} : IAdditionalFormDataContainer) => {
     const {t} = useTranslation();
@@ -22,20 +22,13 @@ const AdditionalFormDataContainer = ({title, type, currentCollection, currentIte
                                         <h4 className={'text-center italic h-6'}>{cC}</h4>
                                         <Checkbox
                                             checked={value as boolean}
-                                            onChange={(e) => {
+                                            onChange={(bool) => {
                                                 const arr = [...values];
-                                                arr[i] = e.currentTarget.checked;
+                                                arr[i] = bool;
                                                 setValues(arr);
                                             }}
                                             disabled={!cC && !currentItem}
-                                            sx={{
-                                                padding: 0,
-                                                color: 'inherit',
-                                                '&.Mui-disabled': {
-                                                    color: 'inherit',
-                                                    opacity: '0.3',
-                                                }
-                                            }}/>
+                                        />
                                     </div>
                                 )
                             } else {

@@ -6,12 +6,16 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {ITableHead} from "../type";
-import {Checkbox, FormControlLabel, Popover} from "@mui/material";
+import {FormControlLabel, Popover} from "@mui/material";
 import {setFilterByTheme} from "../../../store/slice";
+import Checkbox from "../../inputs/Checkbox";
+import {useTranslation} from "react-i18next";
 
 const TableHead = ({order, orderBy, rowCount, config, onRequestSort, filtering=true}: ITableHead) => {
     const dispatch = useDispatch();
     const {theme, filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+
+    const {t} = useTranslation();
 
     const createSortHandler =
         (property: string) => (event: React.MouseEvent) => {
@@ -86,21 +90,15 @@ const TableHead = ({order, orderBy, rowCount, config, onRequestSort, filtering=t
                                             {
                                                 headCell.id === 'theme'
                                                 ? filterByTheme.map((item, index)=>
-                                                        <FormControlLabel key={index} control={<Checkbox defaultChecked sx={{
-                                                            padding: 0,
-                                                            marginRight: '6px',
-                                                            color: 'inherit',
-                                                            '&.Mui-disabled': {
-                                                                color: 'inherit',
-                                                                opacity: '0.3',
-                                                            }
-                                                        }} checked={item.filtered}
-                                                            onChange={(e)=>{
+                                                        <FormControlLabel key={index} control={
+                                                            <Checkbox defaultChecked={item.filtered}
+                                                            checked={item.filtered}
+                                                            onChange={(bool)=>{
                                                                 const arr = filterByTheme.slice(0);
-                                                                arr[index] = {...arr[index], filtered: e.currentTarget.checked};
+                                                                arr[index] = {...arr[index], filtered: bool};
                                                                 dispatch(setFilterByTheme(arr));
                                                             }}/>}
-                                                        label={item.collectionTheme}/>
+                                                        label={t('theme.' + item.collectionTheme)}/>
                                                     )
                                                 : ''
                                             }

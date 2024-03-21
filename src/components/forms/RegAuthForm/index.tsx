@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Button} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import CustomInput from "../../inputs/CustomInput";
+import CustomInput from "../../inputs/Input";
 import {ActionType} from "./type";
 import api from "../../../api_client"
 import {setCurrentUser} from "../../../store/slice";

@@ -2,19 +2,19 @@ import {TextField} from "@mui/material";
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import {ICustomInput} from "./type";
+import {IInput} from "./type";
 
-const CustomInput = ({
-                         value,
-                         setValue,
-                         name,
-                         placeholder,
-                         required = false,
-                         size = 'medium',
-                         type = 'text',
-                         disabled = false,
-                         multiline = false
-                     }: ICustomInput) => {
+const Input = ({
+                   value,
+                   setValue,
+                   name,
+                   placeholder,
+                   required = false,
+                   size = 'medium',
+                   type = 'text',
+                   disabled = false,
+                   multiline = false
+               }: IInput) => {
 
     const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
@@ -32,7 +32,7 @@ const CustomInput = ({
 
     let sx;
 
-    if(multiline) sx = sxMultilineText;
+    if (multiline) sx = sxMultilineText;
     else sx = sxText;
 
     return (
@@ -74,4 +74,4 @@ const CustomInput = ({
     )
 }
 
-export default React.memo(CustomInput);
+export default React.memo(Input);

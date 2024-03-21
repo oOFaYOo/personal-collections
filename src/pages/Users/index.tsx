@@ -9,6 +9,8 @@ import {CircularProgress} from "@mui/material";
 import {setCurrentUser} from "../../store/slice";
 import {useTranslation} from "react-i18next";
 import {IUser} from "../../api_client/UserRequests/type";
+import {handleConfigActions, makeRequest} from "../../functions";
+import getConfig from "../../tableConfigs";
 
 const Users = () => {
     const dispatch = useDispatch();
@@ -18,55 +20,11 @@ const Users = () => {
     const [update, setUpdate] = useState<boolean>(false);
 
     const {t} = useTranslation();
-
-    const config: ITableItem [] = [
-        {
-            id: 'picture',
-            label: '',
-            type: 'picture'
-        },
-        {
-            id: 'name',
-            label: t("table.name"),
-            type: 'text',
-        },
-        {
-            id: 'amountCollections',
-            label: t("table.amountCollections"),
-            type: 'text',
-        },
-        {
-            id: 'description',
-            label: t("table.description"),
-            type: 'paragraph'
-        },
-    ];
-
-    (function handledConfig () {
-        if (!config.find(c => c.id === 'action') && currentUser && currentUser.isAdmin) {
-            config.push({
-                id: 'action',
-                label: '',
-                type: 'action'
-            });}
-
-        if (config.find(c => c.id === 'action') && (!currentUser || !currentUser.isAdmin)) {
-            config.pop();
-        }
-
-        return config;
-    })()
+    const config: ITableItem[] = getConfig(t, 'table.name').users as ITableItem[];
+    handleConfigActions(config, currentUser!);
 
     useEffect(() => {
-        (async () => {
-            if(!data || update) {
-                const response = await api.UserRequests.getUsers();
-                if (response.status === 200) {
-                    setData(response.data);
-                }
-            }
-            setUpdate(false);
-        })()
+        makeRequest(data, setData, api.UserRequests.getUsers(), update, setUpdate)
     }, [currentUser, update])
 
     function addActions(user: IUser) {
@@ -74,10 +32,10 @@ const Users = () => {
             {
                 name: t('buttons.admin'), callback: async (id: string) => {
                     const response = await api.UserRequests.changeAccessLevel(id, !user.isAdmin);
-                    if(response.status === 200){
-                        if (currentUser?.id === id){
+                    if (response.status === 200) {
+                        if (currentUser?.id === id) {
                             const response = await api.AuthRequests.getCurrentUser();
-                            if (response.status === 200){
+                            if (response.status === 200) {
                                 dispatch(setCurrentUser(response.data))
                             }
                         }
@@ -87,15 +45,15 @@ const Users = () => {
             },
             {
                 name: t('buttons.block'), callback: async (id: string) => {
-                    if(user.blocked){
+                    if (user.blocked) {
                         const response = await api.UserRequests.unblockUser(id);
-                        if(response.status === 200){
+                        if (response.status === 200) {
                             setUpdate(true);
                         }
                     } else {
                         const response = await api.UserRequests.blockUser(id);
-                        if(response.status === 200){
-                            if(id === currentUser?.id){
+                        if (response.status === 200) {
+                            if (id === currentUser?.id) {
                                 await api.AuthRequests.logout(id);
                                 document.location = "/main";
                                 dispatch(setCurrentUser(null));
@@ -110,8 +68,8 @@ const Users = () => {
             {
                 name: t('buttons.delete'), callback: async (id: string) => {
                     const response = await api.UserRequests.deleteUser(id);
-                    if(response.status === 200){
-                        if(currentUser?.id === id){
+                    if (response.status === 200) {
+                        if (currentUser?.id === id) {
                             await api.AuthRequests.logout(id);
                             document.location = "/main";
                             dispatch(setCurrentUser(null));
@@ -124,7 +82,7 @@ const Users = () => {
                 },
             }
         ];
-        return {...user, action:actions}
+        return {...user, action: actions}
     }
 
     return (
@@ -132,11 +90,11 @@ const Users = () => {
             className={'relative w-full flex flex-wrap justify-evenly items-center grow p-4'}>
             {
                 !data
-                ? <CircularProgress />
-                : <Table pagination={true} data={data.map((item:any) => addActions(item))} config={config}
-                       onRowClick={(e, id) => {
-                           document.location = path + '/' + id;
-                       }}/>
+                    ? <CircularProgress/>
+                    : <Table pagination={true} data={data.map((item: any) => addActions(item))} config={config}
+                             onRowClick={(e, id) => {
+                                 document.location = path + '/' + id;
+                             }}/>
             }
         </div>
     )

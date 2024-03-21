@@ -1,6 +1,6 @@
 import React from "react";
 import {TableCell as TableCellMUI} from "@mui/material";
-import {Button, Checkbox} from "@mui/material";
+import {Button} from "@mui/material";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {IAction, ITableCell} from "../type";
@@ -11,11 +11,12 @@ import noImg from "../../../svg/no-img.svg";
 import {useTranslation} from "react-i18next";
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Checkbox from "../../inputs/Checkbox";
 
 const TableCell = ({row, item}: ITableCell) => {
     const {theme, collectionTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <TableCellMUI
@@ -25,7 +26,8 @@ const TableCell = ({row, item}: ITableCell) => {
                 borderColor: theme === 'dark' ? 'rgb(63,63,63)' : '',
                 minWidth: '50px',
                 padding: '7px',
-                maxWidth: '500px'
+                maxWidth: '500px',
+                textWrap:'nowrap'
             }}>
             {
                 item.type === 'action'
@@ -48,18 +50,12 @@ const TableCell = ({row, item}: ITableCell) => {
                                 className={'relative max-w-[140%]'}/>
                         </div>
                         : (typeof row[item.id] === 'boolean'
-                            ? <Checkbox disabled checked sx={{
-                                padding: 0,
-                                '&.Mui-disabled': {
-                                    color: 'inherit',
-                                    opacity: '0.3',
-                                }
-                            }}/>
+                            ? <Checkbox disabled checked={row[item.id]}/>
                             : item.type === 'paragraph'
                                 ?
                                 <Markdown
                                     remarkPlugins={[remarkGfm]}
-                                    className={'overflow-y-auto text-justify min-w-[200px] max-h-[100px] styled_scrollbar'}>
+                                    className={'overflow-y-auto text-wrap text-justify min-w-[200px] max-h-[100px] styled_scrollbar'}>
                                     {row[item.id]}
                                 </Markdown>
                                 : item.type === 'date'
