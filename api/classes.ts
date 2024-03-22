@@ -86,7 +86,7 @@ export class Item{
     @Column()
     tags!: string;
     @Column('timestamp')
-    timestamp!: string; // console.log(new Date(Date.now()).toISOString())
+    timestamp!: string;
     @Column({nullable: true})
     text1!: string;
     @Column({nullable: true})
