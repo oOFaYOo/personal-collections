@@ -10,22 +10,12 @@ import {IForm} from "../type";
 import {useTranslation} from "react-i18next";
 
 const RegAuth = ({setOpenModal}:IForm) => {
-    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const dispatch = useDispatch();
+    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {t} = useTranslation();
 
     const [message, setMessage] = useState<string>('');
     const [action, setAction] = useState<ActionType>(ActionType.signin);
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-
-    const {t} = useTranslation();
-
-    function clean() {
-        setName('');
-        setPassword('');
-        setEmail('');
-    }
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-800 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
@@ -33,7 +23,7 @@ const RegAuth = ({setOpenModal}:IForm) => {
               onSubmit={async (e) => {
                   e.preventDefault();
                   if(action === ActionType.signin){
-                      const authResponse = await api.AuthRequests.signIn(email, password);
+                      const authResponse = await api.AuthRequests.signIn(new FormData(e.target as HTMLFormElement));
                       if(authResponse.status === 200){
                           document.cookie = 'sessionId='+ authResponse.data.id +'; path=/;';
                           localStorage.userId = authResponse.data.userId;
@@ -47,13 +37,12 @@ const RegAuth = ({setOpenModal}:IForm) => {
                           setTimeout(()=>{setMessage('')}, 3000);
                       }
                   } else {
-                      const response = await api.AuthRequests.signUp(name, email, password);
+                      const response = await api.AuthRequests.signUp(new FormData(e.target as HTMLFormElement));
                       if(response.status !== 200){
                           setMessage(`${response.status} ${response.data}`);
                           setTimeout(()=>{setMessage('')}, 3000);
                       } else setOpenModal(false);
                   }
-                  clean();
               }}>
             {
                 !!message
@@ -63,22 +52,20 @@ const RegAuth = ({setOpenModal}:IForm) => {
             <div className={'w-full flex justify-center gap-2'}>
                 <Button variant={action === ActionType.signin ? "contained" : "outlined"} onClick={() => {
                     setAction(ActionType.signin);
-                    clean();
                 }}>{t('buttons.signin')}</Button>
                 <Button variant={action === ActionType.signup ? "contained" : "outlined"} onClick={() => {
                     setAction(ActionType.signup);
-                    clean();
                 }}>{t('buttons.signup')}</Button>
             </div>
             {
                 action === ActionType.signup
-                    ? <CustomInput value={name} setValue={setName} placeholder={t("table.name")} name={'name'} type={'text'}
+                    ? <CustomInput placeholder={t("table.name")} name={'name'} type={'text'}
                                    required/>
                     : null
             }
-            <CustomInput value={email} setValue={setEmail} placeholder={t("email")} name={'eMail'} type={'email'}
+            <CustomInput placeholder={t("email")} name={'email'} type={'email'}
                          required/>
-            <CustomInput value={password} setValue={setPassword} placeholder={t("password")} name={'password'}
+            <CustomInput placeholder={t("password")} name={'password'}
                          type={'password'} required/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>

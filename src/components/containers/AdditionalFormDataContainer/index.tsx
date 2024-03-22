@@ -42,12 +42,12 @@ const AdditionalFormDataContainer = ({title, type, currentCollection, currentIte
                                                 arr[i] = string;
                                                 setValues(arr);
                                             }}
-                                            name={''}
+                                            name={type + (i + 1)}
                                             type={type === 'paragraph' ? 'text' : type}
                                             size={type === 'paragraph' ? 'medium' : 'small'}
                                             multiline={type === 'paragraph'}
                                             placeholder={cC ? type === 'paragraph'? t('longtext') : t(type !== 'date' ? type : '') : ''}
-                                            disabled={!cC && !currentItem}/>
+                                            disabled={!cC}/>
                                     </div>)
                             }
 

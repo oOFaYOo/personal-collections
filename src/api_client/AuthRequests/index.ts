@@ -2,16 +2,12 @@ import axios, {AxiosError} from "axios";
 import {IAuthRequests} from "./type";
 
 class AuthRequests implements IAuthRequests {
-    async signUp(name: string, email: string, password: string) {
+    async signUp(data:FormData) {
         try {
             const response = await axios({
                 method: 'post',
                 url: '/api/signup',
-                data: {
-                    name: name,
-                    email: email,
-                    password: password
-                }
+                data: Object.fromEntries(data)
             });
             return {
                 status: response.status,
@@ -26,15 +22,12 @@ class AuthRequests implements IAuthRequests {
         }
     }
 
-    async signIn(email: string, password: string) {
+    async signIn(data:FormData) {
         try {
             const response = await axios({
                 method: 'post',
                 url: '/api/signin',
-                data: {
-                    email: email,
-                    password: password
-                }
+                data: Object.fromEntries(data)
             });
             return {
                 status: response.status,

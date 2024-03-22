@@ -1,8 +1,8 @@
 import React from "react";
 
 export interface IInput {
-    value:string;
-    setValue: (string:string)=>void;
+    value?:string;
+    setValue?: (string:string)=>void;
     name:string;
     placeholder:string;
     size?:"small" | "medium";

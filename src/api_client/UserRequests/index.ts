@@ -86,12 +86,11 @@ class UserRequests implements IUserRequests {
         }
     }
 
-    async editUserData(userId: string, user: { name: string, description: string }) {
-
+    async editUserData(userId: string, data: FormData) {
         const response = await axios({
             method: 'patch',
             url: `/api/users/${userId}/edit`,
-            data: {name: user.name, description: user.description}
+            data: Object.fromEntries(data)
         });
         return {
             status: response.status,

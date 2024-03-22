@@ -87,45 +87,26 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
               onSubmit={async (e) => {
                   e.preventDefault();
                   if (!currentCollection) return;
-                  const itemData = {
-                      id: '',
-                      userName: '',
-                      userId: '',
-                      collection: currentCollection.id, //id
-                      theme: currentCollection.theme,
+                  const data = {
                       picture: '',
-                      name: name,
-                      tags: tags,
-                      text1: textFields[0],
-                      text2: textFields[1],
-                      text3: textFields[2],
-                      paragraph1: paragraphFields[0],
-                      paragraph2: paragraphFields[1],
-                      paragraph3: paragraphFields[2],
-                      number1: numberFields[0].toString(),
-                      number2: numberFields[1].toString(),
-                      number3: numberFields[2].toString(),
-                      date1: dateFields[0],
-                      date2: dateFields[1],
-                      date3: dateFields[2],
-                      checkbox1: checkboxFields[0],
-                      checkbox2: checkboxFields[1],
-                      checkbox3: checkboxFields[2],
-                  }
+                      collection: currentCollection.id,
+                      theme: currentCollection.theme,
+                  };
+                  // @ts-ignore
+                  const formedData = Object.fromEntries(new FormData(e.target)) as IItem;
                   if (!currentItem) {
                       await api.ItemRequests.addItem(currentCollection?.id as string, {
-                          ...itemData,
+                          ...formedData, ...data,
                           id: '',
                           userId: '',
-                          userName: ''
+                          userName: '',
                       });
                   } else {
                       await api.ItemRequests.editItemData(currentItem?.id, {
-                          ...itemData,
+                          ...formedData, ...data,
                           id: currentItem.id,
                           userId: currentItem.userId,
                           userName: currentItem.userName,
-                          picture: ''
                       })
                   }
                   setOpenModal(false);
@@ -134,7 +115,7 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
         >
             <div className={'flex md:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 <InputFileUpload/>
-                <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'title'} required/>
+                <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'name'} required/>
                 <CustomInput value={tags} setValue={setTags} placeholder={t('tagField')} required multiline
                              name={'tags'}/>
             </div>

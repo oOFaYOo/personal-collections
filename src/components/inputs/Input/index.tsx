@@ -69,7 +69,7 @@ const Input = ({
                     },
                 },
             }}
-            onChange={e => setValue(e.currentTarget.value)}
+            onChange={e => setValue ? setValue(e.currentTarget.value) : {}}
         />
     )
 }
