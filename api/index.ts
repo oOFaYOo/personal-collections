@@ -1,15 +1,14 @@
 import "reflect-metadata";
-import {DataSource} from "typeorm";
+import {DataSource, Equal, FindOperator, Not} from "typeorm";
 import {Collection, Comment, Item, Like, Session, User, UserCredentials} from "./classes";
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 import path from 'path';
 import {Simulate} from "react-dom/test-utils";
-import select = Simulate.select;
-import {Dropbox} from "dropbox";
-import fs from 'fs';
-import axios from "axios";
+import * as _ from "lodash";
+import {IItem} from "../src/api_client/ItemRequests/type";
+
 const app = express();
 // const dropBoxToken = process.env.token;
 // const dbx = new Dropbox({ accessToken: ""});
@@ -566,7 +565,34 @@ app.post('/api/likes', async (req, res) => {
 
 app.get('/api/search', async (req, res)=>{
     const {value} = req.query;
-    res.end();
+    const searchPattern = (value as string).split(' ').filter(t => t).join('|');
+
+    const items = await itemsRepository.createQueryBuilder()
+        .select()
+        .where(`to_tsvector(name) || ' ' || to_tsvector(tags) || ' ' 
+        || to_tsvector(text1) || ' ' || to_tsvector(text2) || ' ' || to_tsvector(text3)
+        || to_tsvector(paragraph1) || ' ' || to_tsvector(paragraph2) || ' ' || to_tsvector(paragraph3) 
+        || to_tsvector(number1) || ' ' || to_tsvector(number2) || ' ' || to_tsvector(number3)
+        || to_tsvector(date1) || ' ' || to_tsvector(date2) || ' ' || to_tsvector(date3) @@ to_tsquery('${searchPattern}')`)
+        .getMany();
+
+    const comments = await commentsRepository
+        .createQueryBuilder()
+        .select()
+        .where(`to_tsvector(text) @@ to_tsquery('${searchPattern}')`)
+        .getMany();
+
+    let set = new Set<string>(items.map(i => i.id));
+    let itemsFromCommentsIds = comments
+        .map(c => c.itemId)
+        .filter(c => !set.has(c))
+        .map(c => {return {id: c}});
+
+    let itemsFromComments = itemsFromCommentsIds.length ? await itemsRepository.find({where: itemsFromCommentsIds}) : [];
+
+    let allItems = items.concat(itemsFromComments);
+
+    res.send(allItems);
 });
 
 AppDataSource.initialize()
