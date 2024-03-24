@@ -9,4 +9,4 @@ export interface IPersonalCollectionsState {
     collectionTheme: ThemeType[];
 }
 
-export type ThemeType = 'Anime' | 'Game' | 'Movie';
+export type ThemeType = 'Anime' | 'Games' | 'Movies' | 'Books';

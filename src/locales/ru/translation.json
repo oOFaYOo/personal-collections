@@ -14,8 +14,9 @@
   "theme": {
     "Anime": "Аниме",
     "Theme": "Тема",
-    "Game": "Игры",
-    "Movie": "Кино"
+    "Games": "Игры",
+    "Movies": "Кино",
+    "Books": "Книги"
   },
   "commentPlaceholder": "Твой комментарий...",
   "characters": "символ(ов)",

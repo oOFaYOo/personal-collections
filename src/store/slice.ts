@@ -3,8 +3,7 @@ import type {PayloadAction} from '@reduxjs/toolkit'
 import {IPersonalCollectionsState, ThemeType} from "./type";
 import {IUser} from "../api_client/UserRequests/type";
 
-
-const allTopics: ThemeType[] = ['Anime', 'Game', 'Movie'];
+const allTopics: ThemeType[] = ['Anime', 'Games', 'Movies', 'Books'];
 
 export const initialState: IPersonalCollectionsState = {
     theme: localStorage.theme ? localStorage.theme : 'light',

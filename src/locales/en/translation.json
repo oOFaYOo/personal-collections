@@ -14,8 +14,9 @@
   "theme": {
     "Anime": "Anime",
     "Theme": "Theme",
-    "Game": "Game",
-    "Movie": "Movie"
+    "Games": "Games",
+    "Movies": "Movies",
+    "Books": "Books"
   },
   "buttons": {
     "addfield": "Add field",
