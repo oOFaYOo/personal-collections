@@ -16,21 +16,22 @@ const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
     const {t} = useTranslation();
 
     const [picture, setPicture] = useState<File|null>(null);
+    const [name, setName] = useState(user.name);
+    const [description, setDescription] = useState(user.description);
 
     return (
         <form className={`${theme === 'dark' ? 'bg-neutral-800 text-neutral-200' : 'bg-neutral-100 text-neutral-900'}
         p-8 gap-4 bg-neutral-200 outline-none flex-col rounded-md shadow-md flex justify-evenly items-center`}
               onSubmit={async (e) => {
                   e.preventDefault();
-                  await api.UserRequests.uploadUserPicture(id!, picture!);
+                  // await api.UserRequests.uploadUserPicture(id!, picture!);
                   await api.UserRequests.editUserData(id!, new FormData(e.target as HTMLFormElement));
                   setUpdate!(true);
-                  setPicture(null);
                   setOpenModal(false);
               }}>
             <InputFileUpload setPicture={setPicture} />
-            <CustomInput placeholder={t('table.name')} name={'name'} required/>
-            <CustomInput placeholder={t('aboutme')} name={'description'} multiline/>
+            <CustomInput value={name} setValue={(string)=>setName(string)} placeholder={t('table.name')} name={'name'} required/>
+            <CustomInput value={description} setValue={(string)=>setDescription(string)} placeholder={t('aboutme')} name={'description'} multiline/>
             <Button variant="outlined" type={'submit'}>ok</Button>
         </form>
     )
