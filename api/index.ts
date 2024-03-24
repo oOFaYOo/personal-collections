@@ -595,6 +595,18 @@ app.get('/api/search', async (req, res)=>{
     res.send(allItems);
 });
 
+app.get('/api/search/tag', async (req, res)=>{
+    const {value} = req.query;
+    const searchPattern = (value as string).split(' ').filter(t => t).join('|');
+
+    const items = await itemsRepository.createQueryBuilder()
+        .select()
+        .where(`to_tsvector(tags) @@ to_tsquery('${searchPattern}')`)
+        .getMany();
+
+    res.send(items);
+});
+
 AppDataSource.initialize()
     .then(() => {
         app.listen(PORT);

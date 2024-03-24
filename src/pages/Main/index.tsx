@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import TagCloud from "../../components/TagCloud";
 import Table from "../../components/Table";
@@ -15,9 +15,10 @@ import {IUser} from "../../api_client/UserRequests/type";
 import {ICollection} from "../../api_client/CollectionRequests/type";
 import {makeRequest} from "../../functions";
 import getConfig from "../../tableConfigs";
+import {setSearchTag} from "../../store/slice";
 
 const Main = () => {
-
+    const dispatch = useDispatch();
     const {filterByTheme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [collections, setCollections] = useState<ICollection[] | null>(null);
@@ -63,7 +64,11 @@ const Main = () => {
                 {
                     !tags
                     ? <CircularProgress/>
-                    : <TagCloud tags={tags} onClick={(tag: string) => {}}/>
+                    : <TagCloud tags={tags} onClick={(tag: string) => {
+                        localStorage.searchTag = tag;
+                        dispatch(setSearchTag(tag));
+                        document.location = '/search'
+                        }}/>
                 }
             </div>
             <div className={`${collections && users ? 'justify-start' : 'justify-center items-center'} lg:w-[80%] lg:p-0 

@@ -17,6 +17,14 @@ class SearchRequest implements ISearchRequest {
             data: response.data,
         }
     }
+
+    async getSearchResultByTag(tag:string) {
+        const response = await axios({method: 'get', url: `/api/search/tag?value=${tag}`});
+        return {
+            status: response.status,
+            data: response.data,
+        }
+    }
 }
 
 export default {

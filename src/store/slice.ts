@@ -13,7 +13,8 @@ export const initialState: IPersonalCollectionsState = {
     filterByTheme: allTopics.map(value => {
         return {collectionTheme: value, filtered: false}
     }),
-    searchValue: '',
+    searchValue: localStorage.searchValue ? localStorage.searchValue : '',
+    searchTag: localStorage.searchTag ? localStorage.searchTag : '',
 };
 
 export const PersonalCollectionsStoreSlice = createSlice({
@@ -32,6 +33,9 @@ export const PersonalCollectionsStoreSlice = createSlice({
         setSearchValue: (state, action: PayloadAction<string>) => {
             state.searchValue = action.payload
         },
+        setSearchTag: (state, action: PayloadAction<string>) => {
+            state.searchTag = action.payload
+        },
     },
 });
 
@@ -39,7 +43,8 @@ export const {
     setTheme,
     setCurrentUser,
     setFilterByTheme,
-    setSearchValue
+    setSearchValue,
+    setSearchTag
 } = PersonalCollectionsStoreSlice.actions;
 
 export default PersonalCollectionsStoreSlice.reducer;

@@ -2,6 +2,8 @@ import {ITableItem} from "./components/Table/type";
 import {IUser} from "./api_client/UserRequests/type";
 import {IItem} from "./api_client/ItemRequests/type";
 import {ICollection} from "./api_client/CollectionRequests/type";
+import api from "./api_client";
+import {useLocation} from "react-router-dom";
 
 export async function makeRequest(
     data: any,

@@ -5,6 +5,7 @@ export interface IPersonalCollectionsState {
     currentUser: IUser | null;
     filterByTheme: { collectionTheme:ThemeType, filtered:boolean }[];
     searchValue: string;
+    searchTag: string;
     collectionTheme: ThemeType[];
 }
 

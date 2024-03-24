@@ -11,7 +11,7 @@ import getConfig from "../../tableConfigs";
 import {IItem} from "../../api_client/ItemRequests/type";
 
 const Search = () => {
-    const {searchValue} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {searchValue, searchTag} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const {t} = useTranslation();
     const config: ITableItem[] = getConfig(t, 'table.title').collection;
@@ -23,11 +23,21 @@ const Search = () => {
         (
             async () => {
                 if (debouncedSearchTerm || searchValue || localStorage.searchValue) {
-                    const response = await api.SearchRequest.getSearchResult(searchValue === '' ? localStorage.searchValue : searchValue);
+                    const response = await api.SearchRequest.getSearchResult(searchValue === ''
+                        ? localStorage.searchValue
+                        : searchValue);
                     if (response.status === 200) {
                         setItems(response.data);
                     }
 
+                }
+                if (searchTag || localStorage.searchTag) {
+                    const response = await api.SearchRequest.getSearchResultByTag(searchTag === ''
+                    ? localStorage.searchTag
+                    : searchTag);
+                    if (response.status === 200) {
+                        setItems(response.data);
+                    }
                 }
             }
         )()

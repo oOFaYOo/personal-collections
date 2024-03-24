@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {Button, Chip, CircularProgress, Modal} from "@mui/material";
 import Accordion from "../../../components/Accordion"
@@ -15,8 +15,10 @@ import {ICollection} from "../../../api_client/CollectionRequests/type";
 import {getAccordionData, makeRequest} from "../../../functions";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
+import {setSearchTag} from "../../../store/slice";
 
 const Item = ({setTop}: IItemComponents) => {
+    const dispatch = useDispatch();
     const {collectionId, itemId} = useParams();
     const {currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
@@ -103,7 +105,11 @@ const Item = ({setTop}: IItemComponents) => {
                                             (item.tags.split(' ')).filter(value => !!value).map((tag, index) =>
                                                 <Chip key={index} label={`#${tag}`} variant="outlined"
                                                       className={'hover:border-sky-600 cursor-default'}
-                                                      sx={{color: 'inherit'}}/>
+                                                      sx={{color: 'inherit'}} onClick={() => {
+                                                        localStorage.searchTag = tag;
+                                                        dispatch(setSearchTag(tag));
+                                                        document.location = '/search'
+                                                }}/>
                                             )
                                         }
                                     </div>
