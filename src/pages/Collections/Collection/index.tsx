@@ -63,7 +63,7 @@ const Collection = () => {
                     }
                 </Modal>
             }
-            <div
+            <section
                 className={`${collection ? 'justify-between' : 'items-center justify-center'} 
                 flex flex-col md:flex-row md:max-h-[40vh] mt-4 mb-[20px] w-full grow`}>
                 {
@@ -125,7 +125,7 @@ const Collection = () => {
                             </div>
                         </>
                 }
-            </div>
+            </section>
             {!items
                 ? <CircularProgress/>
                 : items.length === 0

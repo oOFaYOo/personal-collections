@@ -65,7 +65,7 @@ const User = () => {
             {!user
                 ? <CircularProgress/>
                 : <>
-                    <div className={'h-full w-full lg:w-[30%] flex flex-col mb-4'}>
+                    <section className={'h-full w-full lg:w-[30%] flex flex-col mb-4'}>
                         <div className={'w-full h-[300px] flex justify-center items-center'}>
                             {
                                 user?.picture
@@ -112,8 +112,8 @@ const User = () => {
                                     : null
                             }
                         </div>
-                    </div>
-                    <div
+                    </section>
+                    <section
                         className={'flex relative flex-col items-center justify-center lg:pl-4 h-full w-full lg:w-[70%]'}>
                         {!collections
                             ? <CircularProgress/>
@@ -141,7 +141,7 @@ const User = () => {
                                                  }}/>
                                 }
                             </>}
-                    </div>
+                    </section>
 
                 </>
             }

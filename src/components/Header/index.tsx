@@ -67,7 +67,7 @@ const Header = () => {
                             </button>
                     }
                 </div>
-                <div className={'flex flex-nowrap justify-end items-center'}>
+                <nav className={'flex flex-nowrap justify-end items-center'}>
                     {
                         language === 'ru'
                             ? <button className={'ml-2'} onClick={() => changeLanguage('en')}>EN</button>
@@ -112,7 +112,7 @@ const Header = () => {
                             setOpenModal(true)
                         }
                     }}/>
-                </div>
+                </nav>
             </header>
         </>
     )
