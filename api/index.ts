@@ -588,7 +588,7 @@ app.get('/api/search', async (req, res)=>{
         .filter(c => !set.has(c))
         .map(c => {return {id: c}});
 
-    let itemsFromComments = itemsFromCommentsIds.length ? await itemsRepository.find({where: itemsFromCommentsIds}) : [];
+    let itemsFromComments = itemsFromCommentsIds.length ? await itemsRepository.find({where: itemsFromCommentsIds, relations:{collection:true}}) : [];
 
     let allItems = items.concat(itemsFromComments);
 
