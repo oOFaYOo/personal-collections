@@ -258,7 +258,7 @@ app.patch('/api/users/:userId/edit', async (req, res) => {
 
 app.get('/api/main/tags', async (req, res) => {
     const tags = await itemsRepository.find({select:{tags:true}});
-    res.send(tags.map(item => item.tags).join(', '));
+    res.send(tags.map(item => item.tags).join(' '));
 });
 
 app.get('/api/main/collections', async (req, res) => {
