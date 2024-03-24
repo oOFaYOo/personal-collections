@@ -604,7 +604,10 @@ app.get('/api/search/tag', async (req, res)=>{
         .where(`to_tsvector(tags) @@ to_tsquery('${searchPattern}')`)
         .getMany();
 
-    res.send(items);
+    const itemForms = items.map(c => {return {id: c.id}});
+    const itemsWithRelations = await itemsRepository.find({where: itemForms, relations:{collection:true}});
+
+    res.send(itemsWithRelations);
 });
 
 AppDataSource.initialize()
