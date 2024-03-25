@@ -15,7 +15,7 @@ class CommentRequests{
 
     async deleteComment(commentId: string) {
 
-        const response = await axios({method: 'delete', url: `/api/comments/${commentId}`, data:{commentId:commentId}});
+        const response = await axios({method: 'delete', url: `/api/comments/${commentId}`});
         return {
             status: response.status,
             data: undefined,
