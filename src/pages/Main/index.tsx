@@ -92,7 +92,7 @@ const Main = () => {
                                                             document.location = '/users/' + id;
                                                         }} className={'md:w-[50%]'}/>
                             </div>
-                            <div className={'sm:max-h-[67%] w-full flex justify-end items-center'}>
+                            <div className={'w-full flex justify-end items-center'}>
                                 <MainPageTableContainer data={filter(collections, filterByTheme)} config={collectionsConfig}
                                                         url={'/collections'}
                                                         onRowClick={(e, id, row) => {
