@@ -7,9 +7,10 @@ const AdditionalDataContainer = ({itemKey, item, date = false}: IAdditionalDataC
         {
             [1, 2, 3].map((value) => {
                 if (item[itemKey + 1] || item[itemKey + 2] || item[itemKey + 3]) {
+                    console.log(item[itemKey + value])
                     return <>
                         {
-                            item[itemKey + value] || itemKey === 'checkbox'
+                            item.collection[itemKey + value].label
                                 ? <h3 className={'font-semibold'}>{item.collection[itemKey + value].label}:
                                     {
                                         itemKey === 'checkbox'

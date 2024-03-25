@@ -27,7 +27,7 @@ const AdditionalFormDataContainer = ({title, type, currentCollection, currentIte
                                                 arr[i] = bool;
                                                 setValues(arr);
                                             }}
-                                            disabled={!cC && !currentItem}
+                                            disabled={!cC}
                                         />
                                     </div>
                                 )

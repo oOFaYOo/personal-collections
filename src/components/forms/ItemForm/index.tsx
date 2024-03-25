@@ -31,7 +31,7 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
     );
     const [checkboxFields, setCheckboxFields] = useState<(boolean)[]>(
         // @ts-ignore
-        [1, 2, 3].map((item) => currentItem ? currentItem['checkbox' + item] : false)
+        [1, 2, 3].map((item) => currentItem && currentCollection['checkbox' + item].label ? currentItem['checkbox' + item] : null)
     );
     const [dateFields, setDateFields] = useState<(string)[]>(
         // @ts-ignore
@@ -91,9 +91,11 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
                       picture: '',
                       collection: currentCollection.id,
                       theme: currentCollection.theme,
+                      ...Object.fromEntries([['checkbox1', checkboxFields[0]], ['checkbox2', checkboxFields[1]], ['checkbox3', checkboxFields[2]]])
                   };
                   // @ts-ignore
                   const formedData = Object.fromEntries(new FormData(e.target)) as IItem;
+                  console.log(data)
                   if (!currentItem) {
                       await api.ItemRequests.addItem(currentCollection?.id as string, {
                           ...formedData, ...data,
