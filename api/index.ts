@@ -60,11 +60,11 @@ app.get('/api/search', (req, res, next) =>
 
         const items = await itemsRepository.createQueryBuilder()
             .select()
-            .where(`to_tsvector(name) || ' ' || to_tsvector(tags) || ' ' 
-        || to_tsvector(text1) || ' ' || to_tsvector(text2) || ' ' || to_tsvector(text3)
-        || to_tsvector(paragraph1) || ' ' || to_tsvector(paragraph2) || ' ' || to_tsvector(paragraph3) 
-        || to_tsvector(number1) || ' ' || to_tsvector(number2) || ' ' || to_tsvector(number3)
-        || to_tsvector(date1) || ' ' || to_tsvector(date2) || ' ' || to_tsvector(date3) @@ to_tsquery('${searchPattern}')`)
+            .where(`(COALESCE(to_tsvector(name), '') || ' ' || COALESCE(to_tsvector(tags), '') || ' ' 
+        || COALESCE(to_tsvector(text1), '') || ' ' || COALESCE(to_tsvector(text2), '') || ' ' || COALESCE(to_tsvector(text3), '')
+        || COALESCE(to_tsvector(paragraph1), '') || ' ' || COALESCE(to_tsvector(paragraph2), '') || ' ' || COALESCE(to_tsvector(paragraph3), '') 
+        || COALESCE(to_tsvector(number1), '') || ' ' || COALESCE(to_tsvector(number2), '') || ' ' || COALESCE(to_tsvector(number3), '')
+        || COALESCE(to_tsvector(date1), '') || ' ' || COALESCE(to_tsvector(date2), '') || ' ' || COALESCE(to_tsvector(date3), '')) @@ to_tsquery('${searchPattern}')`)
             .getMany();
 
         const comments = await commentsRepository
@@ -86,7 +86,12 @@ app.get('/api/search', (req, res, next) =>
             relations: {collection: true}
         }) : [];
 
-        let allItems = items.concat(itemsFromComments);
+        let itemsWithRelations = await itemsRepository.find({
+            where: items.map(i => {return {id:i.id}}),
+            relations: {collection: true}
+        });
+
+        let allItems = itemsWithRelations.concat(itemsFromComments);
 
         res.send(allItems);
     }, next));

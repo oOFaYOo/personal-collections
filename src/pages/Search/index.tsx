@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDebounce} from "@uidotdev/usehooks";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import api from "../../api_client";
 import Table from "../../components/Table";
@@ -9,10 +9,12 @@ import {useTranslation} from "react-i18next";
 import {ITableItem} from "../../components/Table/type";
 import getConfig from "../../tableConfigs";
 import {IItem} from "../../api_client/ItemRequests/type";
+import {setSearchTag, setSearchValue} from "../../store/slice";
 
 const Search = () => {
+    const dispatch = useDispatch();
     const {searchValue, searchTag} = useSelector((state: RootState) => state.PersonalCollectionsStore);
-
+console.log('searchTag:',searchTag, 'searchValue:',searchValue)
     const {t} = useTranslation();
     const config: ITableItem[] = getConfig(t, 'table.title').collection;
 
@@ -29,7 +31,7 @@ const Search = () => {
                     if (response.status === 200) {
                         setItems(response.data);
                     }
-
+                    return;
                 }
                 if (searchTag || localStorage.searchTag) {
                     const response = await api.SearchRequest.getSearchResultByTag(searchTag === ''
@@ -37,6 +39,8 @@ const Search = () => {
                     : searchTag);
                     if (response.status === 200) {
                         setItems(response.data);
+                        dispatch(setSearchTag(''));
+                        localStorage.removeItem('searchTag');
                     }
                 }
             }
