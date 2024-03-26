@@ -25,7 +25,8 @@ export default (app: core.Express, initialization: Promise<void>) => {
             const {collectionId} = req.params;
             const collection = (await collectionsRepository.find({where: {id: collectionId}, relations: {user: true}}))[0];
             const userId = collection.user.id;
-            res.send({...collection, user: userId});
+            const items = await itemsRepository.find({where: {collection: collection}});
+            res.send({collection: {...collection, user: userId}, items:items});
         }, next));
 
     app.delete('/api/collections/:collectionId', (req, res, next) =>

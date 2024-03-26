@@ -20,7 +20,7 @@ const Search = () => {
 
     const [items, setItems] = useState<IItem[] | null>(null);
     const debouncedSearchTerm = useDebounce(searchValue, 500);
-    console.log(searchTag, searchValue)
+
     useEffect(() => {
         (
             async () => {

@@ -1,11 +1,12 @@
 import {IResponse} from "../type";
 import {ThemeType} from "../../store/type";
 import {AdditionalColumnType} from "../../components/Table/type";
+import {IItem} from "../ItemRequests/type";
 
 export interface ICollectionRequests {
     getCollections: () => Promise<IResponse<ICollection[]>>;
     getUserCollections: (userId:string) => Promise<IResponse<ICollection[]>>;
-    getCollection: (collectionId:string) => Promise<IResponse<ICollection>>;
+    getCollection: (collectionId:string) => Promise<IResponse<{collection:ICollection, items:IItem[]}>>;
     deleteCollection: (collectionId:string) => Promise<IResponse<void>>;
     addCollection: (userId:string, collection:ICollection) => Promise<IResponse<void>>;
     // uploadCollectionPicture: (collectionId:string) => Promise<IResponse<void>>;

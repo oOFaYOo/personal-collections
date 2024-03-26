@@ -4,7 +4,6 @@ import {IResponse} from "../type";
 
 export interface IItemRequests {
     getItems: () => Promise<IResponse<(IItem)[]>>;
-    getCollectionItems: (collectionId: string) => Promise<IResponse<IItem[]>>;
     getItem: (itemId: string) => Promise<IResponse<IItem>>;
     deleteItem: (itemId: string) => Promise<IResponse<void>>;
     addItem: (collectionId: string, item: IItem) => Promise<IResponse<void>>;

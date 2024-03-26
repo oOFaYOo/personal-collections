@@ -11,14 +11,6 @@ class ItemRequests implements IItemRequests {
         }
     }
 
-    async getCollectionItems(collectionId:string) {
-        const response = await axios({method: 'get', url: `/api/collection/items/${collectionId}`});
-        return {
-            status: response.status,
-            data: response.data,
-        }
-    }
-
     async getItem(itemId: string) {
 
         const response = await axios({method: 'get', url: `/api/items/${itemId}`});
