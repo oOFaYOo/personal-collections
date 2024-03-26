@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 import {ITableItem} from "../../components/Table/type";
 import getConfig from "../../tableConfigs";
 import {IItem} from "../../api_client/ItemRequests/type";
-import {setSearchTag, setSearchValue} from "../../store/slice";
+import {setSearchTag} from "../../store/slice";
 
 const Search = () => {
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Search = () => {
         (
             async () => {
                 if (debouncedSearchTerm || searchValue || localStorage.searchValue) {
-                    const response = await api.SearchRequest.getSearchResult(searchValue === ''
+                    const response = await api.SearchRequests.getSearchResult(searchValue === ''
                         ? localStorage.searchValue
                         : searchValue);
                     if (response.status === 200) {
@@ -34,7 +34,7 @@ const Search = () => {
                     return;
                 }
                 if (searchTag || localStorage.searchTag) {
-                    const response = await api.SearchRequest.getSearchResultByTag(searchTag === ''
+                    const response = await api.SearchRequests.getSearchResultByTag(searchTag === ''
                     ? localStorage.searchTag
                     : searchTag);
                     if (response.status === 200) {
