@@ -16,15 +16,17 @@ import {setCurrentUser} from "./store/slice";
 
 const App = () => {
     const dispatch = useDispatch();
-    const {theme} = useSelector((state: RootState) => state.PersonalCollectionsStore);
+    const {theme, currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
     const [top, setTop] = useState(0);
 
     useEffect(()=>{
         (
             async () => {
-                const response = await api.AuthRequests.getCurrentUser();
-                if (response.status === 200){
-                    dispatch(setCurrentUser(response.data))
+                if(!currentUser) {
+                    const response = await api.AuthRequests.getCurrentUser();
+                    if (response.status === 200) {
+                        dispatch(setCurrentUser(response.data))
+                    }
                 }
             }
         )()

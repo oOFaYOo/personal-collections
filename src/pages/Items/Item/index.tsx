@@ -93,8 +93,7 @@ const Item = ({setTop}: IItemComponents) => {
                                         </div>
                                     </div>
                                     <div
-                                        className={'flex mobile:max-h-[150px] sm:max-h-[150px] opacity-70 flex-wrap grow' +
-                                            'overflow-y-auto gap-1 styled_scrollbar p-2'}>
+                                        className={'flex max-h-[150px] opacity-70 flex-wrap grow overflow-y-auto gap-1 styled_scrollbar p-2'}>
                                         {
                                             (item.tags.split(' ')).filter(value => !!value).map((tag, index) =>
                                                 <Chip key={index} label={`#${tag}`} variant="outlined"
