@@ -77,6 +77,7 @@ export default (app: core.Express, initialization: Promise<void>) => {
             const updatedCollection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
 
             updatedCollection.name = collection.name;
+            updatedCollection.picture = collection.picture;
             updatedCollection.description = collection.description;
             updatedCollection.text1 = collection.text1;
             updatedCollection.text2 = collection.text2;

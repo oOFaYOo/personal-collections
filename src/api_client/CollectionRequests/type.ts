@@ -8,7 +8,7 @@ export interface ICollectionRequests {
     getCollection: (collectionId:string) => Promise<IResponse<ICollection>>;
     deleteCollection: (collectionId:string) => Promise<IResponse<void>>;
     addCollection: (userId:string, collection:ICollection) => Promise<IResponse<void>>;
-    uploadCollectionPicture: (collectionId:string) => Promise<IResponse<void>>;
+    // uploadCollectionPicture: (collectionId:string) => Promise<IResponse<void>>;
     editCollectionData: (collectionId:string, collection:ICollection) => Promise<IResponse<void>>;
 }
 

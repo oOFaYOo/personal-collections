@@ -51,14 +51,14 @@ class CollectionRequests implements ICollectionRequests {
         }
     }
 
-    async uploadCollectionPicture(collectionId: string) {
-
-        const response = await axios({method: 'post', url: `/api/collections/${collectionId}/picture`});
-        return {
-            status: response.status,
-            data: undefined,
-        }
-    }
+    // async uploadCollectionPicture(collectionId: string) {
+    //
+    //     const response = await axios({method: 'post', url: `/api/collections/${collectionId}/picture`});
+    //     return {
+    //         status: response.status,
+    //         data: undefined,
+    //     }
+    // }
 
     async editCollectionData(collectionId: string, collection: ICollection) {
 

@@ -97,7 +97,7 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
                   };
                   // @ts-ignore
                   const formedData = Object.fromEntries(new FormData(e.target)) as IItem;
-                  console.log(data)
+
                   if (!currentItem) {
                       await api.ItemRequests.addItem(currentCollection?.id as string, {
                           ...formedData, ...data,
