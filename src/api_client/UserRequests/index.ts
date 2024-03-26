@@ -70,21 +70,21 @@ class UserRequests implements IUserRequests {
         }
     }
 
-    async uploadUserPicture(userId: string, picture: File) {
-
-        const response = await axios({
-            method: 'post',
-            url: `/api/users/${userId}/picture`,
-            headers: {
-                "Content-Type": picture.type,
-            },
-            data: picture
-        });
-        return {
-            status: response.status,
-            data: undefined,
-        }
-    }
+    // async uploadUserPicture(userId: string, picture: File) {
+    //
+    //     const response = await axios({
+    //         method: 'post',
+    //         url: `/api/users/${userId}/picture`,
+    //         headers: {
+    //             "Content-Type": picture.type,
+    //         },
+    //         data: picture
+    //     });
+    //     return {
+    //         status: response.status,
+    //         data: undefined,
+    //     }
+    // }
 
     async editUserData(userId: string, data: FormData) {
         const response = await axios({

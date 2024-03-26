@@ -11,15 +11,17 @@ import {
 import {customTry, getAuthedUser} from "./functions";
 import {In} from "typeorm";
 
-export default (app: core.Express) => {
+export default (app: core.Express, initialization: Promise<void>) => {
     app.get('/api/users/current', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const currentUser = await getAuthedUser(req.cookies);
             res.send(currentUser);
         }, next))
 
     app.get('/api/users', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const users = await usersRepository.find();
             for (let user of users) {
                 const collections = await collectionsRepository.find({where: {user: user}});
@@ -30,6 +32,7 @@ export default (app: core.Express) => {
 
     app.get('/api/users/:userId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {userId} = req.params;
             const user = (await usersRepository.find({where: {id: userId}}))[0];
             res.send(user);
@@ -37,6 +40,7 @@ export default (app: core.Express) => {
 
     app.delete('/api/users/:userId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -65,6 +69,7 @@ export default (app: core.Express) => {
 
     app.post('/api/users/:userId/block', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -81,6 +86,7 @@ export default (app: core.Express) => {
 
     app.post('/api/users/:userId/unblock', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -96,6 +102,7 @@ export default (app: core.Express) => {
 
     app.post('/api/users/:userId/access', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -110,34 +117,35 @@ export default (app: core.Express) => {
             res.end();
         }, next))
 
-    app.post('/api/users/:userId/picture', async (req, res, next) => {
-        const {userId} = req.params;
-        const imageType = req.header("Content-Type");
-        // console.log(userId, imageType!.slice(imageType!.indexOf('/')+1))
-        // await dbx.filesUpload({path: `/avatar/jjj/${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: req.body})
-
-        // const size = +(req.header('Content-Size') ?? 0)
-        // let fileContent = Buffer.alloc(200);
-        // req.on('data', (content) => {
-        //     fileContent += content;
-        // });
-        // req.on('end', async ()=>{
-        //     await dbx.filesUpload({path: `/avatar/jjj.${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: fileContent})
-        // })
-        // req.on('end', async () => {
-        //     console.log(size)
-        //     console.log(fileContent);
-        //     const t = fs.createWriteStream("D:/a.jpg");
-        //     t.write(fileContent);
-        //     t.end();
-        //     await dbx.filesUpload({path: `/avatar/${userId}/b.jpg`, contents: fileContent });
-        //     res.end();
-        // })
-        res.end();
-    });
+    // app.post('/api/users/:userId/picture', async (req, res, next) => {
+    //     const {userId} = req.params;
+    //     const imageType = req.header("Content-Type");
+    //     // console.log(userId, imageType!.slice(imageType!.indexOf('/')+1))
+    //     // await dbx.filesUpload({path: `/avatar/jjj/${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: req.body})
+    //
+    //     // const size = +(req.header('Content-Size') ?? 0)
+    //     // let fileContent = Buffer.alloc(200);
+    //     // req.on('data', (content) => {
+    //     //     fileContent += content;
+    //     // });
+    //     // req.on('end', async ()=>{
+    //     //     await dbx.filesUpload({path: `/avatar/jjj.${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: fileContent})
+    //     // })
+    //     // req.on('end', async () => {
+    //     //     console.log(size)
+    //     //     console.log(fileContent);
+    //     //     const t = fs.createWriteStream("D:/a.jpg");
+    //     //     t.write(fileContent);
+    //     //     t.end();
+    //     //     await dbx.filesUpload({path: `/avatar/${userId}/b.jpg`, contents: fileContent });
+    //     //     res.end();
+    //     // })
+    //     res.end();
+    // });
 
     app.patch('/api/users/:userId/edit', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -145,9 +153,10 @@ export default (app: core.Express) => {
                 return;
             }
             const {userId} = req.params;
-            const {name, description} = req.body;
+            const {name, description, picture} = req.body;
             const user = (await usersRepository.find({where: {id: userId}}))[0];
             user.name = name;
+            user.picture = picture;
             user.description = description;
             await usersRepository.save(user);
             res.end();

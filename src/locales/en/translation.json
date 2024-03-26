@@ -33,7 +33,7 @@
   },
   "fields": "fields",
   "field": "field",
-
+  "picturePlaceholder": "Link to your image",
   "commentPlaceholder": "Your comment...",
   "characters": "character(s)",
   "password": "Password",

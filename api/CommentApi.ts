@@ -2,9 +2,10 @@ import * as core from "express-serve-static-core";
 import {customTry, getAuthedUser} from "./functions";
 import {commentsRepository, usersRepository} from "./index";
 
-export default (app: core.Express) => {
+export default (app: core.Express, initialization: Promise<void>) => {
     app.get('/api/comments/:itemId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {itemId} = req.params;
             const comments = await commentsRepository.find({where: {itemId: itemId}, relations: {user: true}});
             res.send(comments);
@@ -12,6 +13,7 @@ export default (app: core.Express) => {
 
     app.delete('/api/comments/:commentId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -26,6 +28,7 @@ export default (app: core.Express) => {
 
     app.post('/api/comments', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);

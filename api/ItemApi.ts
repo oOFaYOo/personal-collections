@@ -2,9 +2,10 @@ import * as core from "express-serve-static-core";
 import {customTry, getAuthedUser} from "./functions";
 import {collectionsRepository, itemsRepository} from "./index";
 
-export default (app: core.Express) => {
+export default (app: core.Express, initialization: Promise<void>) => {
     app.get('/api/items', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const items = await itemsRepository.find({relations: {collection: true}});
             for (let item of items) {
                 const collection = (await collectionsRepository.find({
@@ -19,6 +20,7 @@ export default (app: core.Express) => {
 
     app.get('/api/collection/items/:collectionId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {collectionId} = req.params;
             const collection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
             const items = await itemsRepository.find({where: {collection: collection}});
@@ -27,6 +29,7 @@ export default (app: core.Express) => {
 
     app.get('/api/items/:itemId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {itemId} = req.params;
             const item = (await itemsRepository.find({where: {id: itemId}, relations: {collection: true}}))[0];
             const collection = (await collectionsRepository.find({
@@ -40,6 +43,7 @@ export default (app: core.Express) => {
 
     app.delete('/api/items/:itemId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -53,6 +57,7 @@ export default (app: core.Express) => {
 
     app.post('/api/items', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -68,15 +73,16 @@ export default (app: core.Express) => {
             res.end();
         }, next));
 
-    app.post('/api/items/:itemId/picture', async (req, res) => {
-        // const sessionid = req.cookies?.sessionid;
-        const {itemId} = req.params;
-        // res.status(200);
-        // res.send();
-    });
+    // app.post('/api/items/:itemId/picture', async (req, res) => {
+    //     // const sessionid = req.cookies?.sessionid;
+    //     const {itemId} = req.params;
+    //     // res.status(200);
+    //     // res.send();
+    // });
 
     app.patch('/api/items/:itemId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -88,6 +94,7 @@ export default (app: core.Express) => {
 
             const updatedItem = (await itemsRepository.find({where: {id: itemId}}))[0];
             updatedItem.name = item.name;
+            updatedItem.picture = item.picture;
             updatedItem.tags = item.tags;
             updatedItem.text1 = item.text1;
             updatedItem.text2 = item.text2;

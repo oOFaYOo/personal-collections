@@ -46,14 +46,14 @@ class ItemRequests implements IItemRequests {
         }
     }
 
-    async uploadItemPicture(itemId: string) {
-
-        const response = await axios({method: 'post', url: `/api/items/${itemId}/picture`, data: {}});
-        return {
-            status: response.status,
-            data: undefined,
-        }
-    }
+    // async uploadItemPicture(itemId: string) {
+    //
+    //     const response = await axios({method: 'post', url: `/api/items/${itemId}/picture`, data: {}});
+    //     return {
+    //         status: response.status,
+    //         data: undefined,
+    //     }
+    // }
 
     async editItemData(itemId: string, item: IItem) {
 

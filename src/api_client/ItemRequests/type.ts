@@ -8,7 +8,7 @@ export interface IItemRequests {
     getItem: (itemId: string) => Promise<IResponse<IItem>>;
     deleteItem: (itemId: string) => Promise<IResponse<void>>;
     addItem: (collectionId: string, item: IItem) => Promise<IResponse<void>>;
-    uploadItemPicture: (itemId: string) => Promise<IResponse<void>>;
+    // uploadItemPicture: (itemId: string) => Promise<IResponse<void>>;
     editItemData: (itemId: string, item: IItem) => Promise<IResponse<void>>;
 }
 

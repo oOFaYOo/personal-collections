@@ -7,7 +7,7 @@ export interface IUserRequests {
     blockUser: (userId:string) => Promise<IResponse<void>>;
     unblockUser: (userId:string) => Promise<IResponse<void>>;
     changeAccessLevel: (userId:string, isAdmin:boolean) => Promise<IResponse<void>>;
-    uploadUserPicture: (userId:string, picture: File) => Promise<IResponse<void>>;
+    // uploadUserPicture: (userId:string, picture: File) => Promise<IResponse<void>>;
     editUserData: (userId:string, data:FormData) => Promise<IResponse<void>>;
 }
 

@@ -7,9 +7,10 @@ import {
 import {customTry} from "./functions";
 import {Session, User, UserCredentials} from "./classes";
 
-export default (app: core.Express) => {
+export default (app: core.Express, initialization: Promise<void>) => {
     app.post('/api/signup', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {email, password, name} = req.body;
             const existed = (await userCredentialsRepository.find({where: {email: email}}))[0];
             if (existed) {
@@ -39,6 +40,7 @@ export default (app: core.Express) => {
 
     app.post('/api/signin', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {email, password} = req.body;
             let existed = (await userCredentialsRepository.find({where: {email: email}, relations: {user: true}}))[0];
             if (!existed) {
@@ -74,6 +76,7 @@ export default (app: core.Express) => {
 
     app.delete('/api/logout', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {userId} = req.body;
             await sessionsRepository.delete({userId: userId});
             res.status(200);

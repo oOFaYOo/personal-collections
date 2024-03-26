@@ -2,15 +2,17 @@ import * as core from "express-serve-static-core";
 import {customTry, getAuthedUser} from "./functions";
 import {collectionsRepository, itemsRepository, usersRepository} from "./index";
 
-export default (app: core.Express) => {
+export default (app: core.Express, initialization: Promise<void>) => {
     app.get('/api/collections', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const collections = await collectionsRepository.find();
             res.send(collections);
         }, next));
 
     app.get('/api/user/collections/:userId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {userId} = req.params;
             const user = (await usersRepository.find({where: {id: userId}}))[0];
             const collections = await collectionsRepository.find({where: {user: user}});
@@ -19,6 +21,7 @@ export default (app: core.Express) => {
 
     app.get('/api/collections/:collectionId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {collectionId} = req.params;
             const collection = (await collectionsRepository.find({where: {id: collectionId}, relations: {user: true}}))[0];
             const userId = collection.user.id;
@@ -27,6 +30,7 @@ export default (app: core.Express) => {
 
     app.delete('/api/collections/:collectionId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const {collectionId} = req.params;
             const collection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
             await itemsRepository.delete({collection: collection});
@@ -36,6 +40,7 @@ export default (app: core.Express) => {
 
     app.post('/api/collections/create', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);
@@ -49,15 +54,16 @@ export default (app: core.Express) => {
             res.end();
         }, next));
 
-    app.post('/api/collections/:collectionId/picture', async (req, res) => {
-        // const sessionid = req.cookies?.sessionid;
-        const {collectionId} = req.params;
-        // res.status(200);
-        // res.send();
-    });
+    // app.post('/api/collections/:collectionId/picture', async (req, res) => {
+    //     // const sessionid = req.cookies?.sessionid;
+    //     const {collectionId} = req.params;
+    //     // res.status(200);
+    //     // res.send();
+    // });
 
     app.patch('/api/collections/:collectionId', (req, res, next) =>
         customTry(async () => {
+            await initialization;
             const authedUser = await getAuthedUser(req.cookies);
             if (!authedUser) {
                 res.status(401);

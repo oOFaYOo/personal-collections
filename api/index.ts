@@ -52,16 +52,17 @@ export const likesRepository = AppDataSource.getRepository(Like);
 
 app.use(express.static(path.join(__dirname, '../build')))
 
-AuthApi(app);
+AuthApi(app, initialization);
 UserApi(app, initialization);
-MainPageApi(app);
-CollectionApi(app);
-ItemApi(app);
-CommentApi(app);
-LikeApi(app);
+MainPageApi(app, initialization);
+CollectionApi(app, initialization);
+ItemApi(app, initialization);
+CommentApi(app, initialization);
+LikeApi(app, initialization);
 
 app.get('/api/search', (req, res, next) =>
     customTry(async () => {
+        await initialization;
         const {value} = req.query;
         const searchPattern = (value as string).split(' ').filter(t => t).join('|');
 
@@ -107,6 +108,7 @@ app.get('/api/search', (req, res, next) =>
 app.get('/api/search/tag', (req, res, next: NextFunction) =>
     customTry(
         async () => {
+            await initialization;
             const {value} = req.query;
             const searchPattern = (value as string).split(' ').filter(t => t).join('|');
 
