@@ -29,81 +29,97 @@ const Main = () => {
     const itemsConfig: ITableItem[] = getConfig(t, 'table.title').main.items as ITableItem[];
     const usersConfig: ITableItem [] = getConfig(t, 'table.name').main.users as ITableItem[];
 
+    const [data, setData] = useState<any>(null);
+
     useEffect(() => {
-        makeRequest(collections, setCollections, api.MainPageRequests.getBiggestCollections())
+        makeRequest(data, setData, api.MainPageRequests.getAll())
     }, [])
-    useEffect(() => {
-        makeRequest(users, setUsers, api.MainPageRequests.getRandomUsers(), undefined, undefined,
-            (data) => {
-                return data.sort((a: IUser, b: IUser) => b.amountCollections - a.amountCollections)
-            })
-    }, [])
-    useEffect(() => {
-        makeRequest(items, setItems, api.MainPageRequests.getLastItems(), undefined, undefined,
-            (data) => {
-                return data.map((item: IItem & { collectionName: string }) => {
-                    return {...item, collectionName: (item.collection as ICollection).name}
-                })
-            })
-    }, [])
-    useEffect(() => {
-        makeRequest(tags, setTags, api.MainPageRequests.getAllTags(), undefined, undefined,
-            (data) => {
-                let comparingObj: { [key: string]: number } = {};
-                data.split(' ').filter((value: string) => !!value).forEach((tag: string) => {
-                    if (comparingObj[tag]) comparingObj[tag] += comparingObj[tag]
-                    else comparingObj[tag] = 1
-                });
-                return (Object.entries(comparingObj)).map(value => {
-                    return {value: value[0], count: value[1]}
-                })
-            })
-    }, [])
+
+    // useEffect(() => {
+    //     makeRequest(collections, setCollections, api.MainPageRequests.getBiggestCollections())
+    // }, [])
+    // useEffect(() => {
+    //     makeRequest(users, setUsers, api.MainPageRequests.getRandomUsers(), undefined, undefined,
+    //         (data) => {
+    //             return data.sort((a: IUser, b: IUser) => b.amountCollections - a.amountCollections)
+    //         })
+    // }, [])
+    // useEffect(() => {
+    //     makeRequest(items, setItems, api.MainPageRequests.getLastItems(), undefined, undefined,
+    //         (data) => {
+    //             return data.map((item: IItem & { collectionName: string }) => {
+    //                 return {...item, collectionName: (item.collection as ICollection).name}
+    //             })
+    //         })
+    // }, [])
+    // useEffect(() => {
+    //     makeRequest(tags, setTags, api.MainPageRequests.getAllTags(), undefined, undefined,
+    //         (data) => {
+    //             let comparingObj: { [key: string]: number } = {};
+    //             data.split(' ').filter((value: string) => !!value).forEach((tag: string) => {
+    //                 if (comparingObj[tag]) comparingObj[tag] += comparingObj[tag]
+    //                 else comparingObj[tag] = 1
+    //             });
+    //             return (Object.entries(comparingObj)).map(value => {
+    //                 return {value: value[0], count: value[1]}
+    //             })
+    //         })
+    // }, [])
 
     return (
         <div
-            className={`${tags ? 'items-start' : 'items-center'} relative w-full flex p-2 lg:flex-row flex-col-reverse 
-            justify-start grow gap-4`}>
-            <div className={`${tags ? 'overflow-y-auto styled_scrollbar' : ''} 
+            className={`items-center relative w-full flex p-2 lg:flex-row flex-col-reverse 
+            justify-center grow gap-4`}>
+            {
+                data
+                    ? <><div className={`${data.tags ? 'overflow-y-auto styled_scrollbar' : ''} 
             flex flex-col items-center justify-start lg:w-[20%] w-full contrast-75 max-h-[40vh] lg:max-h-[85vh]`}>
-                {
-                    !tags
-                        ? <CircularProgress/>
-                        : <TagCloud tags={tags} onClick={(tag: string) => {
+                        <TagCloud tags={
+                            (() => {
+                                let comparingObj: { [key: string]: number } = {};
+                                data.tags.split(' ').filter((value: string) => !!value).forEach((tag: string) => {
+                                    if (comparingObj[tag]) comparingObj[tag] += comparingObj[tag]
+                                    else comparingObj[tag] = 1
+                                });
+                                return (Object.entries(comparingObj)).map(value => {
+                                    return {value: value[0], count: value[1]}
+                                })
+                            })()
+                        } onClick={(tag: string) => {
                             localStorage.searchTag = tag;
                             dispatch(setSearchTag(tag));
                             document.location = '/search'
                         }}/>
-                }
-            </div>
-            <div className={`${collections && users && items ? 'justify-start' : 'justify-center items-center'} lg:w-[80%] lg:p-0 
+                    </div>
+                    <div
+                        className={`${data.collections && data.users && data.items ? 'justify-start' : 'justify-center items-center'} lg:w-[80%] lg:p-0 
             pt-4 w-full lg:h-[85vh] flex flex-col`}>
-                {
-                    collections && users && items
-                        ? <>
-                            <div
-                                className={'h-auto mb-8 lg:h-[30%] gap-4 lg:pl-4 w-full flex justify-between items-center flex-col md:flex-row'}>
-                                <MainPageTableContainer data={items} config={itemsConfig} url={'/items'}
-                                                        onRowClick={(e, id, row) => {
-                                                            document.location = '/collections/' + row?.collection.id + '/' + id;
-                                                        }} className={'md:w-[50%]'}/>
-                                <MainPageTableContainer data={users} config={usersConfig} url={'/users'}
-                                                        onRowClick={(e, id, row) => {
-                                                            document.location = '/users/' + id;
-                                                        }} className={'md:w-[50%]'}/>
-                            </div>
-                            <div className={'w-full flex justify-end items-center'}>
-                                <MainPageTableContainer data={filter(collections, filterByTheme)} config={collectionsConfig}
-                                                        url={'/collections'}
-                                                        onRowClick={(e, id, row) => {
-                                                            document.location = '/collections/' + id;
-                                                        }} className={'mb-4 pb-2 overflow-x-auto lg:pl-4'}/>
-                            </div>
-                        </>
-                        : <CircularProgress/>
-                }
-            </div>
-
+                        <div
+                            className={'h-auto mb-8 lg:h-[30%] gap-4 lg:pl-4 w-full flex justify-between items-center flex-col md:flex-row'}>
+                            <MainPageTableContainer data={data.items.map((item: IItem & { collectionName: string }) => {
+                                return {...item, collectionName: (item.collection as ICollection).name}
+                            })} config={itemsConfig} url={'/items'}
+                                                    onRowClick={(e, id, row) => {
+                                                        document.location = '/collections/' + row?.collection.id + '/' + id;
+                                                    }} className={'md:w-[50%]'}/>
+                            <MainPageTableContainer
+                                data={data.users.sort((a: IUser, b: IUser) => b.amountCollections - a.amountCollections)}
+                                config={usersConfig} url={'/users'}
+                                onRowClick={(e, id, row) => {
+                                    document.location = '/users/' + id;
+                                }} className={'md:w-[50%]'}/>
+                        </div>
+                        <div className={'w-full flex justify-end items-center'}>
+                            <MainPageTableContainer data={filter(data.collections, filterByTheme)}
+                                                    config={collectionsConfig}
+                                                    url={'/collections'}
+                                                    onRowClick={(e, id, row) => {
+                                                        document.location = '/collections/' + id;
+                                                    }} className={'mb-4 pb-2 overflow-x-auto lg:pl-4'}/>
+                        </div>
+                    </div></>
+                : <CircularProgress/>
+            }
         </div>
     )
 }

@@ -19,7 +19,7 @@ const Search = () => {
     const config: ITableItem[] = getConfig(t, 'table.title').collection;
 
     const [items, setItems] = useState<IItem[] | null>(null);
-    const debouncedSearchTerm = useDebounce(searchValue, 1000);
+    const debouncedSearchTerm = useDebounce(searchValue, 500);
 
     useEffect(() => {
         (
