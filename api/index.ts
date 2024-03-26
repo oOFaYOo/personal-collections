@@ -36,7 +36,7 @@ const AppDataSource = new DataSource({
     entities: [User, UserCredentials, Session, Collection, Item, Comment, Like],
 });
 
-AppDataSource.initialize()
+const initialization = AppDataSource.initialize()
     .then(() => {
         app.listen(PORT);
     })
@@ -53,7 +53,7 @@ export const likesRepository = AppDataSource.getRepository(Like);
 app.use(express.static(path.join(__dirname, '../build')))
 
 AuthApi(app);
-UserApi(app);
+UserApi(app, initialization);
 MainPageApi(app);
 CollectionApi(app);
 ItemApi(app);
