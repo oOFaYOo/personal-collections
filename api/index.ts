@@ -26,6 +26,7 @@ app.use(
 );
 
 const PORT = process.env.PORT || 5000;
+
 const AppDataSource = new DataSource({
     url: "postgres://default:SqLM6mDOP1wo@ep-dark-pond-a4yvj2b3-pooler.us-east-1.aws.neon.tech/verceldb?sslmode=require",
     type: "postgres",
@@ -34,6 +35,12 @@ const AppDataSource = new DataSource({
     logging: false,
     entities: [User, UserCredentials, Session, Collection, Item, Comment, Like],
 });
+
+AppDataSource.initialize()
+    .then(() => {
+        app.listen(PORT);
+    })
+    .catch((error: Error) => console.log(error));
 
 export const usersRepository = AppDataSource.getRepository(User);
 export const userCredentialsRepository = AppDataSource.getRepository(UserCredentials);
@@ -121,11 +128,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack)
     res.status(500).send('Something broke!')
 })
-
-AppDataSource.initialize()
-    .then(() => {
-        // app.listen(PORT);
-    })
-    .catch((error: Error) => console.log(error));
 
 export default app;
