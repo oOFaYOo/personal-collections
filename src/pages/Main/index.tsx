@@ -76,7 +76,7 @@ const Main = () => {
                         }}/>
                 }
             </div>
-            <div className={`${collections && users ? 'justify-start' : 'justify-center items-center'} lg:w-[80%] lg:p-0 
+            <div className={`${collections && users && items ? 'justify-start' : 'justify-center items-center'} lg:w-[80%] lg:p-0 
             pt-4 w-full lg:h-[85vh] flex flex-col`}>
                 {
                     collections && users && items
