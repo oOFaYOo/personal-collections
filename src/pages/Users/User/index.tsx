@@ -68,11 +68,13 @@ const User = () => {
                     <section className={'h-full w-full lg:w-[30%] flex flex-col mb-4'}>
                         <div className={'w-full h-[300px] flex justify-center items-center'}>
                             {
-                                user?.picture
-                                    ? <img
-                                        src={user.picture}
-                                        className={'relative h-full rounded-full shadow-md'} alt={'user avatar'}/>
-                                    : <img src={noAvatar} alt={'user avatar'}/>
+                                user.picture
+                                ? <div
+                                        className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden ' +
+                                            'flex justify-center items-center bg-neutral-100'}>
+                                        <img src={user.picture ? user.picture : noAvatar} className={'relative max-w-[140%]'} alt={'user avatar'}/>
+                                    </div>
+                                : <img src={noAvatar} alt={'user avatar'}/>
                             }
                         </div>
                         <div className={'w-full flex flex-col grow'}>

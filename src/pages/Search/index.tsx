@@ -14,7 +14,7 @@ import {setSearchTag, setSearchValue} from "../../store/slice";
 const Search = () => {
     const dispatch = useDispatch();
     const {searchValue, searchTag} = useSelector((state: RootState) => state.PersonalCollectionsStore);
-console.log('searchTag:',searchTag, 'searchValue:',searchValue)
+
     const {t} = useTranslation();
     const config: ITableItem[] = getConfig(t, 'table.title').collection;
 

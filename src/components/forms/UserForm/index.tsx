@@ -29,7 +29,7 @@ const UserForm = ({setOpenModal, setUpdate, user}:IForm & {user:IUser}) => {
                   setOpenModal(false);
               }}>
             {/*<InputFileUpload setPicture={setPicture} />*/}
-            <CustomInput value={picture} setValue={(string)=>setPicture(string)} name={'picture'} placeholder={t('picturePlaceholder')}/>
+            <CustomInput value={picture} setValue={(string)=>setPicture(string)} multiline name={'picture'} placeholder={t('picturePlaceholder')}/>
             <CustomInput value={name} setValue={(string)=>setName(string)} placeholder={t('table.name')} name={'name'} required/>
             <CustomInput value={description} setValue={(string)=>setDescription(string)} placeholder={t('aboutme')} name={'description'} multiline/>
             <Button variant="outlined" type={'submit'}>ok</Button>

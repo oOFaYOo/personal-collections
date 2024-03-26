@@ -118,7 +118,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
               }}>
             <div className={'flex lg:flex-row lg:gap-12 gap-2 flex-col items-center justify-between mb-4'}>
                 {/*<InputFileUpload/>*/}
-                <CustomInput value={picture} setValue={(string)=>setPicture(string)} name={'picture'} placeholder={t('picturePlaceholder')}/>
+                <CustomInput value={picture} setValue={(string)=>setPicture(string)} multiline name={'picture'} placeholder={t('picturePlaceholder')}/>
                 <CustomInput value={name} setValue={(string) => setName(string)} placeholder={t('table.title')}
                              name={'title'} required/>
                 <FormControl sx={{minWidth: '250px'}}>

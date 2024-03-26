@@ -90,7 +90,7 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
                   e.preventDefault();
                   if (!currentCollection) return;
                   const data = {
-                      picture: '',
+                      picture: picture,
                       collection: currentCollection.id,
                       theme: currentCollection.theme,
                       ...Object.fromEntries([['checkbox1', checkboxFields[0]], ['checkbox2', checkboxFields[1]], ['checkbox3', checkboxFields[2]]])
@@ -119,7 +119,7 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
         >
             <div className={'flex md:flex-row gap-2 flex-col items-center justify-between mb-4'}>
                 {/*<InputFileUpload/>*/}
-                <CustomInput value={picture} setValue={(string)=>setPicture(string)} name={'picture'} placeholder={t('picturePlaceholder')}/>
+                <CustomInput value={picture} setValue={(string)=>setPicture(string)} multiline name={'picture'} placeholder={t('picturePlaceholder')}/>
                 <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'name'} required/>
                 <CustomInput value={tags} setValue={setTags} placeholder={t('tagField')} required multiline
                              name={'tags'}/>
