@@ -15,7 +15,7 @@ import {ICollection} from "../../../api_client/CollectionRequests/type";
 import {getAccordionData, makeRequest} from "../../../functions";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
-import {setSearchTag} from "../../../store/slice";
+import {setSearchTag, setSearchValue} from "../../../store/slice";
 
 const Item = ({setTop}: IItemComponents) => {
     const dispatch = useDispatch();
@@ -102,6 +102,8 @@ const Item = ({setTop}: IItemComponents) => {
                                                       sx={{color: 'inherit'}} onClick={() => {
                                                         localStorage.searchTag = tag;
                                                         dispatch(setSearchTag(tag));
+                                                        dispatch(setSearchValue(''));
+                                                        localStorage.removeItem('searchValue');
                                                         document.location = '/search'
                                                 }}/>
                                             )

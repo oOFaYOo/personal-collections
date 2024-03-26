@@ -12,7 +12,7 @@ import {IUser} from "../../api_client/UserRequests/type";
 import {ICollection} from "../../api_client/CollectionRequests/type";
 import {makeRequest} from "../../functions";
 import getConfig from "../../tableConfigs";
-import {setSearchTag} from "../../store/slice";
+import {setSearchTag, setSearchValue} from "../../store/slice";
 import MainPageTableContainer from "../../components/containers/MainPageTableContainer";
 
 const Main = () => {
@@ -58,6 +58,8 @@ const Main = () => {
                             } onClick={(tag: string) => {
                                 localStorage.searchTag = tag;
                                 dispatch(setSearchTag(tag));
+                                dispatch(setSearchValue(''));
+                                localStorage.removeItem('searchValue');
                                 document.location = '/search'
                             }}/>
                         </div>
