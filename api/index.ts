@@ -124,7 +124,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 AppDataSource.initialize()
     .then(() => {
-        app.listen(PORT);
+        // app.listen(PORT);
     })
     .catch((error: Error) => console.log(error));
 
