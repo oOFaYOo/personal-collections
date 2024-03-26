@@ -127,3 +127,5 @@ AppDataSource.initialize()
         app.listen(PORT);
     })
     .catch((error: Error) => console.log(error));
+
+export default app;
