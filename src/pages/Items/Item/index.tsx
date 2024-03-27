@@ -111,7 +111,7 @@ const Item = ({setTop}: IItemComponents) => {
                                 </div>
                             </div>
                             <div
-                                className={'w-full mb-2 pl-8 flex flex-wrap justify-evenly md:justify-start gap-8 lg:gap-16'}>
+                                className={'w-full mb-2 pl-8 flex flex-wrap gap-8 lg:gap-16'}>
                                 {
                                     ['text', 'number', 'checkbox', 'date'].map((value, i) =>
                                         <AdditionalDataContainer itemKey={value} item={item} date={value === 'date'}
