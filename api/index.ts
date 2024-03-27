@@ -596,10 +596,10 @@ app.get('/api/search', async (req, res)=>{
         relations: {collection: true}
     }) : [];
 
-    let itemsWithRelations = await itemsRepository.find({
+    let itemsWithRelations = items.length ? await itemsRepository.find({
         where: items.map(i => {return {id:i.id}}),
         relations: {collection: true}
-    });
+    }) : [];
 
     let allItems = itemsWithRelations.concat(itemsFromComments);
 
