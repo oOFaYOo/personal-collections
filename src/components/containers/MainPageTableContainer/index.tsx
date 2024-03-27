@@ -18,4 +18,4 @@ const MainPageTableContainer = ({data, config, className, url, onRowClick}:IMain
     )
 }
 
-export default MainPageTableContainer;
+export default React.memo(MainPageTableContainer);

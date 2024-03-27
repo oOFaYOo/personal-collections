@@ -30,4 +30,4 @@ const AdditionalDataContainer = ({itemKey, item, date = false}: IAdditionalDataC
     </div>
 }
 
-export default AdditionalDataContainer;
+export default React.memo(AdditionalDataContainer);

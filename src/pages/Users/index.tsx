@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import Table from "../../components/Table";
 import api from "../../api_client";
@@ -27,7 +27,7 @@ const Users = () => {
         makeRequest(data, setData, api.UserRequests.getUsers(), update, setUpdate)
     }, [currentUser, update])
 
-    function addActions(user: IUser) {
+    const addActions = useCallback((user: IUser) => {
         const actions = [
             {
                 name: t('buttons.admin'), callback: async (id: string) => {
@@ -83,7 +83,7 @@ const Users = () => {
             }
         ];
         return {...user, action: actions}
-    }
+    }, [data])
 
     return (
         <div
