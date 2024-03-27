@@ -54,7 +54,7 @@ const Search = () => {
                 !items
                     ? <CircularProgress/>
                     : items.length === 0
-                        ? <p className={'text-3xl opacity-30'}>Nothing found</p>
+                        ? <p className={'text-3xl opacity-30'}>{t('nothingFound')}</p>
                         : <Table pagination={true}
                                  data={items}
                                  config={config}
