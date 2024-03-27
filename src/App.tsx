@@ -13,6 +13,7 @@ import Item from "./pages/Items/Item";
 import User from "./pages/Users/User";
 import api from "./api_client";
 import {setCurrentUser} from "./store/slice";
+import {makeRequest} from "./functions";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -20,18 +21,8 @@ const App = () => {
     const [top, setTop] = useState(0);
 
     useEffect(()=>{
-        (
-            async () => {
-                if(!currentUser) {
-                    const response = await api.AuthRequests.getCurrentUser();
-                    if (response.status === 200) {
-                        dispatch(setCurrentUser(response.data))
-                    }
-                }
-            }
-        )()
+        makeRequest(currentUser, (data)=> {dispatch(setCurrentUser(data))}, api.AuthRequests.getCurrentUser())
     },[])
-
 
     return (
         <>
