@@ -6,7 +6,6 @@ import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 import path from 'path';
 import {NextFunction, Request, Response} from "express";
-import {customTry, getAuthedUser} from "./functions";
 import UserApi from "./UserApi";
 import AuthApi from "./AuthApi";
 import LikeApi from "./LikeApi";

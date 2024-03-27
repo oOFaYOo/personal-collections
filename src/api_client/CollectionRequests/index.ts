@@ -11,15 +11,6 @@ class CollectionRequests implements ICollectionRequests {
         }
     }
 
-    async getUserCollections(userId: string) {
-
-        const response = await axios({method: 'get', url: `/api/user/collections/${userId}`});
-        return {
-            status: response.status,
-            data: response.data,
-        }
-    }
-
     async getCollection(collectionId: string) {
 
         const response = await axios({method: 'get', url: `/api/collections/${collectionId}`});

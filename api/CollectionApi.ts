@@ -10,15 +10,6 @@ export default (app: core.Express, initialization: Promise<void>) => {
             res.send(collections);
         }, next));
 
-    app.get('/api/user/collections/:userId', (req, res, next) =>
-        customTry(async () => {
-            await initialization;
-            const {userId} = req.params;
-            const user = (await usersRepository.find({where: {id: userId}}))[0];
-            const collections = await collectionsRepository.find({where: {user: user}});
-            res.send(collections);
-        }, next));
-
     app.get('/api/collections/:collectionId', (req, res, next) =>
         customTry(async () => {
             await initialization;
