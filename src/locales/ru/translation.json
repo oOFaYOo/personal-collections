@@ -40,6 +40,7 @@
   },
   "fields": "поля",
   "field": "поля",
+  "nothingFound": "Ничего не найдено",
   "titleof": "Заголовок",
   "titleTextField": "Текстовые",
   "titleNumericField": "Числовые",
