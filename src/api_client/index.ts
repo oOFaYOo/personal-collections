@@ -1,5 +1,3 @@
-import axios from "axios";
-import {ISearchRequest} from "./type";
 import AuthRequests from "./AuthRequests";
 import CollectionRequests from "./CollectionRequests";
 import ItemRequests from "./ItemRequests";
@@ -7,25 +5,7 @@ import UserRequests from "./UserRequests";
 import CommentRequests from "./CommentRequests";
 import MainPageRequests from "./MainPageRequests";
 import LikeRequests from "./LikeRequests";
-
-class SearchRequest implements ISearchRequest {
-
-    async getSearchResult(searchValue:string) {
-        const response = await axios({method: 'get', url: `/api/search?value=${searchValue}`});
-        return {
-            status: response.status,
-            data: response.data,
-        }
-    }
-
-    async getSearchResultByTag(tag:string) {
-        const response = await axios({method: 'get', url: `/api/search/tag?value=${tag}`});
-        return {
-            status: response.status,
-            data: response.data,
-        }
-    }
-}
+import SearchRequests from "./SearchRequests";
 
 export default {
     AuthRequests: AuthRequests,
@@ -35,7 +15,7 @@ export default {
     CommentRequests: CommentRequests,
     MainPageRequests: MainPageRequests,
     LikeRequests: LikeRequests,
-    SearchRequest: new SearchRequest(),
+    SearchRequests: SearchRequests,
 }
 
 

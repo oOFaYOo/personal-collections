@@ -26,10 +26,8 @@ const User = () => {
     const {id} = useParams();
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
-    const [user, setUser] = useState<IUser | null>(null);
-    const [collections, setCollections] = useState<ICollection[] | null>(null);
+    const [user, setUser] = useState<{user:IUser, collections: ICollection[]} | null>(null);
     const [updateUser, setUpdateUser] = useState<boolean>(false);
-    const [updateCollections, setUpdateCollections] = useState<boolean>(false);
 
     const {t} = useTranslation();
     const config = getConfig(t, 'table.name').user;
@@ -37,10 +35,6 @@ const User = () => {
     useEffect(() => {
         makeRequest(user, setUser, api.UserRequests.getUser(id as string), updateUser, setUpdateUser)
     }, [currentUser, updateUser])
-    useEffect(() => {
-        makeRequest(collections, setCollections, api.CollectionRequests.getUserCollections(id as string),
-            updateCollections, setUpdateCollections)
-    }, [updateCollections])
 
     return (
         <div
@@ -55,9 +49,9 @@ const User = () => {
                 >
                     {
                         openModal === ModalFormType.User
-                            ? <UserForm user={user as IUser} setUpdate={setUpdateUser}
+                            ? <UserForm user={user?.user as IUser} setUpdate={setUpdateUser}
                                         setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
-                            : <CollectionForm setUpdate={setUpdateCollections}
+                            : <CollectionForm setUpdate={setUpdateUser}
                                               setOpenModal={() => setOpenModal(ModalFormType.Initial)}/>
                     }
                 </Modal>
@@ -68,18 +62,20 @@ const User = () => {
                     <section className={'h-full w-full lg:w-[30%] flex flex-col mb-4'}>
                         <div className={'w-full h-[300px] flex justify-center items-center'}>
                             {
-                                user?.picture
-                                    ? <img
-                                        src={user.picture}
-                                        className={'relative h-full rounded-full shadow-md'} alt={'user avatar'}/>
-                                    : <img src={noAvatar} alt={'user avatar'}/>
+                                user.user.picture
+                                ? <div
+                                        className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden ' +
+                                            'flex justify-center items-center bg-neutral-100'}>
+                                        <img src={user.user.picture ? user.user.picture : noAvatar} className={'relative max-w-[140%]'} alt={'user avatar'}/>
+                                    </div>
+                                : <img src={noAvatar} alt={'user avatar'}/>
                             }
                         </div>
                         <div className={'w-full flex flex-col grow'}>
-                            <h1 className={'text-xl font-bold text-center my-2'}>{user?.name}</h1>
+                            <h1 className={'text-xl font-bold text-center my-2'}>{user?.user.name}</h1>
                             <div className={'flex justify-center gap-2 md:mt-4 my-2'}>
                                 {
-                                    user?.id === currentUser?.id || currentUser?.isAdmin
+                                    user?.user.id === currentUser?.id || currentUser?.isAdmin
                                         ? <>
                                             <Button size={'small'} variant="outlined"
                                                     onClick={() => setOpenModal(ModalFormType.User)}>{t("buttons.edit")}</Button>
@@ -101,13 +97,13 @@ const User = () => {
                                 }
                             </div>
                             {
-                                user?.description
+                                user?.user.description
                                     ?
                                     <Markdown
                                         remarkPlugins={[remarkGfm]}
                                         className={'overflow-y-auto p-4 w-full flex grow max-h-[175px] lg:h-[175px] ' +
                                             'styled_scrollbar text-justify'}>
-                                        {user?.description}
+                                        {user?.user.description}
                                     </Markdown>
                                     : null
                             }
@@ -115,12 +111,12 @@ const User = () => {
                     </section>
                     <section
                         className={'flex relative flex-col items-center justify-center lg:pl-4 h-full w-full lg:w-[70%]'}>
-                        {!collections
+                        {!user?.collections
                             ? <CircularProgress/>
                             : <>
-                                {collections.length === 0
+                                {user?.collections.length === 0
                                     ? null
-                                    : user?.id === currentUser?.id || currentUser?.isAdmin
+                                    : user?.user.id === currentUser?.id || currentUser?.isAdmin
                                         ? <div className={'flex w-full flex-row justify-end gap-2 my-4 lg:mb-4'}>
                                             <Button size={'small'} variant="outlined"
                                                     onClick={() => setOpenModal(ModalFormType.Collection)}>{t('buttons.add')}</Button>
@@ -128,13 +124,13 @@ const User = () => {
                                         : null
                                 }
                                 {
-                                    collections.length === 0
-                                        ? user?.id === currentUser?.id || currentUser?.isAdmin
+                                    user?.collections.length === 0
+                                        ? user?.user.id === currentUser?.id || currentUser?.isAdmin
                                             ?
                                             <Button size={'large'} variant="outlined"
                                                     onClick={() => setOpenModal(ModalFormType.Collection)}>{t('buttons.add_long_collection')}</Button>
                                             : null
-                                        : <Table pagination={true} data={filter(collections, filterByTheme)}
+                                        : <Table pagination={true} data={filter(user?.collections, filterByTheme)}
                                                  config={config}
                                                  onRowClick={(e, id) => {
                                                      document.location = '/collections/' + id;

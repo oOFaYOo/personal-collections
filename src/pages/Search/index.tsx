@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDebounce} from "@uidotdev/usehooks";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
 import api from "../../api_client";
 import Table from "../../components/Table";
@@ -9,34 +9,38 @@ import {useTranslation} from "react-i18next";
 import {ITableItem} from "../../components/Table/type";
 import getConfig from "../../tableConfigs";
 import {IItem} from "../../api_client/ItemRequests/type";
+import {setSearchTag} from "../../store/slice";
 
 const Search = () => {
+    const dispatch = useDispatch();
     const {searchValue, searchTag} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const {t} = useTranslation();
     const config: ITableItem[] = getConfig(t, 'table.title').collection;
 
     const [items, setItems] = useState<IItem[] | null>(null);
-    const debouncedSearchTerm = useDebounce(searchValue, 1000);
+    const debouncedSearchTerm = useDebounce(searchValue, 500);
 
     useEffect(() => {
         (
             async () => {
                 if (debouncedSearchTerm || searchValue || localStorage.searchValue) {
-                    const response = await api.SearchRequest.getSearchResult(searchValue === ''
+                    const response = await api.SearchRequests.getSearchResult(searchValue === ''
                         ? localStorage.searchValue
                         : searchValue);
                     if (response.status === 200) {
                         setItems(response.data);
                     }
-
+                    return;
                 }
                 if (searchTag || localStorage.searchTag) {
-                    const response = await api.SearchRequest.getSearchResultByTag(searchTag === ''
+                    const response = await api.SearchRequests.getSearchResultByTag(searchTag === ''
                     ? localStorage.searchTag
                     : searchTag);
                     if (response.status === 200) {
                         setItems(response.data);
+                        dispatch(setSearchTag(''));
+                        localStorage.removeItem('searchTag');
                     }
                 }
             }

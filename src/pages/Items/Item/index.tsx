@@ -15,7 +15,7 @@ import {ICollection} from "../../../api_client/CollectionRequests/type";
 import {getAccordionData, makeRequest} from "../../../functions";
 // @ts-ignore
 import noImg from "../../../svg/no-img.svg";
-import {setSearchTag} from "../../../store/slice";
+import {setSearchTag, setSearchValue} from "../../../store/slice";
 
 const Item = ({setTop}: IItemComponents) => {
     const dispatch = useDispatch();
@@ -59,16 +59,10 @@ const Item = ({setTop}: IItemComponents) => {
                             }}>
                             <div className={'w-full flex-col md:flex-row flex mb-4 md:max-h-[48vh] mb-4 md:min-h-[260px]'}>
                                 <div className={'md:h-full pb-4 md:w-[50%] h-[250px] flex justify-center items-center'}>
-                                    {
-                                        item.picture
-                                            ? <img
-                                                src={item.picture}
-                                                className={'relative h-full rounded-full shadow-md'} alt={'item avatar'}/>
-                                            : <div
-                                                className={'relative h-[245px] md:min-w-[245px] w-[245px] rounded-full ' +
-                                                    'shadow-md overflow-hidden flex justify-center items-center bg-neutral-100'}>
-                                                <img src={noImg} className={'relative max-w-[140%]'} alt={'item avatar'}/></div>
-                                    }
+                                    <div
+                                        className={'relative h-[245px] md:min-w-[245px] w-[245px] rounded-full ' +
+                                            'shadow-md overflow-hidden flex justify-center items-center bg-neutral-100'}>
+                                        <img src={item.picture ? item.picture : noImg} className={'relative max-w-[140%]'} alt={'item avatar'}/></div>
                                 </div>
                                 <div className={'flex w-full md:w-[50%] flex-col'}>
                                     <div className={'flex justify-between md:flex-row flex-col-reverse'}>
@@ -99,8 +93,7 @@ const Item = ({setTop}: IItemComponents) => {
                                         </div>
                                     </div>
                                     <div
-                                        className={'flex mobile:max-h-[150px] sm:max-h-[150px] opacity-70 flex-wrap grow' +
-                                            'overflow-y-auto gap-1 styled_scrollbar p-2'}>
+                                        className={'flex max-h-[150px] opacity-70 flex-wrap overflow-y-auto gap-1 styled_scrollbar p-2'}>
                                         {
                                             (item.tags.split(' ')).filter(value => !!value).map((tag, index) =>
                                                 <Chip key={index} label={`#${tag}`} variant="outlined"
@@ -108,6 +101,8 @@ const Item = ({setTop}: IItemComponents) => {
                                                       sx={{color: 'inherit'}} onClick={() => {
                                                         localStorage.searchTag = tag;
                                                         dispatch(setSearchTag(tag));
+                                                        dispatch(setSearchValue(''));
+                                                        localStorage.removeItem('searchValue');
                                                         document.location = '/search'
                                                 }}/>
                                             )

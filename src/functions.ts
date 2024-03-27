@@ -7,7 +7,7 @@ import {useLocation} from "react-router-dom";
 
 export async function makeRequest(
     data: any,
-    setData: React.Dispatch<React.SetStateAction<any>>,
+    setData: (data:any)=>void,
     request: Promise<{ status: number, data: any }>,
     update?: boolean,
     setUpdate?: React.Dispatch<React.SetStateAction<boolean>>, handler?: (data: any) => any) {

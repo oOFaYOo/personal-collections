@@ -11,14 +11,6 @@ class ItemRequests implements IItemRequests {
         }
     }
 
-    async getCollectionItems(collectionId:string) {
-        const response = await axios({method: 'get', url: `/api/collection/items/${collectionId}`});
-        return {
-            status: response.status,
-            data: response.data,
-        }
-    }
-
     async getItem(itemId: string) {
 
         const response = await axios({method: 'get', url: `/api/items/${itemId}`});
@@ -46,14 +38,14 @@ class ItemRequests implements IItemRequests {
         }
     }
 
-    async uploadItemPicture(itemId: string) {
-
-        const response = await axios({method: 'post', url: `/api/items/${itemId}/picture`, data: {}});
-        return {
-            status: response.status,
-            data: undefined,
-        }
-    }
+    // async uploadItemPicture(itemId: string) {
+    //
+    //     const response = await axios({method: 'post', url: `/api/items/${itemId}/picture`, data: {}});
+    //     return {
+    //         status: response.status,
+    //         data: undefined,
+    //     }
+    // }
 
     async editItemData(itemId: string, item: IItem) {
 

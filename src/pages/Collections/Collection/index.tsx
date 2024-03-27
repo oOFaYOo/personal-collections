@@ -25,10 +25,8 @@ const Collection = () => {
     const {currentUser} = useSelector((state: RootState) => state.PersonalCollectionsStore);
 
     const [openModal, setOpenModal] = useState<ModalFormType>(ModalFormType.Initial);
-    const [collection, setCollection] = useState<ICollection | null>(null);
-    const [items, setItems] = useState<IItem[] | null>(null);
+    const [collection, setCollection] = useState<{ collection: ICollection, items: IItem[] } | null>(null);
     const [updateCollection, setUpdateCollection] = useState<boolean>(false);
-    const [updateItems, setUpdateItems] = useState<boolean>(false);
 
     const {t} = useTranslation();
     const config: ITableItem[] = getConfig(t, 'table.title').collection;
@@ -37,11 +35,6 @@ const Collection = () => {
         makeRequest(collection, setCollection,
             api.CollectionRequests.getCollection(id as string), updateCollection, setUpdateCollection)
     }, [updateCollection])
-    useEffect(() => {
-        if (collection) {
-            makeRequest(items, setItems, api.ItemRequests.getCollectionItems(collection?.id!), updateItems, setUpdateItems)
-        }
-    }, [collection, updateItems]);
 
     return (
         <div
@@ -56,47 +49,44 @@ const Collection = () => {
                 >
                     {openModal === ModalFormType.Item
                         ? <ItemForm setOpenModal={() => setOpenModal(ModalFormType.Initial)}
-                                    currentCollection={collection as ICollection} setUpdate={setUpdateItems}/>
-                        : <CollectionForm currentCollection={collection as ICollection}
+                                    currentCollection={collection?.collection as ICollection}
+                                    setUpdate={setUpdateCollection}/>
+                        : <CollectionForm currentCollection={collection?.collection as ICollection}
                                           setOpenModal={() => setOpenModal(ModalFormType.Initial)}
                                           setUpdate={setUpdateCollection}/>
                     }
                 </Modal>
             }
-            <section
-                className={`${collection ? 'justify-between' : 'items-center justify-center'} 
+            {
+                !collection
+                    ? <CircularProgress/>
+                    : <>
+                        <section
+                            className={`${collection ? 'justify-between' : 'items-center justify-center'} 
                 flex flex-col md:flex-row md:max-h-[40vh] mt-4 mb-[20px] w-full grow`}>
-                {
-                    !collection
-                        ? <CircularProgress/>
-                        : <>
-                            <div className={'w-full lg:w-[35%] h-[300px] grow md:h-full flex justify-center items-center'}>
-                                {
-                                    !!collection.picture
-                                        ? <img
-                                            src={collection.picture}
-                                            className={'relative h-full rounded-full shadow-md'} alt={'collection avatar'}/>
-                                        : <div
-                                            className={'relative h-[300px] w-[300px] rounded-full shadow-md overflow-hidden ' +
-                                                'flex justify-center items-center bg-neutral-100'}>
-                                            <img src={noImg} className={'relative max-w-[140%]'} alt={'collection avatar'}/>
-                                        </div>
-                                }
+                            <div
+                                className={'w-full lg:w-[35%] h-[300px] grow md:h-full flex justify-center items-center'}>
+                                <div
+                                    className={'relative h-[300px] w-[300px] md:h-[270px] md:w-[270px] rounded-full shadow-md overflow-hidden ' +
+                                        'flex justify-center items-center bg-neutral-100'}>
+                                    <img src={collection?.collection.picture ? collection?.collection.picture : noImg}
+                                         className={'relative max-w-[140%]'} alt={'collection avatar'}/>
+                                </div>
                             </div>
                             <div className={'w-full md:h-full h-[30vh] md:ml-4 lg:w-[65%] flex flex-col justify-start'}>
                                 <div className={'flex justify-between items-center md:items-start mb-2'}>
                                     <div>
-                                        <h1 className={'text-xl font-bold'}>{collection.name}</h1>
-                                        <h2 className={'font-semibold italic'}>{t(`theme.${collection.theme}`)}</h2>
-                                        <Link to={`/users/${collection.user}`}>
+                                        <h1 className={'text-xl font-bold'}>{collection?.collection.name}</h1>
+                                        <h2 className={'font-semibold italic'}>{t(`theme.${collection?.collection.theme}`)}</h2>
+                                        <Link to={`/users/${collection?.collection.user}`}>
                                             <h3 className={'text-lg font-semibold text-[#1976d2]'}>{t("author")}</h3>
                                         </Link>
                                     </div>
                                     <div className={'flex flex-row justify-between gap-2'}>
-                                        {collection?.user === currentUser?.id || currentUser?.isAdmin
+                                        {collection?.collection.user === currentUser?.id || currentUser?.isAdmin
                                             ? <>
                                                 {
-                                                    items?.length === 0
+                                                    collection?.items?.length === 0
                                                         ? null
                                                         : <Button size={'small'} variant="outlined"
                                                                   onClick={() => setOpenModal(ModalFormType.Item)}>
@@ -109,7 +99,7 @@ const Collection = () => {
                                                 </Button>
                                                 <Button size={'small'} variant="outlined" onClick={async () => {
                                                     await api.CollectionRequests.deleteCollection(id as string);
-                                                    document.location = `/users/${collection.user}`;
+                                                    document.location = `/users/${collection.collection.user}`;
                                                 }}>
                                                     {t("buttons.delete")}
                                                 </Button>
@@ -120,28 +110,29 @@ const Collection = () => {
                                 </div>
                                 <Markdown remarkPlugins={[remarkGfm]}
                                           className={'overflow-y-auto w-full md:w-[80%] md:h-[80%] styled_scrollbar text-justify opacity-70'}>
-                                    {collection.description}
+                                    {collection.collection.description}
                                 </Markdown>
                             </div>
-                        </>
-                }
-            </section>
-            {!items
-                ? <CircularProgress/>
-                : items.length === 0
-                    ? collection?.user === currentUser?.id || currentUser?.isAdmin
-                        ? <div className={'my-8'}><Button size={'large'} variant="outlined"
-                                                          onClick={() => setOpenModal(ModalFormType.Item)}>
-                            {t('buttons.add_long_item')}</Button>
-                        </div>
-                        : null
-                    : <Table pagination={true}
-                             filtering={false}
-                             config={handleConfigTextDate(config, collection!)!}
-                             data={items}
-                             onRowClick={(e, id) => {
-                                 document.location = path + '/' + id;
-                             }}/>
+                        </section>
+                        {
+                            collection?.items.length === 0
+                                ? collection?.collection.user === currentUser?.id || currentUser?.isAdmin
+                                    ? <div className={'my-8'}><Button size={'large'} variant="outlined"
+                                                                      onClick={() => setOpenModal(ModalFormType.Item)}>
+                                        {t('buttons.add_long_item')}</Button>
+                                    </div>
+                                    :
+                                    null
+                                :
+                                <Table pagination={true}
+                                       filtering={false}
+                                       config={handleConfigTextDate(config, collection.collection!)!}
+                                       data={collection?.items}
+                                       onRowClick={(e, id) => {
+                                           document.location = path + '/' + id;
+                                       }}/>
+                        }
+                    </>
             }
         </div>
     )

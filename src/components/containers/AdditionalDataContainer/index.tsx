@@ -6,8 +6,7 @@ const AdditionalDataContainer = ({itemKey, item, date = false}: IAdditionalDataC
     return <div className={'flex flex-col'}>
         {
             [1, 2, 3].map((value) => {
-                if (item[itemKey + 1] || item[itemKey + 2] || item[itemKey + 3]) {
-                    console.log(item[itemKey + value])
+                if (item[itemKey + 1] !== null || item[itemKey + 2] !== null || item[itemKey + 3] !== null) {
                     return <>
                         {
                             item.collection[itemKey + value].label

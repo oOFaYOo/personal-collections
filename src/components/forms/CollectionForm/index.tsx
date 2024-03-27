@@ -17,6 +17,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
     const {id} = useParams();
 
     const [name, setName] = useState(currentCollection ? currentCollection.name : '');
+    const [picture, setPicture] = useState<string>(currentCollection ? currentCollection.picture : '');
     const [description, setDescription] = useState(currentCollection ? currentCollection.description : '');
     const [collectionTopic, setCollectionTopic] = useState<ThemeType | 'Theme'>('Theme');
 
@@ -79,7 +80,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                   const collectionData: ICollection = {
                       id: '',
                       user: id!,
-                      picture: '',
+                      picture: picture,
                       theme: collectionTopic as ThemeType,
                       name: name,
                       description: description,
@@ -101,7 +102,7 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                   }
                   if (!currentCollection) {
                       await api.CollectionRequests.addCollection(id!, {
-                          ...collectionData, id: '', user: id!, picture: '',
+                          ...collectionData, id: '', user: id!,
                           theme: collectionTopic as ThemeType,
                       });
                   } else {
@@ -109,7 +110,6 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                           ...collectionData,
                           id: currentCollection.id,
                           user: currentCollection.user,
-                          picture: '',
                           theme: currentCollection.theme
                       })
                   }
@@ -117,7 +117,8 @@ const CollectionForm = ({setOpenModal, setUpdate, currentCollection}: IForm & { 
                   setUpdate!(true);
               }}>
             <div className={'flex lg:flex-row lg:gap-12 gap-2 flex-col items-center justify-between mb-4'}>
-                <InputFileUpload/>
+                {/*<InputFileUpload/>*/}
+                <CustomInput value={picture} setValue={(string)=>setPicture(string)} multiline name={'picture'} placeholder={t('picturePlaceholder')}/>
                 <CustomInput value={name} setValue={(string) => setName(string)} placeholder={t('table.title')}
                              name={'title'} required/>
                 <FormControl sx={{minWidth: '250px'}}>

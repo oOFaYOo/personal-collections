@@ -21,6 +21,8 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
 
     const [name, setName] = useState<string>(currentItem ? currentItem.name : '');
     const [tags, setTags] = useState<string>(currentItem ? currentItem.tags : '');
+    const [picture, setPicture] = useState<string>(currentItem ? currentItem.picture : '');
+
     const [textFields, setTextFields] = useState<(string)[]>(
         // @ts-ignore
         [1, 2, 3].map((item) => currentItem ? currentItem['text' + item] : '')
@@ -88,14 +90,14 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
                   e.preventDefault();
                   if (!currentCollection) return;
                   const data = {
-                      picture: '',
+                      picture: picture,
                       collection: currentCollection.id,
                       theme: currentCollection.theme,
                       ...Object.fromEntries([['checkbox1', checkboxFields[0]], ['checkbox2', checkboxFields[1]], ['checkbox3', checkboxFields[2]]])
                   };
                   // @ts-ignore
                   const formedData = Object.fromEntries(new FormData(e.target)) as IItem;
-                  console.log(data)
+
                   if (!currentItem) {
                       await api.ItemRequests.addItem(currentCollection?.id as string, {
                           ...formedData, ...data,
@@ -116,7 +118,8 @@ const InputForm = ({setOpenModal, currentCollection, currentItem, setUpdate}: IF
               }}
         >
             <div className={'flex md:flex-row gap-2 flex-col items-center justify-between mb-4'}>
-                <InputFileUpload/>
+                {/*<InputFileUpload/>*/}
+                <CustomInput value={picture} setValue={(string)=>setPicture(string)} multiline name={'picture'} placeholder={t('picturePlaceholder')}/>
                 <CustomInput value={name} setValue={setName} placeholder={t('table.title')} name={'name'} required/>
                 <CustomInput value={tags} setValue={setTags} placeholder={t('tagField')} required multiline
                              name={'tags'}/>

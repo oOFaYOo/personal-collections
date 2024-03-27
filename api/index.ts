@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {DataSource, Equal, FindOperator, Not} from "typeorm";
+import {DataSource, Equal, FindOperator, In, Not} from "typeorm";
 import {Collection, Comment, Item, Like, Session, User, UserCredentials} from "./classes";
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -130,47 +130,55 @@ app.delete('/api/logout', async (req, res) => {
 
 app.get('/api/users/current', async (req, res) => {
     const currentUser = await getAuthedUser(req.cookies);
-    res.status(200);
     res.send(currentUser);
 });
 
 app.get('/api/users', async (req, res) => {
     const users = await usersRepository.find();
-
-    for(let user of users) {
+    for (let user of users) {
         const collections = await collectionsRepository.find({where: {user: user}});
         user.amountCollections = collections.length;
     }
-
     res.send(users);
 });
 
 app.get('/api/users/:userId', async (req, res) => {
     const {userId} = req.params;
-
     const user = (await usersRepository.find({where: {id: userId}}))[0];
-    res.send(user);
+    const collections = await collectionsRepository.find({where: {user: user}});
+    res.send({user:user, collections:collections});
 });
 
 app.delete('/api/users/:userId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
     }
     const {userId} = req.params;
-    const user = await usersRepository.find({where: {id: userId}});
-    const credentials = await userCredentialsRepository.find({where: {user: user[0]}, relations: {user: true}});
-    await userCredentialsRepository.delete(credentials[0]);
-    await usersRepository.delete(user[0]);
+    const user = (await usersRepository.find({where: {id: userId}}))[0];
+    // const comments = await commentsRepository.find({where: {user: user}, relations: {user: true}});
+    await commentsRepository.delete({user:user});
+
+    const collections = await collectionsRepository.find({where: {user: user}, relations: {user: true}});
+
+    await itemsRepository.delete({collection: In(collections)});
+
+    await collectionsRepository.delete({user: user});
+
+    await likesRepository.delete({userId: userId});
+
+    await userCredentialsRepository.delete({user: user});
+
+    await usersRepository.delete(user);
     await sessionsRepository.delete({userId: userId});
     res.end();
 });
 
 app.post('/api/users/:userId/block', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
@@ -212,43 +220,44 @@ app.post('/api/users/:userId/access', async (req, res) => {
     res.end();
 });
 
-app.post('/api/users/:userId/picture', async (req, res) => {
-    const {userId} = req.params;
-    const imageType = req.header("Content-Type");
-    // console.log(userId, imageType!.slice(imageType!.indexOf('/')+1))
-    // await dbx.filesUpload({path: `/avatar/jjj/${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: req.body})
-
-    // const size = +(req.header('Content-Size') ?? 0)
-    // let fileContent = Buffer.alloc(200);
-    // req.on('data', (content) => {
-    //     fileContent += content;
-    // });
-    // req.on('end', async ()=>{
-    //     await dbx.filesUpload({path: `/avatar/jjj.${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: fileContent})
-    // })
-    // req.on('end', async () => {
-    //     console.log(size)
-    //     console.log(fileContent);
-    //     const t = fs.createWriteStream("D:/a.jpg");
-    //     t.write(fileContent);
-    //     t.end();
-    //     await dbx.filesUpload({path: `/avatar/${userId}/b.jpg`, contents: fileContent });
-    //     res.end();
-    // })
-    res.end();
-});
+// app.post('/api/users/:userId/picture', async (req, res) => {
+//     const {userId} = req.params;
+//     const imageType = req.header("Content-Type");
+//     // console.log(userId, imageType!.slice(imageType!.indexOf('/')+1))
+//     // await dbx.filesUpload({path: `/avatar/jjj/${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: req.body})
+//
+//     // const size = +(req.header('Content-Size') ?? 0)
+//     // let fileContent = Buffer.alloc(200);
+//     // req.on('data', (content) => {
+//     //     fileContent += content;
+//     // });
+//     // req.on('end', async ()=>{
+//     //     await dbx.filesUpload({path: `/avatar/jjj.${imageType!.slice(imageType!.indexOf('/')+1)}`, contents: fileContent})
+//     // })
+//     // req.on('end', async () => {
+//     //     console.log(size)
+//     //     console.log(fileContent);
+//     //     const t = fs.createWriteStream("D:/a.jpg");
+//     //     t.write(fileContent);
+//     //     t.end();
+//     //     await dbx.filesUpload({path: `/avatar/${userId}/b.jpg`, contents: fileContent });
+//     //     res.end();
+//     // })
+//     res.end();
+// });
 
 app.patch('/api/users/:userId/edit', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
     }
     const {userId} = req.params;
-    const {name, description} = req.body;
+    const {name, description, picture} = req.body;
     const user = (await usersRepository.find({where: {id: userId}}))[0];
     user.name = name;
+    user.picture = picture;
     user.description = description;
     await usersRepository.save(user);
     res.end();
@@ -256,39 +265,41 @@ app.patch('/api/users/:userId/edit', async (req, res) => {
 
 /////////////////////////////////////for main
 
-app.get('/api/main/tags', async (req, res) => {
-    const tags = await itemsRepository.find({select:{tags:true}});
-    res.send(tags.map(item => item.tags).join(' '));
-});
+app.get('/api/main', async (req, res) => {
+    const tags = await itemsRepository.find({select: {tags: true}});
 
-app.get('/api/main/collections', async (req, res) => {
     let collections = await collectionsRepository.find({relations: {items: true}});
-    collections = collections.sort((a,b) => b.items.length - a.items.length).slice(0, 5);
-    collections.forEach(collection => {collection.items = []});
-    res.send(collections);
-});
+    collections = collections.sort((a, b) => b.items.length - a.items.length).slice(0, 5);
+    collections.forEach(collection => {
+        collection.items = []
+    });
 
-app.get('/api/main/items', async (req, res) => {
-    let items = await itemsRepository.find({relations: {collection:true}});
-    items = items.sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0,3);
-    for(let item of items){
-        const collection = (await collectionsRepository.find({where:{ id: item.collection.id}, relations: {user: true}}))[0];
+    let items = await itemsRepository.find({relations: {collection: true}});
+    items = items.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0, 3);
+    for (let item of items) {
+        const collection = (await collectionsRepository.find({
+            where: {id: item.collection.id},
+            relations: {user: true}
+        }))[0];
         item.userId = collection.user.id;
         item.userName = collection.user.name;
     }
-    res.send(items);
-});
 
-app.get('/api/main/users', async (req, res) => {
     const users = await usersRepository.find();
 
-    for(let user of users) {
+    for (let user of users) {
         const collections = await collectionsRepository.find({where: {user: user}});
         user.amountCollections = collections.length;
     }
 
-    users.sort((a,b) => b.amountCollections-a.amountCollections)
-    res.send(users.slice(0, 3));
+    users.sort((a, b) => b.amountCollections - a.amountCollections)
+
+    res.send({
+        tags: tags.map(item => item.tags).join(' '),
+        collections: collections,
+        items: items,
+        users: users.slice(0, 3)
+    });
 });
 
 //////////////////////////////////////////////////////for collections
@@ -298,30 +309,25 @@ app.get('/api/collections', async (req, res) => {
     res.send(collections);
 });
 
-app.get('/api/user/collections/:userId', async (req, res) => {
-    const {userId} = req.params;
-    const user = (await usersRepository.find({where: {id: userId}}))[0];
-    const collections = await collectionsRepository.find({where: {user: user}});
-    res.send(collections);
-});
-
 app.get('/api/collections/:collectionId', async (req, res) => {
     const {collectionId} = req.params;
     const collection = (await collectionsRepository.find({where: {id: collectionId}, relations: {user: true}}))[0];
     const userId = collection.user.id;
-    res.send({...collection, user:userId});
+    const items = await itemsRepository.find({where: {collection: collection}});
+    res.send({collection: {...collection, user: userId}, items:items});
 });
 
 app.delete('/api/collections/:collectionId', async (req, res) => {
     const {collectionId} = req.params;
     const collection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
+    await itemsRepository.delete({collection: collection});
     await collectionsRepository.delete(collection);
     res.end();
 });
 
 app.post('/api/collections/create', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
@@ -333,16 +339,16 @@ app.post('/api/collections/create', async (req, res) => {
     res.end();
 });
 
-app.post('/api/collections/:collectionId/picture', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-    const {collectionId} = req.params;
-    // res.status(200);
-    // res.send();
-});
+// app.post('/api/collections/:collectionId/picture', async (req, res) => {
+//     // const sessionid = req.cookies?.sessionid;
+//     const {collectionId} = req.params;
+//     // res.status(200);
+//     // res.send();
+// });
 
 app.patch('/api/collections/:collectionId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
@@ -354,6 +360,7 @@ app.patch('/api/collections/:collectionId', async (req, res) => {
     const updatedCollection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
 
     updatedCollection.name = collection.name;
+    updatedCollection.picture = collection.picture;
     updatedCollection.description = collection.description;
     updatedCollection.text1 = collection.text1;
     updatedCollection.text2 = collection.text2;
@@ -374,7 +381,7 @@ app.patch('/api/collections/:collectionId', async (req, res) => {
     await collectionsRepository.save(updatedCollection);
 
     const items = await itemsRepository.find({where: {collection: updatedCollection}});
-    for(let item of  items){
+    for (let item of items) {
         item.text1 = collection.text1.label === '' ? '' : item.text1;
         item.text2 = collection.text2.label === '' ? '' : item.text2;
         item.text3 = collection.text3.label === '' ? '' : item.text3;
@@ -398,26 +405,25 @@ app.patch('/api/collections/:collectionId', async (req, res) => {
 ///////////////////////////////////////////////////for item
 
 app.get('/api/items', async (req, res) => {
-    const items = await itemsRepository.find({relations: {collection:true}});
-    for(let item of items){
-        const collection = (await collectionsRepository.find({where:{ id: item.collection.id}, relations: {user: true}}))[0];
+    const items = await itemsRepository.find({relations: {collection: true}});
+    for (let item of items) {
+        const collection = (await collectionsRepository.find({
+            where: {id: item.collection.id},
+            relations: {user: true}
+        }))[0];
         item.userId = collection.user.id;
         item.userName = collection.user.name;
     }
     res.send(items);
 });
 
-app.get('/api/collection/items/:collectionId', async (req, res) => {
-    const {collectionId} = req.params;
-    const collection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
-    const items = await itemsRepository.find({where: {collection: collection}});
-    res.send(items);
-});
-
 app.get('/api/items/:itemId', async (req, res) => {
     const {itemId} = req.params;
-    const item = (await itemsRepository.find({where:{id:itemId}, relations: {collection: true}}))[0];
-    const collection = (await collectionsRepository.find({where:{ id: item.collection.id}, relations: {user: true}}))[0];
+    const item = (await itemsRepository.find({where: {id: itemId}, relations: {collection: true}}))[0];
+    const collection = (await collectionsRepository.find({
+        where: {id: item.collection.id},
+        relations: {user: true}
+    }))[0];
     item.userId = collection.user.id;
     item.userName = collection.user.name;
     res.send(item);
@@ -425,20 +431,19 @@ app.get('/api/items/:itemId', async (req, res) => {
 
 app.delete('/api/items/:itemId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
     }
     const {itemId} = req.params;
-    const item = (await itemsRepository.find({where:{id:itemId}}))[0];
-    await itemsRepository.delete(item);
+    await itemsRepository.delete({id: itemId});
     res.end();
 });
 
 app.post('/api/items', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
@@ -446,22 +451,22 @@ app.post('/api/items', async (req, res) => {
     const {collectionId, item} = req.body;
     delete item.id;
 
-    item.collection = (await collectionsRepository.find({where:{id: collectionId}}))[0];
+    item.collection = (await collectionsRepository.find({where: {id: collectionId}}))[0];
     item.timestamp = new Date(Date.now());
     await itemsRepository.save(item);
     res.end();
 });
 
-app.post('/api/items/:itemId/picture', async (req, res) => {
-    // const sessionid = req.cookies?.sessionid;
-    const {itemId} = req.params;
-    // res.status(200);
-    // res.send();
-});
+// app.post('/api/items/:itemId/picture', async (req, res) => {
+//     // const sessionid = req.cookies?.sessionid;
+//     const {itemId} = req.params;
+//     // res.status(200);
+//     // res.send();
+// });
 
 app.patch('/api/items/:itemId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
@@ -469,8 +474,9 @@ app.patch('/api/items/:itemId', async (req, res) => {
     const {itemId} = req.params;
     const {item} = req.body;
 
-    const updatedItem = (await itemsRepository.find({where:{id:itemId}}))[0];
+    const updatedItem = (await itemsRepository.find({where: {id: itemId}}))[0];
     updatedItem.name = item.name;
+    updatedItem.picture = item.picture;
     updatedItem.tags = item.tags;
     updatedItem.text1 = item.text1;
     updatedItem.text2 = item.text2;
@@ -496,26 +502,26 @@ app.patch('/api/items/:itemId', async (req, res) => {
 
 app.get('/api/comments/:itemId', async (req, res) => {
     const {itemId} = req.params;
-    const comments = await commentsRepository.find({where:{itemId:itemId}, relations:{user:true}});
+    const comments = await commentsRepository.find({where: {itemId: itemId}, relations: {user: true}});
     res.send(comments);
 });
 
-app.delete('/api/comments', async (req, res) => {
+app.delete('/api/comments/:commentId', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
     }
-    const {commentId} = req.body;
-    const comment = (await commentsRepository.find({where:{id:commentId}}))[0];
+    const {commentId} = req.params;
+    const comment = (await commentsRepository.find({where: {id: commentId}}))[0];
     await commentsRepository.delete(comment);
     res.end();
 });
 
 app.post('/api/comments', async (req, res) => {
     const authedUser = await getAuthedUser(req.cookies);
-    if (!authedUser){
+    if (!authedUser) {
         res.status(401);
         res.end();
         return;
@@ -523,7 +529,7 @@ app.post('/api/comments', async (req, res) => {
     const {comment} = req.body;
     delete comment.id;
 
-    comment.user = (await usersRepository.find({where:{id: comment.userId}}))[0];
+    comment.user = (await usersRepository.find({where: {id: comment.userId}}))[0];
     comment.timestamp = new Date(Date.now());
     await commentsRepository.save(comment);
     res.end();
@@ -569,11 +575,11 @@ app.get('/api/search', async (req, res)=>{
 
     const items = await itemsRepository.createQueryBuilder()
         .select()
-        .where(`to_tsvector(name) || ' ' || to_tsvector(tags) || ' ' 
-        || to_tsvector(text1) || ' ' || to_tsvector(text2) || ' ' || to_tsvector(text3)
-        || to_tsvector(paragraph1) || ' ' || to_tsvector(paragraph2) || ' ' || to_tsvector(paragraph3) 
-        || to_tsvector(number1) || ' ' || to_tsvector(number2) || ' ' || to_tsvector(number3)
-        || to_tsvector(date1) || ' ' || to_tsvector(date2) || ' ' || to_tsvector(date3) @@ to_tsquery('${searchPattern}')`)
+        .where(`(COALESCE(to_tsvector(name), '') || ' ' || COALESCE(to_tsvector(tags), '') || ' ' 
+        || COALESCE(to_tsvector(text1), '') || ' ' || COALESCE(to_tsvector(text2), '') || ' ' || COALESCE(to_tsvector(text3), '')
+        || COALESCE(to_tsvector(paragraph1), '') || ' ' || COALESCE(to_tsvector(paragraph2), '') || ' ' || COALESCE(to_tsvector(paragraph3), '') 
+        || COALESCE(to_tsvector(number1), '') || ' ' || COALESCE(to_tsvector(number2), '') || ' ' || COALESCE(to_tsvector(number3), '')
+        || COALESCE(to_tsvector(date1), '') || ' ' || COALESCE(to_tsvector(date2), '') || ' ' || COALESCE(to_tsvector(date3), '')) @@ to_tsquery('${searchPattern}')`)
         .getMany();
 
     const comments = await commentsRepository
@@ -586,11 +592,21 @@ app.get('/api/search', async (req, res)=>{
     let itemsFromCommentsIds = comments
         .map(c => c.itemId)
         .filter(c => !set.has(c))
-        .map(c => {return {id: c}});
+        .map(c => {
+            return {id: c}
+        });
 
-    let itemsFromComments = itemsFromCommentsIds.length ? await itemsRepository.find({where: itemsFromCommentsIds, relations:{collection:true}}) : [];
+    let itemsFromComments = itemsFromCommentsIds.length ? await itemsRepository.find({
+        where: itemsFromCommentsIds,
+        relations: {collection: true}
+    }) : [];
 
-    let allItems = items.concat(itemsFromComments);
+    let itemsWithRelations = await itemsRepository.find({
+        where: items.map(i => {return {id:i.id}}),
+        relations: {collection: true}
+    });
+
+    let allItems = itemsWithRelations.concat(itemsFromComments);
 
     res.send(allItems);
 });
@@ -604,8 +620,10 @@ app.get('/api/search/tag', async (req, res)=>{
         .where(`to_tsvector(tags) @@ to_tsquery('${searchPattern}')`)
         .getMany();
 
-    const itemForms = items.map(c => {return {id: c.id}});
-    const itemsWithRelations = await itemsRepository.find({where: itemForms, relations:{collection:true}});
+    const itemForms = items.map(c => {
+        return {id: c.id}
+    });
+    const itemsWithRelations = await itemsRepository.find({where: itemForms, relations: {collection: true}});
 
     res.send(itemsWithRelations);
 });

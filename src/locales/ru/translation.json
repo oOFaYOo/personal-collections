@@ -46,7 +46,7 @@
   "titleDateField": "Календарные",
   "titleCheckboxField": "Логические",
   "titleParagraphField": "Длиннотекстовые",
-
+  "picturePlaceholder": "Ссылка на изображение",
   "tagField": "Тэг тэг тэг",
   "text": "Текст",
   "number": "Число",

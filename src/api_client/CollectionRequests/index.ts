@@ -11,15 +11,6 @@ class CollectionRequests implements ICollectionRequests {
         }
     }
 
-    async getUserCollections(userId: string) {
-
-        const response = await axios({method: 'get', url: `/api/user/collections/${userId}`});
-        return {
-            status: response.status,
-            data: response.data,
-        }
-    }
-
     async getCollection(collectionId: string) {
 
         const response = await axios({method: 'get', url: `/api/collections/${collectionId}`});
@@ -51,14 +42,14 @@ class CollectionRequests implements ICollectionRequests {
         }
     }
 
-    async uploadCollectionPicture(collectionId: string) {
-
-        const response = await axios({method: 'post', url: `/api/collections/${collectionId}/picture`});
-        return {
-            status: response.status,
-            data: undefined,
-        }
-    }
+    // async uploadCollectionPicture(collectionId: string) {
+    //
+    //     const response = await axios({method: 'post', url: `/api/collections/${collectionId}/picture`});
+    //     return {
+    //         status: response.status,
+    //         data: undefined,
+    //     }
+    // }
 
     async editCollectionData(collectionId: string, collection: ICollection) {
 
