@@ -5,13 +5,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 import path from 'path';
-import {Simulate} from "react-dom/test-utils";
-import * as _ from "lodash";
-import {IItem} from "../src/api_client/ItemRequests/type";
 
 const app = express();
-// const dropBoxToken = process.env.token;
-// const dbx = new Dropbox({ accessToken: ""});
 
 app.use(bodyParser.json());
 app.use(cookieParser());
